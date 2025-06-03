@@ -4,6 +4,7 @@ import path from "path";
 
 import connectMongoDB from "./lib/db/connectMongoDB.js";
 
+import authRoutes from "./routes/auth.route.js";
 import roundRoutes from "./routes/round.route.js";
 import teamRoutes from "./routes/team.route.js";
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/api/rounds", roundRoutes);
 app.use("/api/teams", teamRoutes);
+app.use("/api/auth", authRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
