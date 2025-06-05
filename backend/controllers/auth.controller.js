@@ -53,7 +53,13 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.send("logout");
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 export const verifyEmail = async (req, res) => {
