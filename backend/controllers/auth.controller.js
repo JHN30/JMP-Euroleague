@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import { sendVerificationEmail, sendWelcomeEmail } from "../lib/mailtrap/emails.js";
 
 export const signup = async (req, res) => {
   const { username, email, password } = req.body;
@@ -31,13 +32,15 @@ export const signup = async (req, res) => {
 
     generateTokenAndSetCookie(res, user._id);
 
+    await sendVerificationEmail(user.email, verificationToken);
+
     res.status(201).json({
       success: true,
       message: "User created successfully",
       user: {
-				...user._doc,
-				password: undefined,
-			},
+        ...user._doc,
+        password: undefined,
+      },
     });
   } catch (error) {
     console.log("Error in signup:", error.message);
@@ -51,4 +54,39 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   res.send("logout");
+};
+
+export const verifyEmail = async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const user = await User.findOne({
+      verificationToken: code,
+      verificationTokenExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired verification code" });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpire = undefined;
+
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.username);
+
+    res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.log("Error in verifyEmail:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
