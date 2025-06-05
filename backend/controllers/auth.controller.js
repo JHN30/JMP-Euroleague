@@ -1,8 +1,9 @@
-import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import crypto from "crypto";
 
+import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail, sendWelcomeEmail } from "../lib/mailtrap/emails.js";
+import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "../lib/mailtrap/emails.js";
 
 export const signup = async (req, res) => {
   const { username, email, password } = req.body;
@@ -122,6 +123,33 @@ export const verifyEmail = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in verifyEmail:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    const resetPasswordToken = crypto.randomBytes(20).toString("hex");
+    const resetPasswordExpire = Date.now() + 60 * 60 * 1000; // hour in milliseconds
+
+    user.resetPasswordToken = resetPasswordToken;
+    user.resetPasswordExpire = resetPasswordExpire;
+
+    await user.save();
+
+    await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`);
+
+    res.status(200).json({ success: true, message: "Password reset email sent successfully" });
+  } catch (error) {
+    console.log("Error in forgotPassword:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
