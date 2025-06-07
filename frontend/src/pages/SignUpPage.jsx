@@ -32,13 +32,11 @@ const SignUpPage = () => {
     }
   };
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
-    >
-      <div
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         className="max-w-md w-full bg-neutral backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl 
 			overflow-hidden"
       >
@@ -88,8 +86,8 @@ const SignUpPage = () => {
             </Link>
           </p>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
