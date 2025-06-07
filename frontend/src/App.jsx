@@ -7,6 +7,7 @@ import Predictor from "./pages/Predictor";
 import Playoff from "./pages/Playoff";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import EmailVerificatonPage from "./pages/EmailVerificatonPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Standings />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="verify-email" element={<EmailVerificatonPage />}/>
         <Route path="/predictor" element={<Predictor />} />
         <Route path="/playoff" element={<Playoff />} />
       </Routes>
