@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Navbar from "./components/Navbar";
 
@@ -17,10 +18,11 @@ function App() {
         <Route path="/" element={<Standings />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="verify-email" element={<EmailVerificatonPage />}/>
+        <Route path="verify-email" element={<EmailVerificatonPage />} />
         <Route path="/predictor" element={<Predictor />} />
         <Route path="/playoff" element={<Playoff />} />
       </Routes>
+      <Toaster />
     </div>
   );
 }

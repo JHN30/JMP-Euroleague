@@ -2,18 +2,15 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import { useAuth } from "../func/useAuth";
-//import toast from "react-hot-toast";
+import { useAuth } from "../func/useAuth";
+import toast from "react-hot-toast";
 
 const EmailVerificationPage = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const error = false;
-  const isLoading = false;
-
-  //const { error, isLoading, verifyEmail } = useAuth();
+  const { error, isLoading, verifyEmail } = useAuth();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -50,11 +47,10 @@ const EmailVerificationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = code.join("");
-    console.log(verificationCode);
     try {
-      //await verifyEmail(verificationCode);
-      //navigate("/");
-      //toast.success("Email verified successfully");
+      await verifyEmail(verificationCode);
+      navigate("/");
+      toast.success("Email verified successfully");
     } catch (error) {
       console.log(error);
     }
