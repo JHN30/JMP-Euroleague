@@ -18,6 +18,11 @@ export const signup = async (req, res) => {
       return res.status(400).json({ error: "Please provide all fields" });
     }
 
+    const usernameAlreadyExist = await User.findOne({ username });
+    if (usernameAlreadyExist) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
+
     const userAlreadyExist = await User.findOne({ email });
     if (userAlreadyExist) {
       return res.status(400).json({ error: "User already exists" });
