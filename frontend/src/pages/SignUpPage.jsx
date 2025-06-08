@@ -5,27 +5,24 @@ import { FiLoader, FiUser } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
-//import { useAuth } from "../func/useAuth";
+import { useAuth } from "../func/useAuth";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const error = false;
-  const isLoading = false;
-
-  //const { signup, error, isLoading } = useAuth();
+  const { signup, error, isLoading } = useAuth();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
     try {
-      //await signup(email, password, name);
-      //navigate("/verify-email");
+      await signup(email, password, name);
+      navigate("/verify-email");
       console.log("Sign up successful");
     } catch (error) {
       console.log(error);
