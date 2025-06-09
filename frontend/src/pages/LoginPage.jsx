@@ -6,20 +6,17 @@ import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
-//import { useAuthStore } from "../store/authStore";
+import { useAuth } from "../func/useAuth";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const error = false;
-  const isLoading = false;
-
-  //const { login, isLoading, error } = useAuthStore();
+  const { login, isLoading, error } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    //await login(email, password);
+    await login(email, password);
   };
 
   return (

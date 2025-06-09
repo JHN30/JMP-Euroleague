@@ -10,7 +10,7 @@ const EmailVerificationPage = () => {
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
-  const { error, isLoading, verifyEmail } = useAuth();
+  const { error, isLoading, verifyEmail, user } = useAuth();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -62,6 +62,11 @@ const EmailVerificationPage = () => {
       handleSubmit(new Event("submit"));
     }
   }, [code]);
+
+  if (user.isVerified) {
+    navigate("/");
+    toast.success("Email already verified", { id: "email-verified" });
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">

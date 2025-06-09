@@ -3,12 +3,24 @@ import { Link, useLocation } from "react-router-dom";
 import { PiRankingFill } from "react-icons/pi";
 import { MdOnlinePrediction } from "react-icons/md";
 import { FaTrophy } from "react-icons/fa";
+import { LuLogIn } from "react-icons/lu";
+import { LuLogOut } from "react-icons/lu";
+import { FaUserPlus } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 
 import logoPng from "../../assets/Logo.png";
+
+import { useAuth } from "../func/useAuth";
 
 const Navbar = () => {
   const location = useLocation();
   const { pathname } = location;
+
+  const { isAuthenticated, user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="md:flex h-18 max-h-24">
@@ -54,16 +66,30 @@ const Navbar = () => {
               </span>
             </Link>
           </li>
-          <li className="flex justify-center">
-            <Link to="/signup" className={`flex gap-3 items-center rounded-full py-2 pl-2 pr-4 max-w-fit cursor-pointer`}>
-              <span className={`text-lg hidden md:block`}>Sign Up</span>
-            </Link>
-          </li>
-          <li className="flex justify-center">
-            <Link to="/login" className={`flex gap-3 items-center rounded-full py-2 pl-2 pr-4 max-w-fit cursor-pointer`}>
-              <span className={`text-lg hidden md:block`}>Login</span>
-            </Link>
-          </li>
+          {isAuthenticated && user.isVerified && (
+            <li className="flex justify-center">
+              <Link
+                to="/profile"
+                className={`flex gap-3 items-center rounded-full py-2 pl-2 pr-4 max-w-fit cursor-pointer ${
+                  pathname === "/profile" ? "font-bold" : "font-normal"
+                }`}
+              >
+                <CgProfile className={`w-5 h-5 ${pathname === "/profile" ? "text-orange-400" : ""}`} />
+                <span className={`text-lg hidden md:block`}>{user.username}</span>
+              </Link>
+            </li>
+          )}
+          {isAuthenticated && (
+            <li className="flex justify-center">
+              <button
+                onClick={handleLogout}
+                className="flex gap-3 items-center py-3 px-4 bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+              >
+                <LuLogOut className={`w-5 h-5 text-white`} />
+                <span className={`text-lg hidden md:block`}>Logout</span>
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </div>
