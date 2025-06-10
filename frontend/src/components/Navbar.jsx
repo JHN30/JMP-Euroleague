@@ -81,7 +81,7 @@ const Navbar = () => {
             <li className="flex justify-center">
               <button
                 onClick={handleLogout}
-                className="flex gap-3 items-center py-3 px-4 bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+                className="flex gap-3 items-center py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
               >
                 <LuLogOut className={`w-5 h-5 text-white`} />
                 <span className={`text-lg hidden md:block`}>Logout</span>
