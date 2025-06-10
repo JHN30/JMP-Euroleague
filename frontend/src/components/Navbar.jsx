@@ -3,9 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { PiRankingFill } from "react-icons/pi";
 import { MdOnlinePrediction } from "react-icons/md";
 import { FaTrophy } from "react-icons/fa";
-import { LuLogIn } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { FaUserPlus } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 import logoPng from "../../assets/Logo.png";
@@ -23,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="md:flex h-18 max-h-24">
+    <div className="flex h-18 max-h-24">
       <div className="sticky w-screen flex flex-row border-b-4 border-orange-400 h-18 md:w-full justify-between">
         <Link to="/" className="flex flex-none items-center justify-center ml-4">
           <img src={logoPng} className="w-32 h-16" />
