@@ -17,6 +17,11 @@ Also it uses:
 - **zustand**
 - **tailwindcss**
 - **daisyUI**
+- **motion**
+- **react-hot-toast**
+- **bcryptjs**
+- **cookie-parser**
+- **jsonwebtoken**
 
 ### To setup .env file
 
