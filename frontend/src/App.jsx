@@ -8,8 +8,10 @@ import Predictor from "./pages/Predictor";
 import Playoff from "./pages/Playoff";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import EmailVerificatonPage from "./pages/EmailVerificatonPage";
 import ProfilePage from "./pages/ProfilePage";
+// import EmailVerificatonPage from "./pages/EmailVerificatonPage";
+// import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+// import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import { useAuth } from "./func/useAuth";
 import { useEffect } from "react";
@@ -37,13 +39,12 @@ function App() {
         <Route path="/" element={!isAuthenticated ? <LoginPage /> : <Standings />} />
         <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />} />
         <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
-        <Route
-          path="verify-email"
-          element={isAuthenticated ? <EmailVerificatonPage /> : <Navigate to="/" />}
-        />
         <Route path="/predictor" element={!isAuthenticated ? <LoginPage /> : <Predictor />} />
         <Route path="/playoff" element={!isAuthenticated ? <LoginPage /> : <Playoff />} />
         <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />
+        {/* <Route path="verify-email" element={isAuthenticated ? <EmailVerificatonPage /> : <Navigate to="/" />} />
+        <Route path="/forgot-password" element={isAuthenticated ? <Navigate to="/" /> : <ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={isAuthenticated ? <Navigate to="/" /> : <ResetPasswordPage />} /> */}
       </Routes>
       <Toaster />
     </div>

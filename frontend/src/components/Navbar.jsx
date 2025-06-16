@@ -64,7 +64,7 @@ const Navbar = () => {
               </span>
             </Link>
           </li>
-          {isAuthenticated && user.isVerified && (
+          {isAuthenticated && (
             <li className="flex justify-center">
               <Link
                 to="/profile"
