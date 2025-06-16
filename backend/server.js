@@ -1,9 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import path from "path";
 
 import connectMongoDB from "./lib/db/connectMongoDB.js";
 
+import authRoutes from "./routes/auth.route.js";
 import roundRoutes from "./routes/round.route.js";
 import teamRoutes from "./routes/team.route.js";
 
@@ -14,10 +17,13 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/rounds", roundRoutes);
 app.use("/api/teams", teamRoutes);
+app.use("/api/auth", authRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
