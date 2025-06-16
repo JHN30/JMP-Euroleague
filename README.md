@@ -17,12 +17,19 @@ Also it uses:
 - **zustand**
 - **tailwindcss**
 - **daisyUI**
+- **motion**
+- **react-hot-toast**
+- **bcryptjs**
+- **cookie-parser**
+- **jsonwebtoken**
 
 ### To setup .env file
 
 ```
 MONGO_URI=your_mongo_uri
 PORT=5000
+
+JWT_SECRET=your_secret_key
 
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
