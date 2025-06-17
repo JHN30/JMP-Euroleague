@@ -3,12 +3,12 @@ import crypto from "crypto";
 
 import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-// import {
-//   sendPasswordResetEmail,
-//   sendResetSuccessEmail,
-//   sendVerificationEmail,
-//   sendWelcomeEmail,
-// } from "../lib/mailtrap/emails.js";
+import {
+  sendPasswordResetEmail,
+  sendResetSuccessEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from "../lib/mailtrap/emails.js";
 
 export const signup = async (req, res) => {
   const { username, email, password } = req.body;
@@ -43,7 +43,7 @@ export const signup = async (req, res) => {
 
     generateTokenAndSetCookie(res, user._id);
 
-    //await sendVerificationEmail(user.email, verificationToken);
+    await sendVerificationEmail(user.email, verificationToken);
 
     res.status(201).json({
       success: true,
@@ -121,7 +121,7 @@ export const verifyEmail = async (req, res) => {
 
     await user.save();
 
-    //await sendWelcomeEmail(user.email, user.username);
+    await sendWelcomeEmail(user.email, user.username);
 
     res.status(200).json({
       success: true,
@@ -155,7 +155,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    //await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`);
+    await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`);
 
     res.status(200).json({ success: true, message: "Password reset email sent successfully" });
   } catch (error) {
@@ -186,7 +186,7 @@ export const resetPassword = async (req, res) => {
 
     await user.save();
 
-    //await sendResetSuccessEmail(user.email);
+    await sendResetSuccessEmail(user.email);
 
     res.status(200).json({ success: true, message: "Password reset successfully" });
   } catch (error) {
