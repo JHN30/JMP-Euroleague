@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated } = useAuth();
+  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     checkAuth();
@@ -42,7 +42,7 @@ function App() {
         <Route path="/predictor" element={!isAuthenticated ? <LoginPage /> : <Predictor />} />
         <Route path="/playoff" element={!isAuthenticated ? <LoginPage /> : <Playoff />} />
         <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />
-        <Route path="verify-email" element={isAuthenticated ? <EmailVerificatonPage /> : <Navigate to="/" />} />
+        <Route path="/verify-email" element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />} />
         <Route path="/forgot-password" element={isAuthenticated ? <Navigate to="/" /> : <ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={isAuthenticated ? <Navigate to="/" /> : <ResetPasswordPage />} />
       </Routes>

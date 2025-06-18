@@ -46,6 +46,7 @@ const ProfilePage = () => {
           <h3 className="text-xl font-semibold text-orange-400 mb-3">Profile Information</h3>
           <p className="text-gray-300">Name: {user.username}</p>
           <p className="text-gray-300">Email: {user.email}</p>
+          <p className="text-gray-300">Are you verified: {user.isVerified ? "Yes" : "No"}</p>
         </motion.div>
         <motion.div
           className="p-4 bg-neutral rounded-lg border border-orange-400"
