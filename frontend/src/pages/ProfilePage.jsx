@@ -2,12 +2,26 @@
 import { motion } from "framer-motion";
 import { useAuth } from "../func/useAuth";
 import { formatDate } from "../utils/date";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, newVerifyEmail } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleVerifyEmail = async (e) => {
+    e.preventDefault();
+
+    try {
+      await newVerifyEmail();
+      navigate("/verify-email");
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -65,12 +79,12 @@ const ProfilePage = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={handleLogout}
+          onClick={user.isVerified ? handleLogout : handleVerifyEmail}
           className="w-full py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white 
 				font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500
 				 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900"
         >
-          Logout
+          {user.isVerified ? "Logout" : "Verify Email"}
         </motion.button>
       </motion.div>
     </motion.div>

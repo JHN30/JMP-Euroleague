@@ -63,11 +63,6 @@ const EmailVerificationPage = () => {
     }
   }, [code]);
 
-  if (user.isVerified) {
-    navigate("/");
-    toast.success("Email already verified", { id: "email-verified" });
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <motion.div

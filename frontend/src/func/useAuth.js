@@ -63,6 +63,17 @@ export const useAuth = create((set) => ({
     }
   },
 
+  newVerifyEmail: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/new-verify-email`);
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      set({ isLoading: false, error: error.response.data.error || "Error sending verification email" });
+      throw error;
+    }
+  },
+
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
