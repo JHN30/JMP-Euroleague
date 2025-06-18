@@ -36,7 +36,7 @@ export const signup = async (req, res) => {
       email,
       password: hashedPassword,
       verificationToken,
-      verificationTokenExpire: Date.now() + 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+      verificationTokenExpire: Date.now() + 60 * 60 * 1000, // 1 hour in milliseconds
     });
 
     await user.save();
@@ -98,6 +98,40 @@ export const logout = async (req, res) => {
     res.status(200).json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const createNewVerifyEmail = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ error: "Email already verified" });
+    }
+
+    const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.verificationToken = verificationToken;
+    user.verificationTokenExpire = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
+
+    await user.save();
+
+    await sendVerificationEmail(user.email, verificationToken);
+
+    res.status(201).json({
+      success: true,
+      message: "New verification email sent successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.log("Error in createNewVerifyEmail:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
