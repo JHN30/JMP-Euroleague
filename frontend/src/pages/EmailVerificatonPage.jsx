@@ -63,6 +63,10 @@ const EmailVerificationPage = () => {
     }
   }, [code]);
 
+  if (user.isVerified) {
+    navigate("/");
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <motion.div
