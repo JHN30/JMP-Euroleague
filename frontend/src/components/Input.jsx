@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const Input = ({ icon: Icon, ...props }) => {
   return (
     <div className="relative mb-6">
