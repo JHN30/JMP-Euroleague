@@ -9,6 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import { useAuth } from "../func/useAuth";
 
+import "../styles/button.css";
+
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -62,7 +64,7 @@ const SignUpPage = () => {
             <PasswordStrengthMeter password={password} />
 
             <motion.button
-              className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+              className="button mt-5"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"

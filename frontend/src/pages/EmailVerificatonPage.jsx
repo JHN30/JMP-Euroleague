@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../func/useAuth";
 import toast from "react-hot-toast";
 
+import "../styles/button.css";
+
 const EmailVerificationPage = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
@@ -97,7 +99,7 @@ const EmailVerificationPage = () => {
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={isLoading || code.some((digit) => !digit)}
-            className="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 disabled:opacity-50"
+            className="button focus:ring-opacity-50 disabled:opacity-50"
           >
             {isLoading ? "Verifying..." : "Verify Email"}
           </motion.button>
