@@ -14,15 +14,17 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import { useAuth } from "./func/useAuth";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
+  const checkAuthCallback = useCallback(checkAuth, [checkAuth]);
+  let didntSignUp = true;
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    checkAuthCallback();
+  }, [checkAuthCallback]);
 
   if (isCheckingAuth) {
     return (
@@ -32,19 +34,30 @@ function App() {
     );
   }
 
+  didntSignUp = isAuthenticated ? false : true;
+
   return (
     <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-200 to-base-300 relative overflow-hidden">
-      {isAuthenticated && <Navbar />}
+      {<Navbar didntSignUp={didntSignUp} />}
       <Routes>
-        <Route path="/" element={!isAuthenticated ? <LoginPage /> : <Standings />} />
+        <Route path="/" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Standings />} />
         <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />} />
         <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
-        <Route path="/predictor" element={!isAuthenticated ? <LoginPage /> : <Predictor />} />
-        <Route path="/playoff" element={!isAuthenticated ? <LoginPage /> : <Playoff />} />
+        <Route path="/predictor" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Predictor />} />
+        <Route path="/playoff" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Playoff />} />
         <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />
-        <Route path="/verify-email" element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />} />
-        <Route path="/forgot-password" element={isAuthenticated ? <Navigate to="/" /> : <ForgotPasswordPage />} />
-        <Route path="/reset-password/:token" element={isAuthenticated ? <Navigate to="/" /> : <ResetPasswordPage />} />
+        <Route
+          path="/verify-email"
+          element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/forgot-password"
+          element={isAuthenticated && !didntSignUp ? <Navigate to="/" /> : <ForgotPasswordPage />}
+        />
+        <Route
+          path="/reset-password/:token"
+          element={isAuthenticated && !didntSignUp ? <Navigate to="/" /> : <ResetPasswordPage />}
+        />
       </Routes>
       <Toaster />
     </div>

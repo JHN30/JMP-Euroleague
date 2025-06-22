@@ -5,13 +5,16 @@ import { formatDate } from "../utils/date";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/button.css";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const { user, logout, newVerifyEmail } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+    toast.success("You logged out successfully");
   };
 
   const handleVerifyEmail = async (e) => {

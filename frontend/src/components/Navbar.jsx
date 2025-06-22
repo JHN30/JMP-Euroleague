@@ -1,4 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
+import { toast } from "react-hot-toast";
 
 import { PiRankingFill } from "react-icons/pi";
 import { MdOnlinePrediction } from "react-icons/md";
@@ -10,14 +12,21 @@ import logoPng from "../../assets/Logo.png";
 
 import { useAuth } from "../func/useAuth";
 
-const Navbar = () => {
+const Navbar = ({ didntSignUp }) => {
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
 
   const { isAuthenticated, user, logout } = useAuth();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+    toast.success("You logged out successfully");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -64,7 +73,7 @@ const Navbar = () => {
               </span>
             </Link>
           </li>
-          {isAuthenticated && (
+          {isAuthenticated && !didntSignUp && (
             <li className="flex justify-center">
               <Link
                 to="/profile"
@@ -77,15 +86,20 @@ const Navbar = () => {
               </Link>
             </li>
           )}
-          {isAuthenticated && (
+          {pathname !== "/login" && pathname !== "/signup" && (
             <li className="flex justify-center">
-              <button
-                onClick={handleLogout}
+              <motion.button
+                initial={{ opacity: 0, x: 5 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={isAuthenticated ? handleLogout : handleLogin}
                 className="flex gap-3 items-center py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
               >
                 <LuLogOut className={`w-5 h-5 text-white`} />
-                <span className={`text-lg hidden md:block`}>Logout</span>
-              </button>
+                <span className={`text-lg hidden md:block`}>{isAuthenticated ? "Logout" : "Login"}</span>
+              </motion.button>
             </li>
           )}
         </ul>
