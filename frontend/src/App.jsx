@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Standings from "./pages/Standings";
 import Predictor from "./pages/Predictor";
 import Playoff from "./pages/Playoff";
+import TeamsPage from "./pages/TeamsPage";
 import TeamStatsPage from "./pages/TeamStatsPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
@@ -46,7 +47,8 @@ function App() {
         <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/predictor" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Predictor />} />
         <Route path="/playoff" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Playoff />} />
-        <Route path="/team-stats" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamStatsPage />} />
+        <Route path="/teams" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamsPage />} />
+        <Route path="/team-stats/:teamId" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamStatsPage />} />
         <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />
         <Route
           path="/verify-email"

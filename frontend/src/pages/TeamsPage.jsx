@@ -1,0 +1,76 @@
+import { useEffect } from "react";
+
+import { useTeam } from "../func/useTeam";
+import ErrorBox from "../components/ErrorBox";
+import { Link } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+const TeamCard = ({ team }) => {
+  return (
+    <div className="card bg-neutral card-md">
+      <div className="card-body bg-orange-400 p-4 items-center justify-center">
+        <Link to={`/team-stats/${team._id}`}>
+          <h2 className="flex items-center justify-center text-white text-base font-bold">{team.name}</h2>
+        </Link>
+      </div>
+      <figure className="mt-2 mb-2">
+        <Link to={`/team-stats/${team._id}`}>
+          <img
+            src={team.logoImg}
+            className="flex items-center justify-center object-contain w-24 h-24"
+            alt={`${team.name} logo`}
+          />
+        </Link>
+      </figure>
+    </div>
+  );
+};
+
+const TeamsPage = () => {
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
+  const sortConfig = {
+    key: "name",
+  };
+
+  // Fetch teams data when the component mounts
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
+
+  if (loadingTeams) {
+    return (
+      <div className="flex items-center justify-center h-full w-full py-20">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // Check if there was an error fetching the teams
+  if (errorTeams) {
+    return (
+      <div className="flex items-center justify-center h-full w-full py-20">
+        <ErrorBox error={errorTeams} />
+      </div>
+    );
+  }
+
+  const sortedTeams = [...teams.data].sort((a, b) => {
+    let aValue, bValue;
+    aValue = a[sortConfig.key];
+    bValue = b[sortConfig.key];
+
+    return aValue > bValue ? 1 : -1;
+  });
+
+  return (
+    <>
+      <div className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2">
+        {sortedTeams.map((team) => {
+          return <TeamCard key={team.name} team={team} />;
+        })}
+      </div>
+    </>
+  );
+};
+
+export default TeamsPage;

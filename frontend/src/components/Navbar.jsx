@@ -7,6 +7,7 @@ import { MdOnlinePrediction } from "react-icons/md";
 import { FaTrophy } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
+import { RiTeamFill } from "react-icons/ri";
 
 import logoPng from "../../assets/Logo.png";
 
@@ -71,6 +72,17 @@ const Navbar = ({ didntSignUp }) => {
               <span className={`text-lg hidden md:block ${pathname === "/playoff" ? "font-bold" : "font-normal"}`}>
                 Playoff
               </span>
+            </Link>
+          </li>
+          <li className="flex justify-center">
+            <Link
+              to="/teams"
+              className={`flex gap-3 items-center rounded-full py-2 pl-2 pr-4 max-w-fit cursor-pointer ${
+                pathname === "/teams" ? "font-bold" : "font-normal"
+              }`}
+            >
+              <RiTeamFill className={`w-5 h-5 ${pathname === "/teams" ? "text-orange-400" : ""}`} />
+              <span className={`text-lg hidden md:block ${pathname === "/teams" ? "font-bold" : "font-normal"}`}>Teams</span>
             </Link>
           </li>
           {isAuthenticated && !didntSignUp && (

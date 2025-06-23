@@ -3,6 +3,7 @@ import axios from "../lib/axios";
 
 export const useTeam = create((set) => ({
   teams: { data: [] },
+  team: {data: {}},
   loadingTeams: false,
   errorTeams: null,
 
@@ -15,6 +16,17 @@ export const useTeam = create((set) => ({
       set({ loadingTeams: false, errorTeams: error.message, teams: { data: [] } });
     }
   },
+
+  fetchTeamById: async (teamId) => {
+    set({ loadingTeams: true, errorTeams: null });
+    try {
+      const response = await axios.get(`/teams/${teamId}`);
+      set({ team: response.data, loadingTeams: false });
+    } catch (error) {
+      set({ loadingTeams: false, errorTeams: error.message, team: { data: {} } });
+    }
+  },
+
   updateTeam: async (teamId, data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {

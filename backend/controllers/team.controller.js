@@ -48,6 +48,19 @@ export const getTeams = async (req, res) => {
   }
 };
 
+export const getTeamById = async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.id);
+    if (!team) {
+      return res.status(404).json({ success: false, message: "Team not found" });
+    }
+    res.status(200).json({ success: true, data: team });
+  } catch (error) {
+    console.error("Error in getTeamById: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;

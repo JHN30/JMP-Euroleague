@@ -5,7 +5,7 @@ const Team = ({ team, position }) => {
     <tr className="border-b-2 border-orange-400 h-16">
       <td className="items-center">{position}</td>
       <td>
-        <Link to={`/team-stats`} className="flex items-center gap-3">
+        <Link to={`/team-stats/${team._id}`} className="flex items-center gap-3">
           <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
             <img src={team.logoImg} className="object-contain max-w-full max-h-full" alt={`${team.name} logo`} />
           </div>
