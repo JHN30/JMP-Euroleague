@@ -12,7 +12,6 @@ import { FaCheckDouble } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import { FaPercentage } from "react-icons/fa";
 import { SlGraph } from "react-icons/sl";
-import { PiCourtBasketball } from "react-icons/pi";
 
 const TeamStatsPage = () => {
   const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam();
@@ -46,14 +45,6 @@ const TeamStatsPage = () => {
 
   const handleLastTenGames = () => {
     setGamesToShow(10);
-  };
-
-  const handleAgainstAllTeams = () => {
-    console.log("all games");
-  };
-
-  const handleAgainstPlayoffTeams = () => {
-    console.log("playoff games");
   };
 
   return (
