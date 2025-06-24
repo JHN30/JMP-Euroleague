@@ -3,7 +3,7 @@ import axios from "../lib/axios";
 
 export const useTeam = create((set) => ({
   teams: { data: [] },
-  team: {data: {}},
+  team: { data: {} },
   loadingTeams: false,
   errorTeams: null,
 
