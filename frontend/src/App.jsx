@@ -73,7 +73,7 @@ function App() {
 
         <Route
           path="/admin-dashboard"
-          element={isAuthenticated && !didntSignUp && user.role === "admin" ? <AdminPage /> : <Navigate to="/" />}
+          element={isAuthenticated && !didntSignUp && user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />}
         />
       </Routes>
       <Toaster />

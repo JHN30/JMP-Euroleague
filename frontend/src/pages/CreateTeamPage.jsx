@@ -24,8 +24,8 @@ const CreateTeamPage = () => {
       await createTeam(team);
       setTeam({ name: "", logoImg: "" });
       toast.success("Team created successfully");
-    } catch {
-      console.log("Error creating team: ", errorTeams);
+    } catch (error) {
+      console.log("Error creating team: ", error);
     }
   };
 
@@ -51,13 +51,14 @@ const CreateTeamPage = () => {
       >
         <div className="p-8">
           <form onSubmit={handleCreateTeam}>
-            <label>Team Name</label>
+            <label>Team Name *</label>
             <Input
               icon={AiOutlineTeam}
               type="text"
               placeholder="Fenerbahce Beko Istanbul"
               value={team.name}
               onChange={(e) => setTeam({ ...team, name: e.target.value })}
+              required
             />
 
             <div className="flex flex-col justify-center mb-8">
@@ -66,7 +67,6 @@ const CreateTeamPage = () => {
               <label
                 htmlFor="image"
                 className="w-full pl-3 pr-3 py-2 rounded-lg border border-gray-700 text-gray-400 transition duration-200 cursor-pointer"
-                placeholder="Upload Image"
               >
                 <RiFileUploadLine className="size-5 text-orange-400 inline-block mr-2" />
                 Upload Image

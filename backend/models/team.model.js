@@ -25,21 +25,18 @@ const teamSchema = new mongoose.Schema(
     form: [
       {
         type: String,
-        required: true,
         default: "",
       },
     ],
     playedAgainst: [
       {
         type: String,
-        required: true,
         default: "",
       },
     ],
     homeGround: [
       {
         type: String,
-        required: true,
         default: "",
       },
     ],

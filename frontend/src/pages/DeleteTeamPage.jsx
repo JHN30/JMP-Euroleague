@@ -55,9 +55,9 @@ const DeleteTeamPage = ({ teams }) => {
       toast.success(`${selectedTeamName} deleted successfully`);
       setSelectedTeamId("");
       setSelectedTeamName("");
-    } catch {
+    } catch (error) {
       toast.error(`Error deleting ${selectedTeamName}`);
-      console.log(`Error deleting ${selectedTeamName}: `, errorTeams);
+      console.log(`Error deleting ${selectedTeamName}: `, error);
     }
   };
 
