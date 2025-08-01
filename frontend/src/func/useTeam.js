@@ -7,6 +7,19 @@ export const useTeam = create((set) => ({
   loadingTeams: false,
   errorTeams: null,
 
+  createTeam: async (data) => {
+    set({ loadingTeams: true, errorTeams: null });
+    try {
+      const response = await axios.post("/teams", data);
+      set((state) => ({
+        teams: { ...state.teams, data: [...state.teams.data, response.data] },
+        loadingTeams: false,
+      }));
+    } catch (error) {
+      set({ loadingTeams: false, errorTeams: error.message });
+    }
+  },
+
   fetchTeams: async () => {
     set({ loadingTeams: true, errorTeams: null });
     try {
@@ -36,6 +49,19 @@ export const useTeam = create((set) => ({
           ...state.teams,
           data: state.teams.data.map((team) => (team.id === teamId ? response.data : team)),
         },
+        loadingTeams: false,
+      }));
+    } catch (error) {
+      set({ loadingTeams: false, errorTeams: error.message });
+    }
+  },
+
+  deleteTeam: async (teamId) => {
+    set({ loadingTeams: true, errorTeams: null });
+    try {
+      await axios.delete(`/teams/${teamId}`);
+      set((state) => ({
+        teams: { ...state.teams, data: state.teams.data.filter((team) => team.id !== teamId) },
         loadingTeams: false,
       }));
     } catch (error) {

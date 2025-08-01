@@ -3,29 +3,20 @@ import Team from "../models/team.model.js";
 import cloudinary from "../lib/cloudinary/cloudinary.js";
 
 export const createTeam = async (req, res) => {
-  const { name, form, playedAgainst, homeGround } = req.body; // user will send this data
+  const { name } = req.body;
   let { logoImg } = req.body;
 
-  if (!name || !form || !playedAgainst || !homeGround) {
+  if (!name) {
     return res.status(400).json({ success: false, message: "Please provide all fields" });
   }
-  const wins = form.filter((result) => result === "W").length;
-  const losses = form.filter((result) => result === "L").length;
-  const winPercentage = ((wins / (wins + losses)) * 100).toFixed(2);
 
   if (logoImg) {
     const uploadedResponse = await cloudinary.uploader.upload(logoImg);
-    logoImg = uploadedResponse.secure_url;
+    logoImg = uploadedResponse?.secure_url ? uploadedResponse.secure_url : "";
   }
 
   const newTeam = new Team({
     name,
-    wins: wins,
-    losses: losses,
-    winPercentage: winPercentage,
-    form,
-    playedAgainst,
-    homeGround,
     logoImg,
   });
 

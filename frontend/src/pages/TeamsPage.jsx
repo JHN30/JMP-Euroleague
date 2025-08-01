@@ -14,7 +14,7 @@ const TeamCard = ({ team }) => {
       </div>
       <figure className="mt-2 mb-2">
         <img
-          src={team.logoImg}
+          src={team.logoImg || null}
           className="flex items-center justify-center object-contain w-24 h-24"
           alt={`${team.name} logo`}
         />
@@ -60,17 +60,20 @@ const TeamsPage = () => {
   });
 
   return (
-    <>
-      <div className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2">
-        {sortedTeams.map((team, idx) => {
-          return (
-            <Link to={`/team-stats/${team._id}`} className="block h-full" key={idx}>
-              <TeamCard team={team} />
-            </Link>
-          );
-        })}
-      </div>
-    </>
+    <motion.div
+      className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      {sortedTeams.map((team, idx) => {
+        return (
+          <Link to={`/team-stats/${team._id}`} className="block h-full" key={idx}>
+            <TeamCard team={team} />
+          </Link>
+        );
+      })}
+    </motion.div>
   );
 };
 

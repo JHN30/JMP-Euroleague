@@ -20,23 +20,27 @@ const teamSchema = new mongoose.Schema(
     winPercentage: {
       type: Number,
       required: true,
+      default: 0,
     },
     form: [
       {
         type: String,
         required: true,
+        default: "",
       },
     ],
     playedAgainst: [
       {
         type: String,
         required: true,
+        default: "",
       },
     ],
     homeGround: [
       {
         type: String,
         required: true,
+        default: "",
       },
     ],
     logoImg: {

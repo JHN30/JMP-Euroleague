@@ -11,6 +11,10 @@ const ProfilePage = () => {
   const { user, logout, newVerifyEmail } = useAuth();
   const navigate = useNavigate();
 
+  const handleAdmin = async () => {
+    navigate("/admin-dashboard");
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate("/");
@@ -85,10 +89,10 @@ const ProfilePage = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={user.isVerified ? handleLogout : handleVerifyEmail}
+          onClick={user.isVerified ? (user.role === "admin" ? handleAdmin : handleLogout) : handleVerifyEmail}
           className="button"
         >
-          {user.isVerified ? "Logout" : "Verify Email"}
+          {user.isVerified ? (user.role === "admin" ? "Admin Dashboard" : "Logout") : "Verify Email"}
         </motion.button>
       </motion.div>
     </motion.div>
