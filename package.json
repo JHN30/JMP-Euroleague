@@ -1,6 +1,6 @@
 {
   "name": "euroleague-prediction-v2",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "",
   "main": "backend/server.js",
   "scripts": {

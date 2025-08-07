@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 
 import { useTeam } from "../func/useTeam";
+import { useRound } from "../func/useRound";
+
 import ErrorBox from "../components/ErrorBox";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -20,15 +22,24 @@ const tabs = [
 ];
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState("create");
+  const [activeTab, setActiveTab] = useState("update");
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
+  const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   // Fetch teams data when the component mounts
-  useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
+  useEffect(
+    () => {
+      fetchTeams();
+      fetchRounds();
+    },
+    [fetchTeams],
+    [fetchRounds]
+  );
 
-  if (loadingTeams) {
+  const memoizedTeams = useMemo(() => teams, [teams]);
+  const memoizedRounds = useMemo(() => rounds, [rounds]);
+
+  if (loadingTeams || loadingRounds) {
     return (
       <div className="flex items-center justify-center h-full w-full py-20">
         <LoadingSpinner />
@@ -37,10 +48,11 @@ const AdminPage = () => {
   }
 
   // Check if there was an error fetching the teams
-  if (errorTeams) {
+  if (errorTeams || errorRounds) {
     return (
       <div className="flex items-center justify-center h-full w-full py-20">
         <ErrorBox error={errorTeams} />
+        <ErrorBox error={errorRounds} />
       </div>
     );
   }
@@ -74,8 +86,8 @@ const AdminPage = () => {
         ))}
       </div>
       {activeTab === "create" && <CreateTeamPage />}
-      {activeTab === "update" && <UpdateTeamPage />}
-      {activeTab === "delete" && <DeleteTeamPage teams={teams} />}
+      {activeTab === "update" && <UpdateTeamPage teams={memoizedTeams} rounds={memoizedRounds} />}
+      {activeTab === "delete" && <DeleteTeamPage teams={memoizedTeams} />}
     </div>
   );
 };

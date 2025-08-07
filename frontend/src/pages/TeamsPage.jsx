@@ -14,7 +14,7 @@ const TeamCard = ({ team }) => {
       </div>
       <figure className="mt-2 mb-2">
         <img
-          src={team.logoImg || null}
+          src={team.logoImg}
           className="flex items-center justify-center object-contain w-24 h-24"
           alt={`${team.name} logo`}
         />

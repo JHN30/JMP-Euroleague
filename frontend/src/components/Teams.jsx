@@ -9,7 +9,7 @@ import ErrorBox from "./ErrorBox";
 import { calculateELOStandings } from "../utils/calculateExpectedScore";
 
 const Teams = () => {
-  const { fetchTeams, updateTeam, teams, loadingTeams, errorTeams } = useTeam();
+  const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, updateRound, rounds, loadingRounds, errorRounds } = useRound();
   const [sortConfig, setSortConfig] = useState({
     key: "rating",
@@ -108,7 +108,7 @@ const Teams = () => {
 
       // Update ratings in database
       for (let index = 0; index < teams.data.length; index++) {
-        updateTeam(teams.data[index]._id, {
+        updateTeamRating(teams.data[index]._id, {
           rating: updatedRatingsArray[index], //updatedRatingsArray[index], //1000 default
         }).catch((error) => {
           console.error("Failed to update team:", error);

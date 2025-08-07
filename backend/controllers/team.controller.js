@@ -52,7 +52,7 @@ export const getTeamById = async (req, res) => {
   }
 };
 
-export const updateTeam = async (req, res) => {
+export const updateTeamRating = async (req, res) => {
   try {
     const { id } = req.params;
     const { rating } = req.body;
@@ -68,7 +68,40 @@ export const updateTeam = async (req, res) => {
     }
     res.status(200).json({ success: true, data: updateTeam });
   } catch (error) {
-    console.log("Error in updateTeam:", error.message);
+    console.log("Error in updateTeamRating:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const updateTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { form, playedAgainst, homeGround } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Team ID" });
+    }
+
+    if (!form || !playedAgainst || !homeGround) {
+      return res.status(400).json({ success: false, message: "Please provide all fields" });
+    }
+
+    const wins = form.filter((result) => result === "W").length;
+    const losses = form.filter((result) => result === "L").length;
+    const winPercentage = ((wins / (wins + losses)) * 100).toFixed(2);
+
+    const updatedTeam = await Team.findByIdAndUpdate(
+      id,
+      { wins, losses, winPercentage, form, playedAgainst, homeGround },
+      { new: true }
+    );
+
+    if (!updatedTeam) {
+      return res.status(404).json({ error: "Team not found" });
+    }
+    res.status(200).json({ success: true, data: updatedTeam });
+  } catch (error) {
+    console.error("Error in updateTeam: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

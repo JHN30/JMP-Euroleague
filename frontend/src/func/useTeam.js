@@ -40,10 +40,26 @@ export const useTeam = create((set) => ({
     }
   },
 
-  updateTeam: async (teamId, data) => {
+  updateTeamRating: async (teamId, data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
       const response = await axios.put(`/teams/${teamId}`, data);
+      set((state) => ({
+        teams: {
+          ...state.teams,
+          data: state.teams.data.map((team) => (team.id === teamId ? response.data : team)),
+        },
+        loadingTeams: false,
+      }));
+    } catch (error) {
+      set({ loadingTeams: false, errorTeams: error.message });
+    }
+  },
+
+  updateTeam: async (teamId, data) => {
+    set({ loadingTeams: true, errorTeams: null });
+    try {
+      const response = await axios.put(`/teams/update/${teamId}`, data);
       set((state) => ({
         teams: {
           ...state.teams,
