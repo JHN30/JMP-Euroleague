@@ -24,7 +24,7 @@ const TeamCard = ({ team }) => {
   );
 };
 
-const DeleteTeamPage = ({ teams }) => {
+const DeleteTeamPage = ({ teams, fetchTeams }) => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
   const [selectedTeamName, setSelectedTeamName] = useState("");
   const sortConfig = {
@@ -55,6 +55,7 @@ const DeleteTeamPage = ({ teams }) => {
       toast.success(`${selectedTeamName} deleted successfully`);
       setSelectedTeamId("");
       setSelectedTeamName("");
+      fetchTeams();
     } catch (error) {
       toast.error(`Error deleting ${selectedTeamName}`);
       console.log(`Error deleting ${selectedTeamName}: `, error);

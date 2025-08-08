@@ -10,13 +10,13 @@ import { FaCheck } from "react-icons/fa";
 
 import { useTeam } from "../func/useTeam";
 
-const CreateTeamPage = () => {
+const CreateTeamPage = ({ fetchTeams }) => {
   const [team, setTeam] = useState({
     name: "",
     logoImg: "",
   });
 
-  const { createTeam, loadingTeams, errorTeams } = useTeam();
+  const { createTeam, loadingTeams } = useTeam();
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
@@ -24,6 +24,7 @@ const CreateTeamPage = () => {
       await createTeam(team);
       setTeam({ name: "", logoImg: "" });
       toast.success("Team created successfully");
+      fetchTeams();
     } catch (error) {
       console.log("Error creating team: ", error);
     }

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { MdInput } from "react-icons/md";
 import React from "react";
 
@@ -43,28 +43,46 @@ const Grid = ({ sortedTeams, handleClick }) => {
   );
 };
 
-const InputField = React.memo(({ data, latestRound, onChange }) => (
-  <div className="flex flex-col justify-items-center text-white text-base font-bold">
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 m-1 ">
-      {Array.from({ length: latestRound }).map((_, idx) => (
-        <div key={idx} className="flex flex-row items-center gap-1">
-          {idx + 1}
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
-              <MdInput className="size-4 text-orange-400" />
+const InputField = React.memo(({ data, latestRound, onChange }) => {
+  const inputRefs = useRef([]);
+
+  // Handler for key down event
+  const handleKeyDown = (e, idx) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // Move to next input if exists
+      if (inputRefs.current[idx + 1]) {
+        inputRefs.current[idx + 1].focus();
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col justify-items-center text-white text-base font-bold">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 m-1 ">
+        {Array.from({ length: latestRound }).map((_, idx) => (
+          <div key={idx} className="flex flex-row items-center gap-1">
+            {idx + 1}
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                <MdInput className="size-4 text-orange-400" />
+              </div>
+              <input
+                type="text"
+                value={data[idx]}
+                required
+                ref={(el) => (inputRefs.current[idx] = el)}
+                onChange={(e) => onChange(idx, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
+                className="w-full pl-8 pr-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
+              />
             </div>
-            <input
-              type="text"
-              value={data[idx]}
-              onChange={(e) => onChange(idx, e.target.value)}
-              className="w-full pl-8 pr-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
-            />
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-));
+  );
+});
 
 const fillArray = (arr, len) => Array.from({ length: len }, (_, i) => (arr && arr[i] !== undefined ? arr[i] : ""));
 
@@ -89,6 +107,10 @@ const TeamUpdate = ({ team, latestRound, setActiveView }) => {
   // Update
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if (result.some((val) => !val) || playedAgainst.some((val) => !val) || homeGround.some((val) => !val)) {
+      toast.error("All fields must be filled!");
+      return;
+    }
     try {
       console.log(result, playedAgainst, homeGround);
       await updateTeam(team._id, { form: result, playedAgainst: playedAgainst, homeGround: homeGround });

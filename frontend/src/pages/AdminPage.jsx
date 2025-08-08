@@ -22,7 +22,7 @@ const tabs = [
 ];
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState("update");
+  const [activeTab, setActiveTab] = useState("create");
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
@@ -85,9 +85,9 @@ const AdminPage = () => {
           </button>
         ))}
       </div>
-      {activeTab === "create" && <CreateTeamPage />}
+      {activeTab === "create" && <CreateTeamPage fetchTeams={fetchTeams} />}
       {activeTab === "update" && <UpdateTeamPage teams={memoizedTeams} rounds={memoizedRounds} />}
-      {activeTab === "delete" && <DeleteTeamPage teams={memoizedTeams} />}
+      {activeTab === "delete" && <DeleteTeamPage teams={memoizedTeams} fetchTeams={fetchTeams} />}
     </div>
   );
 };
