@@ -119,11 +119,11 @@ export const useAuth = create((set) => ({
 
     set({ isCheckingAuth: true });
     try {
-      const response = await axios.post("/auth/refresh-token");
-      set({ checkingAuth: false });
+      const response = await axios.post(`${API_URL}/refresh-token`);
+      set({ isCheckingAuth: false });
       return response.data;
     } catch (error) {
-      set({ user: null, checkingAuth: false });
+      set({ user: null, isCheckingAuth: false });
       throw error;
     }
   },
@@ -146,14 +146,14 @@ axios.interceptors.response.use(
         }
 
         // Start a new refresh process
-        refreshPromise = useUserStore.getState().refreshToken();
+        refreshPromise = useAuth.getState().refreshToken();
         await refreshPromise;
         refreshPromise = null;
 
         return axios(originalRequest);
       } catch (refreshError) {
         // If refresh fails, redirect to login or handle as needed
-        useUserStore.getState().logout();
+        useAuth.getState().logout();
         return Promise.reject(refreshError);
       }
     }
