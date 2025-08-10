@@ -1,8 +1,9 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 import User from "../models/user.model.js";
-import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import { generateTokens, setCookies } from "../utils/generateTokenAndSetCookie.js";
 import {
   sendPasswordResetEmail,
   sendResetSuccessEmail,
@@ -41,7 +42,8 @@ export const signup = async (req, res) => {
 
     await user.save();
 
-    generateTokenAndSetCookie(res, user._id);
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    setCookies(res, accessToken, refreshToken);
 
     await sendVerificationEmail(user.email, verificationToken);
 
@@ -74,7 +76,8 @@ export const login = async (req, res) => {
       return res.status(400).json({ success: false, error: "Invalid password" });
     }
 
-    generateTokenAndSetCookie(res, user._id);
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    setCookies(res, accessToken, refreshToken);
     user.lastLogin = new Date();
     await user.save();
 
@@ -94,11 +97,38 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
     res.status(200).json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: "No refresh token provided" });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.json({ message: "Token refreshed successfully" });
+  } catch (error) {
+    console.log("Error in refreshToken controller", error.message);
+    res.status(500).json({ message: "Internal Server error", error: error.message });
   }
 };
 
