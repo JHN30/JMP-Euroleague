@@ -5,7 +5,7 @@ const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/
 
 axios.defaults.withCredentials = true;
 
-export const useAuth = create((set) => ({
+export const useAuth = create((set, get) => ({
   user: null,
   isAuthenticated: false,
   error: null,
@@ -79,9 +79,17 @@ export const useAuth = create((set) => ({
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
-      // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      // If checkAuth fails, try to refresh token first
+      try {
+        await get().refreshToken();
+        // If refresh succeeds, try checkAuth again
+        const response = await axios.get(`${API_URL}/check-auth`);
+        set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+      } catch (refreshError) {
+        // If refresh also fails, user needs to login again
+        set({ user: null, error: null, isCheckingAuth: false, isAuthenticated: false });
+      }
     }
   },
 
@@ -114,49 +122,19 @@ export const useAuth = create((set) => ({
   },
 
   refreshToken: async () => {
-    // Prevent multiple simultaneous refresh attempts
-    if (get().isCheckingAuth) return;
-
-    set({ isCheckingAuth: true });
     try {
       const response = await axios.post(`${API_URL}/refresh-token`);
-      set({ isCheckingAuth: false });
+      set({
+        isAuthenticated: true,
+        user: response.data.user || get().user,
+      });
       return response.data;
     } catch (error) {
-      set({ user: null, isCheckingAuth: false });
+      set({
+        user: null,
+        isAuthenticated: false,
+      });
       throw error;
     }
   },
 }));
-
-let refreshPromise = null;
-
-axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        // If a refresh is already in progress, wait for it to complete
-        if (refreshPromise) {
-          await refreshPromise;
-          return axios(originalRequest);
-        }
-
-        // Start a new refresh process
-        refreshPromise = useAuth.getState().refreshToken();
-        await refreshPromise;
-        refreshPromise = null;
-
-        return axios(originalRequest);
-      } catch (refreshError) {
-        // If refresh fails, redirect to login or handle as needed
-        useAuth.getState().logout();
-        return Promise.reject(refreshError);
-      }
-    }
-    return Promise.reject(error);
-  }
-);
