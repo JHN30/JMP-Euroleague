@@ -1,6 +1,6 @@
 import express from "express";
 import { getRound, createRound, deleteRound, updateRound } from "../controllers/round.controller.js";
-import { verifyToken } from "../middlewares/auth.middleware.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
