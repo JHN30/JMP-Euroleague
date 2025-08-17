@@ -50,16 +50,17 @@ const TeamMatchup = ({
     return (
       <div
         className={`
-          relative flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-300 
-          ${disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-700 hover:scale-[1.02]"} 
+          relative flex items-center gap-1.5 sm:gap-3 p-2 sm:p-3 rounded-lg cursor-pointer transition-all duration-300 
+          ${disabled ? "opacity-50 cursor-not-allowed" : "md:hover:scale-[1.02] hover:bg-gray-700"} 
           ${isSelected ? "bg-orange-500 text-white ring-2 ring-orange-400 shadow-lg" : "bg-gray-800 text-gray-300"}
+          overflow-hidden min-w-0
         `}
         onClick={() => handleTeamSelect(side)}
       >
         {/* Seed Number */}
         <div
           className={`
-          w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0
+          w-9 h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0
           ${isSelected ? "bg-white text-orange-500" : "bg-orange-400 text-white"}
         `}
         >
@@ -67,36 +68,37 @@ const TeamMatchup = ({
         </div>
 
         {/* Team Logo and Name */}
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        <div className="flex items-center gap-1 md:gap-2 min-w-0 flex-1 overflow-hidden">
           {useLogos && teamLogo ? (
             <>
               <img
                 src={teamLogo}
                 alt={`${teamName} logo`}
-                className="w-10 h-10 object-contain flex-shrink-0"
+                className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 object-contain flex-shrink-0"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextElementSibling.style.display = "block";
                 }}
               />
               <div
-                className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+                className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
                 style={{ display: "none" }}
               >
                 {teamName?.charAt(0) || "?"}
               </div>
-              <span className="text-sm font-medium truncate">{teamName}</span>
+              {/* Hide team name on very small screens when using logos */}
+              <span className="hidden sm:block text-sm font-medium truncate min-w-0">{teamName}</span>
             </>
           ) : (
-            <span className="text-sm md:text-base font-medium truncate">{teamName || "TBD"}</span>
+            <span className="text-sm md:text-base font-medium truncate min-w-0">{teamName}</span>
           )}
         </div>
 
-        {/* Win Probability */}
+        {/* Win Probability - Hide on very small screens */}
         {showProbability && (
           <div
             className={`
-            text-xs font-bold px-2 py-1 rounded-full flex-shrink-0
+            text-sm font-bold px-1 md:px-1.5 py-0.5 rounded-full flex-shrink-0
             ${isSelected ? "bg-white/20 text-white" : "bg-orange-400/20 text-orange-400"}
           `}
           >
@@ -106,8 +108,8 @@ const TeamMatchup = ({
 
         {/* Selected indicator */}
         {isSelected && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
-            <span className="text-white text-xs">✓</span>
+          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 md:w-4 md:h-4 bg-green-400 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm">✓</span>
           </div>
         )}
       </div>
@@ -115,16 +117,16 @@ const TeamMatchup = ({
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-600 rounded-lg p-4 space-y-3 hover:border-orange-400/50 transition-colors duration-300">
+    <div className="bg-gray-900 border border-gray-600 rounded-lg p-2 md:p-3 lg:p-4 space-y-1.5 md:space-y-2 lg:space-y-3 hover:border-orange-400/50 transition-colors duration-300 w-full max-w-full overflow-hidden">
       {/* Match Label */}
       {matchLabel && (
-        <div className="text-center text-sm font-semibold text-orange-400 mb-3 bg-orange-400/10 py-2 rounded-lg">
+        <div className="text-center text-sm font-semibold text-orange-400 mb-1.5 md:mb-2 lg:mb-3 bg-orange-400/10 py-1 md:py-1.5 lg:py-2 rounded-lg">
           {matchLabel}
         </div>
       )}
 
       {/* Teams */}
-      <div className="space-y-3">
+      <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
         {renderTeamDisplay(
           leftTeam,
           leftSeed,
@@ -135,8 +137,8 @@ const TeamMatchup = ({
           winProbabilities.leftWinChance
         )}
 
-        <div className="text-center text-gray-500 text-sm font-bold py-1">
-          <span className="bg-gray-700 px-3 py-1 rounded-full">VS</span>
+        <div className="text-center text-gray-500 text-sm font-bold py-0.5 md:py-1">
+          <span className="bg-gray-700 px-1.5 md:px-2 lg:px-3 py-0.5 rounded-full">VS</span>
         </div>
 
         {renderTeamDisplay(
@@ -154,16 +156,16 @@ const TeamMatchup = ({
       {selectedWinner && !disabled && (
         <button
           onClick={() => onSelectWinner(matchId, null, leftTeam, rightTeam, leftSeed, rightSeed)}
-          className="w-full py-2 text-xs text-gray-400 hover:text-white transition-colors hover:bg-gray-700 rounded-lg"
+          className="w-full py-1 md:py-1.5 lg:py-2 text-sm text-gray-400 hover:text-white transition-colors hover:bg-gray-700 rounded-lg"
         >
-          Reset Match
+          Reset
         </button>
       )}
 
       {/* Disabled state indicator */}
       {disabled && (
-        <div className="text-center text-xs text-gray-500 bg-gray-800/50 py-2 rounded-lg">
-          Complete previous matches to unlock
+        <div className="text-center text-sm text-gray-500 bg-gray-800/50 py-1 md:py-1.5 lg:py-2 rounded-lg">
+          Complete previous matches
         </div>
       )}
     </div>

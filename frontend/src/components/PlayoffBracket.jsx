@@ -251,7 +251,7 @@ const PlayoffBracket = () => {
                 matchId="qf-3"
                 leftSeed="2"
                 leftTeam={seededTeams.seedTwo}
-                rightSeed={winners["play-in-2"]?.winnerSeedNumber || "WPI2"}
+                rightSeed={winners["play-in-2"]?.winnerSeedNumber || "WPI"}
                 rightTeam={getWinningTeamObject("play-in-2") || "Play-In Game 2 Winner"}
                 onSelectWinner={handleSelectWinner}
                 selectedWinner={winners["qf-3"]?.side}
@@ -279,9 +279,9 @@ const PlayoffBracket = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
               <TeamMatchup
                 matchId="sf-1"
-                leftSeed={winners["qf-1"]?.winnerSeedNumber || "WQF1"}
+                leftSeed={winners["qf-1"]?.winnerSeedNumber || "WQF"}
                 leftTeam={getWinningTeamObject("qf-1") || "Winner QF1"}
-                rightSeed={winners["qf-2"]?.winnerSeedNumber || "WQF2"}
+                rightSeed={winners["qf-2"]?.winnerSeedNumber || "WQF"}
                 rightTeam={getWinningTeamObject("qf-2") || "Winner QF2"}
                 onSelectWinner={handleSelectWinner}
                 selectedWinner={winners["sf-1"]?.side}
@@ -291,9 +291,9 @@ const PlayoffBracket = () => {
               />
               <TeamMatchup
                 matchId="sf-2"
-                leftSeed={winners["qf-3"]?.winnerSeedNumber || "WQF3"}
+                leftSeed={winners["qf-3"]?.winnerSeedNumber || "WQF"}
                 leftTeam={getWinningTeamObject("qf-3") || "Winner QF3"}
-                rightSeed={winners["qf-4"]?.winnerSeedNumber || "WQF4"}
+                rightSeed={winners["qf-4"]?.winnerSeedNumber || "WQF"}
                 rightTeam={getWinningTeamObject("qf-4") || "Winner QF4"}
                 onSelectWinner={handleSelectWinner}
                 selectedWinner={winners["sf-2"]?.side}
@@ -311,9 +311,9 @@ const PlayoffBracket = () => {
               <div className="w-full max-w-md">
                 <TeamMatchup
                   matchId="final"
-                  leftSeed={winners["sf-1"]?.winnerSeedNumber || "WSF1"}
+                  leftSeed={winners["sf-1"]?.winnerSeedNumber || "WSF"}
                   leftTeam={getWinningTeamObject("sf-1") || "Winner SF1"}
-                  rightSeed={winners["sf-2"]?.winnerSeedNumber || "WSF2"}
+                  rightSeed={winners["sf-2"]?.winnerSeedNumber || "WSF"}
                   rightTeam={getWinningTeamObject("sf-2") || "Winner SF2"}
                   onSelectWinner={handleSelectWinner}
                   selectedWinner={winners["final"]?.side}
