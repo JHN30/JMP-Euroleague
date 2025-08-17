@@ -39,7 +39,7 @@ const ProfilePage = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5 }}
-      className="max-w-md w-full mx-auto mt-10 p-8 bg-neutral backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-orange-400"
+      className="max-w-md w-full mx-auto mt-8 p-8 bg-neutral backdrop-filter rounded-xl shadow-2xl border border-orange-400"
     >
       <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-amber-400 text-transparent bg-clip-text">
         Dashboard

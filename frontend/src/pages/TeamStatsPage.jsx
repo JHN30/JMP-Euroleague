@@ -190,7 +190,7 @@ const FormCard = ({ value, color, gridColumns }) => (
 
 const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
   <motion.div
-    className="bg-neutral border-b-2 border-r-2 border-l-2 border-amber-400 rounded-b-lg p-4 shadow-lg overflow-hidden w-full relative"
+    className="bg-neutral border-b-2 border-r-2 border-l-2 border-amber-400 rounded-b-lg p-2 shadow-lg overflow-hidden w-full relative"
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.2 }}
@@ -200,10 +200,10 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
         <span className="text-white">Loading...</span>
       ) : (
         opposition.map((team, idx) => (
-          <div className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-4">
+          <div className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-2">
             <p className="text-gray-100 text-bold mb-2">Round {opposition.length - idx}</p>
             {/* Matchup Display */}
-            <div className="flex flex-row w-full justify-between items-center gap-2 lg:gap-4">
+            <div className="flex flex-row w-full justify-between items-center gap-1 lg:gap-4">
               {/* Home Team */}
               <div className="flex-1 flex justify-end">
                 <p
@@ -218,7 +218,7 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
               <div className="flex flex-row mx-4 justify-center items-center">
                 {/* Home Team Result */}
                 <p
-                  className={`flex items-center justify-center w-10 h-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
+                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
                     homeCourt[idx] === "H"
                       ? result[idx] === "W"
                         ? "bg-green-600"
@@ -232,7 +232,7 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
                 </p>
                 {/* Away Team Result */}
                 <p
-                  className={`flex items-center justify-center w-10 h-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
+                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
                     homeCourt[idx] === "A"
                       ? result[idx] === "W"
                         ? "bg-green-600"
