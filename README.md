@@ -74,12 +74,13 @@ NODE_ENV=development
 ---
 ## ▶️ Running the app
 
-First you need to build it and then just start it. These are commands:
+Build it and then just start it. These are commands:
 `npm run build`
 and 
 `npm run start`
 
 ---
+
 ## 📸 Screenshots
 
 ### 🔐 Admin Pages
@@ -108,7 +109,7 @@ and
   <img src="./screenshots/update-team-3.PNG" alt="Update Page 3" width="90%">
 </p>
 
----
+#
 
 ### 📊 Standings
 
@@ -116,7 +117,7 @@ and
   <img src="./screenshots/standings.PNG" alt="Standings Page" width="90%">
 </p>
 
----
+#
 
 ### 🔮 Predictor
 
@@ -124,13 +125,13 @@ and
   <img src="./screenshots/predictor.PNG" alt="Predictor Page" width="90%">
 </p>
 
----
+#
 
 ### 🏆 Playoff
 
 ![Playoff Page](./screenshots/playoff.gif)
 
----
+#
 
 ### 📈 Team Stats
 
@@ -146,7 +147,7 @@ and
   <img src="./screenshots/single-team-2.PNG" alt="Team Stats Page 2" width="90%">
 </p>
 
----
+#
 
 ### 🔐 Auth Pages
 
@@ -170,7 +171,7 @@ and
   <img src="./screenshots/reset-password-page.PNG" alt="Reset Password Page" width="90%">
 </p>
 
----
+#
 
 ### 📧 Emails
 
