@@ -68,7 +68,7 @@ const TeamsPage = () => {
     >
       {sortedTeams.map((team, idx) => {
         return (
-          <Link to={`/team-stats/${team._id}`} className="block h-full" key={idx}>
+          <Link to={`/team-stats/${team._id}`} className="block h-full" key={team.name}>
             <TeamCard team={team} />
           </Link>
         );

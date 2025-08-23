@@ -34,7 +34,7 @@ const Grid = ({ sortedTeams, handleClick }) => {
     >
       {sortedTeams.map((team, idx) => {
         return (
-          <button onClick={() => handleClick(team)} className="block h-full hover:cursor-pointer" key={idx}>
+          <button onClick={() => handleClick(team)} className="block h-full hover:cursor-pointer" key={team.name}>
             <TeamCard team={team} />
           </button>
         );

@@ -200,7 +200,10 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
         <span className="text-white">Loading...</span>
       ) : (
         opposition.map((team, idx) => (
-          <div className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-2">
+          <div
+            className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-2"
+            key={idx}
+          >
             <p className="text-gray-100 text-bold mb-2">Round {opposition.length - idx}</p>
             {/* Matchup Display */}
             <div className="flex flex-row w-full justify-between items-center gap-1 lg:gap-4">

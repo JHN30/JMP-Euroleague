@@ -80,7 +80,7 @@ const DeleteTeamPage = ({ teams, fetchTeams }) => {
       >
         {sortedTeams.map((team, idx) => {
           return (
-            <button onClick={() => handleModal(team)} className="block h-full hover:cursor-pointer" key={idx}>
+            <button onClick={() => handleModal(team)} className="block h-full hover:cursor-pointer" key={team.name}>
               <TeamCard team={team} />
             </button>
           );
