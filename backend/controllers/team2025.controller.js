@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Team from "../models/team.model.js";
+import Team2025 from "../models/team2025.model.js";
 import cloudinary from "../lib/cloudinary/cloudinary.js";
 
 export const createTeam = async (req, res) => {
@@ -15,7 +15,7 @@ export const createTeam = async (req, res) => {
     logoImg = uploadedResponse?.secure_url ? uploadedResponse.secure_url : "";
   }
 
-  const newTeam = new Team({
+  const newTeam = new Team2025({
     name,
     logoImg,
   });
@@ -31,7 +31,7 @@ export const createTeam = async (req, res) => {
 
 export const getTeams = async (req, res) => {
   try {
-    const teams = await Team.find({});
+    const teams = await Team2025.find({});
     res.status(200).json({ success: true, data: teams });
   } catch (error) {
     console.error("Error in getTeams: ", error.message);
@@ -41,7 +41,7 @@ export const getTeams = async (req, res) => {
 
 export const getTeamById = async (req, res) => {
   try {
-    const team = await Team.findById(req.params.id);
+    const team = await Team2025.findById(req.params.id);
     if (!team) {
       return res.status(404).json({ success: false, message: "Team not found" });
     }
@@ -62,7 +62,7 @@ export const updateTeamRating = async (req, res) => {
     if (!rating) {
       return res.status(400).json({ success: false, message: "Rating not provided" });
     }
-    const updatedTeam = await Team.findByIdAndUpdate(id, { rating }, { new: true });
+    const updatedTeam = await Team2025.findByIdAndUpdate(id, { rating }, { new: true });
     if (!updatedTeam) {
       return res.status(404).json({ error: "Team not found" });
     }
@@ -76,7 +76,7 @@ export const updateTeamRating = async (req, res) => {
 export const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;
-    const { form, playedAgainst, homeGround } = req.body;
+    const { form, playedAgainst, homeGround, pointsPlus, pointsMinus } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Invalid Team ID" });
@@ -90,9 +90,9 @@ export const updateTeam = async (req, res) => {
     const losses = form.filter((result) => result === "L").length;
     const winPercentage = ((wins / (wins + losses)) * 100).toFixed(2);
 
-    const updatedTeam = await Team.findByIdAndUpdate(
+    const updatedTeam = await Team2025.findByIdAndUpdate(
       id,
-      { wins, losses, winPercentage, form, playedAgainst, homeGround },
+      { wins, losses, winPercentage, pointsPlus, pointsMinus, form, playedAgainst, homeGround },
       { new: true }
     );
 
@@ -108,7 +108,7 @@ export const updateTeam = async (req, res) => {
 
 export const deleteTeam = async (req, res) => {
   try {
-    const team = await Team.findById(req.params.id);
+    const team = await Team2025.findById(req.params.id);
     if (!team) {
       return res.status(404).json({ success: false, message: "Team not found" });
     }
@@ -122,7 +122,7 @@ export const deleteTeam = async (req, res) => {
         return res.status(500).json({ success: false, message: "Failed to delete image" });
       }
     }
-    await Team.findByIdAndDelete(req.params.id);
+    await Team2025.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Team deleted successfully" });
   } catch (error) {
     console.error("Error in deleteTeam: ", error.message);
