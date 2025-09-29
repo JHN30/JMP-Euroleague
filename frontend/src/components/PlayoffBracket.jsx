@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTeam } from "../func/useTeam";
+import { useTeam2025 } from "../func/useTeam2025";
 import { useRound } from "../func/useRound";
 
 import LoadingSpinner from "./LoadingSpinner";
@@ -7,7 +7,7 @@ import ErrorBox from "./ErrorBox";
 import TeamMatchup from "./TeamMatchup";
 
 const PlayoffBracket = () => {
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
   const [sortConfig] = useState({ key: "wins", order: "desc" });
   const [winners, setWinners] = useState({
@@ -156,7 +156,7 @@ const PlayoffBracket = () => {
         aria-labelledby="play-in-title"
       >
         <h2 id="play-in-title" className="text-xl md:text-2xl font-bold mb-6 text-center text-orange-300">
-          🔥 Play-In Tournament
+          Play-In Tournament
         </h2>
 
         <div className="grid gap-4 md:gap-6">
@@ -216,7 +216,7 @@ const PlayoffBracket = () => {
         aria-labelledby="main-bracket-title"
       >
         <h2 id="main-bracket-title" className="text-xl md:text-2xl font-bold mb-6 text-center text-orange-300">
-          🏆 Main Bracket
+          Main Bracket
         </h2>
 
         <div className="space-y-8">
@@ -334,7 +334,7 @@ const PlayoffBracket = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-red-400/20 rounded-2xl blur-xl"></div>
             <div className="relative border-3 border-amber-300 rounded-2xl p-6 md:p-8 shadow-2xl max-w-md mx-auto">
               <h3 id="champion-title" className="text-2xl md:text-3xl font-bold mb-4 text-yellow-400">
-                🏆 Champion
+                Champion
               </h3>
               <div className="flex items-center gap-4 justify-center">
                 <div className="flex flex-col items-center gap-2">

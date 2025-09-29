@@ -1,28 +1,11 @@
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-
-import LoadingSpinner from "../components/LoadingSpinner";
-
-import { useTeam } from "../func/useTeam";
-
 import { useState } from "react";
 
-const TeamCard = ({ team }) => {
-  return (
-    <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }} className="card bg-neutral card-md h-full">
-      <div className="card-body bg-orange-400 p-4 items-center justify-center rounded-t-md">
-        <h2 className="flex items-center justify-center text-white text-base font-bold">{team.name}</h2>
-      </div>
-      <figure className="mt-2 mb-2">
-        <img
-          src={team.logoImg}
-          className="flex items-center justify-center object-contain w-24 h-24"
-          alt={`${team.name} logo`}
-        />
-      </figure>
-    </motion.div>
-  );
-};
+import LoadingSpinner from "../components/LoadingSpinner";
+import TeamCard from "../components/TeamCard";
+import { useTeam2025 } from "../func/useTeam2025";
+
 
 const DeleteTeamPage = ({ teams, fetchTeams }) => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
@@ -31,7 +14,7 @@ const DeleteTeamPage = ({ teams, fetchTeams }) => {
     key: "name",
   };
 
-  const { deleteTeam, loadingTeams, errorTeams } = useTeam();
+  const { deleteTeam, loadingTeams, errorTeams } = useTeam2025();
 
   const sortedTeams = [...teams.data].sort((a, b) => {
     let aValue, bValue;
@@ -73,7 +56,7 @@ const DeleteTeamPage = ({ teams, fetchTeams }) => {
   return (
     <>
       <motion.div
-        className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
+        className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}

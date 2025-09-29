@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 
-import { useTeam } from "../func/useTeam";
+import { useTeam2025 } from "../func/useTeam2025";
 import { useRound } from "../func/useRound";
 
 import ErrorBox from "../components/ErrorBox";
@@ -23,7 +23,7 @@ const tabs = [
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   // Fetch teams data when the component mounts

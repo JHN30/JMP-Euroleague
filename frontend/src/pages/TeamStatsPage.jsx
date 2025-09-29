@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import ErrorBox from "../components/ErrorBox";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-import { useTeam } from "../func/useTeam";
+import { useTeam2025 } from "../func/useTeam2025";
 
 import { FaCheckDouble } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
@@ -14,7 +14,7 @@ import { FaPercentage } from "react-icons/fa";
 import { SlGraph } from "react-icons/sl";
 
 const TeamStatsPage = () => {
-  const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam();
+  const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam2025();
   const { teamId } = useParams();
   const [gamesToShow, setGamesToShow] = useState(5);
 
@@ -85,14 +85,14 @@ const TeamStatsPage = () => {
         />
         <StatsCard
           title="Win Percentage"
-          value={team.data.winPercentage ? `${team.data.winPercentage.toFixed(2)}%` : "Loading..."}
+          value={team.data.winPercentage ? `${team.data.winPercentage.toFixed(2)}%` : "0%"}
           icon={FaPercentage}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
         />
         <StatsCard
           title="JMP Rating"
-          value={team.data.rating ? team.data.rating.toFixed(0) : "Loading..."}
+          value={team.data.rating ? team.data.rating.toFixed(0) : "0"}
           icon={SlGraph}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
@@ -176,7 +176,7 @@ const FormCard = ({ value, color, gridColumns }) => (
     {/* Array of results */}
     <div className={`flex p-2 gap-2 ${color} justify-between`}>
       {value.length === 0 ? (
-        <span className="text-white">Loading...</span>
+        <span className="text-white">No recent results</span>
       ) : (
         value.slice(value.length - gridColumns, value.length).map((result, idx) => (
           <h3 key={idx} className={`text-2xl lg:text-4xl font-bold ${result === "W" ? "text-green-600" : "text-red-600"} `}>
@@ -197,7 +197,7 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
   >
     <div className="flex flex-col w-full gap-2">
       {opposition.length === 0 ? (
-        <span className="text-white">Loading...</span>
+        <span className="text-white">No recent results</span>
       ) : (
         opposition.map((team, idx) => (
           <div

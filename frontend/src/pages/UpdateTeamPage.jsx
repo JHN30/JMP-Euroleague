@@ -1,33 +1,17 @@
 import { motion } from "framer-motion";
-
 import { useMemo, useRef, useState } from "react";
 import { MdInput } from "react-icons/md";
 import React from "react";
-
-import { useTeam } from "../func/useTeam";
 import toast from "react-hot-toast";
 
-const TeamCard = ({ team }) => {
-  return (
-    <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }} className="card bg-neutral card-md h-full">
-      <div className="card-body bg-orange-400 p-4 items-center justify-center rounded-t-md">
-        <h2 className="flex items-center justify-center text-white text-base font-bold">{team.name}</h2>
-      </div>
-      <figure className="mt-2 mb-2">
-        <img
-          src={team.logoImg}
-          className="flex items-center justify-center object-contain w-24 h-24"
-          alt={`${team.name} logo`}
-        />
-      </figure>
-    </motion.div>
-  );
-};
+import { useTeam2025 } from "../func/useTeam2025";
+import TeamCard from "../components/TeamCard";
+
 
 const Grid = ({ sortedTeams, handleClick }) => {
   return (
-    <div
-      className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
+    <motion.div
+      className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
@@ -39,7 +23,7 @@ const Grid = ({ sortedTeams, handleClick }) => {
           </button>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 
@@ -91,7 +75,7 @@ const TeamUpdate = ({ team, latestRound, setActiveView }) => {
   const [playedAgainst, setPlayedAgainst] = useState(fillArray(team.playedAgainst, latestRound));
   const [homeGround, setHomeGround] = useState(fillArray(team.homeGround, latestRound));
 
-  const { updateTeam } = useTeam();
+  const { updateTeam } = useTeam2025();
 
   // Handlers for updating state
   const handleResultChange = (idx, value) => {

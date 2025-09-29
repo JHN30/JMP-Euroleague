@@ -8,7 +8,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { RiFileUploadLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 
-import { useTeam } from "../func/useTeam";
+import { useTeam2025 } from "../func/useTeam2025";
 
 const CreateTeamPage = ({ fetchTeams }) => {
   const [team, setTeam] = useState({
@@ -16,7 +16,7 @@ const CreateTeamPage = ({ fetchTeams }) => {
     logoImg: "",
   });
 
-  const { createTeam, loadingTeams } = useTeam();
+  const { createTeam, loadingTeams } = useTeam2025();
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
