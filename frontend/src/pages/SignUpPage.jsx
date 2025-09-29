@@ -1,13 +1,13 @@
 //eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
-import Input from "../components/Input";
+import Input from "../components/common/Input";
 import { FiLoader, FiUser } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
-import { useAuth } from "../func/useAuth";
+import PasswordStrengthMeter from "../components/features/PasswordStrengthMeter";
+import { useAuth } from "../hooks/useAuth";
 
 import "../styles/button.css";
 

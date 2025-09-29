@@ -1,6 +1,6 @@
 //eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { useAuth } from "../func/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { formatDate } from "../utils/date";
 import { useNavigate } from "react-router-dom";
 

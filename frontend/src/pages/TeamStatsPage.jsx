@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 
 import { motion } from "framer-motion";
 
-import ErrorBox from "../components/ErrorBox";
-import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorBox from "../components/errors/ErrorBox";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import StatsCard from "../components/cards/StatsCard";
+import FormCard from "../components/cards/FormCard";
+import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
 
-import { useTeam2025 } from "../func/useTeam2025";
+import { useTeam2025 } from "../hooks/useTeam2025";
 
 import { FaCheckDouble } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
@@ -146,125 +149,5 @@ const TeamStatsPage = () => {
   );
 };
 
-const StatsCard = ({ title, value, icon: Icon, color, iconColor }) => (
-  <motion.div
-    className={`bg-neutral rounded-lg p-6 shadow-lg overflow-hidden relative ${color}`}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <div className="flex justify-between items-center">
-      <div className="z-10">
-        <p className="text-gray-100 text-md mb-1 font-bold">{title}</p>
-        <h3 className="text-white text-3xl font-bold">{value}</h3>
-      </div>
-    </div>
-    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-300 opacity-25" />
-    <div className={`absolute -bottom-4 -right-0 opacity-60 ${iconColor}`}>
-      <Icon className="h-32 w-32" />
-    </div>
-  </motion.div>
-);
-
-const FormCard = ({ value, color, gridColumns }) => (
-  <motion.div
-    className={`bg-neutral rounded-b-lg mb-4 shadow-lg overflow-hidden w-full relative`}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    {/* Array of results */}
-    <div className={`flex p-2 gap-2 ${color} justify-between`}>
-      {value.length === 0 ? (
-        <span className="text-white">No recent results</span>
-      ) : (
-        value.slice(value.length - gridColumns, value.length).map((result, idx) => (
-          <h3 key={idx} className={`text-2xl lg:text-4xl font-bold ${result === "W" ? "text-green-600" : "text-red-600"} `}>
-            {result}
-          </h3>
-        ))
-      )}
-    </div>
-  </motion.div>
-);
-
-const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
-  <motion.div
-    className="bg-neutral border-b-2 border-r-2 border-l-2 border-amber-400 rounded-b-lg p-2 shadow-lg overflow-hidden w-full relative"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.2 }}
-  >
-    <div className="flex flex-col w-full gap-2">
-      {opposition.length === 0 ? (
-        <span className="text-white">No recent results</span>
-      ) : (
-        opposition.map((team, idx) => (
-          <div
-            className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-2"
-            key={idx}
-          >
-            <p className="text-gray-100 text-bold mb-2">Round {opposition.length - idx}</p>
-            {/* Matchup Display */}
-            <div className="flex flex-row w-full justify-between items-center gap-1 lg:gap-4">
-              {/* Home Team */}
-              <div className="flex-1 flex justify-end">
-                <p
-                  className={`text-sm md:text-lg lg:text-2xl font-bold ${
-                    homeCourt[idx] === "H" ? "text-white" : "text-gray-400"
-                  } text-right`}
-                >
-                  {homeCourt[idx] === "H" ? teamName : team}
-                </p>
-              </div>
-              {/* Div for results */}
-              <div className="flex flex-row mx-4 justify-center items-center">
-                {/* Home Team Result */}
-                <p
-                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
-                    homeCourt[idx] === "H"
-                      ? result[idx] === "W"
-                        ? "bg-green-600"
-                        : "bg-red-600"
-                      : result[idx] === "W"
-                      ? "bg-red-600"
-                      : "bg-green-600"
-                  }`}
-                >
-                  {homeCourt[idx] === "H" ? result[idx] : result[idx] === "W" ? "L" : "W"}
-                </p>
-                {/* Away Team Result */}
-                <p
-                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
-                    homeCourt[idx] === "A"
-                      ? result[idx] === "W"
-                        ? "bg-green-600"
-                        : "bg-red-600"
-                      : result[idx] === "W"
-                      ? "bg-red-600"
-                      : "bg-green-600"
-                  }`}
-                >
-                  {homeCourt[idx] === "A" ? result[idx] : result[idx] === "W" ? "L" : "W"}
-                </p>
-              </div>
-              {/* Away Team */}
-              <div className="flex-1 flex justify-start">
-                <p
-                  key={idx}
-                  className={` text-sm md:text-lg lg:text-2xl font-bold ${
-                    homeCourt[idx] === "A" ? "text-white" : "text-gray-400"
-                  }`}
-                >
-                  {homeCourt[idx] === "A" ? teamName : team}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))
-      )}
-    </div>
-  </motion.div>
-);
 
 export default TeamStatsPage;

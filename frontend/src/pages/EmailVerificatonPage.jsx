@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../func/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 
 import "../styles/button.css";

@@ -16,9 +16,9 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminPage from "./pages/AdminPage";
 
-import { useAuth } from "./func/useAuth";
+import { useAuth } from "./hooks/useAuth";
 import { useEffect, useCallback } from "react";
-import LoadingSpinner from "./components/LoadingSpinner";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();

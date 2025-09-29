@@ -5,8 +5,8 @@ import { FiLoader } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import Input from "../components/Input";
-import { useAuth } from "../func/useAuth";
+import Input from "../components/common/Input";
+import { useAuth } from "../hooks/useAuth";
 
 import "../styles/button.css";
 

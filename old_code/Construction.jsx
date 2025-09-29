@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ConstructionPicture from "../../assets/construction.svg";
+import ConstructionPicture from "../../../assets/construction.svg";
 
 const Construction = () => {
   return (

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { useTeam2025 } from "../func/useTeam2025";
-import ErrorBox from "../components/ErrorBox";
-import LoadingSpinner from "../components/LoadingSpinner";
-import TeamCard from "../components/TeamCard";
+import { useTeam2025 } from "../hooks/useTeam2025";
+import ErrorBox from "../components/errors/ErrorBox";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import TeamCard from "../components/cards/TeamCard";
 
 
 const TeamsPage = () => {

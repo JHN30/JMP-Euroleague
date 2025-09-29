@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
-import LoadingSpinner from "../components/LoadingSpinner";
-import TeamCard from "../components/TeamCard";
-import { useTeam2025 } from "../func/useTeam2025";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import TeamCard from "../components/cards/TeamCard";
+import { useTeam2025 } from "../hooks/useTeam2025";
 
 
 const DeleteTeamPage = ({ teams, fetchTeams }) => {

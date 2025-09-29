@@ -1,4 +1,4 @@
-import Teams2025 from "../components/Teams2025";
+import Teams2025 from "../components/teams/Teams2025";
 
 const Standings = () => {
   return (

@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 
-import { useTeam2025 } from "../func/useTeam2025";
-import { useRound } from "../func/useRound";
+import { useTeam2025 } from "../hooks/useTeam2025";
+import { useRound } from "../hooks/useRound";
 
-import ErrorBox from "../components/ErrorBox";
-import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorBox from "../components/errors/ErrorBox";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 import { FaCirclePlus } from "react-icons/fa6";
 import { GrUpdate } from "react-icons/gr";

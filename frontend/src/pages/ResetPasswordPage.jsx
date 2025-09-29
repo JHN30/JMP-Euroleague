@@ -1,9 +1,9 @@
 //eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useAuth } from "../func/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate, useParams } from "react-router-dom";
-import Input from "../components/Input";
+import Input from "../components/common/Input";
 import { FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
 

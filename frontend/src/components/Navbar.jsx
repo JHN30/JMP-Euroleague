@@ -13,7 +13,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 
 import logoPng from "../../assets/Logo.png";
 
-import { useAuth } from "../func/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 const Navbar = ({ didntSignUp }) => {
   const location = useLocation();

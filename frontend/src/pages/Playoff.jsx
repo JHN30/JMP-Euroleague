@@ -1,4 +1,4 @@
-import PlayoffBracket from "../components/PlayoffBracket";
+import PlayoffBracket from "../components/teams/PlayoffBracket";
 
 const Playoff = () => {
   return (

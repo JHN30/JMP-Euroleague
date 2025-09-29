@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 
-import Input from "../components/Input";
+import Input from "../components/common/Input";
 
 import { AiOutlineTeam } from "react-icons/ai";
 import { RiFileUploadLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 
-import { useTeam2025 } from "../func/useTeam2025";
+import { useTeam2025 } from "../hooks/useTeam2025";
 
 const CreateTeamPage = ({ fetchTeams }) => {
   const [team, setTeam] = useState({

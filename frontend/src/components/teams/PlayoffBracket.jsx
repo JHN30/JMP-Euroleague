@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useTeam2025 } from "../func/useTeam2025";
-import { useRound } from "../func/useRound";
+import { useTeam2025 } from "../../hooks/useTeam2025";
+import { useRound } from "../../hooks/useRound";
 
-import LoadingSpinner from "./LoadingSpinner";
-import ErrorBox from "./ErrorBox";
-import TeamMatchup from "./TeamMatchup";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorBox from "../errors/ErrorBox";
+import TeamMatchup from "../features/TeamMatchup";
 
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();

@@ -1,5 +1,3 @@
-import React from "react";
-
 const ErrorBox = ({ error }) => {
   return (
     <div role="alert" className="alert alert-error max-w-md mx-auto">

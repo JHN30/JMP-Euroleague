@@ -4,8 +4,8 @@ import { MdInput } from "react-icons/md";
 import React from "react";
 import toast from "react-hot-toast";
 
-import { useTeam2025 } from "../func/useTeam2025";
-import TeamCard from "../components/TeamCard";
+import { useTeam2025 } from "../hooks/useTeam2025";
+import TeamCard from "../components/cards/TeamCard";
 
 
 const Grid = ({ sortedTeams, handleClick }) => {

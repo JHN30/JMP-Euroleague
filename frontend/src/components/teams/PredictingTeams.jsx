@@ -1,47 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-import LoadingSpinner from "./LoadingSpinner";
-import ErrorBox from "./ErrorBox";
-import { useTeam2025 } from "../func/useTeam2025";
-import { useRound } from "../func/useRound";
-import { calculateExpectedScorePredictor } from "../utils/calculateExpectedScore";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorBox from "../errors/ErrorBox";
+import AnimatedNumber from "../features/AnimatedNumber";
+import { useTeam2025 } from "../../hooks/useTeam2025";
+import { useRound } from "../../hooks/useRound";
+import { calculateExpectedScorePredictor } from "../../utils/calculateExpectedScore";
 
-const AnimatedNumber = ({ value, duration = 2000 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const animationRef = useRef(null);
-
-  useEffect(() => {
-    const start = performance.now();
-    const startValue = displayValue;
-    const endValue = value;
-
-    const animate = (currentTime) => {
-      const elapsed = currentTime - start;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Easing function for smooth animation
-      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-      const current = startValue + (endValue - startValue) * easeOutCubic;
-
-      setDisplayValue(current);
-
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animate);
-      }
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [value, duration]);
-
-  return <span>{displayValue.toFixed(2)}</span>;
-};
 
 const PredictingTeams = () => {
   const [selectedHomeTeam, setSelectedHomeTeam] = useState("");

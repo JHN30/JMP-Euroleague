@@ -1,4 +1,4 @@
-import PredictingTeams from "../components/PredictingTeams";
+import PredictingTeams from "../components/teams/PredictingTeams";
 
 const Predictor = () => {
   return (
