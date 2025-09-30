@@ -8,8 +8,8 @@ import connectMongoDB from "./lib/db/connectMongoDB.js";
 
 import authRoutes from "./routes/auth.route.js";
 import roundRoutes from "./routes/round.route.js";
-import teamRoutes from "./routes/team.route.js";
 import teamRoutes2025 from "./routes/team2025.route.js";
+//import teamRoutes from "./routes/team.route.js";
 
 dotenv.config();
 
@@ -24,8 +24,8 @@ app.use(cookieParser());
 
 app.use("/api/rounds", roundRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/teams", teamRoutes);
 app.use("/api/teams2025", teamRoutes2025);
+//app.use("/api/teams", teamRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));

@@ -4,7 +4,7 @@ import { useTeam2025 } from "../../hooks/useTeam2025";
 import { useRound } from "../../hooks/useRound";
 
 import Team2025 from "./Team2025";
-import TeamSkeleton from "../skeletons/TeamSkeleton";
+import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { calculateAndUpdateRatings } from "../../utils/ratingsCalculator";
 
@@ -56,20 +56,7 @@ const Teams2025 = () => {
 
   // Check if the teams data is still loading
   if (loadingTeams || loadingRounds) {
-    return (
-      <div className="flex flex-col w-full h-full">
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-        <TeamSkeleton />
-      </div>
-    );
+    return <FullTeamSkeleton />;
   }
 
   // Check if there was an error fetching the teams
@@ -97,6 +84,17 @@ const Teams2025 = () => {
       // Ensure ratings are parsed as numbers
       aValue = parseFloat(updatedRatings[teams.data.indexOf(a)] || a.rating || 0);
       bValue = parseFloat(updatedRatings[teams.data.indexOf(b)] || b.rating || 0);
+    } else if (sortConfig.key === "pointsPlus" || sortConfig.key === "pointsMinus" || sortConfig.key === "pointsPlusMinus") {
+      if (sortConfig.key === "pointsPlus") {
+        aValue = Number(a.pointsPlus) || 0;
+        bValue = Number(b.pointsPlus) || 0;
+      } else if (sortConfig.key === "pointsMinus") {
+        aValue = Number(a.pointsMinus) || 0;
+        bValue = Number(b.pointsMinus) || 0;
+      } else {
+        aValue = Number(a.pointsPlusMinus) || 0;
+        bValue = Number(b.pointsPlusMinus) || 0;
+      }
     } else {
       aValue = a[sortConfig.key];
       bValue = b[sortConfig.key];
@@ -160,6 +158,12 @@ const Teams2025 = () => {
               className="cursor-pointer hover:text-orange-300 transition-colors font-bold"
             >
               PTS- {sortConfig.key === "pointsMinus" && (sortConfig.order === "asc" ? "▲" : "▼")}
+            </th>
+            <th
+              onClick={() => handleSort("pointsPlusMinus")}
+              className="cursor-pointer hover:text-orange-300 transition-colors font-bold"
+            >
+              +/- {sortConfig.key === "pointsPlusMinus" && (sortConfig.order === "asc" ? "▲" : "▼")}
             </th>
             <th className="font-bold">Form</th>
             <th

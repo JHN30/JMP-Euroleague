@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const team2025Schema = new mongoose.Schema(
+const teams2025Schema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -22,12 +22,31 @@ const team2025Schema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    pointsPlusArray: [
+      {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    ],
+    pointsMinusArray: [
+      {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    ],
     pointsPlus: {
       type: Number,
       required: true,
       default: 0,
     },
     pointsMinus: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    pointsPlusMinus: {
       type: Number,
       required: true,
       default: 0,
@@ -64,6 +83,6 @@ const team2025Schema = new mongoose.Schema(
   }
 );
 
-const Team2025 = mongoose.model("Team2025", team2025Schema);
+const Teams2025 = mongoose.model("Teams2025", teams2025Schema);
 
-export default Team2025;
+export default Teams2025;

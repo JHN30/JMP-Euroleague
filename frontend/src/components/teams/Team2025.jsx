@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
 const Team2025 = ({ team, position }) => {
+  const pointsPlusTotal = Number(team.pointsPlus) || 0;
+  const pointsMinusTotal = Number(team.pointsMinus) || 0;
+  const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
+
   return (
     <tr className="border-b-2 border-orange-400/60 h-16 hover:bg-white/3 transition-colors duration-200">
       <td className="font-semibold text-orange-400">{position}</td>
@@ -14,9 +18,14 @@ const Team2025 = ({ team, position }) => {
       </td>
       <td className="font-medium text-green-400">{team.wins}</td>
       <td className="font-medium text-red-400">{team.losses}</td>
-      <td className="font-semibold">{team.winPercentage.toFixed(2)}%</td>
-      <td className="font-medium">{team.pointsPlus}</td>
-      <td className="font-medium">{team.pointsMinus}</td>
+      <td className="font-semibold text-orange-300">{team.winPercentage.toFixed(2)}%</td>
+      <td className="font-medium text-green-400">{pointsPlusTotal}</td>
+      <td className="font-medium text-red-400">{pointsMinusTotal}</td>
+      <td
+        className={`font-medium ${pointsDiff > 0 ? "text-green-400" : pointsDiff < 0 ? "text-red-400" : "text-orange-300"}`}
+      >
+        {pointsDiff > 0 ? `+${pointsDiff}` : `${pointsDiff}`}
+      </td>
       <td>
         <div className="flex gap-1">
           {team.form.slice(-5).map((result, index) => (

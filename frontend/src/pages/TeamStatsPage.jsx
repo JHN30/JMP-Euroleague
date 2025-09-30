@@ -15,6 +15,7 @@ import { FaCheckDouble } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import { FaPercentage } from "react-icons/fa";
 import { SlGraph } from "react-icons/sl";
+import { FaBasketball } from "react-icons/fa6";
 
 const TeamStatsPage = () => {
   const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam2025();
@@ -50,6 +51,12 @@ const TeamStatsPage = () => {
     setGamesToShow(10);
   };
 
+  const oppositionArray = Array.isArray(team.data.playedAgainst) ? team.data.playedAgainst.slice().reverse() : [];
+  const homeCourtArray = Array.isArray(team.data.homeGround) ? team.data.homeGround.slice().reverse() : [];
+  const resultArray = Array.isArray(team.data.form) ? team.data.form.slice().reverse() : [];
+  const pointsForArray = Array.isArray(team.data.pointsPlusArray) ? team.data.pointsPlusArray.slice().reverse() : [];
+  const pointsAgainstArray = Array.isArray(team.data.pointsMinusArray) ? team.data.pointsMinusArray.slice().reverse() : [];
+
   return (
     <div className="flex flex-col items-center justify-center p-2">
       {/* Team Name and Logo */}
@@ -71,7 +78,7 @@ const TeamStatsPage = () => {
         />
       </motion.div>
       {/* Stat Cards */}
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-2 w-full pt-2 pb-2">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 w-full pt-2 pb-2">
         <StatsCard
           title="Wins"
           value={team.data.wins}
@@ -90,6 +97,20 @@ const TeamStatsPage = () => {
           title="Win Percentage"
           value={team.data.winPercentage ? `${team.data.winPercentage.toFixed(2)}%` : "0%"}
           icon={FaPercentage}
+          color="bg-amber-400"
+          iconColor={"text-amber-800"}
+        />
+        <StatsCard
+          title="PTS+"
+          value={team.data.pointsPlus}
+          icon={FaBasketball}
+          color="bg-amber-400"
+          iconColor={"text-amber-800"}
+        />
+        <StatsCard
+          title="PTS-"
+          value={team.data.pointsMinus}
+          icon={FaBasketball}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
         />
@@ -141,13 +162,14 @@ const TeamStatsPage = () => {
       </div>
       <PlayedAgainstCard
         teamName={team.data.name}
-        opposition={Array.isArray(team.data.playedAgainst) ? team.data.playedAgainst.toReversed() : []}
-        homeCourt={Array.isArray(team.data.homeGround) ? team.data.homeGround.toReversed() : []}
-        result={Array.isArray(team.data.form) ? team.data.form.toReversed() : []}
+        opposition={oppositionArray}
+        homeCourt={homeCourtArray}
+        result={resultArray}
+        pointsFor={pointsForArray}
+        pointsAgainst={pointsAgainstArray}
       />
     </div>
   );
 };
-
 
 export default TeamStatsPage;

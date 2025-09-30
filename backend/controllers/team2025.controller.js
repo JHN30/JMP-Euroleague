@@ -29,6 +29,64 @@ export const createTeam = async (req, res) => {
   }
 };
 
+export const createAllTeams = async (req, res) => {
+  const { teams } = req.body;
+
+  if (!teams || !Array.isArray(teams) || teams.length === 0) {
+    return res.status(400).json({ success: false, message: "Please provide teams array" });
+  }
+
+  try {
+    const createdTeams = [];
+    const errors = [];
+
+    for (let i = 0; i < teams.length; i++) {
+      const { name, logoImg } = teams[i];
+
+      if (!name) {
+        errors.push({ index: i, message: "Team name is required" });
+        continue;
+      }
+
+      let uploadedLogoUrl = logoImg;
+
+      if (logoImg) {
+        try {
+          const uploadedResponse = await cloudinary.uploader.upload(logoImg);
+          uploadedLogoUrl = uploadedResponse?.secure_url ? uploadedResponse.secure_url : "";
+        } catch (uploadError) {
+          errors.push({ index: i, name, message: "Failed to upload logo image" });
+          continue;
+        }
+      }
+
+      const newTeam = new Team2025({
+        name,
+        logoImg: uploadedLogoUrl,
+      });
+
+      try {
+        await newTeam.save();
+        createdTeams.push(newTeam);
+      } catch (saveError) {
+        errors.push({ index: i, name, message: saveError.message });
+      }
+    }
+
+    res.status(201).json({
+      success: true,
+      data: {
+        created: createdTeams,
+        count: createdTeams.length,
+        errors: errors.length > 0 ? errors : undefined,
+      },
+    });
+  } catch (error) {
+    console.error("Error in createAllTeams: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const getTeams = async (req, res) => {
   try {
     const teams = await Team2025.find({});
@@ -76,23 +134,39 @@ export const updateTeamRating = async (req, res) => {
 export const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;
-    const { form, playedAgainst, homeGround, pointsPlus, pointsMinus } = req.body;
+    const { form, playedAgainst, homeGround, pointsPlusArray, pointsMinusArray } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Invalid Team ID" });
     }
 
-    if (!form || !playedAgainst || !homeGround) {
+    if (!form || !playedAgainst || !homeGround || !pointsPlusArray || !pointsMinusArray) {
       return res.status(400).json({ success: false, message: "Please provide all fields" });
     }
 
     const wins = form.filter((result) => result === "W").length;
     const losses = form.filter((result) => result === "L").length;
-    const winPercentage = ((wins / (wins + losses)) * 100).toFixed(2);
+    const winPercentage =
+      ((wins / (wins + losses)) * 100).toFixed(2) == "NaN" ? 0.0 : ((wins / (wins + losses)) * 100).toFixed(2);
+    const pointsPlus = pointsPlusArray.reduce((acc, val) => acc + (Number(val) || 0), 0);
+    const pointsMinus = pointsMinusArray.reduce((acc, val) => acc + (Number(val) || 0), 0);
+    const pointsPlusMinus = pointsPlus - pointsMinus;
 
     const updatedTeam = await Team2025.findByIdAndUpdate(
       id,
-      { wins, losses, winPercentage, pointsPlus, pointsMinus, form, playedAgainst, homeGround },
+      {
+        wins,
+        losses,
+        winPercentage,
+        pointsPlusArray,
+        pointsMinusArray,
+        pointsPlus,
+        pointsMinus,
+        pointsPlusMinus,
+        form,
+        playedAgainst,
+        homeGround,
+      },
       { new: true }
     );
 
@@ -126,6 +200,48 @@ export const deleteTeam = async (req, res) => {
     res.status(200).json({ message: "Team deleted successfully" });
   } catch (error) {
     console.error("Error in deleteTeam: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const deleteAllTeams = async (req, res) => {
+  try {
+    const teams = await Team2025.find({});
+
+    if (!teams || teams.length === 0) {
+      return res.status(200).json({ success: true, message: "No teams to delete", deletedCount: 0 });
+    }
+
+    // Attempt to delete images from Cloudinary in parallel
+    const deleteImagePromises = teams.map((team) => {
+      if (team.logoImg) {
+        // derive public id from URL (same logic as deleteTeam)
+        const publicId = team.logoImg.split("/").pop().split(".")[0];
+        return cloudinary.uploader.destroy(`${publicId}`);
+      }
+      return Promise.resolve({ result: "no_image" });
+    });
+
+    const settled = await Promise.allSettled(deleteImagePromises);
+    const imageErrors = settled
+      .map((r, idx) => ({
+        index: idx,
+        status: r.status,
+        reason: r.status === "rejected" ? r.reason?.message || r.reason : undefined,
+      }))
+      .filter((i) => i.status === "rejected");
+
+    // Delete all team documents
+    const deleteResult = await Team2025.deleteMany({});
+
+    res.status(200).json({
+      success: true,
+      message: "All teams deleted",
+      deletedCount: deleteResult.deletedCount ?? 0,
+      imageErrors: imageErrors.length > 0 ? imageErrors : undefined,
+    });
+  } catch (error) {
+    console.error("Error in deleteAllTeams: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

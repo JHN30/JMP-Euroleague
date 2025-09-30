@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
+const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result, pointsFor = [], pointsAgainst = [] }) => (
   <motion.div
     className="bg-neutral border-b-2 border-r-2 border-l-2 border-amber-400 rounded-b-lg p-2 shadow-lg overflow-hidden w-full relative"
     initial={{ opacity: 0 }}
@@ -29,36 +29,38 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result }) => (
                   {homeCourt[idx] === "H" ? teamName : team}
                 </p>
               </div>
-              {/* Div for results */}
+              {/* Div for results: show numeric score if available, fallback to W/L badge */}
               <div className="flex flex-row mx-4 justify-center items-center">
-                {/* Home Team Result */}
-                <p
-                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
-                    homeCourt[idx] === "H"
-                      ? result[idx] === "W"
-                        ? "bg-green-600"
-                        : "bg-red-600"
-                      : result[idx] === "W"
-                      ? "bg-red-600"
-                      : "bg-green-600"
-                  }`}
-                >
-                  {homeCourt[idx] === "H" ? result[idx] : result[idx] === "W" ? "L" : "W"}
-                </p>
-                {/* Away Team Result */}
-                <p
-                  className={`flex items-center justify-center size-6 md:size-8 lg:size-10 text-sm md:text-lg lg:text-2xl font-bold text-white rounded-md ${
-                    homeCourt[idx] === "A"
-                      ? result[idx] === "W"
-                        ? "bg-green-600"
-                        : "bg-red-600"
-                      : result[idx] === "W"
-                      ? "bg-red-600"
-                      : "bg-green-600"
-                  }`}
-                >
-                  {homeCourt[idx] === "A" ? result[idx] : result[idx] === "W" ? "L" : "W"}
-                </p>
+                {pointsFor[idx] != null &&
+                pointsAgainst[idx] != null &&
+                !Number.isNaN(Number(pointsFor[idx])) &&
+                !Number.isNaN(Number(pointsAgainst[idx])) ? (
+                  // show numeric score with colored background based on whether the passed-in team won
+                  (() => {
+                    const teamScore = Number(pointsFor[idx]);
+                    const oppScore = Number(pointsAgainst[idx]);
+                    const teamWon = teamScore > oppScore;
+                    const scoreText = homeCourt[idx] === "H" ? `${teamScore} - ${oppScore}` : `${oppScore} - ${teamScore}`;
+                    return (
+                      <span
+                        className={`px-3 py-1 rounded-md text-sm md:text-lg lg:text-2xl font-bold text-white ${
+                          teamWon ? "bg-green-600" : "bg-red-600"
+                        }`}
+                      >
+                        {scoreText}
+                      </span>
+                    );
+                  })()
+                ) : (
+                  // fallback: show dash with colored background based on result array
+                  <span
+                    className={`px-3 py-1 rounded-md text-sm md:text-lg lg:text-2xl font-bold text-white ${
+                      result[idx] === "W" ? "bg-green-600" : "bg-red-600"
+                    }`}
+                  >
+                    -
+                  </span>
+                )}
               </div>
               {/* Away Team */}
               <div className="flex-1 flex justify-start">

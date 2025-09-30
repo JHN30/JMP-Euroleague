@@ -7,7 +7,6 @@ import ErrorBox from "../components/errors/ErrorBox";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import TeamCard from "../components/cards/TeamCard";
 
-
 const TeamsPage = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
   const sortConfig = {
@@ -43,6 +42,16 @@ const TeamsPage = () => {
 
     return aValue > bValue ? 1 : -1;
   });
+
+  if (!teams?.data?.length) {
+    return (
+      <div className="flex items-center justify-center min-h-96 w-full">
+        <div className="text-center p-8 border border-gray-600 rounded-lg bg-gray-800">
+          <p className="text-lg text-gray-300">Team or round data is not available. Please try refreshing.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
