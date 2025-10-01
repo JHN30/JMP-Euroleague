@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Comparison Slider</title>
+    <title>Standings Comparison Slider</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1d29 0%, #252936 50%, #1f2230 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -23,27 +23,29 @@
         }
 
         h1 {
-            color: white;
+            color: #fb923c;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(251, 146, 60, 0.3);
+            font-weight: bold;
         }
 
         .comparison-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
+            max-width: 1600px;
             overflow: hidden;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            background: #fff;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            background: #1f2230;
+            border: 2px solid rgba(251, 146, 60, 0.3);
         }
 
         .comparison-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 66.67%; /* 3:2 aspect ratio */
+            padding-bottom: 35%; /* Shorter height for table screenshots */
         }
 
         .image-container {
@@ -75,11 +77,11 @@
             left: 50%;
             width: 4px;
             height: 100%;
-            background: white;
+            background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
             cursor: ew-resize;
             transform: translateX(-50%);
             z-index: 10;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px rgba(251, 146, 60, 0.6);
         }
 
         .slider-button {
@@ -88,21 +90,22 @@
             left: 50%;
             width: 50px;
             height: 50px;
-            background: white;
-            border: 3px solid #667eea;
+            background: #1f2230;
+            border: 3px solid #fb923c;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             cursor: ew-resize;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(251, 146, 60, 0.4);
             transition: all 0.2s;
         }
 
         .slider-button:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            border-color: #764ba2;
+            border-color: #f97316;
+            box-shadow: 0 4px 25px rgba(251, 146, 60, 0.6);
         }
 
         .slider-button::before,
@@ -117,37 +120,42 @@
         .slider-button::before {
             left: 12px;
             border-width: 8px 10px 8px 0;
-            border-color: transparent #667eea transparent transparent;
+            border-color: transparent #fb923c transparent transparent;
         }
 
         .slider-button::after {
             right: 12px;
             border-width: 8px 0 8px 10px;
-            border-color: transparent transparent transparent #667eea;
+            border-color: transparent transparent transparent #fb923c;
         }
 
         .label {
             position: absolute;
             top: 20px;
-            padding: 8px 16px;
-            background: rgba(0,0,0,0.7);
-            color: white;
+            padding: 10px 20px;
+            background: rgba(31, 34, 48, 0.95);
+            color: #fb923c;
             font-weight: bold;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 8px;
+            font-size: 16px;
             z-index: 5;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: opacity 0.3s ease;
+            border: 2px solid rgba(251, 146, 60, 0.5);
+            opacity: 0;
         }
 
         .label-before {
-            left: 20px;
-        }
-
-        .label-after {
             right: 20px;
         }
 
+        .label-after {
+            left: 20px;
+        }
+
         .instructions {
-            color: white;
+            color: #d1d5db;
             text-align: center;
             margin-top: 20px;
             font-size: 1.1em;
@@ -167,18 +175,18 @@
     </style>
 </head>
 <body>
-    <h1>Image Comparison Slider</h1>
+    <h1>Standings Comparison</h1>
     
     <div class="comparison-container">
         <div class="comparison-wrapper">
-            <div class="image-container">
+             <div class="image-container">
                 <!-- Replace these URLs with your GitHub image paths -->
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=533&fit=crop" alt="Before" class="image-before">
+                <img src="./screenshots/standings-after.png" alt="Before" class="image-before">
             </div>
             
             <div class="image-container image-after">
                 <!-- Replace these URLs with your GitHub image paths -->
-                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=533&fit=crop" alt="After">
+                <img src="./screenshots/standings.PNG" alt="After">
             </div>
             
             <div class="slider" id="slider">
@@ -196,6 +204,8 @@
         const slider = document.getElementById('slider');
         const container = document.querySelector('.comparison-wrapper');
         const afterImage = document.querySelector('.image-after');
+        const labelBefore = document.querySelector('.label-before');
+        const labelAfter = document.querySelector('.label-after');
         
         let isDragging = false;
 
@@ -209,6 +219,21 @@
             
             slider.style.left = percentage + '%';
             afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+            
+            // Update label visibility based on slider position
+            // AFTER label visible on left side (after image area now)
+            if (percentage > 15) {
+                labelAfter.style.opacity = '0';
+            } else {
+                labelAfter.style.opacity = '1';
+            }
+            
+            // BEFORE label visible on right side (before image area now)
+            if (percentage < 85) {
+                labelBefore.style.opacity = '0';
+            } else {
+                labelBefore.style.opacity = '1';
+            }
         }
 
         slider.addEventListener('mousedown', () => {

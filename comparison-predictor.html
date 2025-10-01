@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictor Comparison Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1d29 0%, #252936 50%, #1f2230 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fb923c;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 8px rgba(251, 146, 60, 0.3);
+            font-weight: bold;
+        }
+
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 1600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            background: #1f2230;
+            border: 2px solid rgba(251, 146, 60, 0.3);
+        }
+
+        .comparison-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 45%; /* Taller height for predictor screenshots */
+        }
+
+        .image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .image-after {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(251, 146, 60, 0.6);
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: #1f2230;
+            border: 3px solid #fb923c;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: ew-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(251, 146, 60, 0.4);
+            transition: all 0.2s;
+        }
+
+        .slider-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: #f97316;
+            box-shadow: 0 4px 25px rgba(251, 146, 60, 0.6);
+        }
+
+        .slider-button::before,
+        .slider-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .slider-button::before {
+            left: 12px;
+            border-width: 8px 10px 8px 0;
+            border-color: transparent #fb923c transparent transparent;
+        }
+
+        .slider-button::after {
+            right: 12px;
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent #fb923c;
+        }
+
+        .label {
+            position: absolute;
+            top: 20px;
+            padding: 10px 20px;
+            background: rgba(31, 34, 48, 0.95);
+            color: #fb923c;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 16px;
+            z-index: 5;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: opacity 0.3s ease;
+            border: 2px solid rgba(251, 146, 60, 0.5);
+            opacity: 0;
+        }
+
+        .label-before {
+            right: 20px;
+        }
+
+        .label-after {
+            left: 20px;
+        }
+
+        .instructions {
+            color: #d1d5db;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .slider-button {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Predictor Comparison</h1>
+    
+    <div class="comparison-container">
+        <div class="comparison-wrapper">
+             <div class="image-container">
+                <img src="./screenshots/predictor-after.png" alt="Before" class="image-before">
+            </div>
+            
+            <div class="image-container image-after">
+                <img src="./screenshots/predictor.PNG" alt="After">
+            </div>
+            
+            <div class="slider" id="slider">
+                <div class="slider-button"></div>
+            </div>
+            
+            <div class="label label-before">BEFORE</div>
+            <div class="label label-after">AFTER</div>
+        </div>
+    </div>
+    
+    <p class="instructions">Drag the slider to compare images</p>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const container = document.querySelector('.comparison-wrapper');
+        const afterImage = document.querySelector('.image-after');
+        const labelBefore = document.querySelector('.label-before');
+        const labelAfter = document.querySelector('.label-after');
+        
+        let isDragging = false;
+
+        function updateSlider(x) {
+            const rect = container.getBoundingClientRect();
+            const offsetX = x - rect.left;
+            let percentage = (offsetX / rect.width) * 100;
+            
+            // Clamp between 0 and 100
+            percentage = Math.max(0, Math.min(100, percentage));
+            
+            slider.style.left = percentage + '%';
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+            
+            // Update label visibility based on slider position
+            // AFTER label visible on left side (after image area now)
+            if (percentage > 15) {
+                labelAfter.style.opacity = '0';
+            } else {
+                labelAfter.style.opacity = '1';
+            }
+            
+            // BEFORE label visible on right side (before image area now)
+            if (percentage < 85) {
+                labelBefore.style.opacity = '0';
+            } else {
+                labelBefore.style.opacity = '1';
+            }
+        }
+
+        slider.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+
+        slider.addEventListener('touchstart', () => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateSlider(e.clientX);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                updateSlider(e.touches[0].clientX);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Allow clicking anywhere on the container to move slider
+        container.addEventListener('click', (e) => {
+            updateSlider(e.clientX);
+        });
+    </script>
+</body>
+</html>
