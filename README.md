@@ -125,13 +125,13 @@ and
 
 ### 📊 Standings
 
-Check out the [Standings Comparison](https:/jhn30.github.io/JMP-Euroleague/comparison-standings.html) to see the difference!
+Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-standings.html) to see the difference!
 
 #
 
 ### 🔮 Predictor
 
-Check out the [Predictor Comparison](https:/jhn30.github.io/JMP-Euroleague/comparison-predictor.html) to see the difference!
+Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-predictor.html) to see the difference!
 
 #
 
