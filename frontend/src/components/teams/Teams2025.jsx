@@ -12,6 +12,8 @@ const Teams2025 = () => {
     key: "rating",
     order: "desc",
   });
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipTimeout, setTooltipTimeout] = useState(null);
 
   // Fetch teams data when the component mounts
   useEffect(() => {
@@ -38,6 +40,21 @@ const Teams2025 = () => {
       order = "desc";
     }
     setSortConfig({ key, order });
+  };
+
+  const handleMouseEnter = () => {
+    const timeout = setTimeout(() => {
+      setShowTooltip(true);
+    }, 800);
+    setTooltipTimeout(timeout);
+  };
+
+  const handleMouseLeave = () => {
+    if (tooltipTimeout) {
+      clearTimeout(tooltipTimeout);
+      setTooltipTimeout(null);
+    }
+    setShowTooltip(false);
   };
 
   const sortedTeams = [...teams.data].sort((a, b) => {
@@ -132,9 +149,17 @@ const Teams2025 = () => {
             <th className="font-bold">Form</th>
             <th
               onClick={() => handleSort("rating")}
-              className="cursor-pointer hover:text-orange-300 transition-colors font-bold"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="cursor-pointer hover:text-orange-300 transition-colors font-bold relative"
             >
               Rating {sortConfig.key === "rating" && (sortConfig.order === "asc" ? "▲" : "▼")}
+              {showTooltip && (
+                <div className="absolute top-full right-0 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
+                  Note: JMP Ratings are updated only after ALL round matches have been played
+                  <div className="absolute bottom-full right-4 border-4 border-transparent border-b-orange-400"></div>
+                </div>
+              )}
             </th>
           </tr>
         </thead>
