@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Comparison Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: #fff;
+        }
+
+        .comparison-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 66.67%; /* 3:2 aspect ratio */
+        }
+
+        .image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .image-after {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: white;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: ew-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .slider-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: #764ba2;
+        }
+
+        .slider-button::before,
+        .slider-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .slider-button::before {
+            left: 12px;
+            border-width: 8px 10px 8px 0;
+            border-color: transparent #667eea transparent transparent;
+        }
+
+        .slider-button::after {
+            right: 12px;
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent #667eea;
+        }
+
+        .label {
+            position: absolute;
+            top: 20px;
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 5;
+        }
+
+        .label-before {
+            left: 20px;
+        }
+
+        .label-after {
+            right: 20px;
+        }
+
+        .instructions {
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .slider-button {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Comparison Slider</h1>
+    
+    <div class="comparison-container">
+        <div class="comparison-wrapper">
+            <div class="image-container">
+                <!-- Replace these URLs with your GitHub image paths -->
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=533&fit=crop" alt="Before" class="image-before">
+            </div>
+            
+            <div class="image-container image-after">
+                <!-- Replace these URLs with your GitHub image paths -->
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=533&fit=crop" alt="After">
+            </div>
+            
+            <div class="slider" id="slider">
+                <div class="slider-button"></div>
+            </div>
+            
+            <div class="label label-before">BEFORE</div>
+            <div class="label label-after">AFTER</div>
+        </div>
+    </div>
+    
+    <p class="instructions">Drag the slider to compare images</p>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const container = document.querySelector('.comparison-wrapper');
+        const afterImage = document.querySelector('.image-after');
+        
+        let isDragging = false;
+
+        function updateSlider(x) {
+            const rect = container.getBoundingClientRect();
+            const offsetX = x - rect.left;
+            let percentage = (offsetX / rect.width) * 100;
+            
+            // Clamp between 0 and 100
+            percentage = Math.max(0, Math.min(100, percentage));
+            
+            slider.style.left = percentage + '%';
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        }
+
+        slider.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+
+        slider.addEventListener('touchstart', () => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateSlider(e.clientX);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                updateSlider(e.touches[0].clientX);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Allow clicking anywhere on the container to move slider
+        container.addEventListener('click', (e) => {
+            updateSlider(e.clientX);
+        });
+    </script>
+</body>
+</html>
