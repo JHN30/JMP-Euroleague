@@ -6,14 +6,24 @@ const Team2025 = ({ team, position }) => {
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
 
   return (
-    <tr className="border-b-2 border-orange-400/60 h-16 hover:bg-white/3 transition-colors duration-200">
+    <tr className="border-b-2 border-orange-400/60 h-16">
       <td className="font-semibold text-orange-400">{position}</td>
       <td>
-        <Link to={`/team-stats/${team._id}`} className="flex items-center gap-3">
-          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-lg p-1">
+        <Link
+          to={`/team-stats/${team._id}`}
+          aria-label={`${team.name} stats`}
+          className="group relative flex items-center gap-2 rounded-md hover:bg-white/3 transition-transform duration-200 transform hover:translate-x-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
+        >
+          {/* left accent bar that pops up on hover */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-0 group-hover:w-1 bg-orange-400 rounded-r-md transition-all duration-200"></div>
+
+          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-lg p-1 z-10 transition-transform duration-200 group-hover:scale-103">
             <img src={team.logoImg} className="object-contain max-w-full max-h-full" alt={`${team.name} logo`} />
           </div>
-          <span className="font-bold text-base-content">{team.name}</span>
+
+          <span className="font-bold text-base-content z-10 transition-colors duration-200 group-hover:text-orange-400">
+            {team.name}
+          </span>
         </Link>
       </td>
       <td className="font-medium text-green-400">{team.wins}</td>
