@@ -10,15 +10,20 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import { FaCirclePlus } from "react-icons/fa6";
 import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
+import { GiProcessor } from "react-icons/gi";
 
 import CreateTeamPage from "./CreateTeamPage";
 import UpdateTeamPage from "./UpdateTeamPage";
 import DeleteTeamPage from "./DeleteTeamPage";
+import UpdateTeamRatingPage from "./UpdateTeamRatingPage";
+import UpdateRoundsPage from "./UpdateRoundsPage";
 
 const tabs = [
   { id: "create", label: "Create Team", icon: FaCirclePlus },
   { id: "update", label: "Update Team", icon: GrUpdate },
   { id: "delete", label: "Delete Team", icon: MdDelete },
+  { id: "updateRatings", label: "Update Team Rating", icon: GiProcessor },
+  { id: "updateRounds", label: "Update Rounds", icon: GiProcessor },
 ];
 
 const AdminPage = () => {
@@ -88,6 +93,8 @@ const AdminPage = () => {
       {activeTab === "create" && <CreateTeamPage fetchTeams={fetchTeams} />}
       {activeTab === "update" && <UpdateTeamPage teams={memoizedTeams} rounds={memoizedRounds} />}
       {activeTab === "delete" && <DeleteTeamPage teams={memoizedTeams} fetchTeams={fetchTeams} />}
+      {activeTab === "updateRatings" && <UpdateTeamRatingPage />}
+      {activeTab === "updateRounds" && <UpdateRoundsPage fetchRounds={fetchRounds} />}
     </div>
   );
 };

@@ -1,70 +1,33 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import { useTeam2025 } from "../../hooks/useTeam2025";
-import { useRound } from "../../hooks/useRound";
 
 import Team2025 from "./Team2025";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
-import { calculateAndUpdateRatings } from "../../utils/ratingsCalculator";
 
 const Teams2025 = () => {
-  const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam2025();
-  const { fetchRounds, updateRound, rounds, loadingRounds, errorRounds } = useRound();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
   const [sortConfig, setSortConfig] = useState({
     key: "rating",
     order: "desc",
   });
-  const [oldRatings, setOldRatings] = useState([]);
-  const [updatedRatings, setUpdatedRatings] = useState([]);
-  const calculationDoneRef = useRef(false);
 
   // Fetch teams data when the component mounts
   useEffect(() => {
     fetchTeams();
-    fetchRounds();
-  }, [fetchTeams, fetchRounds]);
-
-  useEffect(() => {
-    // Only proceed if we have rounds data
-    if (!calculationDoneRef.current && teams?.data?.length > 0 && rounds?.data?.[0] && !loadingTeams && !loadingRounds) {
-      const dbCurrentRound = rounds.data[0].currentRound;
-      const dbLatestRound = rounds.data[0].latestRound;
-      if (dbCurrentRound < dbLatestRound) {
-        calculateAndUpdateRatings(
-          dbCurrentRound,
-          dbLatestRound,
-          teams,
-          rounds,
-          updateTeamRating,
-          updateRound,
-          fetchTeams,
-          fetchRounds,
-          setOldRatings,
-          setUpdatedRatings
-        );
-      }
-      // TESTING PURPOSE
-      // let i = 0;
-      // while (i < 1) {
-      //   calculateAndUpdateRatings(dbCurrentRound, dbLatestRound, teams, rounds, updateTeamRating, updateRound, fetchTeams, fetchRounds, setOldRatings, setUpdatedRatings);
-      //   i += 1;
-      // }
-      calculationDoneRef.current = true;
-    }
-  }, [teams, rounds, loadingTeams, loadingRounds]);
+  }, [fetchTeams]);
 
   // Check if the teams data is still loading
-  if (loadingTeams || loadingRounds) {
+  if (loadingTeams) {
     return <FullTeamSkeleton />;
   }
 
   // Check if there was an error fetching the teams
-  if (errorTeams || errorRounds) {
+  if (errorTeams) {
     return (
       <div className="flex items-center justify-center h-full w-full py-20">
         <ErrorBox error={errorTeams} />
-        <ErrorBox error={errorRounds} />
       </div>
     );
   }
@@ -81,9 +44,9 @@ const Teams2025 = () => {
     let aValue, bValue;
 
     if (sortConfig.key === "rating") {
-      // Ensure ratings are parsed as numbers
-      aValue = parseFloat(updatedRatings[teams.data.indexOf(a)] || a.rating || 0);
-      bValue = parseFloat(updatedRatings[teams.data.indexOf(b)] || b.rating || 0);
+      // Use stored rating value
+      aValue = Number(a.rating) || 0;
+      bValue = Number(b.rating) || 0;
     } else if (sortConfig.key === "pointsPlus" || sortConfig.key === "pointsMinus" || sortConfig.key === "pointsPlusMinus") {
       if (sortConfig.key === "pointsPlus") {
         aValue = Number(a.pointsPlus) || 0;
@@ -120,6 +83,7 @@ const Teams2025 = () => {
   return (
     <div className="overflow-x-auto">
       <table className="table table-md">
+        {/* Table Head */}
         <thead className="border-b-2 border-orange-400">
           <tr className="text-orange-400">
             <th className="font-bold">Pos</th>
@@ -174,6 +138,7 @@ const Teams2025 = () => {
             </th>
           </tr>
         </thead>
+        {/* Table Body */}
         <tbody>
           {sortedTeams.map((team, index) => {
             const currentPosition = index + 1;
