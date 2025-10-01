@@ -125,17 +125,13 @@ and
 
 ### 📊 Standings
 
-<p align="center">
-  <img src="./screenshots/standings.PNG" alt="Standings Page" width="90%">
-</p>
+Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-standings.html) to see the difference!
 
 #
 
 ### 🔮 Predictor
 
-<p align="center">
-  <img src="./screenshots/predictor.PNG" alt="Predictor Page" width="90%">
-</p>
+Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-predictor.html) to see the difference!
 
 #
 
