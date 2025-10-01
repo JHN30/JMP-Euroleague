@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { useTeam2025 } from "../hooks/useTeam2025";
 import TeamCard from "../components/cards/TeamCard";
 
-
 const Grid = ({ sortedTeams, handleClick }) => {
   return (
     <motion.div
@@ -70,34 +69,70 @@ const InputField = React.memo(({ data, latestRound, onChange }) => {
 
 const fillArray = (arr, len) => Array.from({ length: len }, (_, i) => (arr && arr[i] !== undefined ? arr[i] : ""));
 
-const TeamUpdate = ({ team, latestRound, setActiveView }) => {
+const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
+  const [currentRound, setCurrentRound] = useState(0); // Track which round we're editing
   const [result, setResult] = useState(fillArray(team.form, latestRound));
   const [playedAgainst, setPlayedAgainst] = useState(fillArray(team.playedAgainst, latestRound));
   const [homeGround, setHomeGround] = useState(fillArray(team.homeGround, latestRound));
+  const [pointsPlus, setPointsPlus] = useState(fillArray(team.pointsPlusArray, latestRound));
+  const [pointsMinus, setPointsMinus] = useState(fillArray(team.pointsMinusArray, latestRound));
 
   const { updateTeam } = useTeam2025();
 
-  // Handlers for updating state
-  const handleResultChange = (idx, value) => {
-    setResult((prev) => prev.map((item, i) => (i === idx ? value : item)));
+  // Filter out the current team from opponent options
+  const opponentTeams = allTeams.filter((t) => t._id !== team._id);
+
+  // Single update handler that works with current round
+  const handleFieldChange = (field, value) => {
+    const setters = {
+      result: setResult,
+      playedAgainst: setPlayedAgainst,
+      homeGround: setHomeGround,
+      pointsPlus: setPointsPlus,
+      pointsMinus: setPointsMinus,
+    };
+    setters[field]((prev) => prev.map((item, i) => (i === currentRound ? value : item)));
   };
-  const handlePlayedAgainstChange = (idx, value) => {
-    setPlayedAgainst((prev) => prev.map((item, i) => (i === idx ? value : item)));
+
+  // Navigation
+  const goToNextRound = () => {
+    if (currentRound < latestRound - 1) {
+      setCurrentRound((prev) => prev + 1);
+    }
   };
-  const handleHomeGroundChange = (idx, value) => {
-    setHomeGround((prev) => prev.map((item, i) => (i === idx ? value : item)));
+
+  const goToPrevRound = () => {
+    if (currentRound > 0) {
+      setCurrentRound((prev) => prev - 1);
+    }
+  };
+
+  const jumpToRound = (roundIndex) => {
+    setCurrentRound(roundIndex);
   };
 
   // Update
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (result.some((val) => !val) || playedAgainst.some((val) => !val) || homeGround.some((val) => !val)) {
+    if (
+      result.some((val) => !val) ||
+      playedAgainst.some((val) => !val) ||
+      homeGround.some((val) => !val) ||
+      pointsPlus.some((val) => !val) ||
+      pointsMinus.some((val) => !val)
+    ) {
       toast.error("All fields must be filled!");
       return;
     }
     try {
-      console.log(result, playedAgainst, homeGround);
-      await updateTeam(team._id, { form: result, playedAgainst: playedAgainst, homeGround: homeGround });
+      console.log(result, playedAgainst, homeGround, pointsPlus, pointsMinus);
+      await updateTeam(team._id, {
+        form: result,
+        playedAgainst: playedAgainst,
+        homeGround: homeGround,
+        pointsPlusArray: pointsPlus,
+        pointsMinusArray: pointsMinus,
+      });
       toast.success(`${team.name} is successfully updated`);
     } catch (error) {
       console.log("Error updating team: ", error);
@@ -124,39 +159,127 @@ const TeamUpdate = ({ team, latestRound, setActiveView }) => {
           Go Back
         </button>
       </div>
-      {/* Form */}
-      <div>
-        {/* Results */}
-        <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-          <input type="checkbox" />
-          <div className="collapse-title font-semibold">Team Results</div>
-          <div className="collapse-content text-sm">
-            <InputField data={result} latestRound={latestRound} onChange={handleResultChange} />
+
+      {/* Round Navigation */}
+      <div className="flex flex-col gap-3 p-4 bg-gray-800 rounded-lg">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-orange-400">
+            Round {currentRound + 1} of {latestRound}
+          </h3>
+          <div className="flex gap-2">
+            <button
+              onClick={goToPrevRound}
+              disabled={currentRound === 0}
+              className="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              ← Prev
+            </button>
+            <button
+              onClick={goToNextRound}
+              disabled={currentRound === latestRound - 1}
+              className="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Next →
+            </button>
           </div>
         </div>
-        {/* Played Against */}
-        <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-          <input type="checkbox" />
-          <div className="collapse-title font-semibold">Played Against</div>
-          <div className="collapse-content text-sm">
-            <InputField data={playedAgainst} latestRound={latestRound} onChange={handlePlayedAgainstChange} />
-          </div>
-        </div>
-        {/* Home Ground */}
-        <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-          <input type="checkbox" />
-          <div className="collapse-title font-semibold">Home Ground</div>
-          <div className="collapse-content text-sm">
-            <InputField data={homeGround} latestRound={latestRound} onChange={handleHomeGroundChange} />
-          </div>
+
+        {/* Quick Jump */}
+        <div className="flex flex-wrap gap-1">
+          {Array.from({ length: latestRound }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => jumpToRound(idx)}
+              className={`w-8 h-8 rounded text-sm font-medium transition-colors ${
+                idx === currentRound
+                  ? "bg-orange-400 text-white"
+                  : result[idx] && playedAgainst[idx] && homeGround[idx] && pointsPlus[idx] && pointsMinus[idx]
+                  ? "bg-green-600 text-white hover:bg-green-500"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
         </div>
       </div>
+
+      {/* Single Round Form */}
+      <div className="p-4 bg-gray-900 rounded-lg space-y-4">
+        {/* Result */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-300 mb-2">Team Result (W/L)</label>
+          <input
+            type="text"
+            value={result[currentRound] || ""}
+            onChange={(e) => handleFieldChange("result", e.target.value)}
+            placeholder="e.g., W or L"
+            className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
+          />
+        </div>
+
+        {/* Played Against */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-300 mb-2">Played Against</label>
+          <select
+            value={playedAgainst[currentRound] || ""}
+            onChange={(e) => handleFieldChange("playedAgainst", e.target.value)}
+            className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white transition duration-200"
+          >
+            <option value="" disabled>
+              Select opponent team
+            </option>
+            {opponentTeams.map((t) => (
+              <option key={t._id} value={t.name}>
+                {t.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Home Ground */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-300 mb-2">Home Ground (H/A)</label>
+          <input
+            type="text"
+            value={homeGround[currentRound] || ""}
+            onChange={(e) => handleFieldChange("homeGround", e.target.value)}
+            placeholder="e.g., H or A"
+            className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
+          />
+        </div>
+
+        {/* Points Plus */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-300 mb-2">Points Scored</label>
+          <input
+            type="number"
+            value={pointsPlus[currentRound] || ""}
+            onChange={(e) => handleFieldChange("pointsPlus", e.target.value)}
+            placeholder="e.g., 85"
+            className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
+          />
+        </div>
+
+        {/* Points Minus */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-300 mb-2">Points Conceded</label>
+          <input
+            type="number"
+            value={pointsMinus[currentRound] || ""}
+            onChange={(e) => handleFieldChange("pointsMinus", e.target.value)}
+            placeholder="e.g., 78"
+            className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400 transition duration-200"
+          />
+        </div>
+      </div>
+
       {/* Update Button */}
       <button
-        className="bg-amber-600 hover:bg-amber-500 transition duration-300 rounded-md text-white p-2"
+        className="bg-amber-600 hover:bg-amber-500 transition duration-300 rounded-md text-white p-2 text-lg font-semibold"
         onClick={handleUpdate}
       >
-        Update
+        Save All Changes
       </button>
     </div>
   );
@@ -190,7 +313,9 @@ const UpdateTeamPage = ({ teams, rounds }) => {
   return (
     <>
       {activeView === "grid" && <Grid sortedTeams={sortedTeams} handleClick={handleClick} />}
-      {activeView === "team" && <TeamUpdate team={team} latestRound={latestRound} setActiveView={setActiveView} />}
+      {activeView === "team" && (
+        <TeamUpdate team={team} latestRound={latestRound} setActiveView={setActiveView} allTeams={sortedTeams} />
+      )}
     </>
   );
 };
