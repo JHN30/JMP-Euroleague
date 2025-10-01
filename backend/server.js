@@ -29,7 +29,9 @@ app.use("/api/teams2025", teamRoutes2025);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("/*", (req, res) => {
+
+  // Catch-all route for client-side routing - must be last
+  app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
