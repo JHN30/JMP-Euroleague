@@ -22,7 +22,7 @@ export const calculateAndUpdateRatings = async (
     let oldRatingsArray = [...initialRatings];
 
     // Calculate new ratings for each round
-    for (let round = dbCurrentRound; round <= dbLatestRound; round++) {
+    for (let round = dbCurrentRound; round < dbLatestRound; round++) {
       teams.data.forEach((team, index) => {
         const opponent = teams.data.find((opponentTeam) => opponentTeam.name === team.playedAgainst[round - 1]);
 
