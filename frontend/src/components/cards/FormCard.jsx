@@ -8,7 +8,7 @@ const FormCard = ({ value, color, gridColumns }) => (
     transition={{ duration: 0.5 }}
   >
     {/* Array of results */}
-    <div className={`flex p-2 gap-2 ${color} justify-between`}>
+    <div className={`flex px-4 py-2 gap-2 ${color} justify-evenly`}>
       {value.length === 0 ? (
         <span className="text-white">No recent results</span>
       ) : (
