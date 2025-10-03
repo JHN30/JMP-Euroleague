@@ -114,11 +114,7 @@ and
 </p>
 
 <p align="center">
-  <img src="./screenshots/update-team-2.PNG" alt="Update Page 2" width="90%">
-</p>
-
-<p align="center">
-  <img src="./screenshots/update-team-3.PNG" alt="Update Page 3" width="90%">
+  <img src="./screenshots/update-team-2-new.png" alt="Update Page 2 NEW" width="90%">
 </p>
 
 #
@@ -152,7 +148,7 @@ Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 </p>
 
 <p align="center">
-  <img src="./screenshots/single-team-2.PNG" alt="Team Stats Page 2" width="90%">
+  <img src="./screenshots/single-team-2-new.png" alt="Team Stats Page 2 NEW" width="90%">
 </p>
 
 #
