@@ -58,13 +58,39 @@ const Teams2025 = () => {
   };
 
   const sortedTeams = [...teams.data].sort((a, b) => {
-    let aValue, bValue;
-
+    // Composite sorting when key is rating:
+    // 1. Primary: rating (desc or asc per user choice) with equality determined on rounded value
+    // 2. Secondary: pointsPlusMinus (follows same order direction as rating)
+    // 3. Tertiary: wins (same direction as rating = more wins first if desc, fewer wins first if asc)
+    // 4. Quaternary: alphabetical name for deterministic ordering
     if (sortConfig.key === "rating") {
-      // Use stored rating value
-      aValue = Number(a.rating) || 0;
-      bValue = Number(b.rating) || 0;
-    } else if (sortConfig.key === "pointsPlus" || sortConfig.key === "pointsMinus" || sortConfig.key === "pointsPlusMinus") {
+      const aRating = Number(a.rating) || 0;
+      const bRating = Number(b.rating) || 0;
+      const aRounded = Math.round(aRating);
+      const bRounded = Math.round(bRating);
+
+      if (aRounded !== bRounded) {
+        return sortConfig.order === "asc" ? aRating - bRating : bRating - aRating;
+      }
+
+      const aDiff = Number(a.pointsPlusMinus) || 0;
+      const bDiff = Number(b.pointsPlusMinus) || 0;
+      if (aDiff !== bDiff) {
+        return sortConfig.order === "asc" ? aDiff - bDiff : bDiff - aDiff;
+      }
+
+      const aWins = Number(a.wins) || 0;
+      const bWins = Number(b.wins) || 0;
+      if (aWins !== bWins) {
+        return sortConfig.order === "asc" ? aWins - bWins : bWins - aWins;
+      }
+
+      return a.name.localeCompare(b.name);
+    }
+
+    // Generic path for other sort keys
+    let aValue, bValue;
+    if (sortConfig.key === "pointsPlus" || sortConfig.key === "pointsMinus" || sortConfig.key === "pointsPlusMinus") {
       if (sortConfig.key === "pointsPlus") {
         aValue = Number(a.pointsPlus) || 0;
         bValue = Number(b.pointsPlus) || 0;
@@ -80,21 +106,13 @@ const Teams2025 = () => {
       bValue = b[sortConfig.key];
     }
 
-    // For numerical comparisons
     if (typeof aValue === "number" && typeof bValue === "number") {
-      if (sortConfig.order === "asc") {
-        return aValue - bValue;
-      } else {
-        return bValue - aValue;
-      }
+      return sortConfig.order === "asc" ? aValue - bValue : bValue - aValue;
     }
-
-    // For string comparisons
-    if (sortConfig.order === "asc") {
-      return aValue > bValue ? 1 : -1;
-    } else {
-      return aValue < bValue ? 1 : -1;
+    if (typeof aValue === "string" && typeof bValue === "string") {
+      return sortConfig.order === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
     }
+    return 0;
   });
 
   return (
