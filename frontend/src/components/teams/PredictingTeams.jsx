@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorBox from "../errors/ErrorBox";
 import AnimatedNumber from "../features/AnimatedNumber";
-import { useTeam2025 } from "../../hooks/useTeam2025";
+import { useTeam } from "../../hooks/useTeam";
 import { useRound } from "../../hooks/useRound";
 import { calculateExpectedScorePredictor } from "../../utils/calculateExpectedScore";
 
@@ -16,7 +16,7 @@ const PredictingTeams = () => {
   const [predictions, setPredictions] = useState();
   const [showResults, setShowResults] = useState(false);
 
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   // Fetch data when the component mounts

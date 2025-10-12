@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTeam2025 } from "../../hooks/useTeam2025";
+import { useTeam } from "../../hooks/useTeam";
 import { useRound } from "../../hooks/useRound";
 
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -7,7 +7,7 @@ import ErrorBox from "../errors/ErrorBox";
 import TeamMatchup from "../features/TeamMatchup";
 
 const PlayoffBracket = () => {
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
   const [sortConfig] = useState({ key: "wins", order: "desc" });
   const [winners, setWinners] = useState({

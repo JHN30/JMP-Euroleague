@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 
-export const useTeam2025 = create((set) => ({
+export const useTeam = create((set) => ({
   teams: { data: [] },
   team: { data: {} },
   loadingTeams: false,
@@ -10,7 +10,7 @@ export const useTeam2025 = create((set) => ({
   createTeam: async (data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.post("/teams2025", data);
+      const response = await axios.post("/teams", data);
       set((state) => ({
         teams: { ...state.teams, data: [...state.teams.data, response.data] },
         loadingTeams: false,
@@ -23,7 +23,7 @@ export const useTeam2025 = create((set) => ({
   fetchTeams: async () => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.get("/teams2025");
+      const response = await axios.get("/teams");
       set({ teams: response.data, loadingTeams: false });
     } catch (error) {
       set({ loadingTeams: false, errorTeams: error.message, teams: { data: [] } });
@@ -33,7 +33,7 @@ export const useTeam2025 = create((set) => ({
   fetchTeamById: async (teamId) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.get(`/teams2025/${teamId}`);
+      const response = await axios.get(`/teams/${teamId}`);
       set({ team: response.data, loadingTeams: false });
     } catch (error) {
       set({ loadingTeams: false, errorTeams: error.message, team: { data: {} } });
@@ -43,7 +43,7 @@ export const useTeam2025 = create((set) => ({
   updateTeamRating: async (teamId, data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.put(`/teams2025/${teamId}`, data);
+      const response = await axios.put(`/teams/${teamId}`, data);
       set((state) => ({
         teams: {
           ...state.teams,
@@ -59,7 +59,7 @@ export const useTeam2025 = create((set) => ({
   updateTeam: async (teamId, data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.put(`/teams2025/update/${teamId}`, data);
+      const response = await axios.put(`/teams/update/${teamId}`, data);
       set((state) => ({
         teams: {
           ...state.teams,
@@ -75,7 +75,7 @@ export const useTeam2025 = create((set) => ({
   deleteTeam: async (teamId) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      await axios.delete(`/teams2025/${teamId}`);
+      await axios.delete(`/teams/${teamId}`);
       set((state) => ({
         teams: { ...state.teams, data: state.teams.data.filter((team) => team.id !== teamId) },
         loadingTeams: false,

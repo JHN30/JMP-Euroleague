@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { useTeam2025 } from "../hooks/useTeam2025";
+import { useTeam } from "../hooks/useTeam";
 import ErrorBox from "../components/errors/ErrorBox";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import TeamCard from "../components/cards/TeamCard";
 
 const TeamsPage = () => {
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const sortConfig = {
     key: "name",
   };

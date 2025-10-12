@@ -1,9 +1,9 @@
-import Teams2025 from "../components/teams/Teams2025";
+import Teams from "../components/teams/Teams";
 
 const Standings = () => {
   return (
     <div className="flex flex-col w-full h-full">
-      <Teams2025 />
+      <Teams />
     </div>
   );
 };

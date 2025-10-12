@@ -9,7 +9,7 @@ import StatsCard from "../components/cards/StatsCard";
 import FormCard from "../components/cards/FormCard";
 import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
 
-import { useTeam2025 } from "../hooks/useTeam2025";
+import { useTeam } from "../hooks/useTeam";
 
 import { FaCheckDouble } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
@@ -18,7 +18,7 @@ import { SlGraph } from "react-icons/sl";
 import { FaBasketball } from "react-icons/fa6";
 
 const TeamStatsPage = () => {
-  const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam2025();
+  const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam();
   const { teamId } = useParams();
   const [gamesToShow, setGamesToShow] = useState(5);
 

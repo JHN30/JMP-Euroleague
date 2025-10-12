@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { useTeam2025 } from "../../hooks/useTeam2025";
+import { useTeam } from "../../hooks/useTeam";
 
-import Team2025 from "./Team2025";
+import Team from "./Team";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 
-const Teams2025 = () => {
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
+const Teams = () => {
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const [sortConfig, setSortConfig] = useState({
     key: "rating",
     order: "desc",
@@ -190,7 +190,7 @@ const Teams2025 = () => {
             //const updatedRating = updatedRatings[teamIndex] || team.rating;
 
             return (
-              <Team2025
+              <Team
                 key={team.name}
                 team={{
                   ...team,
@@ -206,4 +206,4 @@ const Teams2025 = () => {
   );
 };
 
-export default Teams2025;
+export default Teams;
