@@ -8,7 +8,7 @@ import {
   deleteTeam,
   deleteAllTeams,
   getTeamById,
-} from "../controllers/team2025.controller.js";
+} from "../controllers/team.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ router.post("/bulk", verifyToken, createAllTeams);
 router.get("/", getTeams);
 router.delete("/", verifyToken, deleteAllTeams);
 router.get("/:id", getTeamById);
-router.put("/:id", updateTeamRating);
+router.put("/:id", verifyToken, updateTeamRating);
 router.put("/update/:id", verifyToken, updateTeam);
 router.delete("/:id", verifyToken, deleteTeam);
 

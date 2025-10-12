@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-const teams2025Schema = new mongoose.Schema(
+const teamsSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     wins: {
       type: Number,
@@ -88,6 +87,8 @@ const teams2025Schema = new mongoose.Schema(
   }
 );
 
-const Teams2025 = mongoose.model("Teams2025", teams2025Schema);
+teamsSchema.index({ season: 1, name: 1 }, { unique: true });
 
-export default Teams2025;
+const Teams = mongoose.model("Teams", teamsSchema);
+
+export default Teams;

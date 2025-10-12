@@ -1,10 +1,21 @@
 import mongoose from "mongoose";
-import Team2025 from "../models/team2025.model.js";
+import Team from "../models/team.model.js";
 import cloudinary from "../lib/cloudinary/cloudinary.js";
+
+const parseSeason = (value) => {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : undefined;
+};
+
+const DEFAULT_SEASON = Team.schema.path("season")?.defaultValue ?? 2025;
 
 export const createTeam = async (req, res) => {
   const { name } = req.body;
   let { logoImg } = req.body;
+  const season = parseSeason(req.body.season) ?? DEFAULT_SEASON;
 
   if (!name) {
     return res.status(400).json({ success: false, message: "Please provide all fields" });
@@ -15,9 +26,10 @@ export const createTeam = async (req, res) => {
     logoImg = uploadedResponse?.secure_url ? uploadedResponse.secure_url : "";
   }
 
-  const newTeam = new Team2025({
+  const newTeam = new Team({
     name,
     logoImg,
+    season,
   });
 
   try {
@@ -30,7 +42,8 @@ export const createTeam = async (req, res) => {
 };
 
 export const createAllTeams = async (req, res) => {
-  const { teams } = req.body;
+  const { teams, season: payloadSeason } = req.body;
+  const fallbackSeason = parseSeason(payloadSeason);
 
   if (!teams || !Array.isArray(teams) || teams.length === 0) {
     return res.status(400).json({ success: false, message: "Please provide teams array" });
@@ -41,7 +54,7 @@ export const createAllTeams = async (req, res) => {
     const errors = [];
 
     for (let i = 0; i < teams.length; i++) {
-      const { name, logoImg } = teams[i];
+      const { name, logoImg, season: teamSeason } = teams[i];
 
       if (!name) {
         errors.push({ index: i, message: "Team name is required" });
@@ -60,9 +73,10 @@ export const createAllTeams = async (req, res) => {
         }
       }
 
-      const newTeam = new Team2025({
+      const newTeam = new Team({
         name,
         logoImg: uploadedLogoUrl,
+        season: parseSeason(teamSeason) ?? fallbackSeason ?? DEFAULT_SEASON,
       });
 
       try {
@@ -89,7 +103,18 @@ export const createAllTeams = async (req, res) => {
 
 export const getTeams = async (req, res) => {
   try {
-    const teams = await Team2025.find({});
+    const { season } = req.query;
+    const filter = {};
+
+    if (season && season !== "all") {
+      const parsedSeason = parseSeason(season);
+      if (parsedSeason === undefined) {
+        return res.status(400).json({ success: false, message: "Invalid season query parameter" });
+      }
+      filter.season = parsedSeason;
+    }
+
+    const teams = await Team.find(filter);
     res.status(200).json({ success: true, data: teams });
   } catch (error) {
     console.error("Error in getTeams: ", error.message);
@@ -99,7 +124,7 @@ export const getTeams = async (req, res) => {
 
 export const getTeamById = async (req, res) => {
   try {
-    const team = await Team2025.findById(req.params.id);
+    const team = await Team.findById(req.params.id);
     if (!team) {
       return res.status(404).json({ success: false, message: "Team not found" });
     }
@@ -120,7 +145,7 @@ export const updateTeamRating = async (req, res) => {
     if (!rating) {
       return res.status(400).json({ success: false, message: "Rating not provided" });
     }
-    const updatedTeam = await Team2025.findByIdAndUpdate(id, { rating }, { new: true });
+    const updatedTeam = await Team.findByIdAndUpdate(id, { rating }, { new: true });
     if (!updatedTeam) {
       return res.status(404).json({ error: "Team not found" });
     }
@@ -135,6 +160,7 @@ export const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;
     const { form, playedAgainst, homeGround, pointsPlusArray, pointsMinusArray } = req.body;
+    const season = parseSeason(req.body.season);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Invalid Team ID" });
@@ -152,21 +178,27 @@ export const updateTeam = async (req, res) => {
     const pointsMinus = pointsMinusArray.reduce((acc, val) => acc + (Number(val) || 0), 0);
     const pointsPlusMinus = pointsPlus - pointsMinus;
 
-    const updatedTeam = await Team2025.findByIdAndUpdate(
+    const updatePayload = {
+      wins,
+      losses,
+      winPercentage,
+      pointsPlusArray,
+      pointsMinusArray,
+      pointsPlus,
+      pointsMinus,
+      pointsPlusMinus,
+      form,
+      playedAgainst,
+      homeGround,
+    };
+
+    if (season !== undefined) {
+      updatePayload.season = season;
+    }
+
+    const updatedTeam = await Team.findByIdAndUpdate(
       id,
-      {
-        wins,
-        losses,
-        winPercentage,
-        pointsPlusArray,
-        pointsMinusArray,
-        pointsPlus,
-        pointsMinus,
-        pointsPlusMinus,
-        form,
-        playedAgainst,
-        homeGround,
-      },
+      updatePayload,
       { new: true }
     );
 
@@ -182,7 +214,7 @@ export const updateTeam = async (req, res) => {
 
 export const deleteTeam = async (req, res) => {
   try {
-    const team = await Team2025.findById(req.params.id);
+    const team = await Team.findById(req.params.id);
     if (!team) {
       return res.status(404).json({ success: false, message: "Team not found" });
     }
@@ -196,7 +228,7 @@ export const deleteTeam = async (req, res) => {
         return res.status(500).json({ success: false, message: "Failed to delete image" });
       }
     }
-    await Team2025.findByIdAndDelete(req.params.id);
+    await Team.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Team deleted successfully" });
   } catch (error) {
     console.error("Error in deleteTeam: ", error.message);
@@ -206,7 +238,18 @@ export const deleteTeam = async (req, res) => {
 
 export const deleteAllTeams = async (req, res) => {
   try {
-    const teams = await Team2025.find({});
+    const { season } = req.query;
+    const filter = {};
+
+    if (season && season !== "all") {
+      const parsedSeason = parseSeason(season);
+      if (parsedSeason === undefined) {
+        return res.status(400).json({ success: false, message: "Invalid season query parameter" });
+      }
+      filter.season = parsedSeason;
+    }
+
+    const teams = await Team.find(filter);
 
     if (!teams || teams.length === 0) {
       return res.status(200).json({ success: true, message: "No teams to delete", deletedCount: 0 });
@@ -232,11 +275,14 @@ export const deleteAllTeams = async (req, res) => {
       .filter((i) => i.status === "rejected");
 
     // Delete all team documents
-    const deleteResult = await Team2025.deleteMany({});
+    const deleteResult = await Team.deleteMany(filter);
 
     res.status(200).json({
       success: true,
-      message: "All teams deleted",
+      message:
+        season && season !== "all"
+          ? `Teams for season ${filter.season} deleted`
+          : "All teams deleted",
       deletedCount: deleteResult.deletedCount ?? 0,
       imageErrors: imageErrors.length > 0 ? imageErrors : undefined,
     });
