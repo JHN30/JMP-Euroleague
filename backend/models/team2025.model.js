@@ -77,6 +77,11 @@ const teams2025Schema = new mongoose.Schema(
       type: Number,
       default: 1000,
     },
+    season: {
+      type: Number,
+      required: true,
+      default: 2025,
+    },
   },
   {
     timestamps: true, //createdAt, updatedAt
