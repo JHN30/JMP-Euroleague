@@ -16,12 +16,14 @@ const PredictingTeams = () => {
   const [predictions, setPredictions] = useState();
   const [showResults, setShowResults] = useState(false);
 
+  const DEFAULT_SEASON = "2025";
+
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   // Fetch data when the component mounts
   useEffect(() => {
-    fetchTeams();
+    fetchTeams(DEFAULT_SEASON);
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 
@@ -90,7 +92,7 @@ const PredictingTeams = () => {
 
   return (
     <motion.div
-      className="flex flex-col justify-center items-center pt-6 p-4 min-h-screen bg-gradient-to-br from-base-100 to-base-200"
+      className="flex flex-col items-center p-4 min-h-screen bg-gradient-to-br from-base-100 to-base-200"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -177,12 +179,12 @@ const PredictingTeams = () => {
       {/* Results Section */}
       {predictions && showResults && (
         <motion.div
-          className="mt-8 w-full max-w-4xl"
+          className="mt-4 w-full max-w-4xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <h3 className="text-2xl font-bold text-center mb-6 text-orange-400">Prediction Results</h3>
+          <h3 className="text-2xl font-bold text-center mb-3 text-orange-400">Prediction Results</h3>
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Home Team Result Card */}

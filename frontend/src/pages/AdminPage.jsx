@@ -1,16 +1,11 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-
-import { useTeam2025 } from "../hooks/useTeam2025";
-import { useRound } from "../hooks/useRound";
-
-import ErrorBox from "../components/errors/ErrorBox";
-import LoadingSpinner from "../components/common/LoadingSpinner";
 
 import { FaCirclePlus } from "react-icons/fa6";
 import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { GiProcessor } from "react-icons/gi";
+import { IoMdStats } from "react-icons/io";
 
 import CreateTeamPage from "./CreateTeamPage";
 import UpdateTeamPage from "./UpdateTeamPage";
@@ -22,45 +17,12 @@ const tabs = [
   { id: "create", label: "Create Team", icon: FaCirclePlus },
   { id: "update", label: "Update Team", icon: GrUpdate },
   { id: "delete", label: "Delete Team", icon: MdDelete },
-  { id: "updateRatings", label: "Update Team Rating", icon: GiProcessor },
+  { id: "updateRatings", label: "Update Team Rating", icon: IoMdStats },
   { id: "updateRounds", label: "Update Rounds", icon: GiProcessor },
 ];
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
-  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam2025();
-  const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
-
-  // Fetch teams data when the component mounts
-  useEffect(
-    () => {
-      fetchTeams();
-      fetchRounds();
-    },
-    [fetchTeams],
-    [fetchRounds]
-  );
-
-  const memoizedTeams = useMemo(() => teams, [teams]);
-  const memoizedRounds = useMemo(() => rounds, [rounds]);
-
-  if (loadingTeams || loadingRounds) {
-    return (
-      <div className="flex items-center justify-center h-full w-full py-20">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  // Check if there was an error fetching the teams
-  if (errorTeams || errorRounds) {
-    return (
-      <div className="flex items-center justify-center h-full w-full py-20">
-        <ErrorBox error={errorTeams} />
-        <ErrorBox error={errorRounds} />
-      </div>
-    );
-  }
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -76,25 +38,26 @@ const AdminPage = () => {
       >
         Admin Dashboard
       </motion.h1>
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-4 ">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}
-            className={`flex items-center px-4 py-2 mx-2 rounded-md transition-colors duration-200 ${
+            aria-label={tab.label}
+            className={`flex items-center px-2 py-2 mx-1 rounded-md transition-colors duration-200 ${
               activeTab === tab.id ? "bg-orange-400 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
-            <tab.icon className="mr-2 h-5 w-5" />
-            {tab.label}
+            <tab.icon className="h-5 w-5 md:mr-0.5" />
+            <span className="hidden md:inline">{tab.label}</span>
           </button>
         ))}
       </div>
-      {activeTab === "create" && <CreateTeamPage fetchTeams={fetchTeams} />}
-      {activeTab === "update" && <UpdateTeamPage teams={memoizedTeams} rounds={memoizedRounds} />}
-      {activeTab === "delete" && <DeleteTeamPage teams={memoizedTeams} fetchTeams={fetchTeams} />}
+      {activeTab === "create" && <CreateTeamPage />}
+      {activeTab === "update" && <UpdateTeamPage />}
+      {activeTab === "delete" && <DeleteTeamPage />}
       {activeTab === "updateRatings" && <UpdateTeamRatingPage />}
-      {activeTab === "updateRounds" && <UpdateRoundsPage fetchRounds={fetchRounds} />}
+      {activeTab === "updateRounds" && <UpdateRoundsPage />}
     </div>
   );
 };

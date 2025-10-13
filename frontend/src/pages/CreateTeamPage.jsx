@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
+import "../styles/button.css";
 
 import Input from "../components/common/Input";
 
@@ -8,15 +9,16 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { RiFileUploadLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 
-import { useTeam2025 } from "../hooks/useTeam2025";
+import { useTeam } from "../hooks/useTeam";
 
-const CreateTeamPage = ({ fetchTeams }) => {
+const CreateTeamPage = () => {
   const [team, setTeam] = useState({
     name: "",
     logoImg: "",
+    season: "",
   });
 
-  const { createTeam, loadingTeams } = useTeam2025();
+  const { createTeam, loadingTeams } = useTeam();
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
@@ -52,7 +54,7 @@ const CreateTeamPage = ({ fetchTeams }) => {
       >
         <div className="p-8">
           <form onSubmit={handleCreateTeam}>
-            <label>Team Name *</label>
+            <label>Team Name</label>
             <Input
               icon={AiOutlineTeam}
               type="text"
@@ -61,6 +63,18 @@ const CreateTeamPage = ({ fetchTeams }) => {
               onChange={(e) => setTeam({ ...team, name: e.target.value })}
               required
             />
+
+            <div className="flex flex-col justify-center">
+              <label>Season</label>
+              <label className="text-sm text-gray-500 mb-0.5">Example: For season 2025/2026, enter 2025</label>
+              <Input
+                icon={AiOutlineTeam}
+                type="text"
+                placeholder="2025"
+                value={team.season}
+                onChange={(e) => setTeam({ ...team, season: e.target.value })}
+              />
+            </div>
 
             <div className="flex flex-col justify-center mb-8">
               <label>Picture of a team</label>

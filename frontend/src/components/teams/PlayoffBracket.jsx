@@ -38,8 +38,10 @@ const PlayoffBracket = () => {
     "sf-2": ["final"],
   };
 
+  const DEFAULT_SEASON = "2025";
+
   useEffect(() => {
-    fetchTeams();
+    fetchTeams(DEFAULT_SEASON);
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 

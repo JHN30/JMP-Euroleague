@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import { useTeam2025 } from "../hooks/useTeam2025";
+import { useTeam } from "../hooks/useTeam";
 import { useRound } from "../hooks/useRound";
 import { calculateAndUpdateRatings } from "../utils/ratingsCalculator";
 
 const UpdateTeamRatingPage = () => {
-  const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam2025();
+  const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, updateRound, rounds, loadingRounds, errorRounds } = useRound();
 
   const [status, setStatus] = useState(null);

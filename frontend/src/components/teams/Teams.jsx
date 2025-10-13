@@ -14,11 +14,12 @@ const Teams = () => {
   });
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipTimeout, setTooltipTimeout] = useState(null);
+  const [selectedSeason, setSelectedSeason] = useState("2025");
 
   // Fetch teams data when the component mounts
   useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
+    fetchTeams(selectedSeason);
+  }, [fetchTeams, selectedSeason]);
 
   // Check if the teams data is still loading
   if (loadingTeams) {
@@ -117,9 +118,24 @@ const Teams = () => {
 
   return (
     <div className="overflow-x-auto">
+      <select
+        className="select select-bordered w-full max-w-xs mx-2 my-2 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
+        onChange={(e) => setSelectedSeason(e.target.value)}
+        value={selectedSeason}
+      >
+        <option disabled value="">
+          Select Season
+        </option>
+        <option key={2024} value={2024}>
+          2024
+        </option>
+        <option key={2025} value={2025}>
+          2025
+        </option>
+      </select>
       <table className="table table-md">
         {/* Table Head */}
-        <thead className="border-b-2 border-orange-400">
+        <thead className="border-y-2  border-orange-400">
           <tr className="text-orange-400">
             <th className="font-bold">Pos</th>
             <th

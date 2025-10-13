@@ -196,11 +196,7 @@ export const updateTeam = async (req, res) => {
       updatePayload.season = season;
     }
 
-    const updatedTeam = await Team.findByIdAndUpdate(
-      id,
-      updatePayload,
-      { new: true }
-    );
+    const updatedTeam = await Team.findByIdAndUpdate(id, updatePayload, { new: true });
 
     if (!updatedTeam) {
       return res.status(404).json({ error: "Team not found" });
@@ -279,10 +275,7 @@ export const deleteAllTeams = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message:
-        season && season !== "all"
-          ? `Teams for season ${filter.season} deleted`
-          : "All teams deleted",
+      message: season && season !== "all" ? `Teams for season ${filter.season} deleted` : "All teams deleted",
       deletedCount: deleteResult.deletedCount ?? 0,
       imageErrors: imageErrors.length > 0 ? imageErrors : undefined,
     });

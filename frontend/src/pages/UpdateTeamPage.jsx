@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
-import { useTeam2025 } from "../hooks/useTeam2025";
+import { useTeam } from "../hooks/useTeam";
+import { useRound } from "../hooks/useRound";
 import TeamCard from "../components/cards/TeamCard";
+import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 
 const Grid = ({ sortedTeams, handleClick }) => {
   return (
@@ -13,9 +15,10 @@ const Grid = ({ sortedTeams, handleClick }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      {sortedTeams.map((team, idx) => {
+      {sortedTeams.map((team) => {
+        const stableKey = team._id ?? `${team.name}-${team.season ?? "unknown"}`;
         return (
-          <button onClick={() => handleClick(team)} className="block h-full hover:cursor-pointer" key={team.name}>
+          <button onClick={() => handleClick(team)} className="block h-full hover:cursor-pointer" key={stableKey}>
             <TeamCard team={team} />
           </button>
         );
@@ -34,7 +37,7 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
   const [pointsPlus, setPointsPlus] = useState(fillArray(team.pointsPlusArray, latestRound));
   const [pointsMinus, setPointsMinus] = useState(fillArray(team.pointsMinusArray, latestRound));
 
-  const { updateTeam } = useTeam2025();
+  const { updateTeam } = useTeam();
 
   // Filter out the current team from opponent options
   const opponentTeams = allTeams.filter((t) => t._id !== team._id);
@@ -242,9 +245,13 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
   );
 };
 
-const UpdateTeamPage = ({ teams, rounds }) => {
+const UpdateTeamPage = () => {
   const [activeView, setActiveView] = useState("grid");
   const [team, setTeam] = useState({});
+  const [selectedSeason, setSelectedSeason] = useState("2025");
+
+  const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
+  const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   const sortConfig = {
     key: "name",
@@ -267,8 +274,46 @@ const UpdateTeamPage = ({ teams, rounds }) => {
     setActiveView("team");
   };
 
+  useEffect(() => {
+    fetchTeams(selectedSeason);
+    fetchRounds();
+  }, [fetchTeams, selectedSeason, fetchRounds]);
+
+  if (loadingTeams || loadingRounds) {
+    return (
+      <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2">
+        {Array.from({ length: 15 }).map((_, idx) => (
+          <TeamCardSkeleton key={idx} />
+        ))}
+      </div>
+    );
+  }
+
+  if (errorTeams || errorRounds) {
+    return (
+      <div className="flex items-center justify-center h-full w-full py-20">
+        <p className="text-red-500">Error fetching data</p>
+      </div>
+    );
+  }
+
   return (
     <>
+      <select
+        className="select select-bordered w-full max-w-xs mx-2 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
+        onChange={(e) => setSelectedSeason(e.target.value)}
+        value={selectedSeason}
+      >
+        <option disabled value="">
+          Select Season
+        </option>
+        <option key={2024} value={2024}>
+          2024
+        </option>
+        <option key={2025} value={2025}>
+          2025
+        </option>
+      </select>
       {activeView === "grid" && <Grid sortedTeams={sortedTeams} handleClick={handleClick} />}
       {activeView === "team" && (
         <TeamUpdate team={team} latestRound={latestRound} setActiveView={setActiveView} allTeams={sortedTeams} />
