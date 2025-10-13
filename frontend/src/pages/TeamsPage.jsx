@@ -12,13 +12,26 @@ const TeamsPage = () => {
   const sortConfig = {
     key: "name",
   };
+  const STORAGE_KEY = "teamsPage.selectedSeason";
 
-  const [selectedSeason, setSelectedSeason] = useState("2025");
+  const [selectedSeason, setSelectedSeason] = useState(() => {
+    if (typeof window === "undefined") {
+      return "2025";
+    }
+    return window.localStorage.getItem(STORAGE_KEY) || "2025";
+  });
 
   // Fetch teams data when the component mounts
   useEffect(() => {
     fetchTeams(selectedSeason);
   }, [fetchTeams, selectedSeason]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.localStorage.setItem(STORAGE_KEY, selectedSeason);
+  }, [selectedSeason]);
 
   if (loadingTeams) {
     return (
@@ -83,7 +96,7 @@ const TeamsPage = () => {
       >
         {sortedTeams.map((team, idx) => {
           return (
-            <Link to={`/team-stats/${team._id}`} className="block h-full" key={team.name}>
+            <Link to={`/team-stats/${team._id}`} className="block h-full" key={team._id ?? team.name}>
               <TeamCard team={team} />
             </Link>
           );

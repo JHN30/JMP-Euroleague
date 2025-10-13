@@ -58,7 +58,7 @@ const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result, pointsFor 
                       result[idx] === "W" ? "bg-green-600" : "bg-red-600"
                     }`}
                   >
-                    -
+                    {result[idx] === "W" ? "W" : "L"}
                   </span>
                 )}
               </div>
