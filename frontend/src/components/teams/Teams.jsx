@@ -190,7 +190,9 @@ const Teams = () => {
               Rating {sortConfig.key === "rating" && (sortConfig.order === "asc" ? "▲" : "▼")}
               {showTooltip && (
                 <div className="absolute top-full right-0 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
-                  Note: JMP Ratings are updated only after ALL round matches have been played
+                  {selectedSeason !== "2025"
+                    ? `This season is completed. These are the final ratings.`
+                    : `JMP Ratings are updated only after ALL round matches have been played`}
                   <div className="absolute bottom-full right-4 border-4 border-transparent border-b-orange-400"></div>
                 </div>
               )}
