@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useTeam } from "../../hooks/useTeam";
 import { useRound } from "../../hooks/useRound";
 
-import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorBox from "../errors/ErrorBox";
 import TeamMatchup from "../features/TeamMatchup";
+import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -116,8 +116,8 @@ const PlayoffBracket = () => {
   // Loading and error states
   if (loadingTeams || loadingRounds) {
     return (
-      <div className="flex items-center justify-center min-h-96 w-full">
-        <LoadingSpinner />
+      <div className="flex items-center justify-center w-full">
+        <PlayoffBracketSkeleton />
       </div>
     );
   }

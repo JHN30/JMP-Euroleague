@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorBox from "../errors/ErrorBox";
 import AnimatedNumber from "../features/AnimatedNumber";
 import { useTeam } from "../../hooks/useTeam";
 import { useRound } from "../../hooks/useRound";
 import { calculateExpectedScorePredictor } from "../../utils/calculateExpectedScore";
-
+import PredictingTeamsSkeleton from "../skeletons/PredictingTeamsSkeleton";
 
 const PredictingTeams = () => {
   const [selectedHomeTeam, setSelectedHomeTeam] = useState("");
@@ -29,15 +28,15 @@ const PredictingTeams = () => {
 
   if (loadingTeams || loadingRounds) {
     return (
-      <div className="flex items-center justify-center h-full w-full py-20">
-        <LoadingSpinner />
+      <div className="flex items-center justify-center h-full w-full p-2">
+        <PredictingTeamsSkeleton />
       </div>
     );
   }
 
   if (errorTeams || errorRounds) {
     return (
-      <div className="flex items-center justify-center h-full w-full py-20">
+      <div className="flex items-center justify-center h-full w-full py-4">
         <ErrorBox error={errorTeams} />
         <ErrorBox error={errorRounds} />
       </div>
