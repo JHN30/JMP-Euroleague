@@ -3,7 +3,7 @@ import { useTeam } from "../../hooks/useTeam";
 import { useRound } from "../../hooks/useRound";
 
 import ErrorBox from "../errors/ErrorBox";
-import TeamMatchup from "../features/TeamMatchup";
+import TeamMatchup from "./TeamMatchup";
 import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 
 const PlayoffBracket = () => {

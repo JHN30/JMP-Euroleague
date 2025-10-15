@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useCallback, lazy, useState } from "react";
+import { useEffect, useCallback, lazy } from "react";
 
 import Navbar from "./components/Navbar";
 import { useAuth } from "./hooks/useAuth";
@@ -8,8 +8,8 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 import { BoundaryWithSuspense } from "./components/errors/RouteErrorBoundary";
 
 // Core frequently-hit routes (eager-ish via first suspense resolution)
-const Standings = lazy(() => import("./pages/Standings"));
-const Predictor = lazy(() => import("./pages/Predictor"));
+const StandingsPage = lazy(() => import("./pages/StandingsPage"));
+const PredictorPage = lazy(() => import("./pages/PredictorPage"));
 const TeamsPage = lazy(() => import("./pages/TeamsPage"));
 const TeamStatsPage = lazy(() => import("./pages/TeamStatsPage"));
 
@@ -21,7 +21,7 @@ const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const EmailVerificatonPage = lazy(() => import("./pages/EmailVerificatonPage"));
 
 // Less frequent
-const Playoff = lazy(() => import("./pages/Playoff"));
+const PlayoffPage = lazy(() => import("./pages/PlayoffPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 
@@ -40,9 +40,9 @@ function App() {
   useEffect(() => {
     const idle = (cb) => ("requestIdleCallback" in window ? window.requestIdleCallback(cb) : setTimeout(cb, 250));
     idle(() => {
-      import("./pages/Predictor");
+      import("./pages/PredictorPage");
       import("./pages/TeamsPage");
-      import("./pages/Standings");
+      import("./pages/StandingsPage");
       if (user?.role === "admin") import("./pages/AdminPage");
       if (user && !user.isVerified) import("./pages/EmailVerificatonPage");
     });
@@ -64,9 +64,9 @@ function App() {
       <BoundaryWithSuspense>
         <Routes>
           {/* Main Pages */}
-          <Route path="/" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Standings />} />
-          <Route path="/predictor" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Predictor />} />
-          <Route path="/playoff" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <Playoff />} />
+          <Route path="/" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <StandingsPage />} />
+          <Route path="/predictor" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <PredictorPage />} />
+          <Route path="/playoff" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <PlayoffPage />} />
           <Route path="/teams" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamsPage />} />
           <Route path="/team-stats/:teamId" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamStatsPage />} />
           <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />

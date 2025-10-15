@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useTeam } from "../../hooks/useTeam";
 
-import Team from "./Team";
+import StandingTeam from "./StandingTeam";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 
@@ -208,7 +208,7 @@ const Teams = () => {
             //const updatedRating = updatedRatings[teamIndex] || team.rating;
 
             return (
-              <Team
+              <StandingTeam
                 key={team.name}
                 team={{
                   ...team,

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Team = ({ team, position }) => {
+const StandingTeam = ({ team, position }) => {
   const pointsPlusTotal = Number(team.pointsPlus) || 0;
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
@@ -57,4 +57,4 @@ const Team = ({ team, position }) => {
   );
 };
 
-export default Team;
+export default StandingTeam;
