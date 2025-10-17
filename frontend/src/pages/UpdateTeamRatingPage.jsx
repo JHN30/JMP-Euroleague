@@ -1,16 +1,30 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTeam } from "../hooks/useTeam";
 import { useRound } from "../hooks/useRound";
 import { calculateAndUpdateRatings } from "../utils/ratingsCalculator";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import ErrorBox from "../components/errors/ErrorBox";
 
 const UpdateTeamRatingPage = () => {
   const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, updateRound, rounds, loadingRounds, errorRounds } = useRound();
-
   const [status, setStatus] = useState(null);
   const [oldRatings, setOldRatings] = useState([]);
   const [updatedRatings, setUpdatedRatings] = useState([]);
   const calculationDoneRef = useRef(false);
+
+  useEffect(() => {
+    fetchTeams();
+    fetchRounds();
+  }, [fetchTeams, fetchRounds]);
+
+  if (loadingTeams || loadingRounds) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   const handleUpdate = async () => {
     try {

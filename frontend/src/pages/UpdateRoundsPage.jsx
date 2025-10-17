@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorBox from "../components/errors/ErrorBox";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 import { useRound } from "../hooks/useRound";
 
-const UpdateRoundsPage = ({ fetchRounds }) => {
+const UpdateRoundsPage = () => {
   const [status, setStatus] = useState(null);
   const [inputs, setInputs] = useState({});
 
-  // Use rounds from the shared hook; AdminPage already calls fetchRounds()
-  const { rounds, updateRound, loadingRounds, errorRounds } = useRound();
+  const { rounds, fetchRounds, updateRound, loadingRounds, errorRounds } = useRound();
+
+  useEffect(() => {
+    fetchRounds();
+  }, [fetchRounds]);
+
+  if (loadingRounds) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (errorRounds) {
+    return <ErrorBox error={errorRounds} />;
+  }
 
   const handleInputChange = (roundId, value) => {
     setInputs((s) => ({ ...s, [roundId]: value }));
