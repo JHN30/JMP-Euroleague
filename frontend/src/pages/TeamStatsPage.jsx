@@ -116,7 +116,7 @@ const TeamStatsPage = () => {
         />
         <StatsCard
           title="JMP Rating"
-          value={team.data.rating ? team.data.rating.toFixed(0) : "0"}
+          value={team.data.rating2 ? team.data.rating2.toFixed(0) : "0"}
           icon={SlGraph}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
