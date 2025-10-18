@@ -9,7 +9,7 @@ import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
-  const [sortConfig] = useState({ key: "rating2", order: "desc" });
+  const [sortConfig] = useState({ key: "wins", order: "desc" });
   const [winners, setWinners] = useState({
     "play-in-1": null,
     "play-in-2": null,
@@ -50,9 +50,43 @@ const PlayoffBracket = () => {
     if (!teams?.data) return [];
 
     return [...teams.data].sort((a, b) => {
-      const aValue = sortConfig.key === "rating2" ? a.rating2 : a[sortConfig.key];
-      const bValue = sortConfig.key === "rating2" ? b.rating2 : b[sortConfig.key];
-      return sortConfig.order === "asc" ? aValue - bValue : bValue - aValue;
+      if (sortConfig.key === "wins") {
+        const direction = sortConfig.order === "asc" ? 1 : -1;
+        const aWins = Number(a.wins) || 0;
+        const bWins = Number(b.wins) || 0;
+        const winDiff = (aWins - bWins) * direction;
+        if (winDiff !== 0) {
+          return winDiff;
+        }
+
+        const aDiff = Number(a.pointsPlusMinus) || 0;
+        const bDiff = Number(b.pointsPlusMinus) || 0;
+        const diffDiff = (aDiff - bDiff) * direction;
+        if (diffDiff !== 0) {
+          return diffDiff;
+        }
+
+        const aRating = Number(a.rating2) || 0;
+        const bRating = Number(b.rating2) || 0;
+        const ratingDiff = (aRating - bRating) * direction;
+        if (ratingDiff !== 0) {
+          return ratingDiff;
+        }
+
+        return direction === 1 ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      }
+
+      const aValue = sortConfig.key === "rating2" ? Number(a.rating2) || 0 : a[sortConfig.key];
+      const bValue = sortConfig.key === "rating2" ? Number(b.rating2) || 0 : b[sortConfig.key];
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return sortConfig.order === "asc" ? aValue - bValue : bValue - aValue;
+      }
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortConfig.order === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      }
+
+      return 0;
     });
   };
 
