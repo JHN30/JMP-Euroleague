@@ -73,8 +73,8 @@ const PredictingTeams = () => {
 
     if (homeTeamData && awayTeamData) {
       const prediction = calculateExpectedScorePredictor(
-        homeTeamData.rating,
-        awayTeamData.rating,
+        homeTeamData.rating2,
+        awayTeamData.rating2,
         homeFormAdvantage,
         awayFormAdvantage
       );
