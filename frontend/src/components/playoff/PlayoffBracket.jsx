@@ -9,7 +9,7 @@ import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
-  const [sortConfig] = useState({ key: "wins", order: "desc" });
+  const [sortConfig] = useState({ key: "rating2", order: "desc" });
   const [winners, setWinners] = useState({
     "play-in-1": null,
     "play-in-2": null,
@@ -23,7 +23,7 @@ const PlayoffBracket = () => {
     final: null,
   });
 
-  const ELO_CHANGE = 6;
+  const ELO_CHANGE = 24;
 
   // Dependency mapping for resetting downstream matches
   const MATCH_DEPENDENCIES = {
@@ -50,8 +50,8 @@ const PlayoffBracket = () => {
     if (!teams?.data) return [];
 
     return [...teams.data].sort((a, b) => {
-      const aValue = sortConfig.key === "rating" ? a.rating : a[sortConfig.key];
-      const bValue = sortConfig.key === "rating" ? b.rating : b[sortConfig.key];
+      const aValue = sortConfig.key === "rating2" ? a.rating2 : a[sortConfig.key];
+      const bValue = sortConfig.key === "rating2" ? b.rating2 : b[sortConfig.key];
       return sortConfig.order === "asc" ? aValue - bValue : bValue - aValue;
     });
   };
@@ -80,14 +80,14 @@ const PlayoffBracket = () => {
   };
 
   const updateTeamElo = (team, isWinner) => {
-    if (!team || typeof team !== "object" || team.rating === undefined) {
+    if (!team || typeof team !== "object" || team.rating2 === undefined) {
       console.warn("Invalid team data for ELO calculation:", team);
       return team;
     }
 
     return {
       ...team,
-      rating: (team.rating || 0) + (isWinner ? ELO_CHANGE : -ELO_CHANGE),
+      rating2: (team.rating2 || 0) + (isWinner ? ELO_CHANGE : -ELO_CHANGE),
     };
   };
 
