@@ -17,7 +17,16 @@ export const calculateAndUpdateRatings = async (
       return;
     }
 
-    const initialRatings = teams.data.map((team) => team.rating);
+    const initialRatings = teams.data.map((team) => {
+      if (typeof team?.rating2 === "number" && !Number.isNaN(team.rating2)) {
+        return team.rating2;
+      }
+      if (typeof team?.rating === "number" && !Number.isNaN(team.rating)) {
+        return team.rating;
+      }
+      return 0;
+    });
+
     let updatedRatingsArray = [...initialRatings];
     let oldRatingsArray = [...initialRatings];
 
@@ -95,7 +104,7 @@ export const calculateAndUpdateRatings = async (
     // Update ratings in database
     for (let index = 0; index < teams.data.length; index++) {
       updateTeamRating(teams.data[index]._id, {
-        rating: updatedRatingsArray[index], //updatedRatingsArray[index], //1000 default
+        rating2: updatedRatingsArray[index],
       }).catch((error) => {
         console.error("Failed to update team:", error);
       });

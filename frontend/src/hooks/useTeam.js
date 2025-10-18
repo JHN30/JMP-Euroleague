@@ -47,7 +47,7 @@ export const useTeam = create((set) => ({
   updateTeamRating: async (teamId, data) => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.put(`/teams/${teamId}`, data);
+      const response = await axios.put(`/teams/rating2/${teamId}`, data);
       set((state) => ({
         teams: {
           ...state.teams,
