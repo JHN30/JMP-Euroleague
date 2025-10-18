@@ -9,7 +9,7 @@ import ErrorBox from "../errors/ErrorBox";
 const Teams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const [sortConfig, setSortConfig] = useState({
-    key: "rating",
+    key: "rating2",
     order: "desc",
   });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -59,14 +59,14 @@ const Teams = () => {
   };
 
   const sortedTeams = [...teams.data].sort((a, b) => {
-    // Composite sorting when key is rating:
-    // 1. Primary: rating (desc or asc per user choice) with equality determined on rounded value
+    // Composite sorting when key is rating2:
+    // 1. Primary: rating2 (desc or asc per user choice) with equality determined on rounded value
     // 2. Secondary: pointsPlusMinus (follows same order direction as rating)
     // 3. Tertiary: wins (same direction as rating = more wins first if desc, fewer wins first if asc)
     // 4. Quaternary: alphabetical name for deterministic ordering
-    if (sortConfig.key === "rating") {
-      const aRating = Number(a.rating) || 0;
-      const bRating = Number(b.rating) || 0;
+    if (sortConfig.key === "rating2") {
+      const aRating = Number(a.rating2) || 0;
+      const bRating = Number(b.rating2) || 0;
       const aRounded = Math.round(aRating);
       const bRounded = Math.round(bRating);
 
@@ -182,18 +182,18 @@ const Teams = () => {
             </th>
             <th className="font-bold">Form</th>
             <th
-              onClick={() => handleSort("rating")}
+              onClick={() => handleSort("rating2")}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className="cursor-pointer hover:text-orange-300 transition-colors font-bold relative"
             >
-              Rating {sortConfig.key === "rating" && (sortConfig.order === "asc" ? "▲" : "▼")}
+              Rating {sortConfig.key === "rating2" && (sortConfig.order === "asc" ? "▲" : "▼")}
               {showTooltip && (
-                <div className="absolute top-full right-0 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
+                <div className="absolute bottom-10 right-12 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
                   {selectedSeason !== "2025"
                     ? `This season is completed. These are the final ratings.`
                     : `JMP Ratings are updated only after ALL round matches have been played`}
-                  <div className="absolute bottom-full right-4 border-4 border-transparent border-b-orange-400"></div>
+                  <div className="absolute top-full right-4 border-4 border-transparent border-t-orange-400"></div>
                 </div>
               )}
             </th>
@@ -212,7 +212,7 @@ const Teams = () => {
                 key={team.name}
                 team={{
                   ...team,
-                  rating: teams.data[teamIndex].rating,
+                  rating2: teams.data[teamIndex].rating2,
                 }}
                 position={currentPosition}
               />

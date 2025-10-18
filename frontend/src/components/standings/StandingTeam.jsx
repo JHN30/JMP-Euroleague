@@ -52,7 +52,7 @@ const StandingTeam = ({ team, position }) => {
           ))}
         </div>
       </td>
-      <td className="font-bold text-orange-400">{team.rating !== undefined ? team.rating.toFixed(0) : "Loading..."}</td>
+      <td className="font-bold text-orange-400">{team.rating2 !== undefined ? team.rating2.toFixed(0) : "Loading..."}</td>
     </tr>
   );
 };
