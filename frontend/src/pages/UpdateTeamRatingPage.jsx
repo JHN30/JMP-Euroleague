@@ -14,7 +14,7 @@ const UpdateTeamRatingPage = () => {
   const calculationDoneRef = useRef(false);
 
   useEffect(() => {
-    fetchTeams();
+    fetchTeams("2025");
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 

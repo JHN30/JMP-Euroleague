@@ -9,7 +9,7 @@ import ErrorBox from "../errors/ErrorBox";
 const Teams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const [sortConfig, setSortConfig] = useState({
-    key: "rating2",
+    key: "wins",
     order: "desc",
   });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -87,6 +87,32 @@ const Teams = () => {
       }
 
       return a.name.localeCompare(b.name);
+    }
+
+    if (sortConfig.key === "wins") {
+      const direction = sortConfig.order === "asc" ? 1 : -1;
+      const aWins = Number(a.wins) || 0;
+      const bWins = Number(b.wins) || 0;
+      const winDiff = (aWins - bWins) * direction;
+      if (winDiff !== 0) {
+        return winDiff;
+      }
+
+      const aDiff = Number(a.pointsPlusMinus) || 0;
+      const bDiff = Number(b.pointsPlusMinus) || 0;
+      const diffDiff = (aDiff - bDiff) * direction;
+      if (diffDiff !== 0) {
+        return diffDiff;
+      }
+
+      const aRating = Number(a.rating2) || 0;
+      const bRating = Number(b.rating2) || 0;
+      const ratingDiff = (aRating - bRating) * direction;
+      if (ratingDiff !== 0) {
+        return ratingDiff;
+      }
+
+      return direction === 1 ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
     }
 
     // Generic path for other sort keys
@@ -187,7 +213,7 @@ const Teams = () => {
               onMouseLeave={handleMouseLeave}
               className="cursor-pointer hover:text-orange-300 transition-colors font-bold relative"
             >
-              Rating {sortConfig.key === "rating2" && (sortConfig.order === "asc" ? "▲" : "▼")}
+              JMP Rating {sortConfig.key === "rating2" && (sortConfig.order === "asc" ? "▲" : "▼")}
               {showTooltip && (
                 <div className="absolute bottom-10 right-12 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
                   {selectedSeason !== "2025"

@@ -52,7 +52,7 @@ export const calculateELOStandings = (
   homeAdvantage,
   formAdvantage,
   opponentFormAdvantage,
-  k = 16
+  k = 48
 ) => {
   const expectedFormAdvantage = formAdvantage * 0.05;
   const expectedOpponentFormAdvantage = opponentFormAdvantage * 0.05;
