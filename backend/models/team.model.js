@@ -76,10 +76,20 @@ const teamsSchema = new mongoose.Schema(
       type: Number,
       default: 1000,
     },
+    rating2: {
+      type: Number,
+      default: 1000,
+    },
     season: {
       type: Number,
       required: true,
       default: 2025,
+    },
+    team_id: {
+      type: String,
+      required: true,
+      unique: true,
+      default: "",
     },
   },
   {

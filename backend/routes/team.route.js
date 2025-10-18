@@ -5,6 +5,7 @@ import {
   getTeams,
   updateTeam,
   updateTeamRating,
+  updateTeamRating2,
   deleteTeam,
   deleteAllTeams,
   getTeamById,
@@ -19,6 +20,7 @@ router.get("/", getTeams);
 router.delete("/", verifyToken, deleteAllTeams);
 router.get("/:id", getTeamById);
 router.put("/:id", verifyToken, updateTeamRating);
+router.put("/rating2/:id", verifyToken, updateTeamRating2);
 router.put("/update/:id", verifyToken, updateTeam);
 router.delete("/:id", verifyToken, deleteTeam);
 
