@@ -4,6 +4,7 @@ const StandingTeam = ({ team, position }) => {
   const pointsPlusTotal = Number(team.pointsPlus) || 0;
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
+  const ratingDisplay = Number(team.displayRating ?? team.rating2);
 
   return (
     <tr className="border-b-2 border-orange-400/60 h-16">
@@ -52,7 +53,9 @@ const StandingTeam = ({ team, position }) => {
           ))}
         </div>
       </td>
-      <td className="font-bold text-orange-400">{team.rating2 !== undefined ? team.rating2.toFixed(0) : "Loading..."}</td>
+      <td className="font-bold text-orange-400">
+        {Number.isFinite(ratingDisplay) ? ratingDisplay.toFixed(0) : "Loading..."}
+      </td>
     </tr>
   );
 };

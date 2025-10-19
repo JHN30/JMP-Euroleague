@@ -43,6 +43,13 @@ const TeamStatsPage = () => {
     );
   }
 
+  const teamData = team?.data ?? {};
+  const selectedSeason = String(teamData.season ?? "");
+  const isLegacySeason = selectedSeason === "2024";
+  const ratingLabel = isLegacySeason ? "JMP Rating 1.0" : "JMP Rating 2.0";
+  const rawRatingValue = isLegacySeason ? Number(teamData.rating) : Number(teamData.rating2);
+  const ratingValueDisplay = Number.isFinite(rawRatingValue) ? rawRatingValue.toFixed(0) : "0";
+
   const handleLastFiveGames = () => {
     setGamesToShow(5);
   };
@@ -51,11 +58,11 @@ const TeamStatsPage = () => {
     setGamesToShow(10);
   };
 
-  const oppositionArray = Array.isArray(team.data.playedAgainst) ? team.data.playedAgainst.slice().reverse() : [];
-  const homeCourtArray = Array.isArray(team.data.homeGround) ? team.data.homeGround.slice().reverse() : [];
-  const resultArray = Array.isArray(team.data.form) ? team.data.form.slice().reverse() : [];
-  const pointsForArray = Array.isArray(team.data.pointsPlusArray) ? team.data.pointsPlusArray.slice().reverse() : [];
-  const pointsAgainstArray = Array.isArray(team.data.pointsMinusArray) ? team.data.pointsMinusArray.slice().reverse() : [];
+  const oppositionArray = Array.isArray(teamData.playedAgainst) ? teamData.playedAgainst.slice().reverse() : [];
+  const homeCourtArray = Array.isArray(teamData.homeGround) ? teamData.homeGround.slice().reverse() : [];
+  const resultArray = Array.isArray(teamData.form) ? teamData.form.slice().reverse() : [];
+  const pointsForArray = Array.isArray(teamData.pointsPlusArray) ? teamData.pointsPlusArray.slice().reverse() : [];
+  const pointsAgainstArray = Array.isArray(teamData.pointsMinusArray) ? teamData.pointsMinusArray.slice().reverse() : [];
 
   return (
     <div className="flex flex-col items-center justify-center p-2">
@@ -68,55 +75,55 @@ const TeamStatsPage = () => {
       >
         <div className="bg-orange-400 p-4 items-center justify-center rounded-t-md">
           <h1 className="flex items-center justify-center text-white text-2xl font-bold tracking-widest font-stretch-ultra-expanded">
-            {team.data.name}
+            {teamData.name}
           </h1>
         </div>
         <img
           className="flex items-center justify-center w-full h-138 pt-2 pb-2 object-contain"
-          src={team.data.logoImg}
-          alt={`${team.data.name} logo`}
+          src={teamData.logoImg}
+          alt={`${teamData.name} logo`}
         />
       </motion.div>
       {/* Stat Cards */}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 w-full pt-2 pb-2">
         <StatsCard
           title="Wins"
-          value={team.data.wins}
+          value={teamData.wins}
           icon={FaCheckDouble}
           color="bg-green-400"
           iconColor={"text-emerald-800"}
         />
         <StatsCard
           title="Losses"
-          value={team.data.losses}
+          value={teamData.losses}
           icon={HiOutlineX}
           color="bg-red-400"
           iconColor={"text-rose-800"}
         />
         <StatsCard
           title="Win Percentage"
-          value={team.data.winPercentage ? `${team.data.winPercentage.toFixed(2)}%` : "0%"}
+          value={teamData.winPercentage ? `${teamData.winPercentage.toFixed(2)}%` : "0%"}
           icon={FaPercentage}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
         />
         <StatsCard
           title="PTS+"
-          value={team.data.pointsPlus}
+          value={teamData.pointsPlus}
           icon={FaBasketball}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
         />
         <StatsCard
           title="PTS-"
-          value={team.data.pointsMinus}
+          value={teamData.pointsMinus}
           icon={FaBasketball}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
         />
         <StatsCard
-          title="JMP Rating"
-          value={team.data.rating2 ? team.data.rating2.toFixed(0) : "0"}
+          title={ratingLabel}
+          value={ratingValueDisplay}
           icon={SlGraph}
           color="bg-amber-400"
           iconColor={"text-amber-800"}
@@ -152,7 +159,7 @@ const TeamStatsPage = () => {
       </div>
       <FormCard
         title="Form"
-        value={Array.isArray(team.data.form) ? team.data.form : []}
+        value={Array.isArray(teamData.form) ? teamData.form : []}
         color="bg-amber-400"
         gridColumns={gamesToShow}
       />
@@ -161,7 +168,7 @@ const TeamStatsPage = () => {
         <p className="flex items-center justify-center text-gray-100 text-2xl p-2 font-bold">Played Against</p>
       </div>
       <PlayedAgainstCard
-        teamName={team.data.name}
+        teamName={teamData.name}
         opposition={oppositionArray}
         homeCourt={homeCourtArray}
         result={resultArray}

@@ -15,6 +15,11 @@ const Teams = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipTimeout, setTooltipTimeout] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState("2025");
+  const activeRatingKey = selectedSeason === "2024" ? "rating" : "rating2";
+  const getTeamRatingValue = (team) => {
+    const rawValue = activeRatingKey === "rating" ? team?.rating : team?.rating2;
+    return Number(rawValue) || 0;
+  };
 
   // Fetch teams data when the component mounts
   useEffect(() => {
@@ -59,14 +64,14 @@ const Teams = () => {
   };
 
   const sortedTeams = [...teams.data].sort((a, b) => {
-    // Composite sorting when key is rating2:
-    // 1. Primary: rating2 (desc or asc per user choice) with equality determined on rounded value
+    // Composite sorting when key is the active rating:
+    // 1. Primary: rating (desc or asc per user choice) with equality determined on rounded value
     // 2. Secondary: pointsPlusMinus (follows same order direction as rating)
     // 3. Tertiary: wins (same direction as rating = more wins first if desc, fewer wins first if asc)
     // 4. Quaternary: alphabetical name for deterministic ordering
-    if (sortConfig.key === "rating2") {
-      const aRating = Number(a.rating2) || 0;
-      const bRating = Number(b.rating2) || 0;
+    if (sortConfig.key === "rating2" || sortConfig.key === "rating") {
+      const aRating = getTeamRatingValue(a);
+      const bRating = getTeamRatingValue(b);
       const aRounded = Math.round(aRating);
       const bRounded = Math.round(bRating);
 
@@ -105,8 +110,8 @@ const Teams = () => {
         return diffDiff;
       }
 
-      const aRating = Number(a.rating2) || 0;
-      const bRating = Number(b.rating2) || 0;
+      const aRating = getTeamRatingValue(a);
+      const bRating = getTeamRatingValue(b);
       const ratingDiff = (aRating - bRating) * direction;
       if (ratingDiff !== 0) {
         return ratingDiff;
@@ -208,16 +213,16 @@ const Teams = () => {
             </th>
             <th className="font-bold">Form</th>
             <th
-              onClick={() => handleSort("rating2")}
+              onClick={() => handleSort(activeRatingKey)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className="cursor-pointer hover:text-orange-300 transition-colors font-bold relative"
             >
-              JMP Rating {sortConfig.key === "rating2" && (sortConfig.order === "asc" ? "▲" : "▼")}
+              JMP Rating {sortConfig.key === activeRatingKey && (sortConfig.order === "asc" ? "▲" : "▼")}
               {showTooltip && (
                 <div className="absolute bottom-10 right-12 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10 border border-orange-400">
                   {selectedSeason !== "2025"
-                    ? `This season is completed. These are the final ratings.`
+                    ? `Final ratings for this season. This season uses JMP Rating 1.0`
                     : `JMP Ratings are updated only after ALL round matches have been played`}
                   <div className="absolute top-full right-4 border-4 border-transparent border-t-orange-400"></div>
                 </div>
@@ -238,6 +243,7 @@ const Teams = () => {
                 key={team.name}
                 team={{
                   ...team,
+                  displayRating: getTeamRatingValue(team),
                   rating2: teams.data[teamIndex].rating2,
                 }}
                 position={currentPosition}
