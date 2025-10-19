@@ -13,9 +13,27 @@ const PredictingTeams = () => {
   const [selectedAwayTeam, setSelectedAwayTeam] = useState("");
   const [displayTeams, setDisplayTeams] = useState({ home: "", away: "" });
   const [predictions, setPredictions] = useState();
+  const [homeInjuries, setHomeInjuries] = useState(0);
+  const [awayInjuries, setAwayInjuries] = useState(0);
   const [showResults, setShowResults] = useState(false);
 
   const DEFAULT_SEASON = "2025";
+  const sanitizeInjuryValue = (value) => {
+    const numericValue = Number(value);
+    if (Number.isNaN(numericValue)) {
+      return 0;
+    }
+
+    return Math.max(0, Math.min(5, numericValue));
+  };
+
+  const handleHomeInjuriesChange = (event) => {
+    setHomeInjuries(sanitizeInjuryValue(event.target.value));
+  };
+
+  const handleAwayInjuriesChange = (event) => {
+    setAwayInjuries(sanitizeInjuryValue(event.target.value));
+  };
 
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
@@ -45,6 +63,11 @@ const PredictingTeams = () => {
 
   const handleTeamSelect = async (homeTeam, awayTeam) => {
     if (!homeTeam || !awayTeam) return;
+
+    const sanitizedHomeInjuries = sanitizeInjuryValue(homeInjuries);
+    const sanitizedAwayInjuries = sanitizeInjuryValue(awayInjuries);
+    setHomeInjuries(sanitizedHomeInjuries);
+    setAwayInjuries(sanitizedAwayInjuries);
 
     const homeTeamData = teams.data.find((team) => team.name === homeTeam);
     const awayTeamData = teams.data.find((team) => team.name === awayTeam);
@@ -76,7 +99,9 @@ const PredictingTeams = () => {
         homeTeamData.rating2,
         awayTeamData.rating2,
         homeFormAdvantage,
-        awayFormAdvantage
+        awayFormAdvantage,
+        sanitizedHomeInjuries,
+        sanitizedAwayInjuries
       );
       setPredictions(prediction);
       setDisplayTeams({
@@ -160,6 +185,35 @@ const PredictingTeams = () => {
                     </option>
                   ))}
               </select>
+            </div>
+          </div>
+
+          {/* Injuries Input */}
+          <div className="flex flex-row justify-center items-center gap-4">
+            <div className="flex flex-col items-center gap-2">
+              <label className="text-sm font-medium text-gray-600">Home Player/s Injured</label>
+              <input
+                type="number"
+                className="input input-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
+                min={0}
+                max={5}
+                step={1}
+                onChange={handleHomeInjuriesChange}
+                value={homeInjuries}
+              />
+            </div>
+
+            <div className="flex flex-col items-center gap-2">
+              <label className="text-sm font-medium text-gray-600">Away Player/s Injured</label>
+              <input
+                type="number"
+                className="input input-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
+                min={0}
+                max={5}
+                step={1}
+                onChange={handleAwayInjuriesChange}
+                value={awayInjuries}
+              />
             </div>
           </div>
 
