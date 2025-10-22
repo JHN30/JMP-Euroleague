@@ -1,31 +1,24 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useCallback, lazy } from "react";
+import { useEffect, useCallback} from "react";
 
 import Navbar from "./components/Navbar";
 import { useAuth } from "./hooks/useAuth";
 import LoadingSpinner from "./components/common/LoadingSpinner";
-import { BoundaryWithSuspense } from "./components/errors/RouteErrorBoundary";
 
-// Core frequently-hit routes (eager-ish via first suspense resolution)
-const StandingsPage = lazy(() => import("./pages/StandingsPage"));
-const PredictorPage = lazy(() => import("./pages/PredictorPage"));
-const TeamsPage = lazy(() => import("./pages/TeamsPage"));
-const TeamStatsPage = lazy(() => import("./pages/TeamStatsPage"));
+import StandingsPage from "./pages/StandingsPage";
+import PredictorPage from "./pages/PredictorPage";
+import PlayoffPage from "./pages/PlayoffPage";
+import TeamsPage from "./pages/TeamsPage";
+import TeamStatsPage from "./pages/TeamStatsPage";
+import ProfilePage from "./pages/ProfilePage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import EmailVerificatonPage from "./pages/EmailVerificationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import AdminPage from "./pages/AdminPage";
 
-// Auth related (grouped logically; Vite will still decide chunk names but manualChunks can refine)
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const SignUpPage = lazy(() => import("./pages/SignUpPage"));
-const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
-const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
-const EmailVerificatonPage = lazy(() => import("./pages/EmailVerificatonPage"));
-
-// Less frequent
-const PlayoffPage = lazy(() => import("./pages/PlayoffPage"));
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
-const AdminPage = lazy(() => import("./pages/AdminPage"));
-
-// Removed inline error boundary; using extracted component instead.
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
@@ -35,18 +28,6 @@ function App() {
   useEffect(() => {
     checkAuthCallback();
   }, [checkAuthCallback]);
-
-  // Idle prefetch for likely-next routes (predictor, teams, admin, verify) – MUST stay above any early returns
-  useEffect(() => {
-    const idle = (cb) => ("requestIdleCallback" in window ? window.requestIdleCallback(cb) : setTimeout(cb, 250));
-    idle(() => {
-      import("./pages/PredictorPage");
-      import("./pages/TeamsPage");
-      import("./pages/StandingsPage");
-      if (user?.role === "admin") import("./pages/AdminPage");
-      if (user && !user.isVerified) import("./pages/EmailVerificatonPage");
-    });
-  }, [user]);
 
   if (isCheckingAuth) {
     return (
@@ -61,7 +42,6 @@ function App() {
   return (
     <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-200 to-base-300 relative overflow-hidden">
       {<Navbar didntSignUp={didntSignUp} />}
-      <BoundaryWithSuspense>
         <Routes>
           {/* Main Pages */}
           <Route path="/" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <StandingsPage />} />
@@ -93,7 +73,6 @@ function App() {
             element={isAuthenticated && !didntSignUp && user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />}
           />
         </Routes>
-      </BoundaryWithSuspense>
       <Toaster />
     </div>
   );
