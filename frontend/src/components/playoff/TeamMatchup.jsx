@@ -21,8 +21,8 @@ const TeamMatchup = ({
       return { leftWinChance: 50, rightWinChance: 50 };
     }
 
-    const rating1 = team1.rating || 1500;
-    const rating2 = team2.rating || 1500;
+    const rating1 = team1.rating2 || 1500;
+    const rating2 = team2.rating2 || 1500;
 
     // ELO probability formula
     const expected1 = 1 / (1 + Math.pow(10, (rating2 - rating1) / 400));
