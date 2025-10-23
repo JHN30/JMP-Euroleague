@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
 
     const userAlreadyExist = await User.findOne({ email });
     if (userAlreadyExist) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ error: "User already exists. Please login." });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -132,12 +132,13 @@ export const refreshToken = async (req, res) => {
     });
 
     res.json({
+      success: true,
       message: "Token refreshed successfully",
       user: user,
     });
   } catch (error) {
     console.log("Error in refreshToken controller", error.message);
-    res.status(500).json({ message: "Internal Server error", error: error.message });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
