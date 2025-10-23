@@ -16,9 +16,9 @@ const StandingTeam = ({ team, position }) => {
           className="group relative flex items-center gap-2 rounded-md hover:bg-white/3 transition-transform duration-200 transform hover:translate-x-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
         >
           {/* left accent bar that pops up on hover */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-0 group-hover:w-1 bg-orange-400 rounded-r-md transition-all duration-200"></div>
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-0 group-hover:w-0.5 bg-orange-400 rounded-r-md transition-all duration-200"></div>
 
-          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-lg p-1 z-10 transition-transform duration-200 group-hover:scale-103">
+          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-md p-1 z-10 transition-transform duration-200 group-hover:scale-105">
             <img src={team.logoImg} className="object-contain max-w-full max-h-full" alt={`${team.name} logo`} />
           </div>
 

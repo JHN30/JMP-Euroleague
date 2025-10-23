@@ -5,6 +5,7 @@ import { useTeam } from "../../hooks/useTeam";
 import StandingTeam from "./StandingTeam";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
+import { sortTeams } from "../../utils/sortTeams";
 
 const Teams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -40,6 +41,7 @@ const Teams = () => {
     );
   }
 
+  // Functions for sorting teams
   const handleSort = (key) => {
     let order = "asc";
     if (sortConfig.key === key && sortConfig.order === "asc") {
@@ -48,6 +50,13 @@ const Teams = () => {
     setSortConfig({ key, order });
   };
 
+  const sortedTeams = sortTeams(teams.data, {
+    key: sortConfig.key,
+    order: sortConfig.order,
+    getRatingValue: (team) => getTeamRatingValue(team),
+  });
+
+  //Tooltip handlers
   const handleMouseEnter = () => {
     const timeout = setTimeout(() => {
       setShowTooltip(true);
@@ -62,90 +71,6 @@ const Teams = () => {
     }
     setShowTooltip(false);
   };
-
-  const sortedTeams = [...teams.data].sort((a, b) => {
-    // Composite sorting when key is the active rating:
-    // 1. Primary: rating (desc or asc per user choice) with equality determined on rounded value
-    // 2. Secondary: pointsPlusMinus (follows same order direction as rating)
-    // 3. Tertiary: wins (same direction as rating = more wins first if desc, fewer wins first if asc)
-    // 4. Quaternary: alphabetical name for deterministic ordering
-    if (sortConfig.key === "rating2" || sortConfig.key === "rating") {
-      const aRating = getTeamRatingValue(a);
-      const bRating = getTeamRatingValue(b);
-      const aRounded = Math.round(aRating);
-      const bRounded = Math.round(bRating);
-
-      if (aRounded !== bRounded) {
-        return sortConfig.order === "asc" ? aRating - bRating : bRating - aRating;
-      }
-
-      const aDiff = Number(a.pointsPlusMinus) || 0;
-      const bDiff = Number(b.pointsPlusMinus) || 0;
-      if (aDiff !== bDiff) {
-        return sortConfig.order === "asc" ? aDiff - bDiff : bDiff - aDiff;
-      }
-
-      const aWins = Number(a.wins) || 0;
-      const bWins = Number(b.wins) || 0;
-      if (aWins !== bWins) {
-        return sortConfig.order === "asc" ? aWins - bWins : bWins - aWins;
-      }
-
-      return a.name.localeCompare(b.name);
-    }
-
-    if (sortConfig.key === "wins") {
-      const direction = sortConfig.order === "asc" ? 1 : -1;
-      const aWins = Number(a.wins) || 0;
-      const bWins = Number(b.wins) || 0;
-      const winDiff = (aWins - bWins) * direction;
-      if (winDiff !== 0) {
-        return winDiff;
-      }
-
-      const aDiff = Number(a.pointsPlusMinus) || 0;
-      const bDiff = Number(b.pointsPlusMinus) || 0;
-      const diffDiff = (aDiff - bDiff) * direction;
-      if (diffDiff !== 0) {
-        return diffDiff;
-      }
-
-      const aRating = getTeamRatingValue(a);
-      const bRating = getTeamRatingValue(b);
-      const ratingDiff = (aRating - bRating) * direction;
-      if (ratingDiff !== 0) {
-        return ratingDiff;
-      }
-
-      return direction === 1 ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-    }
-
-    // Generic path for other sort keys
-    let aValue, bValue;
-    if (sortConfig.key === "pointsPlus" || sortConfig.key === "pointsMinus" || sortConfig.key === "pointsPlusMinus") {
-      if (sortConfig.key === "pointsPlus") {
-        aValue = Number(a.pointsPlus) || 0;
-        bValue = Number(b.pointsPlus) || 0;
-      } else if (sortConfig.key === "pointsMinus") {
-        aValue = Number(a.pointsMinus) || 0;
-        bValue = Number(b.pointsMinus) || 0;
-      } else {
-        aValue = Number(a.pointsPlusMinus) || 0;
-        bValue = Number(b.pointsPlusMinus) || 0;
-      }
-    } else {
-      aValue = a[sortConfig.key];
-      bValue = b[sortConfig.key];
-    }
-
-    if (typeof aValue === "number" && typeof bValue === "number") {
-      return sortConfig.order === "asc" ? aValue - bValue : bValue - aValue;
-    }
-    if (typeof aValue === "string" && typeof bValue === "string") {
-      return sortConfig.order === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-    }
-    return 0;
-  });
 
   return (
     <div className="overflow-x-auto">
@@ -234,9 +159,7 @@ const Teams = () => {
         <tbody>
           {sortedTeams.map((team, index) => {
             const currentPosition = index + 1;
-            // Find the updated rating for this team in the updatedRatings array
             const teamIndex = teams.data.indexOf(team);
-            //const updatedRating = updatedRatings[teamIndex] || team.rating;
 
             return (
               <StandingTeam

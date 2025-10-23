@@ -118,7 +118,10 @@ const Navbar = ({ didntSignUp }) => {
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden flex items-center mr-4">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-orange-400 hover:bg-gray-300/15 rounded-2xl focus:outline-none focus:text-orange-400 transition duration-200">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 text-orange-400 hover:bg-gray-300/15 rounded-2xl focus:outline-none focus:text-orange-400 transition duration-200"
+          >
             {isMenuOpen ? <HiX className="w-7 h-7" /> : <HiMenu className="w-7 h-7" />}
           </button>
         </div>
@@ -148,7 +151,10 @@ const Navbar = ({ didntSignUp }) => {
               {/* Menu Header */}
               <div className="flex items-center justify-between p-4 border-b-4 border-orange-500">
                 <h2 className="text-lg font-bold text-white">Menu</h2>
-                <button onClick={closeMenu} className="p-2 text-orange-400 hover:bg-gray-300/15 rounded-2xl focus:outline-none focus:text-orange-400 transition duration-200">
+                <button
+                  onClick={closeMenu}
+                  className="p-2 text-orange-400 hover:bg-gray-300/15 rounded-2xl focus:outline-none focus:text-orange-400 transition duration-200"
+                >
                   <HiX className="w-5 h-5" />
                 </button>
               </div>

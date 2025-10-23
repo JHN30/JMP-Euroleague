@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import TeamCard from "../components/cards/TeamCard";
 import { useTeam } from "../hooks/useTeam";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
+import { sortTeams } from "../utils/sortTeams";
 
 const DeleteTeamPage = () => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
@@ -20,13 +21,7 @@ const DeleteTeamPage = () => {
     fetchTeams(selectedSeason);
   }, [fetchTeams, selectedSeason]);
 
-  const sortedTeams = [...teams.data].sort((a, b) => {
-    let aValue, bValue;
-    aValue = a[sortConfig.key];
-    bValue = b[sortConfig.key];
-
-    return aValue > bValue ? 1 : -1;
-  });
+  const sortedTeams = sortTeams(teams.data, { key: sortConfig.key });
 
   const handleModal = (team) => {
     setSelectedTeamId(team._id);

@@ -5,6 +5,7 @@ import { useRound } from "../hooks/useRound";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamGrid from "../components/admin/updateTeam/TeamGrid";
 import TeamUpdate from "../components/admin/updateTeam/TeamUpdate";
+import { sortTeams } from "../utils/sortTeams";
 
 const UpdateTeamPage = () => {
   const [activeView, setActiveView] = useState("grid");
@@ -16,13 +17,10 @@ const UpdateTeamPage = () => {
 
   const sortConfig = { key: "name" };
 
-  const sortedTeams = useMemo(() => {
-    return [...teams.data].sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
-      return aValue > bValue ? 1 : -1;
-    });
-  }, [teams.data, sortConfig.key]);
+  const sortedTeams = useMemo(
+    () => sortTeams(teams.data, { key: sortConfig.key }),
+    [teams.data, sortConfig.key]
+  );
 
   const latestRound = rounds?.data[0]?.latestRound;
 

@@ -18,6 +18,13 @@ const PredictingTeams = () => {
   const [showResults, setShowResults] = useState(false);
 
   const DEFAULT_SEASON = "2025";
+  const clampProbability = (value) => {
+    const numericValue = Number(value);
+    if (Number.isNaN(numericValue)) {
+      return 0;
+    }
+    return Math.max(0, Math.min(1, numericValue));
+  };
   const sanitizeInjuryValue = (value) => {
     const numericValue = Number(value);
     if (Number.isNaN(numericValue)) {
@@ -103,7 +110,11 @@ const PredictingTeams = () => {
         sanitizedHomeInjuries,
         sanitizedAwayInjuries
       );
-      setPredictions(prediction);
+      setPredictions({
+        ...prediction,
+        homeTeam: clampProbability(prediction?.homeTeam),
+        awayTeam: clampProbability(prediction?.awayTeam),
+      });
       setDisplayTeams({
         home: homeTeam,
         away: awayTeam,

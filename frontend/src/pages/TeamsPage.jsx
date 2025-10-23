@@ -6,6 +6,7 @@ import { useTeam } from "../hooks/useTeam";
 import ErrorBox from "../components/errors/ErrorBox";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamCard from "../components/cards/TeamCard";
+import { sortTeams } from "../utils/sortTeams";
 
 const TeamsPage = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -52,13 +53,7 @@ const TeamsPage = () => {
     );
   }
 
-  const sortedTeams = [...teams.data].sort((a, b) => {
-    let aValue, bValue;
-    aValue = a[sortConfig.key];
-    bValue = b[sortConfig.key];
-
-    return aValue > bValue ? 1 : -1;
-  });
+  const sortedTeams = sortTeams(teams.data, { key: sortConfig.key });
 
   if (!teams?.data?.length) {
     return (

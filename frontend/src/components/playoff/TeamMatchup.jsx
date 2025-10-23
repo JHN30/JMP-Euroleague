@@ -8,8 +8,8 @@ const TeamMatchup = ({
   onSelectWinner,
   selectedWinner,
   disabled = false,
-  useLogos = false,
 }) => {
+  
   const handleTeamSelect = (side) => {
     if (disabled) return;
     onSelectWinner(matchId, side, leftTeam, rightTeam, leftSeed, rightSeed);
@@ -52,7 +52,7 @@ const TeamMatchup = ({
         className={`
           relative flex items-center gap-1.5 sm:gap-3 p-2 sm:p-3 rounded-lg cursor-pointer transition-all duration-300 
           ${disabled ? "opacity-50 cursor-not-allowed" : "md:hover:scale-[1.02] hover:bg-gray-700"} 
-          ${isSelected ? "bg-orange-500 text-white ring-2 ring-orange-400 shadow-lg" : "bg-gray-800 text-gray-300"}
+          ${isSelected ? "bg-orange-400 text-white ring-2 ring-orange-400 shadow-lg" : "bg-gray-800 text-gray-300"}
           overflow-hidden min-w-0
         `}
         onClick={() => handleTeamSelect(side)}
@@ -69,7 +69,7 @@ const TeamMatchup = ({
 
         {/* Team Logo and Name */}
         <div className="flex items-center gap-1 md:gap-2 min-w-0 flex-1 overflow-hidden">
-          {useLogos && teamLogo ? (
+          {teamLogo ? (
             <>
               <img
                 src={teamLogo}
@@ -94,7 +94,7 @@ const TeamMatchup = ({
           )}
         </div>
 
-        {/* Win Probability - Hide on very small screens */}
+        {/* Win Probability */}
         {showProbability && (
           <div
             className={`
@@ -151,16 +151,6 @@ const TeamMatchup = ({
           winProbabilities.rightWinChance
         )}
       </div>
-
-      {/* Reset Button */}
-      {selectedWinner && !disabled && (
-        <button
-          onClick={() => onSelectWinner(matchId, null, leftTeam, rightTeam, leftSeed, rightSeed)}
-          className="w-full py-1 md:py-1.5 lg:py-2 text-sm text-gray-400 hover:text-white transition-colors hover:bg-gray-700 rounded-lg"
-        >
-          Reset
-        </button>
-      )}
 
       {/* Disabled state indicator */}
       {disabled && (
