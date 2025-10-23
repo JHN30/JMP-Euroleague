@@ -77,7 +77,7 @@ const Navbar = ({ didntSignUp }) => {
       <div className="sticky w-screen flex flex-row border-b-4 border-orange-400 h-18 lg:w-full justify-between">
         {/* Logo */}
         <Link to="/" className="flex flex-none items-center justify-center ml-4">
-          <img src={logoPng} className="w-32 h-16" alt="Logo" />
+          <img src={logoPng} className="w-28 h-14 hover:scale-102 transition-transform duration-200" alt="Logo" />
         </Link>
 
         {/* Desktop Menu */}
@@ -88,7 +88,7 @@ const Navbar = ({ didntSignUp }) => {
                 <li key={item.to} className="flex justify-center">
                   <Link
                     to={item.to}
-                    className={`flex gap-3 items-center rounded-full py-2 pl-2 pr-4 max-w-fit cursor-pointer ${
+                    className={`flex gap-2 items-center rounded-full hover:scale-105 transition-transform duration-200 py-2 pl-2 pr-2 max-w-fit cursor-pointer ${
                       pathname === item.to ? "font-bold" : "font-normal"
                     }`}
                   >
@@ -104,10 +104,10 @@ const Navbar = ({ didntSignUp }) => {
                 initial={{ opacity: 0, x: 5 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.1 }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={isAuthenticated ? handleLogout : handleLogin}
-                className="flex gap-3 items-center py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+                className="flex gap-3 items-center ml-2 py-3 px-4 bg-gradient-to-r from-orange-400 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
               >
                 <LuLogOut className={`w-5 h-5 text-white`} />
                 <span className={`text-lg`}>{isAuthenticated ? "Logout" : "Login"}</span>
@@ -120,9 +120,9 @@ const Navbar = ({ didntSignUp }) => {
         <div className="lg:hidden flex items-center mr-4">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-orange-400 hover:bg-gray-300/15 rounded-2xl focus:outline-none focus:text-orange-400 transition duration-200"
+            className="p-2 text-orange-400 hover:scale-105 transition-transform duration-200"
           >
-            {isMenuOpen ? <HiX className="w-7 h-7" /> : <HiMenu className="w-7 h-7" />}
+            {isMenuOpen ? <HiX className="w-8 h-8" /> : <HiMenu className="w-8 h-8" />}
           </button>
         </div>
       </div>
