@@ -18,7 +18,7 @@ const CreateTeamPage = () => {
     season: "",
   });
 
-  const { createTeam, loadingTeams } = useTeam();
+  const { createTeam, fetchTeams, loadingTeams } = useTeam();
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
