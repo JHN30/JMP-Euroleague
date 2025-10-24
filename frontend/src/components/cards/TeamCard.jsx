@@ -8,23 +8,23 @@ const TeamCard = ({ team }) => {
         boxShadow: "0 8px 25px rgba(251, 146, 60, 0.3), 0 0 20px rgba(251, 146, 60, 0.2)",
       }}
       transition={{ duration: 0.3 }}
-      className="card bg-neutral card-md h-full relative overflow-hidden group hover:shadow-xl transition-all duration-300"
+      className="group card card-md relative h-full overflow-hidden bg-neutral transition-all duration-300 hover:shadow-2xl"
     >
-      {/* Subtle glow overlay that appears on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-200/5 via-transparent to-orange-300/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+      {/* Animated border halo */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl border border-transparent transition-all duration-500 group-hover:border-orange-300/40" />
 
-      {/* Sparkling effect - small animated dots */}
-      <div className="absolute top-2 right-2 w-1 h-1 bg-orange-300 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 group-hover:animate-pulse" />
-      <div className="absolute top-4 right-4 w-0.5 h-0.5 bg-yellow-300 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-1000 delay-200 group-hover:animate-ping" />
-      <div className="absolute top-3 right-6 w-0.5 h-0.5 bg-orange-200 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 delay-400 group-hover:animate-pulse" />
+      {/* Shimmer sweep */}
+      <div className="pointer-events-none absolute inset-0 translate-x-[-120%] skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-900 group-hover:translate-x-[120%] group-hover:opacity-100" />
 
-      <div className="card-body bg-orange-400 p-4 items-center justify-center rounded-t-md relative z-10">
-        <h2 className="flex items-center justify-center text-white text-base font-bold">{team.name}</h2>
+      <div className="card-body relative z-10 items-center justify-center rounded-t-md bg-gradient-to-br from-orange-400 via-orange-500 to-orange-400 p-4 text-center">
+        <h2 className="flex items-center justify-center text-xs font-bold uppercase tracking-tight text-white drop-shadow-md">
+          {team.name}
+        </h2>
       </div>
-      <figure className="mt-2 mb-2 relative z-10">
+      <figure className="relative z-10 mb-2 mt-2">
         <img
           src={team.logoImg}
-          className="flex items-center justify-center object-contain w-24 h-24 transition-all duration-300 group-hover:brightness-110"
+          className="mx-auto flex h-24 w-24 object-contain p-1 items-center justify-center shadow-inner transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
           alt={`${team.name} logo`}
         />
       </figure>
