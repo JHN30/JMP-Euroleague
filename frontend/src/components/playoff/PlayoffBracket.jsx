@@ -129,8 +129,7 @@ const PlayoffBracket = () => {
   if (errorTeams || errorRounds) {
     return (
       <div className="flex flex-col items-center justify-center min-h-96 w-full gap-4">
-        {errorTeams && <ErrorBox error={errorTeams} />}
-        {errorRounds && <ErrorBox error={errorRounds} />}
+        <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
   }

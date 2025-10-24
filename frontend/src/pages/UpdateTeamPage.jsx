@@ -1,10 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import ErrorBox from "../components/errors/ErrorBox";
 
 import { useTeam } from "../hooks/useTeam";
 import { useRound } from "../hooks/useRound";
+
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamGrid from "../components/admin/updateTeam/TeamGrid";
 import TeamUpdate from "../components/admin/updateTeam/TeamUpdate";
+
 import { sortTeams } from "../utils/sortTeams";
 
 const UpdateTeamPage = () => {
@@ -29,6 +33,12 @@ const UpdateTeamPage = () => {
     setActiveView("team");
   };
 
+  const handleUpdateSuccess = useCallback(() => {
+    setActiveView("grid");
+    setTeam({});
+    fetchTeams(selectedSeason);
+  }, [fetchTeams, selectedSeason]);
+
   useEffect(() => {
     fetchTeams(selectedSeason);
     fetchRounds();
@@ -47,7 +57,7 @@ const UpdateTeamPage = () => {
   if (errorTeams || errorRounds) {
     return (
       <div className="flex items-center justify-center h-full w-full py-20">
-        <p className="text-red-500">Error fetching data</p>
+        <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
   }
@@ -73,7 +83,13 @@ const UpdateTeamPage = () => {
       )}
       {activeView === "grid" && <TeamGrid sortedTeams={sortedTeams} handleClick={handleClick} />}
       {activeView === "team" && (
-        <TeamUpdate team={team} latestRound={latestRound} setActiveView={setActiveView} allTeams={sortedTeams} />
+        <TeamUpdate
+          team={team}
+          latestRound={latestRound}
+          setActiveView={setActiveView}
+          allTeams={sortedTeams}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
       )}
     </>
   );

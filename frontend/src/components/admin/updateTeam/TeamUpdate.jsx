@@ -5,7 +5,7 @@ import { useTeam } from "../../../hooks/useTeam";
 
 const fillArray = (arr, len) => Array.from({ length: len }, (_, i) => (arr && arr[i] !== undefined ? arr[i] : ""));
 
-const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
+const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSuccess }) => {
   const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState(fillArray(team.form, latestRound));
   const [playedAgainst, setPlayedAgainst] = useState(fillArray(team.playedAgainst, latestRound));
@@ -57,7 +57,6 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
       return;
     }
     try {
-      console.log(result, playedAgainst, homeGround, pointsPlus, pointsMinus);
       await updateTeam(team._id, {
         form: result,
         playedAgainst: playedAgainst,
@@ -65,6 +64,7 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams }) => {
         pointsPlusArray: pointsPlus,
         pointsMinusArray: pointsMinus,
       });
+      onUpdateSuccess?.();
       toast.success(`${team.name} is successfully updated`);
     } catch (error) {
       console.log("Error updating team: ", error);

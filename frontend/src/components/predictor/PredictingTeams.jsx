@@ -62,8 +62,7 @@ const PredictingTeams = () => {
   if (errorTeams || errorRounds) {
     return (
       <div className="flex items-center justify-center h-full w-full py-4">
-        <ErrorBox error={errorTeams} />
-        <ErrorBox error={errorRounds} />
+        <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
   }
