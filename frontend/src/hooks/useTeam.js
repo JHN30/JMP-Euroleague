@@ -51,7 +51,7 @@ export const useTeam = create((set) => ({
       set((state) => ({
         teams: {
           ...state.teams,
-          data: state.teams.data.map((team) => (team._id === teamId || team.id === teamId ? response.data : team)),
+          data: state.teams.data.map((team) => (team.id === teamId ? response.data : team)),
         },
         loadingTeams: false,
       }));
@@ -67,7 +67,7 @@ export const useTeam = create((set) => ({
       set((state) => ({
         teams: {
           ...state.teams,
-          data: state.teams.data.map((team) => (team._id === teamId || team.id === teamId ? response.data : team)),
+          data: state.teams.data.map((team) => (team.id === teamId ? response.data : team)),
         },
         loadingTeams: false,
       }));
@@ -81,7 +81,7 @@ export const useTeam = create((set) => ({
     try {
       await axios.delete(`/teams/${teamId}`);
       set((state) => ({
-        teams: { ...state.teams, data: state.teams.data.filter((team) => team._id !== teamId && team.id !== teamId) },
+        teams: { ...state.teams, data: state.teams.data.filter((team) => team.id !== teamId) },
         loadingTeams: false,
       }));
     } catch (error) {
