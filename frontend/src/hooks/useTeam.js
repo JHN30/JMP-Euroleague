@@ -17,6 +17,7 @@ export const useTeam = create((set) => ({
       }));
     } catch (error) {
       set({ loadingTeams: false, errorTeams: error.message });
+      throw error;
     }
   },
 
@@ -26,7 +27,7 @@ export const useTeam = create((set) => ({
       const query =
         season !== undefined && season !== null && season !== "" && season !== "all"
           ? `?season=${encodeURIComponent(season)}`
-          : "";
+          : "?season=2025";
       const response = await axios.get(`/teams${query}`);
       set({ teams: response.data, loadingTeams: false });
     } catch (error) {

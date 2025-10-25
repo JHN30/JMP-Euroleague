@@ -7,7 +7,7 @@ import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
 
-const Teams = () => {
+const StandingTeams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const [sortConfig, setSortConfig] = useState({
     key: "wins",
@@ -179,4 +179,4 @@ const Teams = () => {
   );
 };
 
-export default Teams;
+export default StandingTeams;

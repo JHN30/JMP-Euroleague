@@ -24,11 +24,11 @@ const CreateTeamPage = () => {
     e.preventDefault();
     try {
       await createTeam(team);
-      setTeam({ name: "", logoImg: "" });
+      setTeam({ name: "", logoImg: "", season: "" });
       toast.success("Team created successfully");
       fetchTeams();
     } catch (error) {
-      console.log("Error creating team: ", error);
+      toast.error("Failed to create team: " + error.message);
     }
   };
 
@@ -66,7 +66,7 @@ const CreateTeamPage = () => {
 
             <div className="flex flex-col justify-center">
               <label>Season</label>
-              <label className="text-sm text-gray-500 mb-0.5">Example: For season 2025/2026, enter 2025</label>
+              <label className="text-sm text-gray-500 mb-0.5">Example: For season 2025/2026, enter 2025. Default is 2025.</label>
               <Input
                 icon={AiOutlineTeam}
                 type="text"

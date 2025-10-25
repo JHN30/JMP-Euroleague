@@ -6,6 +6,7 @@ import TeamCard from "../components/cards/TeamCard";
 import { useTeam } from "../hooks/useTeam";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import { sortTeams } from "../utils/sortTeams";
+import ErrorBox from "../components/errors/ErrorBox";
 
 const DeleteTeamPage = () => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
@@ -57,7 +58,7 @@ const DeleteTeamPage = () => {
   if (errorTeams) {
     return (
       <div className="flex items-center justify-center h-full w-full py-20">
-        <p className="text-red-500">Error fetching teams</p>
+        <ErrorBox error={errorTeams} />
       </div>
     );
   }

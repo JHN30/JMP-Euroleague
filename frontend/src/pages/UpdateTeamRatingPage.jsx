@@ -26,6 +26,10 @@ const UpdateTeamRatingPage = () => {
     );
   }
 
+  if (errorTeams || errorRounds) {
+    return <ErrorBox error={errorTeams || errorRounds} />;
+  }
+
   const handleUpdate = async () => {
     try {
       if (!calculationDoneRef.current && teams?.data?.length > 0 && rounds?.data?.[0] && !loadingTeams && !loadingRounds) {
@@ -89,9 +93,6 @@ const UpdateTeamRatingPage = () => {
       </div>
 
       {status && <pre className="mt-4 p-3 bg-gray-800 text-gray-100 rounded whitespace-pre-wrap">{status}</pre>}
-
-      {errorTeams && <ErrorBox error={errorTeams} />}
-      {errorRounds && <ErrorBox error={errorRounds} />}
     </div>
   );
 };

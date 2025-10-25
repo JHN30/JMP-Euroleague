@@ -85,12 +85,6 @@ const teamsSchema = new mongoose.Schema(
       required: true,
       default: 2025,
     },
-    team_id: {
-      type: String,
-      required: true,
-      unique: true,
-      default: "",
-    },
   },
   {
     timestamps: true, //createdAt, updatedAt
