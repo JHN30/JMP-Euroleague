@@ -6,6 +6,7 @@ import StandingTeam from "./StandingTeam";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
+import SeasonSelect from "../common/SeasonSelect";
 
 const StandingTeams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -74,21 +75,12 @@ const StandingTeams = () => {
 
   return (
     <div className="overflow-x-auto">
-      <select
-        className="select select-bordered w-full max-w-xs mx-2 my-2 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
-        onChange={(e) => setSelectedSeason(e.target.value)}
+      <SeasonSelect
+        id="team-season"
+        className="mx-2 my-2"
         value={selectedSeason}
-      >
-        <option disabled value="">
-          Select Season
-        </option>
-        <option key={2024} value={2024}>
-          2024
-        </option>
-        <option key={2025} value={2025}>
-          2025
-        </option>
-      </select>
+        onChange={(e) => setSelectedSeason(e.target.value)}
+      />
       <table className="table table-md">
         {/* Table Head */}
         <thead className="border-y-2  border-orange-400">

@@ -80,6 +80,7 @@ const UpdateRoundsPage = () => {
 
                 <input
                   type="number"
+                  id="latest-round"
                   value={inputs[roundId] ?? round.latestRound}
                   onChange={(e) => handleInputChange(roundId, e.target.value)}
                   className="w-28 px-2 py-1 rounded bg-gray-800 text-white"

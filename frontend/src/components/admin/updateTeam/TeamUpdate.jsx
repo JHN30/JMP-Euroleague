@@ -139,9 +139,10 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSucces
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-900 bg-opacity-70 p-4 rounded-lg">
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Result (W/L)</label>
+          <label htmlFor={`result-${currentRound}`} className="block text-sm font-semibold text-gray-300 mb-2">Result (W/L)</label>
           <input
             type="text"
+            id={`result-${currentRound}`}
             value={result[currentRound] || ""}
             onChange={(e) => handleFieldChange("result", e.target.value)}
             placeholder="e.g., W or L"
@@ -150,8 +151,9 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSucces
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Opponent</label>
+          <label htmlFor={`opponent-${currentRound}`} className="block text-sm font-semibold text-gray-300 mb-2">Opponent</label>
           <select
+            id={`opponent-${currentRound}`}
             value={playedAgainst[currentRound] || ""}
             onChange={(e) => handleFieldChange("playedAgainst", e.target.value)}
             className="w-full px-4 py-2 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500 text-white transition duration-200"
@@ -166,9 +168,10 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSucces
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Home Ground (H/A)</label>
+          <label htmlFor={`home-ground-${currentRound}`} className="block text-sm font-semibold text-gray-300 mb-2">Home Ground (H/A)</label>
           <input
             type="text"
+            id={`home-ground-${currentRound}`}
             value={homeGround[currentRound] || ""}
             onChange={(e) => handleFieldChange("homeGround", e.target.value)}
             placeholder="e.g., H or A"
@@ -177,9 +180,10 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSucces
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Points Scored</label>
+          <label htmlFor={`points-scored-${currentRound}`} className="block text-sm font-semibold text-gray-300 mb-2">Points Scored</label>
           <input
             type="number"
+            id={`points-scored-${currentRound}`}
             value={pointsPlus[currentRound] || ""}
             onChange={(e) => handleFieldChange("pointsPlus", e.target.value)}
             placeholder="e.g., 85"
@@ -188,9 +192,10 @@ const TeamUpdate = ({ team, latestRound, setActiveView, allTeams, onUpdateSucces
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Points Conceded</label>
+          <label htmlFor={`points-conceded-${currentRound}`} className="block text-sm font-semibold text-gray-300 mb-2">Points Conceded</label>
           <input
             type="number"
+            id={`points-conceded-${currentRound}`}
             value={pointsMinus[currentRound] || ""}
             onChange={(e) => handleFieldChange("pointsMinus", e.target.value)}
             placeholder="e.g., 78"

@@ -10,6 +10,7 @@ import TeamGrid from "../components/admin/updateTeam/TeamGrid";
 import TeamUpdate from "../components/admin/updateTeam/TeamUpdate";
 
 import { sortTeams } from "../utils/sortTeams";
+import SeasonSelect from "../components/common/SeasonSelect";
 
 const UpdateTeamPage = () => {
   const [activeView, setActiveView] = useState("grid");
@@ -21,10 +22,7 @@ const UpdateTeamPage = () => {
 
   const sortConfig = { key: "name" };
 
-  const sortedTeams = useMemo(
-    () => sortTeams(teams.data, { key: sortConfig.key }),
-    [teams.data, sortConfig.key]
-  );
+  const sortedTeams = useMemo(() => sortTeams(teams.data, { key: sortConfig.key }), [teams.data, sortConfig.key]);
 
   const latestRound = rounds?.data[0]?.latestRound;
 
@@ -65,21 +63,12 @@ const UpdateTeamPage = () => {
   return (
     <>
       {activeView === "grid" && (
-        <select
-          className="select select-bordered w-full max-w-xs mx-2 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
-          onChange={(e) => setSelectedSeason(e.target.value)}
+        <SeasonSelect
+          id="team-season"
+          className="mx-2"
           value={selectedSeason}
-        >
-          <option disabled value="">
-            Select Season
-          </option>
-          <option key={2024} value={2024}>
-            2024
-          </option>
-          <option key={2025} value={2025}>
-            2025
-          </option>
-        </select>
+          onChange={(e) => setSelectedSeason(e.target.value)}
+        />
       )}
       {activeView === "grid" && <TeamGrid sortedTeams={sortedTeams} handleClick={handleClick} />}
       {activeView === "team" && (

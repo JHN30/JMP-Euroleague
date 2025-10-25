@@ -144,8 +144,9 @@ const PredictingTeams = () => {
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-center">
             {/* Home Team Selection */}
             <div className="flex flex-col items-center gap-2">
-              <label className="text-sm font-medium text-gray-600">Home Team</label>
+              <label htmlFor="home-team" className="text-sm font-medium text-gray-600">Home Team</label>
               <select
+                id="home-team"
                 className="select select-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
                 onChange={(e) => setSelectedHomeTeam(e.target.value)}
                 value={selectedHomeTeam}
@@ -177,8 +178,9 @@ const PredictingTeams = () => {
 
             {/* Away Team Selection */}
             <div className="flex flex-col items-center gap-2">
-              <label className="text-sm font-medium text-gray-600">Away Team</label>
+              <label htmlFor="away-team" className="text-sm font-medium text-gray-600">Away Team</label>
               <select
+                id="away-team"
                 className="select select-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
                 onChange={(e) => setSelectedAwayTeam(e.target.value)}
                 value={selectedAwayTeam}
@@ -201,9 +203,10 @@ const PredictingTeams = () => {
           {/* Injuries Input */}
           <div className="flex flex-row justify-center items-center gap-4">
             <div className="flex flex-col items-center gap-2">
-              <label className="text-sm font-medium text-gray-600">Home Player/s Injured</label>
+              <label htmlFor="home-injuries" className="text-sm font-medium text-gray-600">Home Player/s Injured</label>
               <input
                 type="number"
+                id="home-injuries"
                 className="input input-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
                 min={0}
                 max={5}
@@ -214,9 +217,10 @@ const PredictingTeams = () => {
             </div>
 
             <div className="flex flex-col items-center gap-2">
-              <label className="text-sm font-medium text-gray-600">Away Player/s Injured</label>
+              <label htmlFor="away-injuries" className="text-sm font-medium text-gray-600">Away Player/s Injured</label>
               <input
                 type="number"
+                id="away-injuries"
                 className="input input-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
                 min={0}
                 max={5}

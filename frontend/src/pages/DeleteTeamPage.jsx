@@ -7,6 +7,7 @@ import { useTeam } from "../hooks/useTeam";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import { sortTeams } from "../utils/sortTeams";
 import ErrorBox from "../components/errors/ErrorBox";
+import SeasonSelect from "../components/common/SeasonSelect";
 
 const DeleteTeamPage = () => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
@@ -65,21 +66,12 @@ const DeleteTeamPage = () => {
 
   return (
     <>
-      <select
-        className="select select-bordered w-full max-w-xs mx-2 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200"
-        onChange={(e) => setSelectedSeason(e.target.value)}
+      <SeasonSelect
+        id="team-season"
+        className="mx-2"
         value={selectedSeason}
-      >
-        <option disabled value="">
-          Select Season
-        </option>
-        <option key={2024} value={2024}>
-          2024
-        </option>
-        <option key={2025} value={2025}>
-          2025
-        </option>
-      </select>
+        onChange={(e) => setSelectedSeason(e.target.value)}
+      />
       <motion.div
         className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
         initial={{ opacity: 0, y: 20 }}

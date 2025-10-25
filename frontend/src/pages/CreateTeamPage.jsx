@@ -54,9 +54,10 @@ const CreateTeamPage = () => {
       >
         <div className="p-8">
           <form onSubmit={handleCreateTeam}>
-            <label>Team Name</label>
+            <label htmlFor="team-name">Team Name</label>
             <Input
               icon={AiOutlineTeam}
+              id="team-name"
               type="text"
               placeholder="Fenerbahce Beko Istanbul"
               value={team.name}
@@ -65,10 +66,11 @@ const CreateTeamPage = () => {
             />
 
             <div className="flex flex-col justify-center">
-              <label>Season</label>
-              <label className="text-sm text-gray-500 mb-0.5">Example: For season 2025/2026, enter 2025. Default is 2025.</label>
+              <label htmlFor="team-season">Season</label>
+              <p className="text-sm text-gray-500 mb-0.5">Example: For season 2025/2026, enter 2025. Default is 2025.</p>
               <Input
                 icon={AiOutlineTeam}
+                id="team-season"
                 type="text"
                 placeholder="2025"
                 value={team.season}
@@ -77,7 +79,7 @@ const CreateTeamPage = () => {
             </div>
 
             <div className="flex flex-col justify-center mb-8">
-              <label>Picture of a team</label>
+              <label htmlFor="image">Picture of a team</label>
               <input type="file" id="image" className="sr-only" accept="image/*" onChange={handleImageChange} />
               <label
                 htmlFor="image"
