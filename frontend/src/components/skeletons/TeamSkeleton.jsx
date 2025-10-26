@@ -1,58 +1,42 @@
 const TeamSkeleton = () => {
   return (
-    <tr className="border-b-2 border-orange-400/60 h-16 animate-pulse">
-      {/* Position */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-8 bg-orange-400/20"></div>
+    <tr className="border-b border-white/5 last:border-0">
+      <td className="px-4 py-4">
+        <div className="h-4 w-8 rounded-full bg-white/10 animate-pulse" />
       </td>
-
-      {/* Team Name with Logo */}
-      <td className="w-auto">
+      <td className="px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="skeleton w-12 h-12 rounded-lg bg-base-300 flex-shrink-0"></div>
-          <div className="skeleton h-5 w-40 bg-base-300"></div>
+          <div className="h-12 w-12 rounded-lg bg-white/10 animate-pulse" />
+          <div className="h-4 w-32 rounded-full bg-white/10 animate-pulse" />
         </div>
       </td>
-
-      {/* Wins */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-10 bg-green-400/20"></div>
+      <td className="px-4 py-4">
+        <div className="h-4 w-10 rounded-full bg-green-400/20 animate-pulse" />
       </td>
-
-      {/* Losses */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-10 bg-red-400/20"></div>
+      <td className="px-4 py-4">
+        <div className="h-4 w-10 rounded-full bg-red-400/20 animate-pulse" />
       </td>
-
-      {/* Win Percentage */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-16 bg-base-300"></div>
+      <td className="px-4 py-4">
+        <div className="h-4 w-16 rounded-full bg-white/10 animate-pulse" />
       </td>
-
-      {/* Points Plus */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-12 bg-base-300"></div>
+      <td className="px-4 py-4">
+        <div className="h-4 w-14 rounded-full bg-white/10 animate-pulse" />
       </td>
-
-      {/* Points Minus */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-12 bg-base-300"></div>
+      <td className="px-4 py-4">
+        <div className="h-4 w-14 rounded-full bg-white/10 animate-pulse" />
       </td>
-
-      {/* Form - 5 circles */}
-      <td className="w-auto">
+      <td className="px-4 py-4">
+        <div className="h-4 w-12 rounded-full bg-white/10 animate-pulse" />
+      </td>
+      <td className="px-4 py-4">
         <div className="flex gap-1">
-          <div className="skeleton w-6 h-6 rounded-full bg-base-300 flex-shrink-0"></div>
-          <div className="skeleton w-6 h-6 rounded-full bg-base-300 flex-shrink-0"></div>
-          <div className="skeleton w-6 h-6 rounded-full bg-base-300 flex-shrink-0"></div>
-          <div className="skeleton w-6 h-6 rounded-full bg-base-300 flex-shrink-0"></div>
-          <div className="skeleton w-6 h-6 rounded-full bg-base-300 flex-shrink-0"></div>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="h-6 w-6 rounded-full bg-white/10 animate-pulse" />
+          ))}
         </div>
       </td>
-
-      {/* Rating */}
-      <td className="w-auto">
-        <div className="skeleton h-5 w-14 bg-orange-400/20"></div>
+      <td className="px-4 py-4 text-right">
+        <div className="ml-auto h-4 w-16 rounded-full bg-orange-400/20 animate-pulse" />
       </td>
     </tr>
   );
