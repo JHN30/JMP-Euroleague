@@ -116,7 +116,7 @@ const PlayoffBracket = () => {
   const getWinningTeamObject = (matchId) => winners[matchId]?.winningTeamObject || null;
   const getLosingTeamObject = (matchId) => winners[matchId]?.losingTeamObject || null;
 
-  if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length || true) {
+  if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length) {
     return (
       <div className={`${pageCardClass} flex min-h-[320px] w-full items-center justify-center`}>
         <PlayoffBracketSkeleton />
