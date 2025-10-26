@@ -5,47 +5,58 @@ const StandingTeam = ({ team, position }) => {
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
   const ratingDisplay = Number(team.displayRating ?? team.rating2);
+  const recentForm = Array.isArray(team.form) ? team.form.slice(-5) : [];
 
   return (
-    <tr className="border-b-2 border-orange-400/60 h-16">
-      <td className="font-semibold text-orange-400">{position}</td>
-      <td>
+    <tr className="group border-b border-white/5 last:border-0 transition-colors hover:bg-white/5">
+      <td className="whitespace-nowrap px-4 py-4 text-sm font-semibold text-orange-300">
+        {position.toString().padStart(2, "0")}
+      </td>
+      <td className="px-4 py-4">
         <Link
           to={`/team-stats/${team._id}`}
           aria-label={`${team.name} stats`}
-          className="group relative flex items-center gap-2 rounded-md hover:bg-white/3 transition-transform duration-200 transform hover:translate-x-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
+          className="relative flex items-center gap-3 rounded-xl border border-transparent px-2 py-1 transition-all duration-200 hover:border-white/10 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300"
         >
-          {/* left accent bar that pops up on hover */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-0 group-hover:w-0.5 bg-orange-400 rounded-r-md transition-all duration-200"></div>
-
-          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-md p-1 z-10 transition-transform duration-200 group-hover:scale-105">
-            <img src={team.logoImg} className="object-contain max-w-full max-h-full" alt={`${team.name} logo`} />
+          {/* Vertical glow indicator */}
+          <span className="absolute left-0 top-1/2 h-10 w-1 -translate-y-1/2 rounded-full bg-gradient-to-b from-orange-400/80 to-amber-400/60 opacity-0 transition-all duration-200 group-hover:opacity-100" />
+          {/* Logo badge with fallback */}
+          <div className="relative z-10 flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg bg-white/10 p-1">
+            {team.logoImg ? (
+              <img src={team.logoImg} className="max-h-full max-w-full object-contain" alt={`${team.name} logo`} />
+            ) : (
+              <span className="text-xs text-gray-400">N/A</span>
+            )}
           </div>
-
-          <span className="font-bold text-base-content z-10 transition-colors duration-200 group-hover:text-orange-400">
-            {team.name}
-          </span>
+          {/* Text stack highlights name on hover */}
+          <div className="relative z-10 flex flex-col">
+            <span className="text-base font-semibold text-white transition-colors duration-200 group-hover:text-orange-200">
+              {team.name}
+            </span>
+          </div>
         </Link>
       </td>
-      <td className="font-medium text-green-400">{team.wins}</td>
-      <td className="font-medium text-red-400">{team.losses}</td>
-      <td className="font-semibold text-orange-300">{team.winPercentage.toFixed(2)}%</td>
-      <td className="font-medium text-green-400">{pointsPlusTotal}</td>
-      <td className="font-medium text-red-400">{pointsMinusTotal}</td>
+      <td className="px-4 py-4 font-medium text-green-300">{team.wins}</td>
+      <td className="px-4 py-4 font-medium text-red-300">{team.losses}</td>
+      <td className="px-4 py-4 font-semibold text-orange-200">{team.winPercentage.toFixed(2)}%</td>
+      <td className="px-4 py-4 font-medium text-green-300">{pointsPlusTotal}</td>
+      <td className="px-4 py-4 font-medium text-red-300">{pointsMinusTotal}</td>
       <td
-        className={`font-medium ${pointsDiff > 0 ? "text-green-400" : pointsDiff < 0 ? "text-red-400" : "text-orange-300"}`}
+        className={`px-4 py-4 font-semibold ${
+          pointsDiff > 0 ? "text-green-300" : pointsDiff < 0 ? "text-red-300" : "text-orange-200"
+        }`}
       >
         {pointsDiff > 0 ? `+${pointsDiff}` : `${pointsDiff}`}
       </td>
-      <td>
+      <td className="px-4 py-4">
         <div className="flex gap-1">
-          {team.form.slice(-5).map((result, index) => (
+          {recentForm.map((result, index) => (
             <span
               key={index}
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+              className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
                 result === "W"
-                  ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                  : "bg-red-500/20 text-red-400 border border-red-500/30"
+                  ? "border border-green-500/40 bg-green-500/15 text-green-300"
+                  : "border border-red-500/40 bg-red-500/15 text-red-300"
               }`}
             >
               {result}
@@ -53,7 +64,7 @@ const StandingTeam = ({ team, position }) => {
           ))}
         </div>
       </td>
-      <td className="font-bold text-orange-400">
+      <td className="px-4 py-4 text-right font-bold text-orange-200">
         {Number.isFinite(ratingDisplay) ? ratingDisplay.toFixed(0) : "Loading..."}
       </td>
     </tr>
