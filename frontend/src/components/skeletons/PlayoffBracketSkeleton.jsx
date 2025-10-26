@@ -1,79 +1,76 @@
 const MatchupSkeleton = () => (
-  <div className="relative border border-orange-300/40 rounded-xl bg-base-100/80 p-4 md:p-6 shadow-md">
-    <div className="flex items-center justify-between">
-      <div className="flex flex-col gap-3 w-1/2">
-        <div className="skeleton h-4 w-14 bg-orange-300/40"></div>
-        <div className="skeleton h-5 w-36 bg-base-300"></div>
+  <div className="w-full rounded-3xl border border-white/10 bg-white/5 p-4 shadow-xl shadow-black/30">
+    <div className="flex items-center gap-3">
+      <div className="h-10 w-10 rounded-full bg-orange-400/20" />
+      <div className="flex-1 space-y-2">
+        <div className="h-3 w-32 rounded-full bg-white/10" />
+        <div className="h-2.5 w-24 rounded-full bg-white/5" />
       </div>
-      <div className="skeleton h-6 w-6 rounded-full bg-orange-300/40"></div>
-      <div className="flex flex-col gap-3 w-1/2 items-end">
-        <div className="skeleton h-4 w-14 bg-orange-300/40"></div>
-        <div className="skeleton h-5 w-36 bg-base-300"></div>
+      <div className="h-6 w-12 rounded-full bg-orange-400/15" />
+    </div>
+    <div className="mt-3 flex items-center gap-3">
+      <div className="h-10 w-10 rounded-full bg-orange-400/20" />
+      <div className="flex-1 space-y-2">
+        <div className="h-3 w-32 rounded-full bg-white/10" />
+        <div className="h-2.5 w-24 rounded-full bg-white/5" />
       </div>
+      <div className="h-6 w-12 rounded-full bg-orange-400/15" />
     </div>
   </div>
 );
 
 const PlayoffBracketSkeleton = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black text-base-200 animate-pulse">
-      <section className="relative overflow-hidden px-4 md:px-12 py-10 md:py-16">
-        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.2),_transparent)]"></div>
-        <div className="relative max-w-6xl mx-auto">
-          <div className="skeleton h-10 w-64 bg-orange-400/30 mb-4"></div>
-          <div className="skeleton h-4 w-80 bg-base-300 mb-6"></div>
-          <div className="grid gap-4 max-w-3xl mx-auto">
-            <div className="skeleton h-12 w-full bg-base-300 rounded-xl"></div>
-            <div className="skeleton h-12 w-full bg-base-300 rounded-xl"></div>
-          </div>
+    <div className="w-full space-y-8 px-2 py-2 text-white/70 sm:px-4 sm:py-4">
+      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 shadow-2xl shadow-black/30 backdrop-blur">
+        <div className="mx-auto flex w-full flex-col items-center gap-3">
+          <div className="h-4 w-40 rounded-full bg-orange-200/30" />
+          <div className="h-6 w-64 rounded-full bg-white/15" />
+          <div className="h-4 w-72 rounded-full bg-white/5" />
         </div>
-      </section>
 
-      <section className="relative px-4 md:px-12 pb-16">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div>
-            <div className="skeleton h-7 w-40 bg-orange-200/40 mx-auto mb-6"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-            </div>
+        <div className="mt-8 space-y-5">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <MatchupSkeleton />
+            <MatchupSkeleton />
           </div>
-
-          <div>
-            <div className="skeleton h-7 w-44 bg-orange-200/40 mx-auto mb-6"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-            </div>
-          </div>
-
-          <div>
-            <div className="skeleton h-7 w-36 bg-orange-200/40 mx-auto mb-6"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
-              <MatchupSkeleton />
-              <MatchupSkeleton />
-            </div>
-          </div>
-
-          <div>
-            <div className="skeleton h-7 w-48 bg-orange-200/40 mx-auto mb-6"></div>
-            <div className="max-w-md mx-auto">
+          <div className="flex justify-center">
+            <div className="w-full max-w-md">
               <MatchupSkeleton />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 md:px-12 pb-16">
-        <div className="relative max-w-md mx-auto border-2 border-amber-300/50 rounded-2xl p-6 md:p-8 bg-base-100/10 backdrop-blur">
-          <div className="skeleton h-8 w-36 bg-yellow-400/40 mx-auto mb-6"></div>
-          <div className="flex flex-col items-center gap-4">
-            <div className="skeleton w-20 h-20 rounded-full bg-yellow-400/30"></div>
-            <div className="skeleton h-6 w-40 bg-base-300"></div>
+      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 shadow-2xl shadow-black/30 backdrop-blur">
+        <div className="mx-auto flex w-full flex-col items-center gap-3">
+          <div className="h-4 w-44 rounded-full bg-orange-200/30" />
+          <div className="h-6 w-60 rounded-full bg-white/15" />
+        </div>
+
+        <div className="mt-8 space-y-8">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+            <MatchupSkeleton />
           </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+          </div>
+          <div className="max-w-md">
+            <MatchupSkeleton />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 text-center shadow-2xl shadow-black/30 backdrop-blur">
+        <div className="mx-auto flex max-w-md flex-col items-center gap-4">
+          <div className="h-4 w-36 rounded-full bg-amber-200/30" />
+          <div className="h-10 w-52 rounded-full bg-white/10" />
+          <div className="h-24 w-24 rounded-full bg-amber-300/20" />
+          <div className="h-4 w-32 rounded-full bg-white/10" />
         </div>
       </section>
     </div>

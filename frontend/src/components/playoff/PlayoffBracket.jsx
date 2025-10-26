@@ -10,6 +10,7 @@ import FinalSection from "./FinalSection";
 import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
 import { sortTeams } from "../../utils/sortTeams";
+import { pageCardClass } from "../layout/PageShell";
 
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -28,10 +29,9 @@ const PlayoffBracket = () => {
     final: null,
   });
 
-  const ELO_CHANGE = 24;
+  const ELO_CHANGE = 16;
   const DEFAULT_SEASON = "2025";
 
-  // Dependency mapping for resetting downstream matches
   const MATCH_DEPENDENCIES = {
     "play-in-1": ["play-in-final", "qf-1", "sf-1", "final"],
     "play-in-2": ["play-in-final", "qf-3", "sf-2", "final"],
@@ -49,7 +49,6 @@ const PlayoffBracket = () => {
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 
-  // Helper functions
   const getSortedTeams = () => {
     if (!teams?.data) return [];
 
@@ -117,10 +116,9 @@ const PlayoffBracket = () => {
   const getWinningTeamObject = (matchId) => winners[matchId]?.winningTeamObject || null;
   const getLosingTeamObject = (matchId) => winners[matchId]?.losingTeamObject || null;
 
-  // Loading and error states
-  if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length) {
+  if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length || true) {
     return (
-      <div className="flex items-center justify-center w-full">
+      <div className={`${pageCardClass} flex min-h-[320px] w-full items-center justify-center`}>
         <PlayoffBracketSkeleton />
       </div>
     );
@@ -128,7 +126,7 @@ const PlayoffBracket = () => {
 
   if (errorTeams || errorRounds) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-96 w-full gap-4">
+      <div className={`${pageCardClass} flex min-h-[280px] w-full items-center justify-center`}>
         <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
@@ -138,10 +136,11 @@ const PlayoffBracket = () => {
   const seededTeams = getSeededTeams();
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4 space-y-8">
-      {/* Page Header */}
-      <div className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-orange-400 mb-2">Playoff Bracket</h1>
+    <div className="relative w-full space-y-8">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/15 to-transparent blur-[180px]" />
+        <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-amber-400/10 blur-3xl" />
       </div>
 
       <PlayInSection
@@ -153,17 +152,16 @@ const PlayoffBracket = () => {
         currentRound={currentRound}
       />
 
-      {/* Main Playoff Bracket */}
-      <section
-        className="border-2 border-orange-400 rounded-xl p-4 md:p-6 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl"
-        role="region"
-        aria-labelledby="main-bracket-title"
-      >
-        <h2 id="main-bracket-title" className="text-xl md:text-2xl font-bold mb-6 text-center text-orange-300">
-          Main Bracket
-        </h2>
+      <section className={`${pageCardClass} relative overflow-hidden`} role="region" aria-labelledby="main-bracket-title">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-orange-400/10" />
+        <div className="relative z-10 space-y-8 px-3 p-3">
+          <div className="text-center">
+            <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Main Bracket</p>
+            <h2 id="main-bracket-title" className="mt-2 text-2xl font-semibold text-white">
+              Quarterfinals to Finals
+            </h2>
+          </div>
 
-        <div className="space-y-8">
           <QuarterfinalsSection
             seededTeams={seededTeams}
             winners={winners}
@@ -192,4 +190,3 @@ const PlayoffBracket = () => {
 };
 
 export default PlayoffBracket;
-
