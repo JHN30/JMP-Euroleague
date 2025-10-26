@@ -45,7 +45,7 @@ function App() {
   didntSignUp = isAuthenticated ? false : true;
 
   return (
-    <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-300 to-base-200 relative overflow-hidden">
+    <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-300 to-base-200">
       {<Navbar didntSignUp={didntSignUp} />}
       <Suspense fallback={<FallbackComponent />}>
         <Routes>

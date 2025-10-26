@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import AuthShell, { authCardClass } from "../components/layout/AuthShell";
 
 import "../styles/button.css";
 
@@ -66,20 +67,23 @@ const EmailVerificationPage = () => {
   }, [code]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <AuthShell maxWidth="max-w-xl">
       <motion.div
-        initial={{ opacity: 0, y: -50 }}
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-neutral backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
+        transition={{ duration: 0.4 }}
+        className={`${authCardClass} px-6 py-8 sm:px-10`}
       >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-orange-500 to-orange-400 text-transparent bg-clip-text">
-          Verify Your Email
-        </h2>
-        <p className="text-center text-gray-300 mb-6">Enter the 6-digit code sent to your email address.</p>
+        <div className="text-center">
+          <span className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-300/80">
+            Verify Email
+          </span>
+          <h2 className="mt-4 text-3xl font-bold text-white">Verify your email</h2>
+          <p className="mt-1 text-sm text-gray-300">Enter the 6-digit code we sent to your inbox.</p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex justify-between">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <div className="flex justify-between gap-3">
             {code.map((digit, index) => (
               <input
                 key={index}
@@ -89,23 +93,23 @@ const EmailVerificationPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none"
+                className="h-12 w-12 rounded-xl border border-white/10 bg-black/40 text-center text-2xl font-bold text-white focus:border-orange-500 focus:outline-none"
               />
             ))}
           </div>
-          {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
+          {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading || code.some((digit) => !digit)}
-            className="button focus:ring-opacity-50 disabled:opacity-50"
+            className="button w-full justify-center disabled:opacity-60"
           >
             {isLoading ? "Verifying..." : "Verify Email"}
           </motion.button>
         </form>
       </motion.div>
-    </div>
+    </AuthShell>
   );
 };
 export default EmailVerificationPage;

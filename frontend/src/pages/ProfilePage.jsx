@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../styles/button.css";
 import toast from "react-hot-toast";
+import PageShell, { pageCardClass } from "../components/layout/PageShell";
 
 const ProfilePage = () => {
   const { user, logout, newVerifyEmail } = useAuth();
@@ -34,68 +35,69 @@ const ProfilePage = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-md w-full mx-auto mt-8 p-8 bg-neutral backdrop-filter rounded-xl shadow-2xl border border-orange-400"
-    >
-      <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-amber-400 text-transparent bg-clip-text">
-        Dashboard
-      </h2>
-
-      <div className="space-y-6">
-        <motion.div
-          className="p-4 bg-neutral rounded-lg border border-orange-400"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h3 className="text-xl font-semibold text-orange-400 mb-3">Profile Information</h3>
-          <p className="text-gray-300">Name: {user.username}</p>
-          <p className="text-gray-300">Email: {user.email}</p>
-          <p className="text-gray-300">Are you verified: {user.isVerified ? "Yes" : "No"}</p>
-        </motion.div>
-        <motion.div
-          className="p-4 bg-neutral rounded-lg border border-orange-400"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <h3 className="text-xl font-semibold text-orange-400 mb-3">Account Activity</h3>
-          <p className="text-gray-300">
-            <span className="font-bold">Joined: </span>
-            {new Date(user.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-          <p className="text-gray-300">
-            <span className="font-bold">Last Login: </span>
-
-            {formatDate(user.lastLogin)}
-          </p>
-        </motion.div>
-      </div>
-
+    <PageShell>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="mt-4"
+        transition={{ duration: 0.5 }}
+        className={`${pageCardClass} px-6 py-8 sm:px-10 text-white`}
       >
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={user.isVerified ? (user.role === "admin" ? handleAdmin : handleLogout) : handleVerifyEmail}
-          className="button"
-        >
-          {user.isVerified ? (user.role === "admin" ? "Admin Dashboard" : "Logout") : "Verify Email"}
-        </motion.button>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">Profile</p>
+            <h2 className="text-3xl font-bold">Welcome, {user.username}</h2>
+            <p className="text-sm text-gray-300">See your account details.</p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/40 px-5 py-3 text-sm text-gray-300">
+            Status:{" "}
+            <span className={`font-semibold ${user.isVerified ? "text-emerald-400" : "text-orange-300"}`}>
+              {user.isVerified ? "Verified" : "Awaiting verification"}
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-lg font-semibold text-orange-300">Profile information</h3>
+            <div className="mt-4 space-y-2 text-sm text-gray-200">
+              <p>
+                <span className="text-gray-400">Email:</span> {user.email}
+              </p>
+              <p>
+                <span className="text-gray-400">Role:</span> {user.role === "admin" ? "Admin" : "User"}
+              </p>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-lg font-semibold text-orange-300">Account activity</h3>
+            <div className="mt-4 space-y-2 text-sm text-gray-200">
+              <p>
+                <span className="text-gray-400">Joined:</span>{" "}
+                {new Date(user.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p>
+                <span className="text-gray-400">Last login:</span> {formatDate(user.lastLogin)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-8">
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={user.isVerified ? (user.role === "admin" ? handleAdmin : handleLogout) : handleVerifyEmail}
+            className="button w-full justify-center"
+          >
+            {user.isVerified ? (user.role === "admin" ? "Go to Admin Dashboard" : "Logout") : "Resend Verification Email"}
+          </motion.button>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </PageShell>
   );
 };
 

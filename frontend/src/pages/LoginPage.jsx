@@ -6,6 +6,7 @@ import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Input from "../components/common/Input";
+import AuthShell, { authCardClass } from "../components/layout/AuthShell";
 import { useAuth } from "../hooks/useAuth";
 
 import "../styles/button.css";
@@ -22,63 +23,65 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <AuthShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-neutral backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
+        className={`${authCardClass} px-6 py-8 sm:px-10`}
       >
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-amber-400 text-transparent bg-clip-text">
-            Welcome Back
-          </h2>
-
-          <form onSubmit={handleLogin}>
-            <Input
-              icon={LuMail}
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <Input
-              icon={FaLock}
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <div className="flex items-center mb-6">
-              <Link to="/forgot-password" className="text-sm text-orange-400 hover:underline">
-                Forgot password?
-              </Link>
-            </div>
-            {error && <p className="text-red-500 font-semibold mb-2">{error}</p>}
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="button"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? <FiLoader className="w-6 h-6 animate-spin mx-auto" /> : "Login"}
-            </motion.button>
-          </form>
+        <div className="mb-8 text-center">
+          <span className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-md font-semibold uppercase tracking-wide text-orange-300/80">
+            Login
+          </span>
+          <h2 className="mt-4 text-3xl font-bold text-white">Welcome back</h2>
         </div>
-        <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
-          <p className="text-sm text-gray-400">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-orange-400 hover:underline">
-              Sign up
+
+        <form onSubmit={handleLogin} className="space-y-2">
+          <Input
+            icon={LuMail}
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <Input
+            icon={FaLock}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <div className="mb-2 flex items-center justify-between text-sm">
+            <Link to="/forgot-password" className="text-orange-400 hover:text-orange-300 hover:underline">
+              Forgot password?
             </Link>
-          </p>
+          </div>
+          {error && <p className="text-sm font-semibold text-red-400">{error}</p>}
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="button mt-4 w-full justify-center"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? <FiLoader className="mx-auto h-6 w-6 animate-spin" /> : "Login"}
+          </motion.button>
+        </form>
+
+        <div className="mt-6 rounded-2xl border border-white/5 bg-white/5 p-4 text-center text-sm text-gray-300">
+          Need an account?
+          <Link to="/signup" className="ml-1 font-semibold text-orange-300 hover:text-orange-200">
+            Sign up
+          </Link>
         </div>
       </motion.div>
-    </div>
+    </AuthShell>
   );
 };
 export default LoginPage;

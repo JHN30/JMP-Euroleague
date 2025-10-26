@@ -1,4 +1,4 @@
-//eslint-disable-next-line no-unused-vars
+﻿//eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Input from "../components/common/Input";
@@ -8,6 +8,7 @@ import { FiLoader } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
+import AuthShell, { authCardClass } from "../components/layout/AuthShell";
 
 import "../styles/button.css";
 
@@ -24,23 +25,24 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <AuthShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-neutral backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
+        className={`${authCardClass} overflow-hidden`}
       >
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6 pb-2 text-center bg-gradient-to-r from-orange-400 to-amber-400 text-transparent bg-clip-text">
-            Forgot Password
-          </h2>
+        <div className="px-6 py-8 sm:px-10">
+          <div className="mb-6 text-center">
+            <span className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-300/80">
+              Reset access
+            </span>
+            <h2 className="mt-4 text-3xl font-bold text-white">Forgot your password?</h2>
+            <p className="mt-1 text-sm text-gray-300">We'll email you a secure reset link.</p>
+          </div>
 
           {!isSubmitted ? (
-            <form onSubmit={handleSubmit}>
-              <p className="text-gray-300 mb-6 text-center">
-                Enter your email address and we'll send you a link to reset your password.
-              </p>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 icon={LuMail}
                 type="email"
@@ -49,7 +51,7 @@ const ForgotPasswordPage = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="button" type="submit">
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="button w-full justify-center" type="submit">
                 {isLoading ? <FiLoader className="size-6 animate-spin mx-auto" /> : "Send Reset Link"}
               </motion.button>
             </form>
@@ -59,24 +61,24 @@ const ForgotPasswordPage = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="w-16 h-16 bg-orange-400 rounded-full flex items-center justify-center mx-auto mb-4"
+                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-400"
               >
                 <LuMail className="h-8 w-8 text-white" />
               </motion.div>
-              <p className="text-gray-300 mb-6">
+              <p className="text-gray-300">
                 If an account exists for {email}, you will receive a password reset link shortly.
               </p>
             </div>
           )}
         </div>
 
-        <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
-          <Link to={"/login"} className="text-sm text-orange-400 hover:underline flex items-center">
-            <FaArrowLeft className="h-4 w-4 mr-2" /> Back to Login
+        <div className="bg-black/40 px-8 py-4 text-center text-sm text-gray-300">
+          <Link to={"/login"} className="flex items-center justify-center text-orange-400 hover:text-orange-300">
+            <FaArrowLeft className="mr-2 h-4 w-4" /> Back to Login
           </Link>
         </div>
       </motion.div>
-    </div>
+    </AuthShell>
   );
 };
 export default ForgotPasswordPage;

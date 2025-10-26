@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Input from "../components/common/Input";
 import { FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
+import AuthShell, { authCardClass } from "../components/layout/AuthShell";
 
 import "../styles/button.css";
 
@@ -38,52 +39,54 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <AuthShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-neutral backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
+        className={`${authCardClass} px-6 py-8 sm:px-10`}
       >
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-amber-400 text-transparent bg-clip-text">
-            Reset Password
-          </h2>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
-
-          <form onSubmit={handleSubmit}>
-            <Input
-              icon={FaLock}
-              type="password"
-              placeholder="New Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <Input
-              icon={FaLock}
-              type="password"
-              placeholder="Confirm New Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="button"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? "Resetting..." : "Set New Password"}
-            </motion.button>
-          </form>
+        <div className="mb-6 text-center">
+          <span className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-300/80">
+            Final step
+          </span>
+          <h2 className="mt-4 text-3xl font-bold text-white">Create a new password</h2>
+          <p className="mt-1 text-sm text-gray-300">Make sure it’s strong and unique.</p>
         </div>
+        {error && <p className="mb-2 text-sm font-semibold text-red-400">{error}</p>}
+        {message && <p className="mb-2 text-sm font-semibold text-emerald-400">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="space-y-2">
+          <Input
+            icon={FaLock}
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <Input
+            icon={FaLock}
+            type="password"
+            placeholder="Confirm New Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="button mt-4 w-full justify-center"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Resetting..." : "Set New Password"}
+          </motion.button>
+        </form>
       </motion.div>
-    </div>
+    </AuthShell>
   );
 };
 export default ResetPasswordPage;
