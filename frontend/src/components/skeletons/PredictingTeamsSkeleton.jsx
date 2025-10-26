@@ -1,67 +1,85 @@
+import { pageCardClass } from "../layout/PageShell";
+
+const barClass = "rounded-full bg-white/10 animate-pulse";
+
 const PredictingTeamsSkeleton = () => {
   return (
-    <div className="flex flex-col items-center p-4 min-h-screen bg-gradient-to-br from-base-100 to-base-200">
-      <div className="card bg-base-100 shadow-2xl border border-orange-200 max-w-2xl w-full animate-pulse">
-        <div className="card-body">
-          <div className="skeleton h-8 w-56 bg-orange-400/30 mx-auto mb-6"></div>
+    <div className="flex flex-col gap-8">
+      {/* Main predictor card skeleton */}
+      <div className={`${pageCardClass} overflow-hidden`}>
+        <div className="border-b border-white/10 px-6 py-6">
+          <div className="h-3 w-36 rounded-full bg-orange-300/20 animate-pulse" />
+          <div className="mt-4 space-y-2">
+            <div className="h-6 w-64 rounded-full bg-white/10 animate-pulse" />
+            <div className="h-4 w-80 rounded-full bg-white/5 animate-pulse" />
+          </div>
+        </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-center w-full">
-            <div className="flex flex-col items-center gap-2 w-full lg:w-auto">
-              <div className="skeleton h-4 w-20 bg-base-300"></div>
-              <div className="skeleton h-12 w-56 bg-base-300 rounded-lg"></div>
+        <div className="space-y-8 px-6 py-6">
+          {/* Team selects */}
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-end">
+            <div className="space-y-3">
+              <div className="h-3 w-28 rounded-full bg-orange-200/20 animate-pulse" />
+              <div className="h-12 w-full rounded-2xl bg-white/10 animate-pulse" />
             </div>
 
-            <div className="flex flex-col items-center gap-2 w-full lg:w-auto">
-              <div className="skeleton h-4 w-24 bg-base-300"></div>
-              <div className="skeleton h-12 w-56 bg-base-300 rounded-lg"></div>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <div className="h-3 w-20 rounded-full bg-white/10 animate-pulse" />
+              <div className="h-12 w-12 rounded-full bg-gradient-to-r from-orange-400/30 to-amber-300/30 animate-pulse" />
+            </div>
+
+            <div className="space-y-3">
+              <div className="h-3 w-28 rounded-full bg-orange-200/20 animate-pulse" />
+              <div className="h-12 w-full rounded-2xl bg-white/10 animate-pulse" />
             </div>
           </div>
 
-          <div className="skeleton h-12 w-48 bg-orange-400/30 mx-auto mt-6 rounded-lg"></div>
+          {/* Injury inputs */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {[0, 1].map((key) => (
+              <div key={key} className="space-y-3">
+                <div className="h-3 w-32 rounded-full bg-orange-200/20 animate-pulse" />
+                <div className="h-12 w-full rounded-2xl bg-white/10 animate-pulse" />
+              </div>
+            ))}
+          </div>
+
+          {/* CTA button */}
+          <div className="h-12 w-full rounded-2xl bg-gradient-to-r from-orange-500/40 via-amber-400/40 to-yellow-300/40 animate-pulse" />
         </div>
       </div>
 
-      <div className="mt-4 w-full max-w-4xl animate-pulse">
-        <div className="skeleton h-7 w-64 bg-orange-400/30 mx-auto mb-4"></div>
+      {/* Results skeleton */}
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <div className="mx-auto h-3 w-40 rounded-full bg-orange-200/30 animate-pulse" />
+          <div className="mx-auto h-6 w-72 rounded-full bg-white/10 animate-pulse" />
+          <div className="mx-auto h-4 w-64 rounded-full bg-white/5 animate-pulse" />
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl border-l-4 border-l-green-400">
-            <div className="card-body space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="skeleton w-16 h-16 rounded-xl bg-base-300"></div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {[0, 1].map((key) => (
+            <div key={key} className={`${pageCardClass} relative overflow-hidden`}>
+              <div className={`absolute inset-0 ${key === 0 ? "bg-emerald-500/5" : "bg-sky-500/5"} animate-pulse`} />
+              <div className="relative z-10 flex flex-col gap-5 px-6 py-6">
+                <div className="flex items-center gap-4">
+                  <div className="h-16 w-16 rounded-xl bg-white/10 animate-pulse" />
+                  <div className="space-y-2">
+                    <div className="h-3 w-24 rounded-full bg-orange-200/30 animate-pulse" />
+                    <div className="h-5 w-32 rounded-full bg-white/10 animate-pulse" />
+                  </div>
+                </div>
+                <div className="space-y-3 text-center">
+                  <div className="mx-auto h-8 w-24 rounded-full bg-white/10 animate-pulse" />
+                  <div className="mx-auto h-3 w-28 rounded-full bg-white/5 animate-pulse" />
+                </div>
                 <div className="space-y-2">
-                  <div className="skeleton h-5 w-32 bg-base-300"></div>
-                  <div className="skeleton h-5 w-16 bg-green-400/30"></div>
+                  <div className={`h-2 w-full ${barClass}`} />
+                  <div className="mx-auto h-3 w-32 rounded-full bg-white/10 animate-pulse" />
                 </div>
               </div>
-
-              <div className="space-y-3">
-                <div className="skeleton h-8 w-24 bg-base-300 mx-auto"></div>
-                <div className="skeleton h-4 w-28 bg-base-300 mx-auto"></div>
-                <div className="skeleton h-4 w-full bg-green-400/30 rounded-full"></div>
-                <div className="skeleton h-5 w-32 bg-base-300 mx-auto"></div>
-              </div>
             </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl border-l-4 border-l-blue-400">
-            <div className="card-body space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="skeleton w-16 h-16 rounded-xl bg-base-300"></div>
-                <div className="space-y-2">
-                  <div className="skeleton h-5 w-32 bg-base-300"></div>
-                  <div className="skeleton h-5 w-16 bg-blue-400/30"></div>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="skeleton h-8 w-24 bg-base-300 mx-auto"></div>
-                <div className="skeleton h-4 w-28 bg-base-300 mx-auto"></div>
-                <div className="skeleton h-4 w-full bg-blue-400/30 rounded-full"></div>
-                <div className="skeleton h-5 w-32 bg-base-300 mx-auto"></div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
