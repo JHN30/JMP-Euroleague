@@ -1,21 +1,20 @@
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
 
 import TeamCard from "../components/cards/TeamCard";
-import { useTeam } from "../hooks/useTeam";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
-import { sortTeams } from "../utils/sortTeams";
-import ErrorBox from "../components/errors/ErrorBox";
 import SeasonSelect from "../components/common/SeasonSelect";
+import ErrorBox from "../components/errors/ErrorBox";
+import DeleteTeamModal from "../components/admin/deleteTeam/DeleteTeamModal";
+
+import { useTeam } from "../hooks/useTeam";
+import { sortTeams } from "../utils/sortTeams";
 
 const DeleteTeamPage = () => {
-  const [selectedTeamId, setSelectedTeamId] = useState("");
-  const [selectedTeamName, setSelectedTeamName] = useState("");
   const [selectedSeason, setSelectedSeason] = useState("2025");
-  const sortConfig = {
-    key: "name",
-  };
+  const [pendingTeam, setPendingTeam] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { fetchTeams, teams, deleteTeam, loadingTeams, errorTeams } = useTeam();
 
@@ -23,34 +22,39 @@ const DeleteTeamPage = () => {
     fetchTeams(selectedSeason);
   }, [fetchTeams, selectedSeason]);
 
-  const sortedTeams = sortTeams(teams.data, { key: sortConfig.key });
+  const sortedTeams = useMemo(() => sortTeams(teams?.data ?? [], { key: "name" }), [teams?.data]);
 
-  const handleModal = (team) => {
-    setSelectedTeamId(team._id);
-    setSelectedTeamName(team.name);
-    document.getElementById("delete_team").showModal();
+  const openModal = (team) => {
+    setPendingTeam(team);
+    setIsModalOpen(true);
   };
 
-  const handleDelete = async (e) => {
-    e.preventDefault();
+  const closeModal = () => {
+    setPendingTeam(null);
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = async () => {
+    if (!pendingTeam?._id) {
+      return;
+    }
     try {
-      await deleteTeam(selectedTeamId);
-      document.getElementById("delete_team").close();
-      toast.success(`${selectedTeamName} deleted successfully`);
-      setSelectedTeamId("");
-      setSelectedTeamName("");
-      fetchTeams();
+      await deleteTeam(pendingTeam._id);
+      toast.success(`${pendingTeam.name} deleted successfully.`);
+      closeModal();
+      fetchTeams(selectedSeason);
     } catch (error) {
-      toast.error(`Error deleting ${selectedTeamName}`);
-      console.log(`Error deleting ${selectedTeamName}: `, error);
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting ${pendingTeam.name}:`, error);
+      toast.error(`Error deleting ${pendingTeam.name}. Please try again.`);
     }
   };
 
   if (loadingTeams) {
     return (
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2">
-        {Array.from({ length: 15 }).map((_, idx) => (
-          <TeamCardSkeleton key={idx} />
+      <div className="grid gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {Array.from({ length: 15 }).map((_, index) => (
+          <TeamCardSkeleton key={`team-skeleton-${index}`} />
         ))}
       </div>
     );
@@ -58,7 +62,7 @@ const DeleteTeamPage = () => {
 
   if (errorTeams) {
     return (
-      <div className="flex items-center justify-center h-full w-full py-20">
+      <div className="flex h-full w-full items-center justify-center py-20">
         <ErrorBox error={errorTeams} />
       </div>
     );
@@ -67,53 +71,34 @@ const DeleteTeamPage = () => {
   return (
     <>
       <SeasonSelect
-        id="team-season"
-        className="mx-2"
+        id="delete-team-season"
+        className="mx-2 mb-4"
         value={selectedSeason}
-        onChange={(e) => setSelectedSeason(e.target.value)}
+        onChange={(event) => setSelectedSeason(event.target.value)}
       />
+
       <motion.div
-        className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2"
+        className="grid gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.6 }}
       >
-        {sortedTeams.map((team, idx) => {
+        {sortedTeams.map((team) => {
+          const stableKey = team._id ?? `${team.name}-${team.season ?? "unknown"}`;
           return (
-            <button onClick={() => handleModal(team)} className="block h-full hover:cursor-pointer" key={team.name}>
+            <button
+              key={stableKey}
+              type="button"
+              onClick={() => openModal(team)}
+              className="block h-full rounded-3xl border border-transparent transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-lg hover:shadow-orange-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+            >
               <TeamCard team={team} />
             </button>
           );
         })}
-        <dialog id="delete_team" className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">DELETE {selectedTeamName.toUpperCase()}</h3>
-            <p className="py-4">Are you sure you want to delete {selectedTeamName}</p>
-            <div className="modal-action">
-              <form method="dialog">
-                <button
-                  type="button"
-                  className="bg-emerald-500 hover:bg-emerald-400 text-white text-md font-bold py-2 px-4 mx-4 rounded-2xl"
-                  onClick={handleDelete}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  className="bg-red-600 hover:bg-red-500 text-white text-md font-bold py-2 px-4 rounded-2xl"
-                  onClick={() => {
-                    setSelectedTeamId("");
-                    setSelectedTeamName("");
-                    document.getElementById("delete_team").close();
-                  }}
-                >
-                  No
-                </button>
-              </form>
-            </div>
-          </div>
-        </dialog>
       </motion.div>
+
+      <DeleteTeamModal team={pendingTeam} isOpen={isModalOpen} onCancel={closeModal} onConfirm={handleDelete} />
     </>
   );
 };
