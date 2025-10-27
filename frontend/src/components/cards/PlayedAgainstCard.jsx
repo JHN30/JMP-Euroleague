@@ -1,84 +1,130 @@
 import { motion } from "framer-motion";
 
-const PlayedAgainstCard = ({ teamName, opposition, homeCourt, result, pointsFor = [], pointsAgainst = [] }) => (
-  <motion.div
-    className="bg-neutral border-b-2 border-r-2 border-l-2 border-amber-400 rounded-b-lg p-2 shadow-lg overflow-hidden w-full relative"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.2 }}
-  >
-    <div className="flex flex-col w-full gap-2">
-      {opposition.length === 0 ? (
-        <span className="text-white">No recent results</span>
+const PlayedAgainstCard = ({
+  teamName,
+  opposition = [],
+  homeCourt = [],
+  result = [],
+  pointsFor = [],
+  pointsAgainst = [],
+}) => {
+  const safeOpposition = Array.isArray(opposition) ? opposition : [];
+  const safeHome = Array.isArray(homeCourt) ? homeCourt : [];
+  const safeResult = Array.isArray(result) ? result : [];
+  const safePointsFor = Array.isArray(pointsFor) ? pointsFor : [];
+  const safePointsAgainst = Array.isArray(pointsAgainst) ? pointsAgainst : [];
+
+  return (
+    <motion.div
+      className="flex flex-col gap-4"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {safeOpposition.length === 0 ? (
+        <span className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-6 text-sm text-gray-300">
+          No recent matchups
+        </span>
       ) : (
-        opposition.map((team, idx) => (
-          <div
-            className="flex flex-col bg-base-100 items-center justify-center border-2 border-amber-400 rounded-2xl p-2"
-            key={idx}
-          >
-            <p className="text-gray-100 text-bold mb-2">Round {opposition.length - idx}</p>
-            {/* Matchup Display */}
-            <div className="flex flex-row w-full justify-between items-center gap-1 lg:gap-4">
-              {/* Home Team */}
-              <div className="flex-1 flex justify-end">
-                <p
-                  className={`text-sm md:text-lg lg:text-2xl font-bold ${
-                    homeCourt[idx] === "H" ? "text-white" : "text-gray-400"
-                  } text-right`}
-                >
-                  {homeCourt[idx] === "H" ? teamName : team}
-                </p>
+        safeOpposition.map((opponentRaw, idx) => {
+          const opponent = opponentRaw ?? "-";
+          const reversedIndex = safeOpposition.length - idx;
+          const homeFlag = String(safeHome[idx] ?? "").toUpperCase();
+          const isHome = homeFlag === "H";
+          const isAway = homeFlag === "A";
+          const hasNeutralCourt = !isHome && !isAway;
+
+          const homeLabel = hasNeutralCourt ? teamName ?? "-" : isHome ? teamName ?? "-" : opponent;
+          const awayLabel = hasNeutralCourt ? opponent : isAway ? teamName ?? "-" : opponent;
+
+          const rawTeamScore = Number(safePointsFor[idx]);
+          const rawOppScore = Number(safePointsAgainst[idx]);
+          const hasScores = Number.isFinite(rawTeamScore) && Number.isFinite(rawOppScore);
+          const didWin = hasScores ? rawTeamScore > rawOppScore : String(safeResult[idx]).toUpperCase() === "W";
+
+          const displayScore = hasScores
+            ? isHome
+              ? `${rawTeamScore} - ${rawOppScore}`
+              : isAway
+              ? `${rawOppScore} - ${rawTeamScore}`
+              : `${rawTeamScore} - ${rawOppScore}`
+            : didWin
+            ? "W"
+            : "L";
+
+          const scoreClasses = hasScores
+            ? didWin
+              ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-200"
+              : "border-rose-400/60 bg-rose-500/10 text-rose-200"
+            : didWin
+            ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-200"
+            : "border-rose-400/60 bg-rose-500/10 text-rose-200";
+
+          return (
+            <div
+              key={`${opponent}-${idx}`}
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.08] px-4 py-4 shadow-inner shadow-black/30 backdrop-blur"
+            >
+              <div className="pointer-events-none absolute inset-0">
+                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-orange-400/60 via-transparent to-amber-400/60 opacity-80" />
+                <div className="absolute -top-16 right-0 h-32 w-32 rounded-full bg-orange-500/15 blur-3xl" />
               </div>
-              {/* Div for results: show numeric score if available, fallback to W/L badge */}
-              <div className="flex flex-row mx-4 justify-center items-center">
-                {pointsFor[idx] != null &&
-                pointsAgainst[idx] != null &&
-                !Number.isNaN(Number(pointsFor[idx])) &&
-                !Number.isNaN(Number(pointsAgainst[idx])) ? (
-                  // show numeric score with colored background based on whether the passed-in team won
-                  (() => {
-                    const teamScore = Number(pointsFor[idx]);
-                    const oppScore = Number(pointsAgainst[idx]);
-                    const teamWon = teamScore > oppScore;
-                    const scoreText = homeCourt[idx] === "H" ? `${teamScore} - ${oppScore}` : `${oppScore} - ${teamScore}`;
-                    return (
-                      <span
-                        className={`px-3 py-1 rounded-md text-sm md:text-lg lg:text-2xl font-bold text-white ${
-                          teamWon ? "bg-green-600" : "bg-red-600"
-                        }`}
-                      >
-                        {scoreText}
-                      </span>
-                    );
-                  })()
-                ) : (
-                  // fallback: show dash with colored background based on result array
-                  <span
-                    className={`px-3 py-1 rounded-md text-sm md:text-lg lg:text-2xl font-bold text-white ${
-                      result[idx] === "W" ? "bg-green-600" : "bg-red-600"
-                    }`}
-                  >
-                    {result[idx] === "W" ? "W" : "L"}
+
+              <div className="relative z-10 flex flex-col gap-4">
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-gray-300">
+                  <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-orange-200/80">
+                    Round {reversedIndex}
                   </span>
-                )}
-              </div>
-              {/* Away Team */}
-              <div className="flex-1 flex justify-start">
-                <p
-                  key={idx}
-                  className={` text-sm md:text-lg lg:text-2xl font-bold ${
-                    homeCourt[idx] === "A" ? "text-white" : "text-gray-400"
-                  }`}
-                >
-                  {homeCourt[idx] === "A" ? teamName : team}
-                </p>
+                  <span className="text-gray-400">
+                    {isHome ? "Home" : isAway ? "Away" : homeFlag ? homeFlag : "Neutral"}
+                  </span>
+                </div>
+
+                <div className="flex flex-col items-center gap-4 text-sm sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-1 flex-col items-center gap-1 text-center sm:items-end sm:text-right">
+                    <p
+                      className={`text-base font-semibold sm:text-lg ${
+                        isHome ? "text-white" : hasNeutralCourt ? "text-white" : "text-gray-300"
+                      }`}
+                    >
+                      {homeLabel}
+                    </p>
+                    <span className="text-[0.7rem] uppercase tracking-[0.35em] text-gray-400">
+                      {isHome ? "Home" : hasNeutralCourt ? "Team" : "Home"}
+                    </span>
+                  </div>
+
+                  <div
+                    className={`flex min-w-[96px] flex-col items-center justify-center rounded-2xl border px-4 py-3 text-lg font-semibold transition-colors duration-200 ${scoreClasses}`}
+                  >
+                    <span>{displayScore}</span>
+                    {hasScores ? (
+                      <span className="mt-1 text-[0.65rem] uppercase tracking-[0.4em] text-white/70">
+                        {didWin ? "Win" : "Loss"}
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="flex flex-1 flex-col items-center gap-1 text-center sm:items-start sm:text-left">
+                    <p
+                      className={`text-base font-semibold sm:text-lg ${
+                        isAway ? "text-white" : hasNeutralCourt ? "text-white" : "text-gray-300"
+                      }`}
+                    >
+                      {awayLabel}
+                    </p>
+                    <span className="text-[0.7rem] uppercase tracking-[0.35em] text-gray-400">
+                      {isAway ? "Away" : hasNeutralCourt ? "Opponent" : "Away"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 export default PlayedAgainstCard;
