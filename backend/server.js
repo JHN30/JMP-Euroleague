@@ -26,11 +26,16 @@ app.use("/api/auth", authRoutes);
 app.use("/api/teams", teamRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "frontend", "dist")));
+  const distPath = path.join(__dirname, "frontend", "dist");
 
-  // Serve index.html for all non-API routes so client-side routing works after refresh
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  app.use(express.static(distPath));
+
+  // Serve index.html for non-API GET requests so client-side routing works after refresh
+  app.use((req, res, next) => {
+    if (req.method === "GET" && !req.path.startsWith("/api")) {
+      return res.sendFile(path.join(distPath, "index.html"));
+    }
+    return next();
   });
 }
 
