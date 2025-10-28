@@ -26,11 +26,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/teams", teamRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "frontend", "dist")));
 
-  // Catch-all route for client-side routing - must be last
-  app.get((req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  // Serve index.html for all non-API routes so client-side routing works after refresh
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
   });
 }
 
