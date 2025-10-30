@@ -27,12 +27,6 @@ const TeamStatsPage = () => {
     fetchTeamById(teamId);
   }, [fetchTeamById, teamId]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    }
-  }, [teamId]);
-
   const teamData = team?.data ?? {};
   const selectedSeason = String(teamData.season ?? "");
   const isLegacySeason = selectedSeason === "2024";

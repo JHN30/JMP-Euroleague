@@ -5,6 +5,7 @@ import { useEffect, useCallback, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import { useAuth } from "./hooks/useAuth";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 const StandingsPage = lazy(() => import("./pages/StandingsPage"));
 const PredictorPage = lazy(() => import("./pages/PredictorPage"));
@@ -35,11 +36,7 @@ function App() {
   }, [checkAuthCallback]);
 
   if (isCheckingAuth) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
+    return <FallbackComponent />;
   }
 
   didntSignUp = isAuthenticated ? false : true;
@@ -47,6 +44,7 @@ function App() {
   return (
     <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-300 to-base-200">
       {<Navbar didntSignUp={didntSignUp} />}
+      <ScrollToTop />
       <Suspense fallback={<FallbackComponent />}>
         <Routes>
           {/* Main Pages */}
