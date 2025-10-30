@@ -57,7 +57,7 @@ const CreateTeamPage = () => {
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-12 h-56 w-56 rounded-full bg-orange-500/15 blur-3xl" />
         <div className="absolute -bottom-20 right-6 h-48 w-48 rounded-full bg-amber-400/15 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.05)_1px,_transparent_1px)] bg-[length:120px_120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[120px_120px]" />
       </div>
 
       <div className="relative z-10 flex flex-col gap-8">

@@ -77,7 +77,7 @@ const Navbar = ({ didntSignUp }) => {
   return (
     <header className="sticky top-0 z-50 w-full px-3 py-4 sm:px-6">
       <div className="relative mx-auto flex w-full items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/5 px-3 py-3 shadow-lg shadow-slate-950/40 backdrop-blur-2xl lg:px-6">
-        <div className="pointer-events-none absolute inset-x-6 -top-1 h-[2px] bg-gradient-to-r from-transparent via-orange-400/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-6 -top-1 h-0.5 bg-gradient-to-r from-transparent via-orange-400/60 to-transparent" />
 
         {/* Logo */}
         <Link

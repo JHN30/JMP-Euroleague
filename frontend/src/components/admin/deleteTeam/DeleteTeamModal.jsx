@@ -24,7 +24,7 @@ const DeleteTeamModal = ({ team, isOpen, onCancel, onConfirm }) => {
           />
 
           <motion.div
-            className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/[0.08] p-6 shadow-2xl shadow-black/60 backdrop-blur-2xl"
+            className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/8 p-6 shadow-2xl shadow-black/60 backdrop-blur-2xl"
             initial={{ scale: 0.92, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 20 }}
@@ -34,7 +34,7 @@ const DeleteTeamModal = ({ team, isOpen, onCancel, onConfirm }) => {
             <div className="pointer-events-none absolute inset-0">
               <div className="absolute -top-24 right-0 h-56 w-56 rounded-full bg-rose-500/20 blur-3xl" />
               <div className="absolute -bottom-24 left-0 h-48 w-48 rounded-full bg-orange-400/15 blur-3xl" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[length:120px_120px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.04)1px,transparent_1px)] bg-size-[120px_120px]" />
             </div>
 
             <div className="relative z-10 flex flex-col gap-6">
