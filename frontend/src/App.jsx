@@ -78,6 +78,9 @@ function App() {
             path="/admin-dashboard"
             element={isAuthenticated && !didntSignUp && user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />}
           />
+
+          {/* Catch-all route - redirects any unmatched paths to home/standings */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
       <Toaster />
