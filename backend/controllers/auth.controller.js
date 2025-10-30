@@ -71,14 +71,48 @@ export const login = async (req, res) => {
       return res.status(400).json({ succses: false, error: "Email not found. Please register first or check your email" });
     }
 
+    // Check if account is locked
+    if (user.lockUntil && user.lockUntil > Date.now()) {
+      const remainingTime = Math.ceil((user.lockUntil - Date.now()) / 60000); // minutes
+      return res.status(429).json({
+        success: false,
+        error: `Account temporarily locked due to multiple failed login attempts. Please try again in ${remainingTime} minute(s).`,
+        lockUntil: user.lockUntil,
+      });
+    }
+
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ success: false, error: "Invalid password" });
+      // Increment login attempts
+      user.loginAttempts = (user.loginAttempts || 0) + 1;
+
+      // Lock account after 5 failed attempts
+      if (user.loginAttempts >= 5) {
+        user.lockUntil = new Date(Date.now() + 30 * 60 * 1000); // Lock for 30 minutes
+        await user.save();
+        return res.status(429).json({
+          success: false,
+          error:
+            "Account locked due to multiple failed login attempts. Please try again in 30 minutes or reset your password.",
+          lockUntil: user.lockUntil,
+        });
+      }
+
+      await user.save();
+      const attemptsLeft = 5 - user.loginAttempts;
+      return res.status(400).json({
+        success: false,
+        error: `Invalid password. ${attemptsLeft} attempt(s) remaining before account lock.`,
+      });
     }
+
+    // Successful login - reset login attempts and lock
+    user.loginAttempts = 0;
+    user.lockUntil = undefined;
+    user.lastLogin = new Date();
 
     const { accessToken, refreshToken } = generateTokens(user._id);
     setCookies(res, accessToken, refreshToken);
-    user.lastLogin = new Date();
     await user.save();
 
     res.status(200).json({
@@ -257,6 +291,10 @@ export const resetPassword = async (req, res) => {
 
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
+
+    // Reset login attempts and unlock account when password is reset
+    user.loginAttempts = 0;
+    user.lockUntil = undefined;
 
     await user.save();
 
