@@ -23,12 +23,12 @@ const ChampionDisplay = ({ champion }) => {
 
         <div className="relative">
           <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400/30 to-orange-500/10 blur-3xl" />
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-amber-300/40 bg-white/5 p-2">
+          <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-amber-300/40 bg-white/5 p-2">
             {champion.logoImg ? (
               <img
                 src={champion.logoImg}
                 alt={`${champion.name || "Champion"} logo`}
-                className="h-full w-full object-contain"
+                className="h-[75%] w-[75%] object-contain"
               />
             ) : (
               <span className="text-2xl font-bold text-amber-200">{fallbackLabel}</span>
