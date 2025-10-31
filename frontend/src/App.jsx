@@ -4,8 +4,7 @@ import { useEffect, useCallback, lazy, Suspense } from "react";
 
 import { useAuth } from "./hooks/useAuth";
 
-import Navbar from "./components/Navbar";
-import LoadingSpinner from "./components/common/LoadingSpinner";
+import Navbar from "./components/navbar/Navbar";
 import ScrollToTop from "./components/common/ScrollToTop";
 import FallbackComponent from "./components/common/FallBackComponent";
 
@@ -38,7 +37,7 @@ function App() {
   didntSignUp = isAuthenticated ? false : true;
 
   return (
-    <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-br from-base-100 via-base-300 to-base-200">
+    <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-b from-base-100 via-base-300 to-base-200">
       {<Navbar didntSignUp={didntSignUp} />}
       <ScrollToTop />
       <Suspense fallback={<FallbackComponent />}>
