@@ -18,7 +18,7 @@ The result is a more dynamic, context-aware system that produces **realistic bas
 
 ## 🆕 Recent Updates
 
-- **2025/26 Season Ready** – Restructured team models with per-match tracking arrays (points scored/conceded, opponents, results) for detailed season analytics.
+- **2025/26 Season Ready** – Restructured team models with per-match tracking arrays for detailed season analytics.
 - **Performance Optimizations** – Replaced collapsible multi-input forms with round-by-round navigation, eliminated laggy rendering, and moved rating calculations to admin-controlled manual triggers.
 - **Enhanced UI/UX** – Added dropdown team selectors, color-coded point differentials, hover tooltips, improved sorting logic, and smoother animations throughout.
 - **Code Quality** – Improved component reusability, removed duplicate logic between frontend/backend, cleaned up unused code, and reorganized old implementations into archive.
@@ -107,15 +107,11 @@ and
 ### 🔐 Admin Pages
 
 <p align="center">
-  <img src="./screenshots/create-team.PNG" alt="Create Page" width="90%">
+  <img src="./screenshots/create-team-2.png" alt="Create Page" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/delete-team-1.PNG" alt="Delete Page 1" width="90%">
-</p>
-
-<p align="center">
-  <img src="./screenshots/delete-team-2.PNG" alt="Delete Page 2" width="90%">
+  <img src="./screenshots/delete-team.png" alt="Delete Page" width="90%">
 </p>
 
 <p align="center">
@@ -123,7 +119,7 @@ and
 </p>
 
 <p align="center">
-  <img src="./screenshots/update-team-2-new.png" alt="Update Page 2 NEW" width="90%">
+  <img src="./screenshots/update-team-2.PNG" alt="Update Page 2" width="90%">
 </p>
 
 #
@@ -136,7 +132,13 @@ Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 
 ### 🔮 Predictor
 
-Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-predictor.html) to see the difference!
+<p align="center">
+  <img src="./screenshots/predictor-1.png" alt="Predictor Page 1" width="90%">
+</p>
+
+<p align="center">
+  <img src="./screenshots/predictor-2.png" alt="Predictor Page 2" width="90%">
+</p>
 
 #
 
@@ -149,15 +151,19 @@ Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 ### 📈 Team Stats
 
 <p align="center">
-  <img src="./screenshots/teams.PNG" alt="Teams Page" width="90%">
+  <img src="./screenshots/teams-1.png" alt="Teams Page 1" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/single-team-1.PNG" alt="Team Stats Page 1" width="90%">
+  <img src="./screenshots/teams-2.png" alt="Teams Page 2" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/single-team-2-new.png" alt="Team Stats Page 2 NEW" width="90%">
+  <img src="./screenshots/teams-3.png" alt="Teams Page 3" width="90%">
+</p>
+
+<p align="center">
+  <img src="./screenshots/teams-4.png" alt="Teams Page 4" width="90%">
 </p>
 
 #
@@ -173,15 +179,15 @@ Check out the [Predictor Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 </p>
 
 <p align="center">
-  <img src="./screenshots/verify-email-page.PNG" alt="Verify Email Page" width="90%">
+  <img src="./screenshots/verify-email.png" alt="Verify Email Page" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/forgot-password-page.PNG" alt="Forgot Password Page" width="90%">
+  <img src="./screenshots/forgot-password.png" alt="Forgot Password Page" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/reset-password-page.PNG" alt="Reset Password Page" width="90%">
+  <img src="./screenshots/reset-password.png" alt="Reset Password Page" width="90%">
 </p>
 
 #
