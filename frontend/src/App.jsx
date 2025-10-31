@@ -2,10 +2,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useCallback, lazy, Suspense } from "react";
 
-import Navbar from "./components/Navbar";
 import { useAuth } from "./hooks/useAuth";
+
+import Navbar from "./components/Navbar";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ScrollToTop from "./components/common/ScrollToTop";
+import FallbackComponent from "./components/common/FallBackComponent";
 
 const StandingsPage = lazy(() => import("./pages/StandingsPage"));
 const PredictorPage = lazy(() => import("./pages/PredictorPage"));
@@ -19,12 +21,6 @@ const EmailVerificatonPage = lazy(() => import("./pages/EmailVerificationPage"))
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
-
-const FallbackComponent = () => (
-  <div className="flex items-center justify-center h-screen">
-    <LoadingSpinner size="lg" />
-  </div>
-);
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
