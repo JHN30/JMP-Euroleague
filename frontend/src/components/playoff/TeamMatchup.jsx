@@ -1,3 +1,5 @@
+import { FaCheck } from "react-icons/fa";
+
 const TeamMatchup = ({
   matchId,
   leftSeed,
@@ -101,7 +103,7 @@ const TeamMatchup = ({
 
         {isSelected && (
           <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-xs font-bold text-slate-950 shadow-lg">
-            ?
+            <FaCheck />
           </span>
         )}
       </button>
