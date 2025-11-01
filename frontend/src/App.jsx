@@ -7,6 +7,7 @@ import { useAuth } from "./hooks/useAuth";
 import Navbar from "./components/navbar/Navbar";
 import ScrollToTop from "./components/common/ScrollToTop";
 import FallbackComponent from "./components/common/FallBackComponent";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 const StandingsPage = lazy(() => import("./pages/StandingsPage"));
 const PredictorPage = lazy(() => import("./pages/PredictorPage"));
@@ -31,7 +32,11 @@ function App() {
   }, [checkAuthCallback]);
 
   if (isCheckingAuth) {
-    return <FallbackComponent />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   didntSignUp = isAuthenticated ? false : true;
