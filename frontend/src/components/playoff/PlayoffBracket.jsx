@@ -11,6 +11,9 @@ import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
 import { sortTeams } from "../../utils/sortTeams";
 import { pageCardClass } from "../layout/PageShell";
+import { DEFAULT_SEASON } from "../../constants/playoffConstants";
+import { updateTeamElo } from "../../utils/eloCalculator";
+import { resetDownstreamMatches } from "../../utils/playoffHelpers";
 
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -28,21 +31,6 @@ const PlayoffBracket = () => {
     "sf-2": null,
     final: null,
   });
-
-  const ELO_CHANGE = 16;
-  const DEFAULT_SEASON = "2025";
-
-  const MATCH_DEPENDENCIES = {
-    "play-in-1": ["play-in-final", "qf-1", "sf-1", "final"],
-    "play-in-2": ["play-in-final", "qf-3", "sf-2", "final"],
-    "play-in-final": ["qf-1", "sf-1", "final"],
-    "qf-1": ["sf-1", "final"],
-    "qf-2": ["sf-1", "final"],
-    "qf-3": ["sf-2", "final"],
-    "qf-4": ["sf-2", "final"],
-    "sf-1": ["final"],
-    "sf-2": ["final"],
-  };
 
   useEffect(() => {
     fetchTeams(DEFAULT_SEASON);
@@ -75,25 +63,6 @@ const PlayoffBracket = () => {
     };
   };
 
-  const resetDownstreamMatches = (matchId, newWinners) => {
-    const dependencies = MATCH_DEPENDENCIES[matchId] || [];
-    dependencies.forEach((mId) => {
-      newWinners[mId] = null;
-    });
-  };
-
-  const updateTeamElo = (team, isWinner) => {
-    if (!team || typeof team !== "object" || team.rating2 === undefined) {
-      console.warn("Invalid team data for ELO calculation:", team);
-      return team;
-    }
-
-    return {
-      ...team,
-      rating2: (team.rating2 || 0) + (isWinner ? ELO_CHANGE : -ELO_CHANGE),
-    };
-  };
-
   const handleSelectWinner = (matchId, winningSide, matchLeftTeam, matchRightTeam, matchLeftSeed, matchRightSeed) => {
     const newWinners = { ...winners };
 
@@ -102,14 +71,16 @@ const PlayoffBracket = () => {
     const losingTeam = isLeftWinner ? matchRightTeam : matchLeftTeam;
     const winnerSeed = isLeftWinner ? matchLeftSeed : matchRightSeed;
 
+    const { winnerNewRating, loserNewRating } = updateTeamElo(winningTeam?.rating2 || 0, losingTeam?.rating2 || 0);
+
     newWinners[matchId] = {
       side: winningSide,
       winnerSeedNumber: winnerSeed,
-      winningTeamObject: updateTeamElo(winningTeam, true),
-      losingTeamObject: updateTeamElo(losingTeam, false),
+      winningTeamObject: { ...winningTeam, rating2: winnerNewRating },
+      losingTeamObject: { ...losingTeam, rating2: loserNewRating },
     };
 
-    resetDownstreamMatches(matchId, newWinners);
+    resetDownstreamMatches(matchId, winners, setWinners);
     setWinners(newWinners);
   };
 
