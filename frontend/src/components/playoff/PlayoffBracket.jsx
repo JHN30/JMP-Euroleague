@@ -11,7 +11,7 @@ import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
 import { sortTeams } from "../../utils/sortTeams";
 import { pageCardClass } from "../layout/PageShell";
-import { DEFAULT_SEASON } from "../../constants/playoffConstants";
+import { DEFAULT_SEASON } from "../../constants/appConstants";
 import { updateTeamElo } from "../../utils/eloCalculator";
 import { resetDownstreamMatches } from "../../utils/playoffHelpers";
 

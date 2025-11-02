@@ -4,6 +4,7 @@ import { useRound } from "../hooks/useRound";
 import { calculateAndUpdateRatings } from "../utils/ratingsCalculator";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import ErrorBox from "../components/errors/ErrorBox";
+import { DEFAULT_SEASON } from "../constants/appConstants";
 
 const UpdateTeamRatingPage = () => {
   const { fetchTeams, updateTeamRating, teams, loadingTeams, errorTeams } = useTeam();
@@ -14,7 +15,7 @@ const UpdateTeamRatingPage = () => {
   const calculationDoneRef = useRef(false);
 
   useEffect(() => {
-    fetchTeams("2025");
+    fetchTeams(DEFAULT_SEASON);
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 

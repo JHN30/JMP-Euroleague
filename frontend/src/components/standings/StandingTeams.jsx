@@ -8,6 +8,7 @@ import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
 import SeasonSelect from "../common/SeasonSelect";
 import { pageCardClass } from "../layout/PageShell";
+import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const StandingTeams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -17,7 +18,7 @@ const StandingTeams = () => {
   });
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipTimeout, setTooltipTimeout] = useState(null);
-  const [selectedSeason, setSelectedSeason] = useState("2025");
+  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
   const activeRatingKey = selectedSeason === "2024" ? "rating" : "rating2";
 
   const getTeamRatingValue = (team) => {

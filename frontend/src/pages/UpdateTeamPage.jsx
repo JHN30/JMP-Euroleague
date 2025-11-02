@@ -11,11 +11,12 @@ import TeamUpdate from "../components/admin/updateTeam/TeamUpdate";
 
 import { sortTeams } from "../utils/sortTeams";
 import SeasonSelect from "../components/common/SeasonSelect";
+import { DEFAULT_SEASON } from "../constants/appConstants";
 
 const UpdateTeamPage = () => {
   const [activeView, setActiveView] = useState("grid");
   const [team, setTeam] = useState({});
-  const [selectedSeason, setSelectedSeason] = useState("2025");
+  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
 
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();

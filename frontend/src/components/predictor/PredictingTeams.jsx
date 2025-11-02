@@ -16,6 +16,7 @@ import MatchSetupSection from "./MatchSetupSection";
 import TeamSelection from "./TeamSelection";
 import InjuryInputs from "./InjuryInputs";
 import PredictionResults from "./PredictionResults";
+import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const PredictingTeams = () => {
   const [selectedHomeTeam, setSelectedHomeTeam] = useState("");
@@ -25,8 +26,6 @@ const PredictingTeams = () => {
   const [homeInjuries, setHomeInjuries] = useState("");
   const [awayInjuries, setAwayInjuries] = useState("");
   const [showResults, setShowResults] = useState(false);
-
-  const DEFAULT_SEASON = "2025";
   const clampProbability = (value) => {
     const numericValue = Number(value);
     if (Number.isNaN(numericValue)) {

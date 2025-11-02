@@ -1,4 +1,4 @@
-import { ELO_CHANGE } from "../constants/playoffConstants";
+import { ELO_CHANGE } from "../constants/appConstants";
 
 export const updateTeamElo = (winnerRating, loserRating) => {
   const winnerNewRating = Math.round(winnerRating + ELO_CHANGE);

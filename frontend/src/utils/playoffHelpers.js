@@ -1,4 +1,4 @@
-import { MATCH_DEPENDENCIES } from "../constants/playoffConstants";
+import { MATCH_DEPENDENCIES } from "../constants/appConstants";
 
 export const getSortedTeams = (teams) => {
   return [...teams].sort((a, b) => b.rating2 - a.rating2);

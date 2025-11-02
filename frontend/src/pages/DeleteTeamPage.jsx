@@ -10,9 +10,10 @@ import DeleteTeamModal from "../components/admin/deleteTeam/DeleteTeamModal";
 
 import { useTeam } from "../hooks/useTeam";
 import { sortTeams } from "../utils/sortTeams";
+import { DEFAULT_SEASON } from "../constants/appConstants";
 
 const DeleteTeamPage = () => {
-  const [selectedSeason, setSelectedSeason] = useState("2025");
+  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
   const [pendingTeam, setPendingTeam] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

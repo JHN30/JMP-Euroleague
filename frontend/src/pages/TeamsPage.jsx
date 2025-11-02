@@ -9,19 +9,19 @@ import TeamCard from "../components/cards/TeamCard";
 import { sortTeams } from "../utils/sortTeams";
 import SeasonSelect from "../components/common/SeasonSelect";
 import PageShell, { pageCardClass } from "../components/layout/PageShell";
+import { DEFAULT_SEASON, STORAGE_KEYS } from "../constants/appConstants";
 
 const TeamsPage = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const sortConfig = {
     key: "name",
   };
-  const STORAGE_KEY = "teamsPage.selectedSeason";
 
   const [selectedSeason, setSelectedSeason] = useState(() => {
     if (typeof window === "undefined") {
-      return "2025";
+      return DEFAULT_SEASON;
     }
-    return window.localStorage.getItem(STORAGE_KEY) || "2025";
+    return window.localStorage.getItem(STORAGE_KEYS.TEAMS_PAGE_SEASON) || DEFAULT_SEASON;
   });
 
   // Fetch teams data when the component mounts
@@ -33,7 +33,7 @@ const TeamsPage = () => {
     if (typeof window === "undefined") {
       return;
     }
-    window.localStorage.setItem(STORAGE_KEY, selectedSeason);
+    window.localStorage.setItem(STORAGE_KEYS.TEAMS_PAGE_SEASON, selectedSeason);
   }, [selectedSeason]);
 
   const renderContent = () => {
