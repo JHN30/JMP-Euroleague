@@ -23,7 +23,7 @@ const StandingTeam = ({ team, position }) => {
           {/* Vertical glow indicator */}
           <span className="absolute left-0 top-1/2 hidden h-10 w-1 -translate-y-1/2 rounded-full bg-gradient-to-b from-orange-400/80 to-amber-400/60 opacity-0 transition-all duration-200 group-hover:opacity-100 md:block" />
           {/* Logo badge with fallback */}
-          <div className="relative z-10 flex h-6 w-6 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg bg-white/10 p-1">
+          <div className="relative z-10 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg bg-white/10 p-1">
             {team.logoImg ? (
               <img src={team.logoImg} className="max-h-full max-w-full object-contain" alt={`${team.name} logo`} />
             ) : (
