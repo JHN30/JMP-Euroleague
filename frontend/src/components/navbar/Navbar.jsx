@@ -14,7 +14,7 @@ import { getNavbarMenuItems } from "./menuItems";
 
 import { useAuth } from "../../hooks/useAuth";
 
-const Navbar = ({ didntSignUp }) => {
+const Navbar = ({ isGuest }) => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Navbar = ({ didntSignUp }) => {
 
   const isAuthRoute = pathname === "/login" || pathname === "/signup";
 
-  const menuItems = getNavbarMenuItems({ isAuthenticated, didntSignUp, user });
+  const menuItems = getNavbarMenuItems({ isAuthenticated, isGuest, user });
 
   const handleLogout = async () => {
     await logout();

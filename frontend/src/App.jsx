@@ -25,7 +25,7 @@ const AdminPage = lazy(() => import("./pages/AdminPage"));
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
   const checkAuthCallback = useCallback(checkAuth, [checkAuth]);
-  let didntSignUp = true;
+  const isGuest = !isAuthenticated;
 
   useEffect(() => {
     checkAuthCallback();
@@ -39,42 +39,45 @@ function App() {
     );
   }
 
-  didntSignUp = isAuthenticated ? false : true;
+  const requireAuth = (element) => (isAuthenticated ? element : <Navigate to="/login" replace />);
+  const requireAdmin = (element) =>
+    isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" replace />;
+  const requireGuest = (element) => (isGuest ? element : <Navigate to="/" replace />);
 
   return (
     <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-b from-base-100 via-base-300 to-base-200">
-      {<Navbar didntSignUp={didntSignUp} />}
+      <Navbar isGuest={isGuest} />
       <ScrollToTop />
       <Suspense fallback={<FallbackComponent />}>
         <Routes>
           {/* Main Pages */}
-          <Route path="/" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <StandingsPage />} />
-          <Route path="/predictor" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <PredictorPage />} />
-          <Route path="/playoff" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <PlayoffPage />} />
-          <Route path="/teams" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamsPage />} />
-          <Route path="/team-stats/:teamId" element={!isAuthenticated && !didntSignUp ? <LoginPage /> : <TeamStatsPage />} />
-          <Route path="/profile" element={!isAuthenticated ? <LoginPage /> : <ProfilePage />} />
+          <Route path="/" element={<StandingsPage />} />
+          <Route path="/predictor" element={<PredictorPage />} />
+          <Route path="/playoff" element={<PlayoffPage />} />
+          <Route path="/teams" element={<TeamsPage />} />
+          <Route path="/team-stats/:teamId" element={<TeamStatsPage />} />
+          <Route path="/profile" element={requireAuth(<ProfilePage />)} />
 
           {/* Auth */}
-          <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />} />
-          <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
+          <Route path="/signup" element={requireGuest(<SignUpPage />)} />
+          <Route path="/login" element={requireGuest(<LoginPage />)} />
           <Route
             path="/verify-email"
             element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />}
           />
           <Route
             path="/forgot-password"
-            element={isAuthenticated && !didntSignUp ? <Navigate to="/" /> : <ForgotPasswordPage />}
+            element={requireGuest(<ForgotPasswordPage />)}
           />
           <Route
             path="/reset-password/:token"
-            element={isAuthenticated && !didntSignUp ? <Navigate to="/" /> : <ResetPasswordPage />}
+            element={requireGuest(<ResetPasswordPage />)}
           />
 
           {/* Admin */}
           <Route
             path="/admin-dashboard"
-            element={isAuthenticated && !didntSignUp && user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />}
+            element={requireAdmin(<AdminPage />)}
           />
 
           {/* Catch-all route - redirects any unmatched paths to home/standings */}

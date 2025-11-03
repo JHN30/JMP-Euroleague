@@ -4,7 +4,7 @@ import { FaTrophy } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { RiTeamFill } from "react-icons/ri";
 
-export const getNavbarMenuItems = ({ isAuthenticated, didntSignUp, user }) => [
+export const getNavbarMenuItems = ({ isAuthenticated, isGuest, user }) => [
   {
     to: "/",
     icon: PiRankingFill,
@@ -33,6 +33,6 @@ export const getNavbarMenuItems = ({ isAuthenticated, didntSignUp, user }) => [
     to: "/profile",
     icon: CgProfile,
     label: user?.username || "Profile",
-    show: isAuthenticated && !didntSignUp,
+    show: isAuthenticated && !isGuest,
   },
 ];
