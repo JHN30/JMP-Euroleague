@@ -68,7 +68,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ succses: false, error: "Email not found. Please register first or check your email" });
+      return res.status(400).json({ success: false, error: "Email not found. Please register first or check your email" });
     }
 
     // Check if account is locked
