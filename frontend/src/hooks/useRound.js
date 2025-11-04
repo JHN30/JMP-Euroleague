@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 
+const extractData = (response) => response?.data?.data;
+const matchEntityId = (entity, id) => (entity?._id ?? entity?.id) === id;
+
 export const useRound = create((set) => ({
   rounds: { data: [] },
   loadingRounds: false,
@@ -10,19 +13,23 @@ export const useRound = create((set) => ({
     set({ loadingRounds: true, errorRounds: null });
     try {
       const response = await axios.get("/rounds");
-      set({ rounds: response.data, loadingRounds: false });
+      set({ rounds: { data: extractData(response) ?? [] }, loadingRounds: false });
     } catch (error) {
       set({ loadingRounds: false, errorRounds: error.message, rounds: { data: [] } });
     }
   },
-  updateRound: async (roundId, data) => {
+  updateRound: async (roundId, payload) => {
     set({ loadingRounds: true, errorRounds: null });
     try {
-      const response = await axios.put(`/rounds/${roundId}`, data);
+      const response = await axios.put(`/rounds/${roundId}`, payload);
+      const updatedRound = extractData(response);
+
       set((state) => ({
         rounds: {
           ...state.rounds,
-          data: state.rounds.data.map((round) => (round.id === roundId ? response.data : round)),
+          data: updatedRound
+            ? state.rounds.data.map((round) => (matchEntityId(round, roundId) ? updatedRound : round))
+            : state.rounds.data,
         },
         loadingRounds: false,
       }));
