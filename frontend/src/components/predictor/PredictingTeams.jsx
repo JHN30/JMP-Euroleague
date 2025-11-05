@@ -23,35 +23,16 @@ const PredictingTeams = () => {
   const [selectedAwayTeam, setSelectedAwayTeam] = useState("");
   const [displayTeams, setDisplayTeams] = useState({ home: "", away: "" });
   const [predictions, setPredictions] = useState();
-  const [homeInjuries, setHomeInjuries] = useState("");
-  const [awayInjuries, setAwayInjuries] = useState("");
+  const [homeInjuries, setHomeInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
+  const [awayInjuries, setAwayInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
   const [showResults, setShowResults] = useState(false);
+
   const clampProbability = (value) => {
     const numericValue = Number(value);
     if (Number.isNaN(numericValue)) {
       return 0;
     }
     return Math.max(0, Math.min(1, numericValue));
-  };
-  const sanitizeInjuryValue = (value) => {
-    const numericValue = Number(value);
-    if (Number.isNaN(numericValue)) {
-      return 0;
-    }
-
-    return Math.max(0, Math.min(5, numericValue));
-  };
-
-  const handleHomeInjuryValue = (value) => {
-    if (value === "" || typeof value === "string") {
-      setHomeInjuries(value);
-    }
-  };
-
-  const handleAwayInjuryValue = (value) => {
-    if (value === "" || typeof value === "string") {
-      setAwayInjuries(value);
-    }
   };
 
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -82,10 +63,7 @@ const PredictingTeams = () => {
       rounds,
       homeInjuries,
       awayInjuries,
-      sanitizeInjuryValue,
       clampProbability,
-      setHomeInjuries,
-      setAwayInjuries,
       setPredictions,
       setDisplayTeams,
       setShowResults,
@@ -113,8 +91,8 @@ const PredictingTeams = () => {
         <InjuryInputs
           homeInjuries={homeInjuries}
           awayInjuries={awayInjuries}
-          onHomeChange={handleHomeInjuryValue}
-          onAwayChange={handleAwayInjuryValue}
+          onHomeChange={setHomeInjuries}
+          onAwayChange={setAwayInjuries}
         />
       </MatchSetupSection>
 

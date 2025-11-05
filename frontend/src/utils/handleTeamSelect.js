@@ -1,4 +1,13 @@
 import { calculateExpectedScorePredictor } from "./calculateExpectedScore";
+import { INJURY_IMPACT } from "../constants/appConstants";
+
+const calculateTotalInjuryImpact = (injuries) => {
+  return (
+    (injuries.stars || 0) * INJURY_IMPACT.STAR +
+    (injuries.starters || 0) * INJURY_IMPACT.STARTER +
+    (injuries.keyBench || 0) * INJURY_IMPACT.KEY_BENCH
+  );
+};
 
 const getRecentFormSlice = (form = [], round) => {
   if (!Array.isArray(form)) return [];
@@ -24,20 +33,15 @@ export const handleTeamSelect = ({
   rounds,
   homeInjuries,
   awayInjuries,
-  sanitizeInjuryValue,
   clampProbability,
-  setHomeInjuries,
-  setAwayInjuries,
   setPredictions,
   setDisplayTeams,
   setShowResults,
 }) => {
   if (!homeTeam || !awayTeam) return;
 
-  const sanitizedHomeInjuries = sanitizeInjuryValue(homeInjuries);
-  const sanitizedAwayInjuries = sanitizeInjuryValue(awayInjuries);
-  setHomeInjuries(String(sanitizedHomeInjuries));
-  setAwayInjuries(String(sanitizedAwayInjuries));
+  const homeInjuryImpact = calculateTotalInjuryImpact(homeInjuries);
+  const awayInjuryImpact = calculateTotalInjuryImpact(awayInjuries);
 
   const teamList = teams?.data ?? [];
   const roundList = rounds?.data ?? [];
@@ -61,8 +65,8 @@ export const handleTeamSelect = ({
     awayTeamData.rating2,
     homeFormAdvantage,
     awayFormAdvantage,
-    sanitizedHomeInjuries,
-    sanitizedAwayInjuries
+    homeInjuryImpact,
+    awayInjuryImpact
   );
 
   setPredictions({
