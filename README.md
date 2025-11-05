@@ -7,12 +7,9 @@ It tracks **real-world team performance** and calculates win probabilities, help
 
 ---
 
-## 🆕 Introducing **Rating 2.0**
+## 🏀 JMP Rating
 
-**Rating 2.0** is a major step forward in how Euroleague team performance is modeled and predicted.  
-Unlike *Rating 1.0*, which started all teams at a fixed **1000-point baseline** and updated purely through match results, the new version establishes **data-driven initial ratings** built from player-level analytics.  
-Each player’s **JMP Efficiency Index (JEI)** is calculated from detailed game statistics, weighted by recency and playing time, then aggregated at the team level with an exponential depth model—ensuring that top performers matter most, but overall roster quality still counts.
-The result is a more dynamic, context-aware system that produces **realistic base ratings and smarter win probabilities**—a truer reflection of each team’s strength in real time.
+For more information about **JMP Rating** click [here](https://github.com/JHN30/JMP-Rating)
 
 ---
 
