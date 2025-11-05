@@ -177,6 +177,63 @@ export const updateTeamRating2 = async (req, res) => {
   }
 };
 
+export const updateTeamRatingVersion = async (req, res) => {
+  try {
+    const { teams } = req.body;
+
+    if (!teams || !Array.isArray(teams) || teams.length === 0) {
+      return res.status(400).json({ success: false, message: "Please provide teams array" });
+    }
+
+    const updatedTeams = [];
+    const errors = [];
+
+    for (let i = 0; i < teams.length; i++) {
+      const { team_id, rating2 } = teams[i];
+
+      if (!team_id) {
+        errors.push({ index: i, message: "team_id is required" });
+        continue;
+      }
+
+      if (rating2 === undefined || rating2 === null) {
+        errors.push({ index: i, team_id, message: "rating2 is required" });
+        continue;
+      }
+
+      try {
+        // Find team by team_id (abbreviation) and season 2025
+        const team = await Team.findOne({ team_id, season: 2025 });
+
+        if (!team) {
+          errors.push({ index: i, team_id, message: "Team not found for season 2025" });
+          continue;
+        }
+
+        // Update rating2
+        team.rating2 = rating2;
+        await team.save();
+
+        updatedTeams.push({ team_id: team.team_id, name: team.name, rating2: team.rating2 });
+      } catch (updateError) {
+        errors.push({ index: i, team_id, message: updateError.message });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        updated: updatedTeams,
+        count: updatedTeams.length,
+        errors: errors.length > 0 ? errors : undefined,
+      },
+    });
+  } catch (error) {
+    console.error("Error in updateTeamRatingVersion: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;
