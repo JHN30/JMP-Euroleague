@@ -3,6 +3,7 @@ import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
+  WELCOME_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
 
 export const sendVerificationEmail = async (email, verificationToken) => {
@@ -31,11 +32,9 @@ export const sendWelcomeEmail = async (email, username) => {
     const response = await mailtrapClient.send({
       from: sender,
       to: recipient,
-      template_uuid: "dad839d8-9254-441b-a347-fcc667613402",
-      template_variables: {
-        company_info_name: "JMP Euroleague",
-        name: username,
-      },
+      subject: "Welcome to JMP Euroleague!",
+      html: WELCOME_EMAIL_TEMPLATE.replace("{username}", username).replace("{loginURL}", process.env.CLIENT_URL),
+      category: "Welcome",
     });
 
     console.log("Email sent successfully", response);
