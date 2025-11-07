@@ -33,7 +33,7 @@ export const sendWelcomeEmail = async (email, username) => {
       from: sender,
       to: recipient,
       subject: "Welcome to JMP Euroleague!",
-      html: WELCOME_EMAIL_TEMPLATE.replace("{username}", username).replace("{loginURL}", process.env.CLIENT_URL),
+      html: WELCOME_EMAIL_TEMPLATE.replace("__USERNAME__", username).replace("{loginURL}", process.env.CLIENT_URL),
       category: "Welcome",
     });
 

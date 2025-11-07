@@ -74,9 +74,7 @@ export const VERIFICATION_EMAIL_TEMPLATE = `
       
       <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #e2e8f0;">
         <p style="color: #475569; font-size: 15px; margin: 0 0 4px 0;">Best regards,</p>
-        <p style="color: #1e293b; font-size: 15px; font-weight: 600; margin: 0;">
-          <span style="background: linear-gradient(135deg, #fb923c, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">JMP Euroleague Team</span>
-        </p>
+        <p style="color: #fb923c; font-size: 15px; font-weight: 600; margin: 0;">JMP Euroleague Team</p>
       </div>
     </div>
     
@@ -154,9 +152,13 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
       
       <!-- Success icon -->
       <div style="text-align: center; margin: 0 0 32px 0;">
-        <div class="success-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; line-height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3);">
-          <span style="display: inline-block; transform: translateY(-2px);">✓</span>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" align="center">
+          <tr>
+            <td class="success-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; border-radius: 50%; text-align: center; vertical-align: middle; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3);">
+              ✓
+            </td>
+          </tr>
+        </table>
       </div>
       
       <!-- Alert box -->
@@ -187,9 +189,7 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
       
       <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #e2e8f0;">
         <p style="color: #475569; font-size: 15px; margin: 0 0 4px 0;">Best regards,</p>
-        <p style="color: #1e293b; font-size: 15px; font-weight: 600; margin: 0;">
-          <span style="background: linear-gradient(135deg, #fb923c, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">JMP Euroleague Team</span>
-        </p>
+        <p style="color: #fb923c; font-size: 15px; font-weight: 600; margin: 0;">JMP Euroleague Team</p>
       </div>
     </div>
     
@@ -260,7 +260,7 @@ export const WELCOME_EMAIL_TEMPLATE = `
     <!-- Main content card -->
     <div class="content-card" style="background: white; padding: 40px 32px; border-radius: 0 0 24px 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid rgba(251, 146, 60, 0.1); border-top: none;">
       
-      <p style="color: #1e293b; font-size: 16px; line-height: 1.6; margin: 0 0 8px 0;">Hello <strong style="color: #fb923c;">{username}</strong>,</p>
+      <p style="color: #1e293b; font-size: 16px; line-height: 1.6; margin: 0 0 8px 0;">Hello <strong style="color: #fb923c;">__USERNAME__</strong>,</p>
       
       <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 32px 0;">
         Thank you for joining JMP Euroleague! We're excited to have you on board. Your account has been successfully created and verified.
@@ -268,9 +268,13 @@ export const WELCOME_EMAIL_TEMPLATE = `
       
       <!-- Welcome icon -->
       <div style="text-align: center; margin: 0 0 32px 0;">
-        <div class="welcome-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; line-height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3);">
-          <span style="display: inline-block; transform: translateY(-2px);">🏀</span>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" align="center">
+          <tr>
+            <td class="welcome-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; border-radius: 50%; text-align: center; vertical-align: middle; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3);">
+              🏀
+            </td>
+          </tr>
+        </table>
       </div>
       
       <!-- CTA Button -->
