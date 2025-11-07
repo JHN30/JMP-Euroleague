@@ -200,11 +200,11 @@ Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 </p>
 
 <p align="center">
-  <img src="./screenshots/forgot-password-message.PNG" alt="Forgot Password Message" width="90%">
+  <img src="./screenshots/password-reset-message.png" alt="Forgot Password Message" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/password-reset-success-message.PNG" alt="Password Reset Success Message" width="90%">
+  <img src="./screenshots/password-success-message.png" alt="Password Reset Success Message" width="90%">
 </p>
 
 ---
