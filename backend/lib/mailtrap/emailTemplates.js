@@ -270,7 +270,7 @@ export const WELCOME_EMAIL_TEMPLATE = `
       <div style="text-align: center; margin: 0 0 32px 0;">
         <table cellpadding="0" cellspacing="0" border="0" align="center">
           <tr>
-            <td class="welcome-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; border-radius: 50%; text-align: center; vertical-align: middle; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3);">
+            <td class="welcome-icon" style="background: linear-gradient(135deg, #fb923c, #fbbf24); color: white; width: 80px; height: 80px; border-radius: 50%; text-align: center; vertical-align: middle; font-size: 40px; box-shadow: 0 8px 24px rgba(251, 146, 60, 0.3); line-height: 80px;">
               🏀
             </td>
           </tr>
@@ -290,9 +290,7 @@ export const WELCOME_EMAIL_TEMPLATE = `
       
       <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #e2e8f0;">
         <p style="color: #475569; font-size: 15px; margin: 0 0 4px 0;">Best regards,</p>
-        <p style="color: #1e293b; font-size: 15px; font-weight: 600; margin: 0;">
-          <span style="background: linear-gradient(135deg, #fb923c, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">JMP Euroleague Team</span>
-        </p>
+        <p style="color: #fb923c; font-size: 15px; font-weight: 600; margin: 0;">JMP Euroleague Team</p>
       </div>
     </div>
     
@@ -384,9 +382,7 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
       
       <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #e2e8f0;">
         <p style="color: #475569; font-size: 15px; margin: 0 0 4px 0;">Best regards,</p>
-        <p style="color: #1e293b; font-size: 15px; font-weight: 600; margin: 0;">
-          <span style="background: linear-gradient(135deg, #fb923c, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">JMP Euroleague Team</span>
-        </p>
+        <p style="color: #fb923c; font-size: 15px; font-weight: 600; margin: 0;">JMP Euroleague Team</p>
       </div>
     </div>
     
