@@ -21,6 +21,7 @@ const EmailVerificatonPage = lazy(() => import("./pages/EmailVerificationPage"))
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
@@ -40,8 +41,7 @@ function App() {
   }
 
   const requireAuth = (element) => (isAuthenticated ? element : <Navigate to="/login" replace />);
-  const requireAdmin = (element) =>
-    isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" replace />;
+  const requireAdmin = (element) => (isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" replace />);
   const requireGuest = (element) => (isGuest ? element : <Navigate to="/" replace />);
 
   return (
@@ -65,23 +65,14 @@ function App() {
             path="/verify-email"
             element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />}
           />
-          <Route
-            path="/forgot-password"
-            element={requireGuest(<ForgotPasswordPage />)}
-          />
-          <Route
-            path="/reset-password/:token"
-            element={requireGuest(<ResetPasswordPage />)}
-          />
+          <Route path="/forgot-password" element={requireGuest(<ForgotPasswordPage />)} />
+          <Route path="/reset-password/:token" element={requireGuest(<ResetPasswordPage />)} />
 
           {/* Admin */}
-          <Route
-            path="/admin-dashboard"
-            element={requireAdmin(<AdminPage />)}
-          />
+          <Route path="/admin-dashboard" element={requireAdmin(<AdminPage />)} />
 
-          {/* Catch-all route - redirects any unmatched paths to home/standings */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Catch-all route - 404 Page Not Found */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
       <Toaster />
