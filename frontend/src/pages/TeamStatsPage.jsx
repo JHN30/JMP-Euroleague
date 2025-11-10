@@ -57,7 +57,9 @@ const TeamStatsPage = () => {
   const homeCourtArray = Array.isArray(teamData.homeGround) ? teamData.homeGround.slice().reverse() : [];
   const resultArray = Array.isArray(teamData.form) ? teamData.form.slice().reverse() : [];
   const pointsForArray = Array.isArray(teamData.pointsPlusArray) ? teamData.pointsPlusArray.slice().reverse() : [];
-  const pointsAgainstArray = Array.isArray(teamData.pointsMinusArray) ? teamData.pointsMinusArray.slice().reverse() : [];
+  const pointsAgainstArray = Array.isArray(teamData.pointsMinusArray)
+    ? teamData.pointsMinusArray.slice().reverse()
+    : [];
 
   return (
     <PageShell>

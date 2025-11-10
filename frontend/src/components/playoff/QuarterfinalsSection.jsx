@@ -61,4 +61,3 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
 };
 
 export default QuarterfinalsSection;
-

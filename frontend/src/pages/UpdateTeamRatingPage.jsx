@@ -33,7 +33,13 @@ const UpdateTeamRatingPage = () => {
 
   const handleUpdate = async () => {
     try {
-      if (!calculationDoneRef.current && teams?.data?.length > 0 && rounds?.data?.[0] && !loadingTeams && !loadingRounds) {
+      if (
+        !calculationDoneRef.current &&
+        teams?.data?.length > 0 &&
+        rounds?.data?.[0] &&
+        !loadingTeams &&
+        !loadingRounds
+      ) {
         const dbCurrentRound = rounds.data[0].currentRound;
         const dbLatestRound = rounds.data[0].latestRound;
         if (dbCurrentRound < dbLatestRound) {
@@ -76,8 +82,8 @@ const UpdateTeamRatingPage = () => {
     <div className="max-w-xl mx-auto p-4">
       <h2 className="text-xl font-bold mb-2">Update Team Rating</h2>
       <p className="mb-4 text-sm text-gray-300">
-        Click the button below to calculate and update team ratings for rounds not yet applied. Before doing this, make sure
-        that you first correctly updated rounds in rounds tab.
+        Click the button below to calculate and update team ratings for rounds not yet applied. Before doing this, make
+        sure that you first correctly updated rounds in rounds tab.
       </p>
 
       <div className="flex gap-3">

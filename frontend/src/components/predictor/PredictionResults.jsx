@@ -5,28 +5,18 @@ import { pageCardClass } from "../layout/PageShell";
 
 const ResultCard = ({ variant, team, teamName, probability }) => {
   const isHome = variant === "home";
-  const gradientClass =
-    variant === "home"
-      ? "border border-emerald-400/30"
-      : "border border-sky-400/30";
+  const gradientClass = variant === "home" ? "border border-emerald-400/30" : "border border-sky-400/30";
   const overlayClass =
     variant === "home"
       ? "bg-gradient-to-br from-emerald-500/10 via-transparent to-slate-900/60"
       : "bg-gradient-to-br from-sky-500/10 via-transparent to-slate-900/60";
-  const labelClass =
-    variant === "home" ? "text-emerald-200" : "text-sky-200";
+  const labelClass = variant === "home" ? "text-emerald-200" : "text-sky-200";
   const barGradient =
     variant === "home"
       ? "bg-gradient-to-r from-emerald-400 to-lime-300"
       : "bg-gradient-to-r from-sky-400 to-indigo-400";
-  const stateColor =
-    probability > 0.6
-      ? variant === "home"
-        ? "text-emerald-300"
-        : "text-sky-300"
-      : "text-gray-300";
-  const statusLabel =
-    probability > 0.6 ? "Favored side" : probability > 0.4 ? "Toss-up game" : "Underdog edge";
+  const stateColor = probability > 0.6 ? (variant === "home" ? "text-emerald-300" : "text-sky-300") : "text-gray-300";
+  const statusLabel = probability > 0.6 ? "Favored side" : probability > 0.4 ? "Toss-up game" : "Underdog edge";
 
   return (
     <motion.article

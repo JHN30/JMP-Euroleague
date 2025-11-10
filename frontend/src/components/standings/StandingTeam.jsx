@@ -40,7 +40,9 @@ const StandingTeam = ({ team, position }) => {
       </td>
       <td className="px-1 py-3 font-medium text-center text-green-300">{team.wins}</td>
       <td className="px-1 py-3 font-medium text-center text-red-300">{team.losses}</td>
-      <td className="hidden px-1 py-3 font-medium text-center text-orange-200 lg:table-cell">{team.winPercentage.toFixed(2)}%</td>
+      <td className="hidden px-1 py-3 font-medium text-center text-orange-200 lg:table-cell">
+        {team.winPercentage.toFixed(2)}%
+      </td>
       <td className="hidden px-1 py-3 font-medium text-center text-green-300 lg:table-cell">{pointsPlusTotal}</td>
       <td className="hidden px-1 py-3 font-medium text-center text-red-300 lg:table-cell">{pointsMinusTotal}</td>
       <td

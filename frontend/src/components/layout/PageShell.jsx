@@ -1,6 +1,8 @@
 const PageShell = ({ children, className = "", contentClassName = "max-w-7xl" }) => {
   return (
-    <div className={`relative min-h-screen w-full bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 px-4 py-12 sm:px-6 lg:px-8 overflow-hidden ${className}`}>
+    <div
+      className={`relative min-h-screen w-full bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 px-4 py-12 sm:px-6 lg:px-8 overflow-hidden ${className}`}
+    >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 -right-24 h-96 w-96 bg-orange-500/15 blur-3xl" />
         <div className="absolute -bottom-24 -left-12 h-[28rem] w-[28rem] bg-amber-400/10 blur-3xl" />

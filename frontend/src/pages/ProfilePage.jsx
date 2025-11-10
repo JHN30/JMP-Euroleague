@@ -86,14 +86,23 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-8"
+        >
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={user.isVerified ? (user.role === "admin" ? handleAdmin : handleLogout) : handleVerifyEmail}
             className="button w-full justify-center"
           >
-            {user.isVerified ? (user.role === "admin" ? "Go to Admin Dashboard" : "Logout") : "Resend Verification Email"}
+            {user.isVerified
+              ? user.role === "admin"
+                ? "Go to Admin Dashboard"
+                : "Logout"
+              : "Resend Verification Email"}
           </motion.button>
         </motion.div>
       </motion.div>

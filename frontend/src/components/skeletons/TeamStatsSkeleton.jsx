@@ -46,7 +46,10 @@ const MatchupSkeleton = () => (
 const FormSkeleton = () => (
   <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(3.25rem,1fr))] place-items-center gap-3 sm:grid-cols-[repeat(auto-fit,minmax(3.5rem,1fr))] sm:place-items-stretch sm:gap-4">
     {Array.from({ length: 10 }).map((_, idx) => (
-      <div key={idx} className={`flex h-14 w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 ${shimmer} sm:h-16`} />
+      <div
+        key={idx}
+        className={`flex h-14 w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 ${shimmer} sm:h-16`}
+      />
     ))}
   </div>
 );

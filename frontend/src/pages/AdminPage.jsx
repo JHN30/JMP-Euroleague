@@ -78,9 +78,7 @@ const AdminPage = () => {
                     </span>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold uppercase tracking-[0.2em]">{tab.label}</span>
-                      <span className="text-xs text-gray-400">
-                        {isActive ? "Active workflow" : "Switch to manage"}
-                      </span>
+                      <span className="text-xs text-gray-400">{isActive ? "Active workflow" : "Switch to manage"}</span>
                     </div>
                     {isActive ? (
                       <motion.span

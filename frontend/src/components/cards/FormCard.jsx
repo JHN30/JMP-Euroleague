@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 
 const FormCard = ({ value, gridColumns, className = "" }) => {
   const arr = Array.isArray(value) ? value : [];
-  const normalizedCount = Number.isFinite(Number(gridColumns)) && Number(gridColumns) > 0 ? Number(gridColumns) : arr.length;
+  const normalizedCount =
+    Number.isFinite(Number(gridColumns)) && Number(gridColumns) > 0 ? Number(gridColumns) : arr.length;
   const start = Math.max(arr.length - normalizedCount, 0);
   const slice = arr.slice(start);
 
@@ -18,7 +19,9 @@ const FormCard = ({ value, gridColumns, className = "" }) => {
       ) : (
         <div
           className={`grid w-full place-items-center gap-3 sm:place-items-stretch sm:gap-4 ${
-            slice.length <= 5 ? "grid-cols-5 sm:grid-cols-5" : "grid-cols-5 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))]"
+            slice.length <= 5
+              ? "grid-cols-5 sm:grid-cols-5"
+              : "grid-cols-5 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))]"
           }`}
         >
           {slice.map((result, idx) => {

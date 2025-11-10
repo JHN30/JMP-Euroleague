@@ -1,11 +1,20 @@
-const TeamUpdateRoundForm = ({ currentRound, values, onFieldChange, opponentTeams = [], submitLabel = "Save All Changes" }) => {
+const TeamUpdateRoundForm = ({
+  currentRound,
+  values,
+  onFieldChange,
+  opponentTeams = [],
+  submitLabel = "Save All Changes",
+}) => {
   const { result, opponent, venue, pointsPlus, pointsMinus } = values;
 
   return (
     <>
       <section className="grid gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label htmlFor={`result-${currentRound}`} className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300">
+          <label
+            htmlFor={`result-${currentRound}`}
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300"
+          >
             Result (W/L)
           </label>
           <input
@@ -19,7 +28,10 @@ const TeamUpdateRoundForm = ({ currentRound, values, onFieldChange, opponentTeam
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor={`opponent-${currentRound}`} className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300">
+          <label
+            htmlFor={`opponent-${currentRound}`}
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300"
+          >
             Opponent
           </label>
           <select
@@ -32,11 +44,7 @@ const TeamUpdateRoundForm = ({ currentRound, values, onFieldChange, opponentTeam
               Select opponent
             </option>
             {opponentTeams.map((candidate) => (
-              <option
-                key={candidate._id ?? candidate.name}
-                value={candidate.name}
-                className="bg-slate-900 text-white"
-              >
+              <option key={candidate._id ?? candidate.name} value={candidate.name} className="bg-slate-900 text-white">
                 {candidate.name}
               </option>
             ))}
@@ -44,7 +52,10 @@ const TeamUpdateRoundForm = ({ currentRound, values, onFieldChange, opponentTeam
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor={`home-ground-${currentRound}`} className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300">
+          <label
+            htmlFor={`home-ground-${currentRound}`}
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300"
+          >
             Venue (H/A)
           </label>
           <input
@@ -58,7 +69,10 @@ const TeamUpdateRoundForm = ({ currentRound, values, onFieldChange, opponentTeam
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor={`points-scored-${currentRound}`} className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300">
+          <label
+            htmlFor={`points-scored-${currentRound}`}
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300"
+          >
             Points Scored
           </label>
           <input

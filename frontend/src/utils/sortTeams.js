@@ -53,7 +53,9 @@ export const sortTeams = (teams = [], options = {}) => {
         return direction === 1 ? aWins - bWins : bWins - aWins;
       }
 
-      return direction === 1 ? getStringValue(a, "name").localeCompare(getStringValue(b, "name")) : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
+      return direction === 1
+        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
+        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
     }
 
     if (key === "wins") {
@@ -78,7 +80,9 @@ export const sortTeams = (teams = [], options = {}) => {
         return ratingDiff;
       }
 
-      return direction === 1 ? getStringValue(a, "name").localeCompare(getStringValue(b, "name")) : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
+      return direction === 1
+        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
+        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
     }
 
     let aValue;
@@ -90,7 +94,9 @@ export const sortTeams = (teams = [], options = {}) => {
       if (diff !== 0) {
         return diff;
       }
-      return direction === 1 ? getStringValue(a, "name").localeCompare(getStringValue(b, "name")) : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
+      return direction === 1
+        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
+        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
     }
 
     aValue = a?.[key];

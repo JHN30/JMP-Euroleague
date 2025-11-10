@@ -25,4 +25,3 @@ const FinalSection = ({ winners, onSelectWinner, getWinningTeam, currentRound })
 };
 
 export default FinalSection;
-

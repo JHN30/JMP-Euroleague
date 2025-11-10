@@ -34,8 +34,8 @@ const PlayedAgainstCard = ({
           const isAway = homeFlag === "A";
           const hasNeutralCourt = !isHome && !isAway;
 
-          const homeLabel = hasNeutralCourt ? teamName ?? "-" : isHome ? teamName ?? "-" : opponent;
-          const awayLabel = hasNeutralCourt ? opponent : isAway ? teamName ?? "-" : opponent;
+          const homeLabel = hasNeutralCourt ? (teamName ?? "-") : isHome ? (teamName ?? "-") : opponent;
+          const awayLabel = hasNeutralCourt ? opponent : isAway ? (teamName ?? "-") : opponent;
 
           const rawTeamScore = Number(safePointsFor[idx]);
           const rawOppScore = Number(safePointsAgainst[idx]);
@@ -46,19 +46,19 @@ const PlayedAgainstCard = ({
             ? isHome
               ? `${rawTeamScore} - ${rawOppScore}`
               : isAway
-              ? `${rawOppScore} - ${rawTeamScore}`
-              : `${rawTeamScore} - ${rawOppScore}`
+                ? `${rawOppScore} - ${rawTeamScore}`
+                : `${rawTeamScore} - ${rawOppScore}`
             : didWin
-            ? "W"
-            : "L";
+              ? "W"
+              : "L";
 
           const scoreClasses = hasScores
             ? didWin
               ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-200"
               : "border-rose-400/60 bg-rose-500/10 text-rose-200"
             : didWin
-            ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-200"
-            : "border-rose-400/60 bg-rose-500/10 text-rose-200";
+              ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-200"
+              : "border-rose-400/60 bg-rose-500/10 text-rose-200";
 
           return (
             <div

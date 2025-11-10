@@ -51,7 +51,12 @@ const ForgotPasswordPage = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="button w-full justify-center" type="submit">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="button w-full justify-center"
+                type="submit"
+              >
                 {isLoading ? <FiLoader className="size-6 animate-spin mx-auto" /> : "Send Reset Link"}
               </motion.button>
             </form>

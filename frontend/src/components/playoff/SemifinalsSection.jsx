@@ -35,4 +35,3 @@ const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam, currentRou
 };
 
 export default SemifinalsSection;
-

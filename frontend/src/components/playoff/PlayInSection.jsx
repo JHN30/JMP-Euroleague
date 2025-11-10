@@ -1,14 +1,7 @@
 import TeamMatchup from "./TeamMatchup";
 import { pageCardClass } from "../layout/PageShell";
 
-const PlayInSection = ({
-  seededTeams,
-  winners,
-  onSelectWinner,
-  getWinningTeam,
-  getLosingTeam,
-  currentRound,
-}) => {
+const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, getLosingTeam, currentRound }) => {
   if (!seededTeams) {
     return null;
   }
@@ -78,4 +71,3 @@ const PlayInSection = ({
 };
 
 export default PlayInSection;
-

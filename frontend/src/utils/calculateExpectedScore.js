@@ -33,8 +33,10 @@ export const calculateExpectedScorePredictor = (
   const expectedScoreBELO = 1 / (1 + 10 ** ((ratingA - ratingB) / RATING_CALCULATION.ELO_DIVISOR)) - totalFormAdvantage;
 
   //Here is final result with home advantage and form advantage added
-  const expectedScoreA = expectedScoreAELO + expectedHomeAdvantage + expectedFormAdvantageA - injuryImpactA + injuryImpactB;
-  const expectedScoreB = expectedScoreBELO - expectedHomeAdvantage + expectedFormAdvantageB + injuryImpactA - injuryImpactB;
+  const expectedScoreA =
+    expectedScoreAELO + expectedHomeAdvantage + expectedFormAdvantageA - injuryImpactA + injuryImpactB;
+  const expectedScoreB =
+    expectedScoreBELO - expectedHomeAdvantage + expectedFormAdvantageB + injuryImpactA - injuryImpactB;
 
   return {
     homeTeam: expectedScoreA,

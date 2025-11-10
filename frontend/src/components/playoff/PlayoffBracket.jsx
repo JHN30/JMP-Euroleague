@@ -123,7 +123,11 @@ const PlayoffBracket = () => {
         currentRound={currentRound}
       />
 
-      <section className={`${pageCardClass} relative overflow-hidden`} role="region" aria-labelledby="main-bracket-title">
+      <section
+        className={`${pageCardClass} relative overflow-hidden`}
+        role="region"
+        aria-labelledby="main-bracket-title"
+      >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-orange-400/10" />
         <div className="relative z-10 space-y-8 px-3 p-3">
           <div className="text-center">

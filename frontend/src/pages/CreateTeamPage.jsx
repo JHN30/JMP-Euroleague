@@ -66,8 +66,8 @@ const CreateTeamPage = () => {
             <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Create Team</p>
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">Register a New Club</h2>
             <p className="text-sm text-gray-300 sm:max-w-lg">
-              Add a fresh roster to the JMP ecosystem. Provide the baseline identity now and enrich it later with ratings,
-              rounds, and performance data.
+              Add a fresh roster to the JMP ecosystem. Provide the baseline identity now and enrich it later with
+              ratings, rounds, and performance data.
             </p>
           </div>
 
@@ -122,7 +122,9 @@ const CreateTeamPage = () => {
             <label htmlFor="team-logo" className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-200">
               Team Logo
             </label>
-            <p className="text-xs text-gray-400">PNG or JPG works best. A square canvas (512x512) keeps things crisp.</p>
+            <p className="text-xs text-gray-400">
+              PNG or JPG works best. A square canvas (512x512) keeps things crisp.
+            </p>
 
             <input id="team-logo" type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
 

@@ -12,7 +12,12 @@ const TeamSelection = ({ teams, selectedHomeTeam, selectedAwayTeam, onSelectHome
           Home team
         </label>
         <div className="relative">
-          <select id="home-team" className={`${selectFieldClass} pr-10`} onChange={onSelectHome} value={selectedHomeTeam}>
+          <select
+            id="home-team"
+            className={`${selectFieldClass} pr-10`}
+            onChange={onSelectHome}
+            value={selectedHomeTeam}
+          >
             <option disabled value="">
               Select Home Team
             </option>
@@ -25,16 +30,28 @@ const TeamSelection = ({ teams, selectedHomeTeam, selectedAwayTeam, onSelectHome
               ))}
           </select>
           <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/60">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
           </span>
         </div>
       </div>
 
-      <motion.div className="flex flex-col items-center justify-center gap-2" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
+      <motion.div
+        className="flex flex-col items-center justify-center gap-2"
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.98 }}
+      >
         <span className="text-xs uppercase tracking-[0.6em] text-orange-200/70">Head-to-head</span>
-        <span className="text-4xl font-extrabold bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 bg-clip-text text-transparent">VS</span>
+        <span className="text-4xl font-extrabold bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 bg-clip-text text-transparent">
+          VS
+        </span>
       </motion.div>
 
       <div className="space-y-2">
@@ -42,7 +59,12 @@ const TeamSelection = ({ teams, selectedHomeTeam, selectedAwayTeam, onSelectHome
           Away team
         </label>
         <div className="relative">
-          <select id="away-team" className={`${selectFieldClass} pr-10`} onChange={onSelectAway} value={selectedAwayTeam}>
+          <select
+            id="away-team"
+            className={`${selectFieldClass} pr-10`}
+            onChange={onSelectAway}
+            value={selectedAwayTeam}
+          >
             <option disabled value="">
               Select Away Team
             </option>
@@ -55,7 +77,13 @@ const TeamSelection = ({ teams, selectedHomeTeam, selectedAwayTeam, onSelectHome
               ))}
           </select>
           <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/60">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
           </span>
