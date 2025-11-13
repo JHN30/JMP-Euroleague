@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useCallback, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 
 import { useAuth } from "./hooks/useAuth";
 
@@ -25,12 +25,11 @@ const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuth();
-  const checkAuthCallback = useCallback(checkAuth, [checkAuth]);
   const isGuest = !isAuthenticated;
 
   useEffect(() => {
-    checkAuthCallback();
-  }, [checkAuthCallback]);
+    checkAuth();
+  }, [checkAuth]);
 
   if (isCheckingAuth) {
     return (

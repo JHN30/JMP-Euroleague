@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
+// eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === "production") {
   disableReactDevTools();
 }

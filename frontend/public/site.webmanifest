@@ -1,6 +1,10 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "JMP Euroleague",
+  "short_name": "JMP Euroleague",
+  "start_url": "/",
+  "scope": "/",
+  "description": "App to help you predict Euroleague basketball games.",
+  "orientation": "portrait",
   "icons": [
     { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
