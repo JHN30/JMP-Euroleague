@@ -29,9 +29,9 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Playoffs page -->
+  <!-- Playoff page -->
   <url>
-    <loc>https://www.jmpeuroleague.com/playoffs</loc>
+    <loc>https://www.jmpeuroleague.com/playoff</loc>
     <lastmod>2025-11-07T15:57:53+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
