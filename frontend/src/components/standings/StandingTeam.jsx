@@ -6,8 +6,9 @@ const StandingTeam = ({ team, position }) => {
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
   const ratingDisplay = Number(team.displayRating ?? team.rating2);
   const recentForm = Array.isArray(team.form) ? team.form.slice(-5) : [];
-  const recentWins = recentForm.filter((result) => result === "W").length;
-  const recentLosses = recentForm.length - recentWins;
+  const recentFormSmallDisplay = Array.isArray(team.form) ? team.form.slice(-10) : [];
+  const recentWins = recentFormSmallDisplay.filter((result) => result === "W").length;
+  const recentLosses = recentFormSmallDisplay.length - recentWins;
 
   return (
     <tr className="group border-b border-white/5 text-xs transition-colors hover:bg-white/5 last:border-0 md:text-sm">
