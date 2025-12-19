@@ -74,7 +74,7 @@ export const login = async (req, res) => {
     }
 
     // Check if account is locked
-    if (user.lockUntil && user.lockUntil > Date.now()) {
+    if (user.lockUntil > Date.now()) {
       const remainingTime = Math.ceil((user.lockUntil - Date.now()) / 60000); // minutes
       return res.status(429).json({
         success: false,
