@@ -1,19 +1,19 @@
-# [JMP Euroleague 🏀](https://www.jmpeuroleague.com/)
+# [JMP Euroleague](https://www.jmpeuroleague.com/)
 
 **JMP Euroleague** is a web app that predicts Euroleague basketball match outcomes using a modified **ELO rating system**.  
 It tracks **real-world team performance** and calculates win probabilities, helping fans explore standings, playoff scenarios, and team stats.
 
-🚀 Built with the **MERN Stack** (MongoDB, Express.js, React, Node.js).
+Built with the **MERN Stack** (MongoDB, Express.js, React, Node.js).
 
 ---
 
-## 🏀 JMP Rating
+## JMP Rating
 
 For more information about **JMP Rating** click [here](https://github.com/JHN30/JMP-Rating)
 
 ---
 
-## 🆕 Recent Updates
+## Recent Updates
 
 - **2025/26 Season Ready** – Restructured team models with per-match tracking arrays for detailed season analytics.
 - **Performance Optimizations** – Replaced collapsible multi-input forms with round-by-round navigation, eliminated laggy rendering, and moved rating calculations to admin-controlled manual triggers.
@@ -22,21 +22,21 @@ For more information about **JMP Rating** click [here](https://github.com/JHN30/
 
 ---
 
-## ✨ Features
+## Features
 
-- 📊 **Standings Page** – View updated team rankings.
-- 🔮 **Predictor Page** – See win probabilities for upcoming games.
-- 🏆 **Playoff Page** – Explore playoff brackets and scenarios.
-- 📈 **Team Stats Page** – Detailed team statistics and trends.
-- 👤 **Profile Page** – User accounts with authentication.
-- 🔐 **Auth System** – Login, signup, logout, forgot password and email verification.
-- 🛡️ **Security** – JWT-based authentication with short- and long-lived tokens (stored via cookies).
-- ☁️ **Cloudinary Integration** – Store and serve team logos.
-- 📧 **Email Verification** – Mailtrap integration for secure testing.
+- **Standings Page** – View updated team rankings.
+- **Predictor Page** – See win probabilities for upcoming games.
+- **Playoff Page** – Explore playoff brackets and scenarios.
+- **Team Stats Page** – Detailed team statistics and trends.
+- **Profile Page** – User accounts with authentication.
+- **Auth System** – Login, signup, logout, forgot password and email verification.
+- **Security** – JWT-based authentication with short- and long-lived tokens (stored via cookies).
+- **Cloudinary Integration** – Store and serve team logos.
+- **Email Verification** – Mailtrap integration for secure testing.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Frontend**
 
@@ -54,6 +54,7 @@ For more information about **JMP Rating** click [here](https://github.com/JHN30/
 - Node.js
 - Express.js
 - MongoDB (Mongoose)
+- MSSQL
 - bcryptjs
 - cookie-parser
 - jsonwebtoken
@@ -66,7 +67,7 @@ For more information about **JMP Rating** click [here](https://github.com/JHN30/
 
 ---
 
-## ⚙️ Environment Setup
+## Environment Setup
 
 Create a `.env` file in the root directory:
 
@@ -90,7 +91,7 @@ NODE_ENV=development
 
 ---
 
-## ▶️ Running the app
+## Running the app
 
 Build it and then just start it. These are commands:
 `npm run build`
@@ -99,9 +100,9 @@ and
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-### 🔐 Admin Pages
+### Admin Pages
 
 <p align="center">
   <img src="./screenshots/create-team-2.png" alt="Create Page" width="90%">
@@ -121,13 +122,13 @@ and
 
 #
 
-### 📊 Standings
+### Standings
 
 Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comparison-standings.html) to see the difference!
 
 #
 
-### 🔮 Predictor
+### Predictor
 
 <p align="center">
   <img src="./screenshots/predictor-1.png" alt="Predictor Page 1" width="90%">
@@ -139,13 +140,13 @@ Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 
 #
 
-### 🏆 Playoff
+### Playoff
 
 ![Playoff Page](./screenshots/playoff.gif)
 
 #
 
-### 📈 Team Stats
+### Team Stats
 
 <p align="center">
   <img src="./screenshots/teams-1.png" alt="Teams Page 1" width="90%">
@@ -165,7 +166,7 @@ Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 
 #
 
-### 🔐 Auth Pages
+### Auth Pages
 
 <p align="center">
   <img src="./screenshots/login.PNG" alt="Login Page" width="90%">
@@ -189,7 +190,7 @@ Check out the [Standings Comparison](https://jhn30.github.io/JMP-Euroleague/comp
 
 #
 
-### 📧 Emails
+### Emails
 
 <p align="center">
   <img src="./screenshots/verify-email-message.PNG" alt="Verify Email Message" width="90%">
