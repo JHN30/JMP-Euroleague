@@ -37,7 +37,7 @@ const SeasonSelect = ({
         type="button"
         id={id}
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex w-full items-center justify-between gap-3 rounded-full border border-white/10 bg-slate-800/50 px-5 py-2 text-sm font-medium text-slate-200 shadow-sm outline-none transition-all duration-200 hover:border-white/20 hover:bg-slate-800/80 focus:border-orange-400 focus:bg-slate-800 focus:ring-4 focus:ring-orange-400/10 ${
+        className={`flex w-full items-center justify-between gap-3 rounded-lg border border-white/10 bg-slate-800/50 px-5 py-2 text-sm font-medium text-slate-200 shadow-sm outline-none transition-all duration-200 hover:border-white/20 hover:bg-slate-800/80 focus:border-orange-400 focus:bg-slate-800 focus:ring-4 focus:ring-orange-400/10 ${
           isOpen ? "border-orange-400 bg-slate-800 ring-4 ring-orange-400/10" : ""
         }`}
       >
