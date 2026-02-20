@@ -4,10 +4,10 @@ import LayoutShell from "../components/layout/LayoutShell";
 const StandingsPage = () => {
   return (
     <LayoutShell>
-      <div className="flex flex-col gap-8 text-white">
+      <div className="flex flex-col gap-6 text-white pt-4">
         <header className="flex flex-col gap-2 justify-center items-center">
-          <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Standings</p>
-          <h1 className="mt-2 text-3xl font-bold leading-tight text-white">Euroleague Table</h1>
+          <p className="text-sm uppercase tracking-wider text-orange-400/90 font-semibold">JMP Standings</p>
+          <h1 className="text-3xl font-bold leading-tight text-slate-100">Euroleague Table</h1>
         </header>
 
         <StandingTeams />

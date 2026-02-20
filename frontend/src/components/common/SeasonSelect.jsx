@@ -1,7 +1,7 @@
-const DEFAULT_SEASONS = [2024, 2025];
+import { useState, useRef, useEffect } from "react";
+import { HiChevronDown } from "react-icons/hi";
 
-const baseClassName =
-  "select select-bordered w-full max-w-xs focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200";
+const DEFAULT_SEASONS = [2024, 2025];
 
 const SeasonSelect = ({
   id = "season-select",
@@ -11,21 +11,60 @@ const SeasonSelect = ({
   seasons = DEFAULT_SEASONS,
   placeholder = "Select Season",
   className = "",
-  ...rest
 }) => {
-  const combinedClassName = `${baseClassName}${className ? ` ${className}` : ""}`;
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (season) => {
+    onChange({ target: { value: season, name: name || id } });
+    setIsOpen(false);
+  };
 
   return (
-    <select id={id} name={name || id} value={value} onChange={onChange} className={combinedClassName} {...rest}>
-      <option disabled value="">
-        {placeholder}
-      </option>
-      {seasons.map((season) => (
-        <option key={season} value={season}>
-          {season}
-        </option>
-      ))}
-    </select>
+    <div className={`relative inline-block w-full sm:w-auto ${className}`} ref={dropdownRef}>
+      <button
+        type="button"
+        id={id}
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex w-full items-center justify-between gap-3 rounded-full border border-white/10 bg-slate-800/50 px-5 py-2 text-sm font-medium text-slate-200 shadow-sm outline-none transition-all duration-200 hover:border-white/20 hover:bg-slate-800/80 focus:border-orange-400 focus:bg-slate-800 focus:ring-4 focus:ring-orange-400/10 ${
+          isOpen ? "border-orange-400 bg-slate-800 ring-4 ring-orange-400/10" : ""
+        }`}
+      >
+        <span>{value || placeholder}</span>
+        <HiChevronDown
+          className={`h-5 w-5 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {isOpen && (
+        <ul className="absolute z-[100] mt-2 w-full origin-top-right overflow-hidden rounded-2xl border border-white/10 bg-slate-800/95 shadow-xl backdrop-blur-md">
+          {seasons.map((season) => (
+            <li
+              key={season}
+              onClick={() => handleSelect(season.toString())}
+              className={`cursor-pointer px-5 py-3 text-sm font-medium transition-colors ${
+                value === season.toString()
+                  ? "bg-orange-500/10 text-orange-400"
+                  : "text-slate-200 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              {season}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

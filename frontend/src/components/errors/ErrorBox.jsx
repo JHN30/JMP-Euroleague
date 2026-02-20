@@ -4,15 +4,16 @@ const ErrorBox = ({ error }) => {
   return (
     <div
       role="alert"
-      className="relative mx-auto flex w-full max-w-lg overflow-hidden rounded-2xl border border-error/20 bg-base-100/90 shadow-xl backdrop-blur-sm"
+      className="relative mx-auto flex w-full max-w-lg overflow-hidden rounded-2xl border border-rose-500/20 bg-slate-900/90 shadow-2xl backdrop-blur-md"
     >
+      {/* Subtle left border indicator */}
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-error to-orange-500"
+        className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-rose-500/80"
         aria-hidden="true"
       />
 
       <div className="flex w-full items-start gap-4 px-6 py-5">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-error/10 text-error">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-400">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current" fill="none" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -24,8 +25,8 @@ const ErrorBox = ({ error }) => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-error">Error</span>
-          <p className="text-sm leading-relaxed text-base-content/80">{message}</p>
+          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Error</span>
+          <p className="text-sm leading-relaxed text-slate-300">{message}</p>
         </div>
       </div>
     </div>

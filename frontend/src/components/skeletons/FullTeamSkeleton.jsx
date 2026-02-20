@@ -3,21 +3,18 @@ import { pageCardClass } from "../layout/LayoutShell";
 
 export default function FullTeamSkeleton() {
   return (
-    <div className={`${pageCardClass}`}>
-      <div className="border-b border-white/10 px-6 py-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-3">
-            <div className="h-3 w-32 rounded-full bg-white/10 animate-pulse" />
-            <div className="h-4 w-48 rounded-full bg-white/10 animate-pulse" />
-          </div>
-          <div className="h-11 w-full rounded-2xl border border-white/10 bg-white/5 animate-pulse sm:w-48" />
+    <div className="flex w-full flex-col">
+      <div className="border-b border-t border-white/5 px-4 py-4 rounded-t-2xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
+          <div className="h-4 w-16 rounded-full bg-slate-800 animate-pulse" />
+          <div className="h-10 w-full sm:w-48 rounded-full bg-slate-800 animate-pulse" />
         </div>
       </div>
 
       <div className="overflow-x-auto px-2 py-4">
-        <table className="min-w-full text-[11px] text-gray-100">
-          <thead className="text-[10px] uppercase tracking-[0.25em] text-orange-200">
-            <tr className="border-b border-white/10">
+        <table className="min-w-full text-xs text-slate-200">
+          <thead className="text-xs uppercase tracking-wider text-orange-400/80">
+            <tr className="border-b border-white/5">
               <th className="whitespace-nowrap px-2 py-2 font-semibold text-center">
                 <span className="hidden sm:inline">Pos</span>
                 <span className="sm:hidden">P</span>

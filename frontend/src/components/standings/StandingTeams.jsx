@@ -77,20 +77,17 @@ const StandingTeams = () => {
 
   if (errorTeams || !teamList.length) {
     return (
-      <div className={`${pageCardClass} flex h-full w-full items-center justify-center py-20`}>
+      <div className="flex h-full w-full items-center justify-center">
         <ErrorBox error={errorTeams} />
       </div>
     );
   }
 
   return (
-    <div className={`${pageCardClass}`}>
-      <div className="border-b border-white/10 px-6 py-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Season filter</p>
-            <p className="mt-2 text-sm text-gray-300">Swap between archived and live leaderboards.</p>
-          </div>
+    <div className="flex w-full flex-col">
+      <div className="border-b border-t border-white/5 px-4 py-4 rounded-t-2xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
+          <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
           <SeasonSelect
             id="team-season"
             className="mx-0 w-full sm:w-48"
@@ -101,22 +98,22 @@ const StandingTeams = () => {
       </div>
 
       <div className="overflow-x-auto px-2 py-4">
-        <table className="min-w-full text-[11px] text-gray-100">
-          <thead className="text-[10px] uppercase tracking-[0.25em] text-orange-200">
-            <tr className="border-b border-white/10">
+        <table className="min-w-full text-xs text-slate-200">
+          <thead className="text-xs uppercase tracking-wider text-orange-400/80">
+            <tr className="border-b border-white/5">
               <th className="whitespace-nowrap px-2 py-2 font-semibold text-center">
                 <span className="hidden sm:inline">Pos</span>
                 <span className="sm:hidden">P</span>
               </th>
               <th
                 onClick={() => handleSort("name")}
-                className="cursor-pointer px-2 sm:px-6 py-2 text-left font-semibold transition-colors hover:text-orange-100"
+                className="cursor-pointer px-2 sm:px-6 py-3 text-left font-semibold transition-colors hover:text-orange-100"
               >
                 Name <span className=" text-xs">{getSortIndicator("name")}</span>
               </th>
               <th
                 onClick={() => handleSort("wins")}
-                className="cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100"
+                className="cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100"
               >
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">Win</span>
@@ -126,7 +123,7 @@ const StandingTeams = () => {
               </th>
               <th
                 onClick={() => handleSort("losses")}
-                className="cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100"
+                className="cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100"
               >
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">Loss</span>
@@ -136,7 +133,7 @@ const StandingTeams = () => {
               </th>
               <th
                 onClick={() => handleSort("winPercentage")}
-                className="hidden cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
+                className="hidden cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
               >
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">Win%</span>
@@ -146,28 +143,28 @@ const StandingTeams = () => {
               </th>
               <th
                 onClick={() => handleSort("pointsPlus")}
-                className="hidden cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
+                className="hidden cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
               >
                 PTS+ <span className=" text-xs">{getSortIndicator("pointsPlus")}</span>
               </th>
               <th
                 onClick={() => handleSort("pointsMinus")}
-                className="hidden cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
+                className="hidden cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
               >
                 PTS- <span className=" text-xs">{getSortIndicator("pointsMinus")}</span>
               </th>
               <th
                 onClick={() => handleSort("pointsPlusMinus")}
-                className="hidden cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
+                className="hidden cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100 lg:table-cell"
               >
                 +/- <span className=" text-xs">{getSortIndicator("pointsPlusMinus")}</span>
               </th>
-              <th className="px-2 py-2 text-center font-semibold">Form</th>
+              <th className="px-2 py-3 text-center font-semibold">Form</th>
               <th
                 onClick={() => handleSort(activeRatingKey)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className="relative cursor-pointer px-2 py-2 text-center font-semibold transition-colors hover:text-orange-100"
+                className="relative cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100"
               >
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">JMP Rating</span>
@@ -175,9 +172,9 @@ const StandingTeams = () => {
                   <span className="text-xs">{getSortIndicator(activeRatingKey)}</span>
                 </div>
                 {showTooltip && (
-                  <div className="absolute right-0 top-10 w-64 rounded-xl border border-orange-400/50 bg-black/80 p-3 text-xs text-gray-200 shadow-lg">
+                  <div className="absolute right-0 top-10 w-64 rounded-xl border border-white/10 bg-slate-800/95 p-3 text-xs text-slate-300 shadow-xl backdrop-blur-md">
                     {ratingTooltipText}
-                    <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 border border-orange-400/50 border-b-0 border-r-0 bg-black/80" />
+                    <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 border border-white/10 border-b-0 border-r-0 bg-slate-800/95" />
                   </div>
                 )}
               </th>
