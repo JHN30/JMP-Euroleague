@@ -41,22 +41,24 @@ const Navbar = ({ isGuest }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-slate-800/40 backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+    <>
+      <header className="sticky top-0 z-[100] w-full border-b border-white/5 bg-slate-800/40 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
-        <NavbarLogo logoSrc={logoPng} />
+          <NavbarLogo logoSrc={logoPng} />
 
-        <NavbarDesktopMenu
-          menuItems={menuItems}
-          pathname={pathname}
-          isAuthRoute={isAuthRoute}
-          isAuthenticated={isAuthenticated}
-          onLogout={handleLogout}
-          onLogin={handleLogin}
-        />
+          <NavbarDesktopMenu
+            menuItems={menuItems}
+            pathname={pathname}
+            isAuthRoute={isAuthRoute}
+            isAuthenticated={isAuthenticated}
+            onLogout={handleLogout}
+            onLogin={handleLogin}
+          />
 
-        <NavbarMobileToggle isOpen={isMenuOpen} onToggle={() => setIsMenuOpen(!isMenuOpen)} />
-      </div>
+          <NavbarMobileToggle isOpen={isMenuOpen} onToggle={() => setIsMenuOpen(!isMenuOpen)} />
+        </div>
+      </header>
 
       <NavbarMobileMenu
         isOpen={isMenuOpen}
@@ -68,7 +70,7 @@ const Navbar = ({ isGuest }) => {
         onLogin={handleLogin}
         onClose={closeMenu}
       />
-    </header>
+    </>
   );
 };
 
