@@ -1,4 +1,4 @@
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const ChampionDisplay = ({ champion }) => {
   if (!champion) {

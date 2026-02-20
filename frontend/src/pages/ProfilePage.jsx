@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../styles/button.css";
 import toast from "react-hot-toast";
-import PageShell, { pageCardClass } from "../components/layout/PageShell";
+import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
 
 const ProfilePage = () => {
   const { user, logout, newVerifyEmail } = useAuth();
@@ -35,7 +35,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <PageShell>
+    <LayoutShell>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -106,7 +106,7 @@ const ProfilePage = () => {
           </motion.button>
         </motion.div>
       </motion.div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

@@ -1,4 +1,4 @@
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const barClass = "rounded-full bg-white/10 animate-pulse";
 

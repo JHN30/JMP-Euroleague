@@ -1,9 +1,9 @@
 import PlayoffBracket from "../components/playoff/PlayoffBracket";
-import PageShell from "../components/layout/PageShell";
+import LayoutShell from "../components/layout/LayoutShell";
 
 const PlayoffPage = () => {
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <header className="flex flex-col items-center text-center gap-2">
           <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Playoffs</p>
@@ -12,7 +12,7 @@ const PlayoffPage = () => {
 
         <PlayoffBracket />
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

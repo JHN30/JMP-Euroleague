@@ -6,7 +6,7 @@ import { FaLock } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Input from "../components/common/Input";
-import AuthShell, { authCardClass } from "../components/layout/AuthShell";
+import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 import { useAuth } from "../hooks/useAuth";
 
 import "../styles/button.css";
@@ -23,7 +23,7 @@ const LoginPage = () => {
   };
 
   return (
-    <AuthShell maxWidth="max-w-xl">
+    <LayoutShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -81,7 +81,7 @@ const LoginPage = () => {
           </Link>
         </div>
       </motion.div>
-    </AuthShell>
+    </LayoutShell>
   );
 };
 export default LoginPage;

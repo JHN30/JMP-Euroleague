@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { SlGraph } from "react-icons/sl";
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const TeamProfileCard = ({ teamData, selectedSeason, ratingLabel, ratingValueDisplay }) => {
   return (

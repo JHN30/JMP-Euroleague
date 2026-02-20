@@ -7,7 +7,7 @@ import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
 import SeasonSelect from "../common/SeasonSelect";
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const StandingTeams = () => {

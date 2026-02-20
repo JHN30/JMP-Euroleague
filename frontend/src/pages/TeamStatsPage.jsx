@@ -7,7 +7,7 @@ import ErrorBox from "../components/errors/ErrorBox";
 import StatsCard from "../components/cards/StatsCard";
 import FormCard from "../components/cards/FormCard";
 import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
-import PageShell, { pageCardClass } from "../components/layout/PageShell";
+import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
 import TeamStatsSkeleton from "../components/skeletons/TeamStatsSkeleton";
 import TeamProfileCard from "../components/cards/TeamProfileCard";
 
@@ -37,19 +37,19 @@ const TeamStatsPage = () => {
 
   if (loadingTeams) {
     return (
-      <PageShell>
+      <LayoutShell>
         <TeamStatsSkeleton />
-      </PageShell>
+      </LayoutShell>
     );
   }
 
   if (errorTeams) {
     return (
-      <PageShell>
+      <LayoutShell>
         <div className={`${pageCardClass} flex min-h-[50vh] items-center justify-center`}>
           <ErrorBox error={errorTeams} />
         </div>
-      </PageShell>
+      </LayoutShell>
     );
   }
 
@@ -62,7 +62,7 @@ const TeamStatsPage = () => {
     : [];
 
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <TeamProfileCard
           teamData={teamData}
@@ -195,7 +195,7 @@ const TeamStatsPage = () => {
           </div>
         </motion.section>
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

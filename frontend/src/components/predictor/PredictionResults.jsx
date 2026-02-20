@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 import AnimatedNumber from "../features/AnimatedNumber";
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const ResultCard = ({ variant, team, teamName, probability }) => {
   const isHome = variant === "home";

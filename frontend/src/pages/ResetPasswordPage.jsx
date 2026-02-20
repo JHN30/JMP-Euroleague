@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Input from "../components/common/Input";
 import { FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
-import AuthShell, { authCardClass } from "../components/layout/AuthShell";
+import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 
 import "../styles/button.css";
 
@@ -39,7 +39,7 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <AuthShell maxWidth="max-w-xl">
+    <LayoutShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -86,7 +86,7 @@ const ResetPasswordPage = () => {
           </motion.button>
         </form>
       </motion.div>
-    </AuthShell>
+    </LayoutShell>
   );
 };
 export default ResetPasswordPage;

@@ -10,7 +10,7 @@ import UpdateTeamPage from "./UpdateTeamPage";
 import DeleteTeamPage from "./DeleteTeamPage";
 import UpdateTeamRatingPage from "./UpdateTeamRatingPage";
 import UpdateRoundsPage from "./UpdateRoundsPage";
-import PageShell, { pageCardClass } from "../components/layout/PageShell";
+import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
 
 const tabs = [
   { id: "create", label: "Create Team", icon: FaCirclePlus },
@@ -32,7 +32,7 @@ const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
 
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <motion.header
           initial={{ opacity: 0, y: -12 }}
@@ -108,7 +108,7 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

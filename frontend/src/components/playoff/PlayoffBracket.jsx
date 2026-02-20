@@ -10,7 +10,7 @@ import FinalSection from "./FinalSection";
 import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
 import { sortTeams } from "../../utils/sortTeams";
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 import { DEFAULT_SEASON } from "../../constants/appConstants";
 import { updateTeamElo } from "../../utils/eloCalculator";
 import { resetDownstreamMatches } from "../../utils/playoffHelpers";

@@ -1,9 +1,9 @@
 import StandingTeams from "../components/standings/StandingTeams";
-import PageShell from "../components/layout/PageShell";
+import LayoutShell from "../components/layout/LayoutShell";
 
 const StandingsPage = () => {
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <header className="flex flex-col gap-2 justify-center items-center">
           <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Standings</p>
@@ -12,7 +12,7 @@ const StandingsPage = () => {
 
         <StandingTeams />
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const MatchSetupSection = ({ children, onCalculate, isCalculateDisabled }) => {
   return (

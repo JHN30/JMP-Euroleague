@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/features/PasswordStrengthMeter";
 import { useAuth } from "../hooks/useAuth";
-import AuthShell, { authCardClass } from "../components/layout/AuthShell";
+import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 
 import "../styles/button.css";
 
@@ -32,7 +32,7 @@ const SignUpPage = () => {
     }
   };
   return (
-    <AuthShell maxWidth="max-w-2xl">
+    <LayoutShell maxWidth="max-w-2xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -123,7 +123,7 @@ const SignUpPage = () => {
           </div>
         </div>
       </motion.div>
-    </AuthShell>
+    </LayoutShell>
   );
 };
 

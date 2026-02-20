@@ -8,7 +8,7 @@ import { FiLoader } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
-import AuthShell, { authCardClass } from "../components/layout/AuthShell";
+import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 
 import "../styles/button.css";
 
@@ -25,7 +25,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <AuthShell maxWidth="max-w-xl">
+    <LayoutShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ const ForgotPasswordPage = () => {
           </Link>
         </div>
       </motion.div>
-    </AuthShell>
+    </LayoutShell>
   );
 };
 export default ForgotPasswordPage;

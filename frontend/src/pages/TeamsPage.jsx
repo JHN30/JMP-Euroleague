@@ -8,7 +8,7 @@ import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamCard from "../components/cards/TeamCard";
 import { sortTeams } from "../utils/sortTeams";
 import SeasonSelect from "../components/common/SeasonSelect";
-import PageShell, { pageCardClass } from "../components/layout/PageShell";
+import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
 import { DEFAULT_SEASON, STORAGE_KEYS } from "../constants/appConstants";
 
 const TeamsPage = () => {
@@ -82,7 +82,7 @@ const TeamsPage = () => {
   };
 
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <header className="flex flex-col items-center text-center gap-2">
           <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Teams</p>
@@ -109,7 +109,7 @@ const TeamsPage = () => {
           <div className="px-5 pb-6">{renderContent()}</div>
         </div>
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
-import AuthShell, { authCardClass } from "../components/layout/AuthShell";
+import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 
 import "../styles/button.css";
 
@@ -67,7 +67,7 @@ const EmailVerificationPage = () => {
   }, [code]);
 
   return (
-    <AuthShell maxWidth="max-w-xl">
+    <LayoutShell maxWidth="max-w-xl">
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ const EmailVerificationPage = () => {
           </motion.button>
         </form>
       </motion.div>
-    </AuthShell>
+    </LayoutShell>
   );
 };
 export default EmailVerificationPage;

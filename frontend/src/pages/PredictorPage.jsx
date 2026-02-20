@@ -1,9 +1,9 @@
 import PredictingTeams from "../components/predictor/PredictingTeams";
-import PageShell from "../components/layout/PageShell";
+import LayoutShell from "../components/layout/LayoutShell";
 
 const PredictorPage = () => {
   return (
-    <PageShell>
+    <LayoutShell>
       <div className="flex flex-col gap-8 text-white">
         <header className="flex flex-col items-center text-center gap-2">
           <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Predictor</p>
@@ -15,7 +15,7 @@ const PredictorPage = () => {
 
         <PredictingTeams />
       </div>
-    </PageShell>
+    </LayoutShell>
   );
 };
 

@@ -1,4 +1,4 @@
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const shimmer = "animate-pulse bg-white/10";
 

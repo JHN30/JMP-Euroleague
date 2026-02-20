@@ -10,7 +10,7 @@ import { handleTeamSelect as handleTeamSelectAction } from "../../utils/handleTe
 
 import PredictingTeamsSkeleton from "../skeletons/PredictingTeamsSkeleton";
 
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 import MatchSetupSection from "./MatchSetupSection";
 import TeamSelection from "./TeamSelection";

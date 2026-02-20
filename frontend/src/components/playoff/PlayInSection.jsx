@@ -1,5 +1,5 @@
 import TeamMatchup from "./TeamMatchup";
-import { pageCardClass } from "../layout/PageShell";
+import { pageCardClass } from "../layout/LayoutShell";
 
 const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, getLosingTeam, currentRound }) => {
   if (!seededTeams) {
