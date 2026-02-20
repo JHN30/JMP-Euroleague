@@ -30,11 +30,15 @@ const NavbarMobileMenu = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="navbar-mobile-panel lg:hidden"
+            className="fixed top-0 right-0 z-50 flex h-full w-72 flex-col border-l border-white/5 bg-slate-900/90 backdrop-blur-2xl lg:hidden"
           >
-            <div className="navbar-mobile-header">
-              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-orange-200">Menu</p>
-              <button onClick={onClose} className="navbar-mobile-close" aria-label="Close navigation menu">
+            <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
+              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-400">Menu</p>
+              <button
+                onClick={onClose}
+                className="rounded-xl border border-transparent p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+                aria-label="Close navigation menu"
+              >
                 <HiX className="h-5 w-5" />
               </button>
             </div>
@@ -47,9 +51,17 @@ const NavbarMobileMenu = ({
                       <Link
                         to={item.to}
                         onClick={onClose}
-                        className={`navbar-mobile-link ${pathname === item.to ? "navbar-mobile-link--active" : ""}`}
+                        className={`group flex items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-sm font-medium uppercase tracking-wider transition ${
+                          pathname === item.to
+                            ? "bg-slate-800/80 text-white font-bold"
+                            : "text-slate-300 hover:bg-slate-800/50 hover:text-white"
+                        }`}
                       >
-                        <item.icon className="navbar-menu-icon" />
+                        <item.icon
+                          className={`h-5 w-5 transition-colors duration-200 ${
+                            pathname === item.to ? "text-orange-400" : "text-orange-400/90 group-hover:text-orange-400"
+                          }`}
+                        />
                         {item.label}
                       </Link>
                     </li>
@@ -59,7 +71,10 @@ const NavbarMobileMenu = ({
 
             {!isAuthRoute && (
               <div className="border-t border-white/10 px-5 py-4">
-                <button onClick={isAuthenticated ? onLogout : onLogin} className="navbar-mobile-cta">
+                <button
+                  onClick={isAuthenticated ? onLogout : onLogin}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-3 text-sm font-bold uppercase tracking-wider text-white shadow-sm transition duration-200 hover:bg-orange-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+                >
                   <LuLogOut className="h-5 w-5" />
                   {isAuthenticated ? "Logout" : "Login"}
                 </button>

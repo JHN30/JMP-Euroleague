@@ -4,8 +4,6 @@ import { useState } from "react";
 
 import logoPng from "../../../assets/Logo.png";
 
-import "../../styles/navbar.css";
-
 import NavbarLogo from "./NavbarLogo";
 import NavbarDesktopMenu from "./NavbarDesktopMenu";
 import NavbarMobileMenu from "./NavbarMobileMenu";
@@ -43,9 +41,8 @@ const Navbar = ({ isGuest }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full px-3 py-4 sm:px-6">
-      <div className="navbar-container">
-        <div className="navbar-highlight" />
+    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-slate-800/40 backdrop-blur-xl">
+      <div className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
         <NavbarLogo logoSrc={logoPng} />
 
