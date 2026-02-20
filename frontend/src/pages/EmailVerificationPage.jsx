@@ -1,5 +1,3 @@
-//eslint-disable-next-line no-unused-vars
-import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -68,21 +66,15 @@ const EmailVerificationPage = () => {
 
   return (
     <LayoutShell maxWidth="max-w-xl">
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+      <div
         className={`${authCardClass} px-6 py-8 sm:px-10`}
       >
-        <div className="text-center">
-          <span className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-300/80">
-            Verify Email
-          </span>
-          <h2 className="mt-4 text-3xl font-bold text-white">Verify your email</h2>
-          <p className="mt-1 text-sm text-gray-300">Enter the 6-digit code we sent to your inbox.</p>
+        <div className="mb-6 text-center flex flex-col items-center">
+          <h2 className="mt-6 text-3xl font-bold text-slate-100">Verify your email</h2>
+          <p className="mt-2 text-sm text-slate-400">Enter the 6-digit code we sent to your inbox.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           <div className="flex justify-between gap-3">
             {code.map((digit, index) => (
               <input
@@ -93,22 +85,20 @@ const EmailVerificationPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="h-12 w-12 rounded-xl border border-white/10 bg-black/40 text-center text-2xl font-bold text-white focus:border-orange-500 focus:outline-none"
+                className="h-12 w-12 rounded-xl border border-white/10 bg-slate-800/50 text-center text-2xl font-bold text-slate-200 shadow-sm transition-all duration-200 focus:border-orange-400 focus:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-orange-400/10"
               />
             ))}
           </div>
           {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <button
             type="submit"
             disabled={isLoading || code.some((digit) => !digit)}
-            className="button w-full justify-center disabled:opacity-60"
+            className="button w-full justify-center disabled:opacity-60 transition-transform active:scale-[0.98] hover:scale-[1.02]"
           >
             {isLoading ? "Verifying..." : "Verify Email"}
-          </motion.button>
+          </button>
         </form>
-      </motion.div>
+      </div>
     </LayoutShell>
   );
 };

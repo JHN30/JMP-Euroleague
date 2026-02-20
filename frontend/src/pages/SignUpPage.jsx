@@ -1,5 +1,3 @@
-//eslint-disable-next-line no-unused-vars
-import { motion } from "motion/react";
 import Input from "../components/common/Input";
 import { FiLoader, FiUser } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
@@ -33,10 +31,7 @@ const SignUpPage = () => {
   };
   return (
     <LayoutShell maxWidth="max-w-2xl">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className={`${authCardClass} flex justify-center flex-col`}
       >
         {/* Left Side Content (Why Join) - Will be implemented in future */}
@@ -69,12 +64,7 @@ const SignUpPage = () => {
         </div> */}
 
         <div className="p-4 sm:p-8">
-          <div className="mb-6 text-center">
-            <h1 className="inline-flex items-center rounded-full border border-orange-500/30 px-3 py-1 text-md font-semibold uppercase tracking-wide text-orange-300">
-              Create account
-            </h1>
-            <h3 className="mt-1 text-sm text-gray-300">Enter your details to get verified access.</h3>
-          </div>
+        <h2 className="mb-6 text-center text-3xl font-bold text-slate-100">Create account</h2>
 
           <form onSubmit={handleSignUp} className="space-y-2">
             <Input
@@ -104,25 +94,23 @@ const SignUpPage = () => {
             <PasswordStrengthMeter password={password} />
             {error && <p className="text-red-500 font-semibold">{error}</p>}
 
-            <motion.button
-              className="button mt-4 w-full justify-center"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
+              className="button mt-2 w-full justify-center transition-transform active:scale-[0.98] hover:scale-[1.02]"
               type="submit"
               disabled={isLoading}
             >
               {isLoading ? <FiLoader className="mx-auto animate-spin" size={24} /> : "Sign Up"}
-            </motion.button>
+            </button>
           </form>
 
-          <div className="mt-6 rounded-2xl border border-white/5 bg-white/5 px-5 py-4 text-center text-sm text-gray-300">
+          <div className="mt-4 rounded-2xl border border-white/5 bg-slate-800/30 p-4 text-center text-sm text-slate-300">
             Already verified?
-            <Link to={"/login"} className="ml-1 font-semibold text-orange-300 hover:text-orange-200">
+            <Link to={"/login"} className="ml-2 font-semibold text-orange-400 transition-colors hover:text-orange-300">
               Log in
             </Link>
           </div>
         </div>
-      </motion.div>
+      </div>
     </LayoutShell>
   );
 };

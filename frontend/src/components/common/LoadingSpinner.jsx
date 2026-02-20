@@ -13,7 +13,7 @@ const LoadingSpinner = ({ size = "md" }) => {
     <div className="flex items-center justify-center">
       <div className={`relative flex items-center justify-center ${spinnerSize}`}>
         <span
-          className="pointer-events-none absolute inset-0 rounded-full border-[3px] border-base-content/10"
+          className="pointer-events-none absolute inset-0 rounded-full border-[3px] border-slate-700/50"
           aria-hidden="true"
         />
         <span
