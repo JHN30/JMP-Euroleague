@@ -11,7 +11,7 @@ const StandingTeam = ({ team, position }) => {
   const recentLosses = recentFormSmallDisplay.length - recentWins;
 
   return (
-    <tr className="group border-b border-white/5 text-xs transition-colors hover:bg-white/5 last:border-0 md:text-sm">
+    <tr className="group border border-white/5 text-xs transition-colors hover:bg-white/5 md:text-sm">
       <td className="whitespace-nowrap px-2 py-3 font-semibold text-orange-400/90 text-center">
         {position.toString().padStart(2, "0")}
       </td>
@@ -22,7 +22,7 @@ const StandingTeam = ({ team, position }) => {
           className="relative flex items-center gap-2 rounded-lg px-1 py-1"
         >
           {/* Subtle left border indicator on hover */}
-          <span className="absolute left-0 top-1/2 hidden h-8 w-[2px] -translate-y-1/2 rounded-full bg-orange-400 opacity-0 transition-all duration-200 group-hover:opacity-100 md:block" />
+          <span className="absolute left-0 top-1/2 hidden h-8 w-0.5 -translate-y-1/2 rounded-full bg-orange-400 opacity-0 transition-all duration-200 group-hover:opacity-100 md:block" />
           {/* Logo badge with fallback */}
           <div className="relative z-10 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg bg-slate-800/50 p-1">
             {team.logoImg ? (

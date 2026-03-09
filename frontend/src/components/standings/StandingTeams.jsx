@@ -7,7 +7,6 @@ import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
 import SeasonSelect from "../common/SeasonSelect";
-import { pageCardClass } from "../layout/LayoutShell";
 import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const StandingTeams = () => {
@@ -85,7 +84,7 @@ const StandingTeams = () => {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="border-b border-t border-white/5 px-4 py-4 rounded-t-2xl">
+      <div className="border border-white/5 px-4 py-4 rounded-t-xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
           <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
           <SeasonSelect
@@ -97,10 +96,10 @@ const StandingTeams = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto px-2 py-4">
+      <div className="overflow-x-auto">
         <table className="min-w-full text-xs text-slate-200">
           <thead className="text-xs uppercase tracking-wider text-orange-400/80">
-            <tr className="border-b border-white/5">
+            <tr className="border-b border-r border-l border-white/5">
               <th className="whitespace-nowrap px-2 py-2 font-semibold text-center">
                 <span className="hidden sm:inline">Pos</span>
                 <span className="sm:hidden">P</span>
