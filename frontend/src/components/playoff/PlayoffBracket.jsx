@@ -10,7 +10,7 @@ import FinalSection from "./FinalSection";
 import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
 import { sortTeams } from "../../utils/sortTeams";
-import { pageCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../layout/LayoutShell";
 import { DEFAULT_SEASON } from "../../constants/appConstants";
 import { updateTeamElo } from "../../utils/eloCalculator";
 import { resetDownstreamMatches } from "../../utils/playoffHelpers";
@@ -89,7 +89,7 @@ const PlayoffBracket = () => {
 
   if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length) {
     return (
-      <div className={`${pageCardClass} flex min-h-[320px] w-full items-center justify-center`}>
+      <div className={`${layoutCardClass} flex min-h-[320px] w-full items-center justify-center`}>
         <PlayoffBracketSkeleton />
       </div>
     );
@@ -97,7 +97,7 @@ const PlayoffBracket = () => {
 
   if (errorTeams || errorRounds) {
     return (
-      <div className={`${pageCardClass} flex min-h-[280px] w-full items-center justify-center`}>
+      <div className={`${layoutCardClass} flex min-h-[280px] w-full items-center justify-center`}>
         <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
@@ -124,7 +124,7 @@ const PlayoffBracket = () => {
       />
 
       <section
-        className={`${pageCardClass} relative overflow-hidden`}
+        className={`${layoutCardClass} relative overflow-hidden`}
         role="region"
         aria-labelledby="main-bracket-title"
       >

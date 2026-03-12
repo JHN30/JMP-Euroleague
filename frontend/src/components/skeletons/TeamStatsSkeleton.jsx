@@ -1,4 +1,4 @@
-import { pageCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../layout/LayoutShell";
 
 const shimmer = "animate-pulse bg-white/10";
 
@@ -57,7 +57,7 @@ const FormSkeleton = () => (
 const TeamStatsSkeleton = () => {
   return (
     <div className="flex flex-col gap-8 text-white">
-      <div className={`${pageCardClass} overflow-hidden`}>
+      <div className={`${layoutCardClass} overflow-hidden`}>
         <div className="relative flex flex-col gap-8 px-6 py-8 sm:px-8 lg:flex-row lg:items-center">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-32 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
@@ -83,7 +83,7 @@ const TeamStatsSkeleton = () => {
         </div>
       </div>
 
-      <div className={`${pageCardClass} px-6 py-6 sm:px-8`}>
+      <div className={`${layoutCardClass} px-6 py-6 sm:px-8`}>
         <div className="flex flex-col gap-4">
           <span className={`h-3 w-28 rounded-full ${shimmer}`} />
           <span className={`h-6 w-40 rounded-full ${shimmer}`} />
@@ -95,7 +95,7 @@ const TeamStatsSkeleton = () => {
         </div>
       </div>
 
-      <div className={`${pageCardClass} overflow-hidden`}>
+      <div className={`${layoutCardClass} overflow-hidden`}>
         <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
           <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -114,7 +114,7 @@ const TeamStatsSkeleton = () => {
         </div>
       </div>
 
-      <div className={`${pageCardClass} overflow-hidden`}>
+      <div className={`${layoutCardClass} overflow-hidden`}>
         <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
           <div className="border-b border-white/10 pb-6">
             <span className={`h-3 w-32 rounded-full ${shimmer}`} />

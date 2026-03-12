@@ -7,7 +7,7 @@ import ErrorBox from "../components/errors/ErrorBox";
 import StatsCard from "../components/cards/StatsCard";
 import FormCard from "../components/cards/FormCard";
 import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
-import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
+import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 import TeamStatsSkeleton from "../components/skeletons/TeamStatsSkeleton";
 import TeamProfileCard from "../components/cards/TeamProfileCard";
 
@@ -46,7 +46,7 @@ const TeamStatsPage = () => {
   if (errorTeams) {
     return (
       <LayoutShell>
-        <div className={`${pageCardClass} flex min-h-[50vh] items-center justify-center`}>
+        <div className={`${layoutCardClass} flex min-h-[50vh] items-center justify-center`}>
           <ErrorBox error={errorTeams} />
         </div>
       </LayoutShell>
@@ -75,7 +75,7 @@ const TeamStatsPage = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.6 }}
-          className={`${pageCardClass} px-6 py-6 sm:px-8`}
+          className={`${layoutCardClass} px-6 py-6 sm:px-8`}
         >
           <div className="flex flex-col gap-4">
             <div>
@@ -133,7 +133,7 @@ const TeamStatsPage = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.6 }}
-          className={`${pageCardClass} overflow-hidden`}
+          className={`${layoutCardClass} overflow-hidden`}
         >
           <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
@@ -177,7 +177,7 @@ const TeamStatsPage = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className={`${pageCardClass} overflow-hidden`}
+          className={`${layoutCardClass} overflow-hidden`}
         >
           <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
             <div className="border-b border-white/10 pb-6">

@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 import ErrorBox from "../errors/ErrorBox";
 
@@ -9,8 +8,6 @@ import { useRound } from "../../hooks/useRound";
 import { handleTeamSelect as handleTeamSelectAction } from "../../utils/handleTeamSelect";
 
 import PredictingTeamsSkeleton from "../skeletons/PredictingTeamsSkeleton";
-
-import { pageCardClass } from "../layout/LayoutShell";
 
 import MatchSetupSection from "./MatchSetupSection";
 import TeamSelection from "./TeamSelection";
@@ -26,6 +23,7 @@ const PredictingTeams = () => {
   const [homeInjuries, setHomeInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
   const [awayInjuries, setAwayInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
   const [showResults, setShowResults] = useState(false);
+  const resultsRef = useRef(null);
 
   const clampProbability = (value) => {
     const numericValue = Number(value);
@@ -43,13 +41,28 @@ const PredictingTeams = () => {
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 
+  useEffect(() => {
+    if (!predictions || !showResults || !resultsRef.current) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      const navbarOffset = 96;
+      const top = window.scrollY + resultsRef.current.getBoundingClientRect().top - navbarOffset;
+      window.scrollTo({
+        top: Math.max(top, 0),
+        behavior: "smooth",
+      });
+    });
+  }, [predictions, showResults]);
+
   if (loadingTeams || loadingRounds) {
     return <PredictingTeamsSkeleton />;
   }
 
   if (errorTeams || errorRounds) {
     return (
-      <div className={`${pageCardClass} flex min-h-[280px] items-center justify-center px-6 py-12`}>
+      <div className="flex h-full w-full items-center justify-center">
         <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
@@ -71,12 +84,7 @@ const PredictingTeams = () => {
   };
 
   return (
-    <motion.div
-      className="flex flex-col gap-8"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className="flex flex-col gap-6">
       <MatchSetupSection
         onCalculate={() => handleTeamSelect(selectedHomeTeam, selectedAwayTeam)}
         isCalculateDisabled={!selectedHomeTeam || !selectedAwayTeam}
@@ -96,8 +104,12 @@ const PredictingTeams = () => {
         />
       </MatchSetupSection>
 
-      {predictions && showResults && <PredictionResults predictions={predictions} displayTeams={displayTeams} />}
-    </motion.div>
+      {predictions && showResults && (
+        <div ref={resultsRef}>
+          <PredictionResults predictions={predictions} displayTeams={displayTeams} />
+        </div>
+      )}
+    </div>
   );
 };
 

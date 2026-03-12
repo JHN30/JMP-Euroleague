@@ -7,6 +7,7 @@ import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
 import SeasonSelect from "../common/SeasonSelect";
+import { layoutCardClass } from "../layout/LayoutShell";
 import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const StandingTeams = () => {
@@ -83,8 +84,8 @@ const StandingTeams = () => {
   }
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="border border-white/5 px-4 py-4 rounded-t-xl">
+    <div className={`${layoutCardClass} flex w-full flex-col overflow-hidden`}>
+      <div className="border-b border-white/10 px-4 py-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
           <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
           <SeasonSelect

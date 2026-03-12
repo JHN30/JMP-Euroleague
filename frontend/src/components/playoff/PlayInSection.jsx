@@ -1,5 +1,5 @@
 import TeamMatchup from "./TeamMatchup";
-import { pageCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../layout/LayoutShell";
 
 const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, getLosingTeam, currentRound }) => {
   if (!seededTeams) {
@@ -7,7 +7,7 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
   }
 
   return (
-    <section className={`${pageCardClass} relative overflow-hidden`} role="region" aria-labelledby="play-in-title">
+    <section className={`${layoutCardClass} relative overflow-hidden`} role="region" aria-labelledby="play-in-title">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-rose-500/10 via-orange-400/5 to-transparent opacity-80" />
       <div className="relative z-10 p-2">
         <div className="text-center">

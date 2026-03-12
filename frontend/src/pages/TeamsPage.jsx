@@ -8,7 +8,7 @@ import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamCard from "../components/cards/TeamCard";
 import { sortTeams } from "../utils/sortTeams";
 import SeasonSelect from "../components/common/SeasonSelect";
-import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
+import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 import { DEFAULT_SEASON, STORAGE_KEYS } from "../constants/appConstants";
 
 const TeamsPage = () => {
@@ -49,7 +49,7 @@ const TeamsPage = () => {
 
     if (errorTeams) {
       return (
-        <div className={`${pageCardClass} flex min-h-[280px] items-center justify-center`}>
+        <div className={`${layoutCardClass} flex min-h-[280px] items-center justify-center`}>
           <ErrorBox error={errorTeams} />
         </div>
       );
@@ -57,7 +57,7 @@ const TeamsPage = () => {
 
     if (!teams?.data?.length) {
       return (
-        <div className={`${pageCardClass} flex min-h-[280px] items-center justify-center`}>
+        <div className={`${layoutCardClass} flex min-h-[280px] items-center justify-center`}>
           <ErrorBox error="Team or round data is not available. Please try refreshing." />
         </div>
       );
@@ -92,7 +92,7 @@ const TeamsPage = () => {
           </p>
         </header>
 
-        <div className={`${pageCardClass} flex flex-col gap-6`}>
+        <div className={`${layoutCardClass} flex flex-col gap-6`}>
           <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Season filter</p>

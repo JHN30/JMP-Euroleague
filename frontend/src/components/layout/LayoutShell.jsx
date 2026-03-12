@@ -19,8 +19,6 @@ const LayoutShell = ({ children, className = "", contentClassName = "max-w-8xl",
 export const layoutCardClass =
   "rounded-3xl border border-white/10 bg-white/5 shadow-xl shadow-black/20 backdrop-blur-xl";
 
-// Legacy exports for backwards compatibility during transition
 export const authCardClass = `relative overflow-hidden ${layoutCardClass}`;
-export const pageCardClass = layoutCardClass;
 
 export default LayoutShell;

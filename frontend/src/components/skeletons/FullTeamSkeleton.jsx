@@ -1,5 +1,4 @@
 import TeamSkeleton from "./TeamSkeleton";
-import { pageCardClass } from "../layout/LayoutShell";
 
 export default function FullTeamSkeleton() {
   return (

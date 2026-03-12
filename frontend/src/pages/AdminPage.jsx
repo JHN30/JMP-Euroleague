@@ -10,7 +10,7 @@ import UpdateTeamPage from "./UpdateTeamPage";
 import DeleteTeamPage from "./DeleteTeamPage";
 import UpdateTeamRatingPage from "./UpdateTeamRatingPage";
 import UpdateRoundsPage from "./UpdateRoundsPage";
-import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
+import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const tabs = [
   { id: "create", label: "Create Team", icon: FaCirclePlus },
@@ -48,7 +48,7 @@ const AdminPage = () => {
           </p>
         </motion.header>
 
-        <div className={`${pageCardClass} flex flex-col gap-8 p-6 sm:p-8`}>
+        <div className={`${layoutCardClass} flex flex-col gap-8 p-6 sm:p-8`}>
           <div className="flex flex-col gap-5">
             <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Tasks</p>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

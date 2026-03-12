@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const AnimatedNumber = ({ value, duration = 2000, decimals = 2 }) => {
+const AnimatedNumber = ({ value, duration = 750, decimals = 1 }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const animationRef = useRef(null);
 

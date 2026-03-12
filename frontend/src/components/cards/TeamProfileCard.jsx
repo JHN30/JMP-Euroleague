@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { SlGraph } from "react-icons/sl";
-import { pageCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../layout/LayoutShell";
 
 const TeamProfileCard = ({ teamData, selectedSeason, ratingLabel, ratingValueDisplay }) => {
   return (
@@ -8,7 +8,7 @@ const TeamProfileCard = ({ teamData, selectedSeason, ratingLabel, ratingValueDis
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`${pageCardClass} overflow-hidden`}
+      className={`${layoutCardClass} overflow-hidden`}
     >
       <div className="relative flex flex-col gap-8 px-6 py-8 sm:px-8 lg:flex-row lg:items-center">
         <div className="pointer-events-none absolute inset-0">

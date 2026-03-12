@@ -4,13 +4,10 @@ import LayoutShell from "../components/layout/LayoutShell";
 const PredictorPage = () => {
   return (
     <LayoutShell>
-      <div className="flex flex-col gap-8 text-white">
-        <header className="flex flex-col items-center text-center gap-2">
-          <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Predictor</p>
-          <h1 className="mt-2 text-3xl font-bold leading-tight text-white">Simulate Any Euroleague Matchup</h1>
-          <p className="text-base text-gray-300 max-w-2xl">
-            Pick two teams, adjust injury impact, and let the JMP rating model project the most likely winner.
-          </p>
+      <div className="flex flex-col gap-6 text-white pt-4">
+        <header className="flex flex-col gap-2 justify-center items-center text-center">
+          <p className="text-sm uppercase tracking-wider text-orange-400/90 font-semibold">JMP Predictor</p>
+          <h1 className="text-3xl font-bold leading-tight text-slate-100">Simulate Any Euroleague Matchup</h1>
         </header>
 
         <PredictingTeams />

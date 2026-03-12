@@ -1,4 +1,4 @@
-import { pageCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../layout/LayoutShell";
 
 const ChampionDisplay = ({ champion }) => {
   if (!champion) {
@@ -8,7 +8,7 @@ const ChampionDisplay = ({ champion }) => {
   const fallbackLabel = champion.name?.slice(0, 2)?.toUpperCase() || "??";
 
   return (
-    <section className={`${pageCardClass} relative overflow-hidden`} role="region" aria-labelledby="champion-title">
+    <section className={`${layoutCardClass} relative overflow-hidden`} role="region" aria-labelledby="champion-title">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-amber-500/20 via-orange-400/10 to-rose-500/20 opacity-80" />
       <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center gap-6 px-6 py-10 text-center">
         <div className="flex items-center gap-3 text-amber-200">

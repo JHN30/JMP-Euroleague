@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../styles/button.css";
 import toast from "react-hot-toast";
-import LayoutShell, { pageCardClass } from "../components/layout/LayoutShell";
+import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const ProfilePage = () => {
   const { user, logout, newVerifyEmail } = useAuth();
@@ -40,7 +40,7 @@ const ProfilePage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`${pageCardClass} px-6 py-8 sm:px-10 text-white`}
+        className={`${layoutCardClass} px-6 py-8 sm:px-10 text-white`}
       >
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
