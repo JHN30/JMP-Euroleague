@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import { useTeam } from "../hooks/useTeam";
 import ErrorBox from "../components/errors/ErrorBox";
@@ -36,10 +35,13 @@ const TeamsPage = () => {
     window.localStorage.setItem(STORAGE_KEYS.TEAMS_PAGE_SEASON, selectedSeason);
   }, [selectedSeason]);
 
+  const teamList = teams?.data ?? [];
+
+
   const renderContent = () => {
     if (loadingTeams) {
       return (
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {Array.from({ length: 15 }).map((_, idx) => (
             <TeamCardSkeleton key={idx} />
           ))}
@@ -49,9 +51,9 @@ const TeamsPage = () => {
 
     if (errorTeams) {
       return (
-        <div className={`${layoutCardClass} flex min-h-[280px] items-center justify-center`}>
-          <ErrorBox error={errorTeams} />
-        </div>
+        <div className="flex h-full w-full items-center justify-center">
+        <ErrorBox error={errorTeams} />
+      </div>
       );
     }
 
@@ -63,51 +65,42 @@ const TeamsPage = () => {
       );
     }
 
-    const sortedTeams = sortTeams(teams.data, { key: sortConfig.key });
+    const sortedTeams = sortTeams(teamList, { key: sortConfig.key });
 
     return (
-      <motion.div
-        className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {sortedTeams.map((team) => (
           <Link to={`/team-stats/${team._id}`} className="block h-full" key={team._id ?? team.name}>
-            <TeamCard team={team} />
+            <TeamCard team={team} selectedSeason={selectedSeason} />
           </Link>
         ))}
-      </motion.div>
+      </div>
     );
   };
 
   return (
     <LayoutShell>
-      <div className="flex flex-col gap-8 text-white">
-        <header className="flex flex-col items-center text-center gap-2">
-          <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">JMP Teams</p>
-          <h1 className="mt-2 text-3xl font-bold leading-tight text-white">Explore Every Roster</h1>
-          <p className="text-base text-gray-300 max-w-2xl">
-            Browse each club and jump into detailed stats powered by the latest JMP rating data.
-          </p>
+      <div className="flex flex-col gap-6 pt-4 text-white">
+        <header className="flex flex-col items-center justify-center gap-2 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Teams</p>
+          <h1 className="text-3xl font-bold leading-tight text-slate-100">Explore Every Euroleague Club</h1>
         </header>
 
-        <div className={`${layoutCardClass} flex flex-col gap-6`}>
-          <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Season filter</p>
-              <p className="mt-2 text-sm text-gray-300">Toggle archived snapshots or the live leaderboard.</p>
+        <section className={`${layoutCardClass} overflow-hidden`} aria-labelledby="teams-directory-title">
+          <div className="border-b border-white/10 px-4 py-4">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
+              <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
+              <SeasonSelect
+                id="team-season"
+                className="mx-0 w-full sm:w-48"
+                value={selectedSeason}
+                onChange={(e) => setSelectedSeason(e.target.value)}
+              />
             </div>
-            <SeasonSelect
-              id="team-season"
-              className="mx-0 w-full sm:w-48"
-              value={selectedSeason}
-              onChange={(e) => setSelectedSeason(e.target.value)}
-            />
           </div>
 
-          <div className="px-5 pb-6">{renderContent()}</div>
-        </div>
+          <div className="px-5 py-5 sm:px-6 sm:py-6">{renderContent()}</div>
+        </section>
       </div>
     </LayoutShell>
   );

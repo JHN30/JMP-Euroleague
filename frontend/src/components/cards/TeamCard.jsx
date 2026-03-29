@@ -1,38 +1,57 @@
-import { motion } from "framer-motion";
+const TeamCard = ({ team, selectedSeason }) => {
+  const seasonDisplay = String(selectedSeason ?? team?.season ?? "");
+  const isLegacySeason = seasonDisplay === "2024";
+  const ratingLabel = isLegacySeason ? "JMP 1.0" : "JMP 2.0";
+  const ratingValue = isLegacySeason ? Number(team?.rating) : Number(team?.rating2);
+  const wins = Number(team?.wins ?? 0);
+  const losses = Number(team?.losses ?? 0);
+  const record = `${wins}-${losses}`;
 
-const TeamCard = ({ team }) => {
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.01,
-        boxShadow: "0 10px 30px rgba(251, 146, 60, 0.35), 0 0 30px rgba(251, 146, 60, 0.2)",
-      }}
-      transition={{ duration: 0.3 }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-[1px] shadow-xl shadow-black/30"
-    >
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/20 via-transparent to-amber-400/20 opacity-70 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+    <div className="group relative h-full overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-xl shadow-black/20 backdrop-blur-xl">
+      <div className="absolute inset-0 rounded-3xl bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.28),_transparent_58%)] opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="card card-md relative h-full overflow-hidden rounded-[1.45rem] bg-neutral">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent transition-all duration-500 group-hover:border-orange-300/40" />
+      <div className="relative h-full overflow-hidden rounded-[1.45rem] bg-slate-900/80">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent transition-all duration-500 group-hover:border-orange-300/60" />
         <div className="pointer-events-none absolute inset-0 translate-x-[-120%] skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-900 group-hover:translate-x-[120%] group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-orange-400/30 via-orange-400/10 to-transparent" />
 
-        <div className="card-body relative z-10 items-center justify-center rounded-t-[1.2rem] bg-gradient-to-br from-orange-500 via-orange-500 to-amber-400 p-4 text-center">
-          <h2 className="flex items-center justify-center font-black uppercase tracking-[0.45em] text-[0.65rem] text-white drop-shadow-md">
-            {team.name}
-          </h2>
-        </div>
-
-        <figure className="relative z-10 mb-3 mt-3">
-          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 shadow-inner shadow-black/40 transition duration-300 group-hover:border-orange-300/60 group-hover:bg-white/10">
-            <img
-              src={team.logoImg}
-              className="h-full w-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
-              alt={`${team.name} logo`}
-            />
+        <div className="relative z-10 flex h-full flex-col px-5 py-5">
+          <div className="flex items-center justify-center gap-3">
+            <h2 className="text-md font-semibold leading-tight text-white">{team.name}</h2>
           </div>
-        </figure>
+
+          <div className="mt-6 flex justify-center">
+            <div className="relative flex h-24 w-24 items-center justify-center">
+              <img
+                src={team.logoImg}
+                className="relative h-full w-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
+                alt={`${team.name} logo`}
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 text-sm text-slate-200">
+            <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
+              <p className="text-[0.65rem] uppercase tracking-[0.25em] text-slate-400">Record</p>
+              <p className="mt-1 text-lg font-semibold text-white">{record}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-orange-300/30 bg-orange-500/20 px-4 py-3 text-sm text-orange-50">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-orange-100/90">
+                {ratingLabel}
+              </span>
+              <span className="text-lg font-semibold text-white">
+                {Number.isFinite(ratingValue) ? ratingValue.toFixed(0) : "0"}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

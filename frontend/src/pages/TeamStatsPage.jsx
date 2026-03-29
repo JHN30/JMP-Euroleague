@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { motion } from "framer-motion";
-
 import ErrorBox from "../components/errors/ErrorBox";
 import StatsCard from "../components/cards/StatsCard";
 import FormCard from "../components/cards/FormCard";
@@ -71,12 +69,7 @@ const TeamStatsPage = () => {
           ratingValueDisplay={ratingValueDisplay}
         />
 
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className={`${layoutCardClass} px-6 py-6 sm:px-8`}
-        >
+        <section className={`${layoutCardClass} px-6 py-6 sm:px-8`}>
           <div className="flex flex-col gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Team Pulse</p>
@@ -127,14 +120,9 @@ const TeamStatsPage = () => {
               />
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.6 }}
-          className={`${layoutCardClass} overflow-hidden`}
-        >
+        <section className={`${layoutCardClass} overflow-hidden`}>
           <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -148,13 +136,8 @@ const TeamStatsPage = () => {
                 ].map((option) => {
                   const isActive = gamesToShow === option.value;
                   return (
-                    <motion.button
+                    <button
                       key={option.value}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.2 }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
                       onClick={() => setGamesToShow(option.value)}
                       className={`relative flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
                         isActive
@@ -163,7 +146,7 @@ const TeamStatsPage = () => {
                       }`}
                     >
                       <span>{option.label}</span>
-                    </motion.button>
+                    </button>
                   );
                 })}
               </div>
@@ -171,14 +154,9 @@ const TeamStatsPage = () => {
 
             <FormCard value={Array.isArray(teamData.form) ? teamData.form : []} gridColumns={gamesToShow} />
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className={`${layoutCardClass} overflow-hidden`}
-        >
+        <section className={`${layoutCardClass} overflow-hidden`}>
           <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
             <div className="border-b border-white/10 pb-6">
               <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Scouting Tape</p>
@@ -193,7 +171,7 @@ const TeamStatsPage = () => {
               pointsAgainst={pointsAgainstArray}
             />
           </div>
-        </motion.section>
+        </section>
       </div>
     </LayoutShell>
   );
