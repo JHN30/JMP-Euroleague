@@ -2,8 +2,8 @@ import TeamMatchup from "./TeamMatchup";
 
 const FinalSection = ({ winners, onSelectWinner, getWinningTeam, currentRound }) => {
   return (
-    <div>
-      <h3 className="text-center text-lg md:text-xl font-semibold mb-4 text-orange-200">Championship Final</h3>
+    <div className="space-y-4">
+      <h3 className="text-center text-lg font-semibold text-orange-300">Championship Final</h3>
       <div className="flex justify-center">
         <div className="w-full max-w-md">
           <TeamMatchup

@@ -2,9 +2,9 @@ import TeamMatchup from "./TeamMatchup";
 
 const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam, currentRound }) => {
   return (
-    <div>
-      <h3 className="text-center text-lg md:text-xl font-semibold mb-4 text-orange-200">Semifinals</h3>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
+    <div className="space-y-4">
+      <h3 className="text-center text-lg font-semibold text-orange-300">Semifinals</h3>
+      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 lg:grid-cols-2">
         <TeamMatchup
           matchId="sf-1"
           leftSeed={winners["qf-1"]?.winnerSeedNumber || "WQF"}

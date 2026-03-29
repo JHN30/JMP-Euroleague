@@ -7,17 +7,16 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
   }
 
   return (
-    <section className={`${layoutCardClass} relative overflow-hidden`} role="region" aria-labelledby="play-in-title">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-rose-500/10 via-orange-400/5 to-transparent opacity-80" />
-      <div className="relative z-10 p-2">
+    <section className={`${layoutCardClass} overflow-hidden`} role="region" aria-labelledby="play-in-title">
+      <div className="px-4 py-5 sm:px-6 sm:py-6">
         <div className="text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Play-In</p>
-          <h2 id="play-in-title" className="mt-2 text-2xl font-semibold text-white">
-            Tournament Gateway
+          <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Play-in</p>
+          <h2 id="play-in-title" className="mt-2 text-2xl font-semibold text-slate-100">
+            Qualification Round
           </h2>
         </div>
 
-        <div className="mt-8 grid gap-5 px-2 pb-2">
+        <div className="mt-6 grid gap-5">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <TeamMatchup
               matchId="play-in-1"

@@ -88,16 +88,12 @@ const PlayoffBracket = () => {
   const getLosingTeamObject = (matchId) => winners[matchId]?.losingTeamObject || null;
 
   if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length) {
-    return (
-      <div className={`${layoutCardClass} flex min-h-[320px] w-full items-center justify-center`}>
-        <PlayoffBracketSkeleton />
-      </div>
-    );
+    return <PlayoffBracketSkeleton />;
   }
 
   if (errorTeams || errorRounds) {
     return (
-      <div className={`${layoutCardClass} flex min-h-[280px] w-full items-center justify-center`}>
+      <div className="flex h-full w-full items-center justify-center">
         <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
@@ -107,13 +103,7 @@ const PlayoffBracket = () => {
   const seededTeams = getSeededTeams();
 
   return (
-    <div className="relative w-full space-y-8">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/15 to-transparent blur-[180px]" />
-        <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl" />
-        <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-amber-400/10 blur-3xl" />
-      </div>
-
+    <div className="w-full space-y-6">
       <PlayInSection
         seededTeams={seededTeams}
         winners={winners}
@@ -123,17 +113,12 @@ const PlayoffBracket = () => {
         currentRound={currentRound}
       />
 
-      <section
-        className={`${layoutCardClass} relative overflow-hidden`}
-        role="region"
-        aria-labelledby="main-bracket-title"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-orange-400/10" />
-        <div className="relative z-10 space-y-8 px-3 p-3">
+      <section className={`${layoutCardClass} overflow-hidden`} role="region" aria-labelledby="main-bracket-title">
+        <div className="space-y-6 px-4 py-5 sm:px-6 sm:py-6">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.4em] text-orange-200">Main Bracket</p>
-            <h2 id="main-bracket-title" className="mt-2 text-2xl font-semibold text-white">
-              Quarterfinals to Finals
+            <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Main bracket</p>
+            <h2 id="main-bracket-title" className="mt-2 text-2xl font-semibold text-slate-100">
+              Quarterfinals to Final
             </h2>
           </div>
 

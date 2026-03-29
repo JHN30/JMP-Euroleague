@@ -6,9 +6,9 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
   }
 
   return (
-    <div>
-      <h3 className="text-center text-lg md:text-xl font-semibold mb-4 text-orange-200">Quarterfinals</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
+    <div className="space-y-4">
+      <h3 className="text-center text-lg font-semibold text-orange-300">Quarterfinals</h3>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         <TeamMatchup
           matchId="qf-1"
           leftSeed="1"

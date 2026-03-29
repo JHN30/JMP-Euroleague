@@ -1,35 +1,31 @@
+import { layoutCardClass } from "../layout/LayoutShell";
+
 const MatchupSkeleton = () => (
-  <div className="w-full rounded-3xl border border-white/10 bg-white/5 p-4 shadow-xl shadow-black/30">
-    <div className="flex items-center gap-3">
-      <div className="h-10 w-10 rounded-full bg-orange-400/20" />
-      <div className="flex-1 space-y-2">
-        <div className="h-3 w-32 rounded-full bg-white/10" />
-        <div className="h-2.5 w-24 rounded-full bg-white/5" />
-      </div>
-      <div className="h-6 w-12 rounded-full bg-orange-400/15" />
-    </div>
-    <div className="mt-3 flex items-center gap-3">
-      <div className="h-10 w-10 rounded-full bg-orange-400/20" />
-      <div className="flex-1 space-y-2">
-        <div className="h-3 w-32 rounded-full bg-white/10" />
-        <div className="h-2.5 w-24 rounded-full bg-white/5" />
-      </div>
-      <div className="h-6 w-12 rounded-full bg-orange-400/15" />
+  <div className="w-full rounded-2xl border border-white/10 bg-white/5 p-4">
+    <div className="space-y-3">
+      {[0, 1].map((row) => (
+        <div key={row} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3">
+          <div className="h-9 w-9 rounded-full bg-orange-400/20 animate-pulse" />
+          <div className="flex-1 space-y-2">
+            <div className="h-3 w-28 rounded-full bg-white/10 animate-pulse" />
+          </div>
+          <div className="h-5 w-10 rounded-full bg-white/10 animate-pulse" />
+        </div>
+      ))}
     </div>
   </div>
 );
 
 const PlayoffBracketSkeleton = () => {
   return (
-    <div className="w-full space-y-8 px-2 py-2 text-white/70 sm:px-4 sm:py-4">
-      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 shadow-2xl shadow-black/30 backdrop-blur">
-        <div className="mx-auto flex w-full flex-col items-center gap-3">
-          <div className="h-4 w-40 rounded-full bg-orange-200/30" />
-          <div className="h-6 w-64 rounded-full bg-white/15" />
-          <div className="h-4 w-72 rounded-full bg-white/5" />
+    <div className="w-full space-y-6">
+      <section className={`${layoutCardClass} px-4 py-5 sm:px-6 sm:py-6`}>
+        <div className="mx-auto flex w-full flex-col items-center gap-2">
+          <div className="h-3 w-20 rounded-full bg-orange-200/30 animate-pulse" />
+          <div className="h-6 w-56 rounded-full bg-white/15 animate-pulse" />
         </div>
 
-        <div className="mt-8 space-y-5">
+        <div className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-2">
             <MatchupSkeleton />
             <MatchupSkeleton />
@@ -42,35 +38,26 @@ const PlayoffBracketSkeleton = () => {
         </div>
       </section>
 
-      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 shadow-2xl shadow-black/30 backdrop-blur">
-        <div className="mx-auto flex w-full flex-col items-center gap-3">
-          <div className="h-4 w-44 rounded-full bg-orange-200/30" />
-          <div className="h-6 w-60 rounded-full bg-white/15" />
+      <section className={`${layoutCardClass} px-4 py-5 sm:px-6 sm:py-6`}>
+        <div className="mx-auto flex w-full flex-col items-center gap-2">
+          <div className="h-3 w-28 rounded-full bg-orange-200/30 animate-pulse" />
+          <div className="h-6 w-60 rounded-full bg-white/15 animate-pulse" />
         </div>
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-6 space-y-6">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+            <MatchupSkeleton />
+          </div>
           <div className="grid gap-4 lg:grid-cols-2">
             <MatchupSkeleton />
             <MatchupSkeleton />
-            <MatchupSkeleton />
+          </div>
+          <div className="mx-auto w-full max-w-md">
             <MatchupSkeleton />
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <MatchupSkeleton />
-            <MatchupSkeleton />
-          </div>
-          <div className="max-w-md">
-            <MatchupSkeleton />
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-8 text-center shadow-2xl shadow-black/30 backdrop-blur">
-        <div className="mx-auto flex max-w-md flex-col items-center gap-4">
-          <div className="h-4 w-36 rounded-full bg-amber-200/30" />
-          <div className="h-10 w-52 rounded-full bg-white/10" />
-          <div className="h-24 w-24 rounded-full bg-amber-300/20" />
-          <div className="h-4 w-32 rounded-full bg-white/10" />
         </div>
       </section>
     </div>
