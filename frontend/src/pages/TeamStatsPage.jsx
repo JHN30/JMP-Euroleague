@@ -43,11 +43,9 @@ const TeamStatsPage = () => {
 
   if (errorTeams) {
     return (
-      <LayoutShell>
-        <div className={`${layoutCardClass} flex min-h-[50vh] items-center justify-center`}>
-          <ErrorBox error={errorTeams} />
-        </div>
-      </LayoutShell>
+      <div className="flex h-full w-full items-center justify-center px-5 py-5 sm:px-6 sm:py-6">
+        <ErrorBox error={errorTeams} />
+      </div>
     );
   }
 
@@ -61,7 +59,12 @@ const TeamStatsPage = () => {
 
   return (
     <LayoutShell>
-      <div className="flex flex-col gap-8 text-white">
+      <div className="flex flex-col gap-6 pt-4 text-white">
+        <header className="flex flex-col items-center justify-center gap-2 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Team Stats</p>
+          <h1 className="text-3xl font-bold leading-tight text-slate-100">{teamData.name || "Team Profile"}</h1>
+        </header>
+
         <TeamProfileCard
           teamData={teamData}
           selectedSeason={selectedSeason}
@@ -69,12 +72,9 @@ const TeamStatsPage = () => {
           ratingValueDisplay={ratingValueDisplay}
         />
 
-        <section className={`${layoutCardClass} px-6 py-6 sm:px-8`}>
+        <section className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
           <div className="flex flex-col gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Team Pulse</p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">Key Metrics</h2>
-            </div>
+            <h2 className="mt-2 text-2xl font-semibold text-white">Stats</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <StatsCard
                 title="Wins"
@@ -123,13 +123,10 @@ const TeamStatsPage = () => {
         </section>
 
         <section className={`${layoutCardClass} overflow-hidden`}>
-          <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
+          <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Momentum</p>
-                <h2 className="mt-2 text-2xl font-semibold text-white">Recent Form</h2>
-              </div>
-              <div className="flex gap-3">
+              <h2 className="mt-2 text-2xl font-semibold text-white">Form</h2>
+              <div className="flex flex-wrap gap-2">
                 {[
                   { label: "Last 5 games", value: 5 },
                   { label: "Last 10 games", value: 10 },
@@ -139,10 +136,10 @@ const TeamStatsPage = () => {
                     <button
                       key={option.value}
                       onClick={() => setGamesToShow(option.value)}
-                      className={`relative flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
+                      className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors ${
                         isActive
-                          ? "border-orange-400/60 bg-orange-500/20 text-orange-100 shadow-[0_0_30px_rgba(249,115,22,0.2)]"
-                          : "border-white/10 bg-white/5 text-gray-200 hover:border-orange-400/40 hover:text-orange-100"
+                          ? "border-orange-400/70 bg-orange-500/20 text-orange-100"
+                          : "border-white/10 bg-white/5 text-gray-200 hover:border-orange-300/50 hover:text-orange-100"
                       }`}
                     >
                       <span>{option.label}</span>
@@ -157,10 +154,9 @@ const TeamStatsPage = () => {
         </section>
 
         <section className={`${layoutCardClass} overflow-hidden`}>
-          <div className="flex flex-col gap-6 px-6 py-6 sm:px-8">
+          <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
             <div className="border-b border-white/10 pb-6">
-              <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Scouting Tape</p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">Head-to-Head Snapshot</h2>
+              <h2 className="mt-2 text-2xl font-semibold text-white">Rounds</h2>
             </div>
             <PlayedAgainstCard
               teamName={teamData.name}

@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 const PlayedAgainstCard = ({
   teamName,
   opposition = [],
@@ -15,12 +13,7 @@ const PlayedAgainstCard = ({
   const safePointsAgainst = Array.isArray(pointsAgainst) ? pointsAgainst : [];
 
   return (
-    <motion.div
-      className="flex flex-col gap-4"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <div className="flex flex-col gap-4">
       {safeOpposition.length === 0 ? (
         <span className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-6 text-sm text-gray-300">
           No recent matchups
@@ -63,12 +56,8 @@ const PlayedAgainstCard = ({
           return (
             <div
               key={`${opponent}-${idx}`}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.08] px-4 py-4 shadow-inner shadow-black/30 backdrop-blur"
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-4 shadow-inner shadow-black/30 backdrop-blur"
             >
-              <div className="pointer-events-none absolute inset-0">
-                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-orange-400/60 via-transparent to-amber-400/60 opacity-80" />
-                <div className="absolute -top-16 right-0 h-32 w-32 rounded-full bg-orange-500/15 blur-3xl" />
-              </div>
 
               <div className="relative z-10 flex flex-col gap-4">
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-gray-300">
@@ -95,7 +84,7 @@ const PlayedAgainstCard = ({
                   </div>
 
                   <div
-                    className={`flex min-w-[96px] flex-col items-center justify-center rounded-2xl border px-4 py-3 text-lg font-semibold transition-colors duration-200 ${scoreClasses}`}
+                    className={`flex min-w-24 flex-col items-center justify-center rounded-2xl border px-4 py-3 text-lg font-semibold transition-colors duration-200 ${scoreClasses}`}
                   >
                     <span>{displayScore}</span>
                     {hasScores ? (
@@ -123,7 +112,7 @@ const PlayedAgainstCard = ({
           );
         })
       )}
-    </motion.div>
+    </div>
   );
 };
 
