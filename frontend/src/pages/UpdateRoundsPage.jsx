@@ -15,7 +15,7 @@ const UpdateRoundsPage = () => {
 
   if (loadingRounds) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex h-64 items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -58,13 +58,13 @@ const UpdateRoundsPage = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h2 className="text-xl font-bold mb-2">Update Rounds</h2>
-      <p className="mb-4 text-sm text-gray-300">
+    <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+      <h2 className="text-2xl font-semibold text-white">Update Rounds</h2>
+      <p className="mt-2 text-sm text-gray-300">
         Use these controls to update the <code>latestRound</code> values.
       </p>
 
-      {status && <pre className="mt-2 p-3 bg-gray-800 text-gray-100 rounded whitespace-pre-wrap">{status}</pre>}
+      {status && <pre className="mt-4 rounded-xl border border-white/10 bg-slate-900 p-3 text-gray-100 whitespace-pre-wrap">{status}</pre>}
       {errorRounds && <ErrorBox error={errorRounds} />}
 
       <div className="mt-4 space-y-4">
@@ -72,7 +72,7 @@ const UpdateRoundsPage = () => {
           rounds.data.map((round) => {
             const roundId = round._id || round.id;
             return (
-              <div key={roundId} className="p-3 bg-gray-900 rounded flex items-center gap-4">
+              <div key={roundId} className="flex items-center gap-4 rounded-xl border border-white/10 bg-slate-900/70 p-3">
                 <div className="flex-1">
                   <div className="text-sm text-gray-300">Current: {round.currentRound}</div>
                   <div className="text-sm text-gray-300">Latest: {round.latestRound}</div>
@@ -83,13 +83,13 @@ const UpdateRoundsPage = () => {
                   id="latest-round"
                   value={inputs[roundId] ?? round.latestRound}
                   onChange={(e) => handleInputChange(roundId, e.target.value)}
-                  className="w-28 px-2 py-1 rounded bg-gray-800 text-white"
+                  className="w-28 rounded border border-white/10 bg-gray-800 px-2 py-1 text-white"
                 />
 
                 <button
                   onClick={() => handleUpdateRound(round)}
                   disabled={loadingRounds}
-                  className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-500 disabled:opacity-60"
+                  className="rounded border border-emerald-300/50 bg-emerald-500/20 px-3 py-1 text-sm font-semibold text-emerald-100 hover:border-emerald-300/70 hover:bg-emerald-500/30 disabled:opacity-60"
                 >
                   Save
                 </button>

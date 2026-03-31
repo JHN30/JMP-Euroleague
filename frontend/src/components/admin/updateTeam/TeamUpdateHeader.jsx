@@ -1,4 +1,6 @@
-const TeamUpdateHeader = ({ team, totalRounds, onBack, BackIcon, backLabel = "Back to Teams" }) => {
+import { memo } from "react";
+
+const TeamUpdateHeader = ({ team, onBack, BackIcon, backLabel = "Back to Teams" }) => {
   return (
     <header className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div className="flex items-start gap-4">
@@ -12,7 +14,6 @@ const TeamUpdateHeader = ({ team, totalRounds, onBack, BackIcon, backLabel = "Ba
         <div className="flex flex-col gap-2">
           <p className="text-xs uppercase tracking-[0.4em] text-orange-200/80">Team Update</p>
           <h2 className="text-2xl font-semibold text-white sm:text-3xl">{team.name}</h2>
-          <p className="text-xs text-gray-400">Latest round tracked: {totalRounds > 0 ? totalRounds : "-"}</p>
         </div>
       </div>
 
@@ -29,4 +30,4 @@ const TeamUpdateHeader = ({ team, totalRounds, onBack, BackIcon, backLabel = "Ba
   );
 };
 
-export default TeamUpdateHeader;
+export default memo(TeamUpdateHeader);

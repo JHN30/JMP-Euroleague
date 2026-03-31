@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
 import TeamCard from "../components/cards/TeamCard";
@@ -45,7 +44,6 @@ const DeleteTeamPage = () => {
       closeModal();
       fetchTeams(selectedSeason);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(`Error deleting ${pendingTeam.name}:`, error);
       toast.error(`Error deleting ${pendingTeam.name}. Please try again.`);
     }
@@ -53,7 +51,7 @@ const DeleteTeamPage = () => {
 
   if (loadingTeams) {
     return (
-      <div className="grid gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {Array.from({ length: 15 }).map((_, index) => (
           <TeamCardSkeleton key={`team-skeleton-${index}`} />
         ))}
@@ -70,20 +68,20 @@ const DeleteTeamPage = () => {
   }
 
   return (
-    <>
-      <SeasonSelect
-        id="delete-team-season"
-        className="mx-2 mb-4"
-        value={selectedSeason}
-        onChange={(event) => setSelectedSeason(event.target.value)}
-      />
+    <div className="flex flex-col gap-4">
+      <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Season</p>
+          <SeasonSelect
+            id="delete-team-season"
+            className="mx-0 w-full sm:w-48"
+            value={selectedSeason}
+            onChange={(event) => setSelectedSeason(event.target.value)}
+          />
+        </div>
+      </div>
 
-      <motion.div
-        className="grid gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {sortedTeams.map((team) => {
           const stableKey = team._id ?? `${team.name}-${team.season ?? "unknown"}`;
           return (
@@ -97,10 +95,10 @@ const DeleteTeamPage = () => {
             </button>
           );
         })}
-      </motion.div>
+      </div>
 
       <DeleteTeamModal team={pendingTeam} isOpen={isModalOpen} onCancel={closeModal} onConfirm={handleDelete} />
-    </>
+    </div>
   );
 };
 

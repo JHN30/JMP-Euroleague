@@ -21,7 +21,7 @@ const UpdateTeamRatingPage = () => {
 
   if (loadingTeams || loadingRounds) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex h-64 items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -79,27 +79,29 @@ const UpdateTeamRatingPage = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h2 className="text-xl font-bold mb-2">Update Team Rating</h2>
-      <p className="mb-4 text-sm text-gray-300">
-        Click the button below to calculate and update team ratings for rounds not yet applied. Before doing this, make
-        sure that you first correctly updated rounds in rounds tab.
+    <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+      <h2 className="text-2xl font-semibold text-white">Update Team Rating</h2>
+      <p className="mt-2 text-sm text-gray-300">
+        Run this when you want to calculate and apply ratings for rounds not yet processed.
       </p>
 
-      <div className="flex gap-3">
+      <div className="mt-5 flex flex-wrap gap-3">
         <button
           onClick={handleUpdate}
           disabled={loadingTeams || loadingRounds}
-          className="px-4 py-2 rounded bg-orange-400 text-white hover:bg-orange-500 disabled:opacity-60"
+          className="rounded-lg border border-orange-300/50 bg-orange-500/20 px-4 py-2 text-sm font-semibold text-orange-100 transition-colors hover:border-orange-300/70 hover:bg-orange-500/30 disabled:opacity-60"
         >
           Run update now
         </button>
-        <button onClick={handleClear} className="px-4 py-2 rounded bg-gray-700 text-gray-200 hover:bg-gray-600">
+        <button
+          onClick={handleClear}
+          className="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-200 transition-colors hover:border-white/20 hover:text-white"
+        >
           Clear
         </button>
       </div>
 
-      {status && <pre className="mt-4 p-3 bg-gray-800 text-gray-100 rounded whitespace-pre-wrap">{status}</pre>}
+      {status && <pre className="mt-4 rounded-xl border border-white/10 bg-slate-900 p-3 text-gray-100 whitespace-pre-wrap">{status}</pre>}
     </div>
   );
 };

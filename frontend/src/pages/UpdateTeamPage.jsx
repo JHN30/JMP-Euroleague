@@ -45,8 +45,8 @@ const UpdateTeamPage = () => {
 
   if (loadingTeams || loadingRounds) {
     return (
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-2 m-2">
-        {Array.from({ length: 15 }).map((_, idx) => (
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {Array.from({ length: 4 }).map((_, idx) => (
           <TeamCardSkeleton key={idx} />
         ))}
       </div>
@@ -55,25 +55,31 @@ const UpdateTeamPage = () => {
 
   if (errorTeams || errorRounds) {
     return (
-      <div className="flex items-center justify-center h-full w-full py-20">
+      <div className="flex items-center justify-center h-full w-full py-12">
         <ErrorBox error={errorTeams || errorRounds} />
       </div>
     );
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {activeView === "grid" && (
-        <SeasonSelect
-          id="team-season"
-          className="mx-2"
-          value={selectedSeason}
-          onChange={(e) => setSelectedSeason(e.target.value)}
-        />
+        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Season</p>
+            <SeasonSelect
+              id="team-season"
+              className="mx-0 w-full sm:w-48"
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+            />
+          </div>
+        </div>
       )}
       {activeView === "grid" && <TeamGrid sortedTeams={sortedTeams} handleClick={handleClick} />}
       {activeView === "team" && (
         <TeamUpdate
+          key={`${team?._id ?? "team"}-${latestRound ?? 0}-${selectedSeason}`}
           team={team}
           latestRound={latestRound}
           setActiveView={setActiveView}
@@ -81,7 +87,7 @@ const UpdateTeamPage = () => {
           onUpdateSuccess={handleUpdateSuccess}
         />
       )}
-    </>
+    </div>
   );
 };
 

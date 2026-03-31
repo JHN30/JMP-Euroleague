@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineArrowUturnLeft } from "react-icons/hi2";
 
@@ -27,54 +27,76 @@ const TeamUpdate = ({ team = {}, latestRound, setActiveView, allTeams = [], onUp
 
   const opponentTeams = useMemo(() => allTeams.filter((candidate) => candidate._id !== team._id), [allTeams, team._id]);
 
-  useEffect(() => {
-    setResult(fillArray(team.form, totalRounds));
-    setPlayedAgainst(fillArray(team.playedAgainst, totalRounds));
-    setHomeGround(fillArray(team.homeGround, totalRounds));
-    setPointsPlus(fillArray(team.pointsPlusArray, totalRounds));
-    setPointsMinus(fillArray(team.pointsMinusArray, totalRounds));
-  }, [team, totalRounds]);
-
-  useEffect(() => {
-    if (totalRounds > 0) {
-      setCurrentRound(totalRounds - 1);
-    } else {
-      setCurrentRound(0);
-    }
-  }, [team._id, totalRounds]);
-
-  const handleFieldChange = (field, value) => {
-    const fieldSetters = {
-      result: setResult,
-      playedAgainst: setPlayedAgainst,
-      homeGround: setHomeGround,
-      pointsPlus: setPointsPlus,
-      pointsMinus: setPointsMinus,
-    };
-
-    const setter = fieldSetters[field];
-    if (!setter || currentRound < 0) {
-      return;
-    }
-
-    setter((previous) => {
-      const next = [...previous];
-      if (currentRound >= next.length) {
-        return next;
+  const handleFieldChange = useCallback(
+    (field, value) => {
+      if (currentRound < 0) {
+        return;
       }
-      next[currentRound] = value;
-      return next;
-    });
-  };
 
-  const goToRound = (roundIndex) => {
-    if (roundIndex >= 0 && roundIndex < totalRounds) {
-      setCurrentRound(roundIndex);
-    }
-  };
+      const updateByRound = (setter) => {
+        setter((previous) => {
+          const next = [...previous];
+          if (currentRound >= next.length) {
+            return next;
+          }
+          next[currentRound] = value;
+          return next;
+        });
+      };
 
-  const goToNextRound = () => goToRound(currentRound + 1);
-  const goToPreviousRound = () => goToRound(currentRound - 1);
+      switch (field) {
+        case "result":
+          updateByRound(setResult);
+          break;
+        case "playedAgainst":
+          updateByRound(setPlayedAgainst);
+          break;
+        case "homeGround":
+          updateByRound(setHomeGround);
+          break;
+        case "pointsPlus":
+          updateByRound(setPointsPlus);
+          break;
+        case "pointsMinus":
+          updateByRound(setPointsMinus);
+          break;
+        default:
+          break;
+      }
+    },
+    [currentRound]
+  );
+
+  const goToRound = useCallback(
+    (roundIndex) => {
+      if (roundIndex >= 0 && roundIndex < totalRounds) {
+        setCurrentRound(roundIndex);
+      }
+    },
+    [totalRounds]
+  );
+
+  const goToNextRound = useCallback(() => goToRound(currentRound + 1), [currentRound, goToRound]);
+  const goToPreviousRound = useCallback(() => goToRound(currentRound - 1), [currentRound, goToRound]);
+
+  const handleBackToGrid = useCallback(() => setActiveView("grid"), [setActiveView]);
+
+  const currentRoundValues = useMemo(
+    () => ({
+      result: result[currentRound] ?? "",
+      opponent: playedAgainst[currentRound] ?? "",
+      venue: homeGround[currentRound] ?? "",
+      pointsPlus: pointsPlus[currentRound] ?? "",
+      pointsMinus: pointsMinus[currentRound] ?? "",
+    }),
+    [currentRound, result, playedAgainst, homeGround, pointsPlus, pointsMinus]
+  );
+
+  const hasRounds = totalRounds > 0;
+  const activeRoundLabel = useMemo(
+    () => (hasRounds ? `Round ${currentRound + 1} of ${totalRounds}` : "No rounds available"),
+    [hasRounds, currentRound, totalRounds]
+  );
 
   const handleUpdate = async (event) => {
     event.preventDefault();
@@ -101,28 +123,18 @@ const TeamUpdate = ({ team = {}, latestRound, setActiveView, allTeams = [], onUp
       onUpdateSuccess?.();
       toast.success(`${team.name} updated successfully.`);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error("Error updating team:", error);
       toast.error(`Couldn't update ${team.name}. Please try again later.`);
     }
   };
 
-  const hasRounds = totalRounds > 0;
-  const activeRoundLabel = hasRounds ? `Round ${currentRound + 1} of ${totalRounds}` : "No rounds available";
-
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8 shadow-inner shadow-black/40 backdrop-blur">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 left-0 h-48 w-48 rounded-full bg-orange-500/15 blur-3xl" />
-        <div className="absolute -bottom-32 right-0 h-56 w-56 rounded-full bg-amber-400/15 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[120px_120px]" />
-      </div>
-
-      <div className="relative z-10 flex flex-col gap-8">
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8">
+      <div className="flex flex-col gap-8">
         <TeamUpdateHeader
           team={team}
           totalRounds={totalRounds}
-          onBack={() => setActiveView("grid")}
+          onBack={handleBackToGrid}
           BackIcon={HiOutlineArrowUturnLeft}
           backLabel="Back to Teams"
         />
@@ -142,13 +154,7 @@ const TeamUpdate = ({ team = {}, latestRound, setActiveView, allTeams = [], onUp
 
             <TeamUpdateRoundForm
               currentRound={currentRound}
-              values={{
-                result: result[currentRound] ?? "",
-                opponent: playedAgainst[currentRound] ?? "",
-                venue: homeGround[currentRound] ?? "",
-                pointsPlus: pointsPlus[currentRound] ?? "",
-                pointsMinus: pointsMinus[currentRound] ?? "",
-              }}
+              values={currentRoundValues}
               onFieldChange={handleFieldChange}
               opponentTeams={opponentTeams}
               submitLabel="Save All Changes"

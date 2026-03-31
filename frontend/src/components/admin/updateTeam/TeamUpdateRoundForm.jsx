@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const TeamUpdateRoundForm = ({
   currentRound,
   values,
@@ -23,7 +25,7 @@ const TeamUpdateRoundForm = ({
             value={result}
             onChange={(event) => onFieldChange("result", event.target.value.toUpperCase())}
             placeholder="W or L"
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
           />
         </div>
 
@@ -38,7 +40,7 @@ const TeamUpdateRoundForm = ({
             id={`opponent-${currentRound}`}
             value={opponent}
             onChange={(event) => onFieldChange("playedAgainst", event.target.value)}
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
           >
             <option value="" className="bg-slate-900 text-gray-400">
               Select opponent
@@ -64,7 +66,7 @@ const TeamUpdateRoundForm = ({
             value={venue}
             onChange={(event) => onFieldChange("homeGround", event.target.value.toUpperCase())}
             placeholder="H or A"
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
           />
         </div>
 
@@ -81,7 +83,7 @@ const TeamUpdateRoundForm = ({
             value={pointsPlus}
             onChange={(event) => onFieldChange("pointsPlus", event.target.value)}
             placeholder="e.g. 85"
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
           />
         </div>
 
@@ -98,7 +100,7 @@ const TeamUpdateRoundForm = ({
             value={pointsMinus}
             onChange={(event) => onFieldChange("pointsMinus", event.target.value)}
             placeholder="e.g. 78"
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder-gray-400 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
           />
         </div>
       </section>
@@ -109,7 +111,7 @@ const TeamUpdateRoundForm = ({
         </p>
         <button
           type="submit"
-          className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:from-orange-500/90 hover:to-amber-400/90"
+          className="inline-flex items-center gap-2 rounded-xl border border-orange-300/50 bg-orange-500/20 px-5 py-3 text-sm font-semibold text-orange-100 transition-colors hover:border-orange-300/70 hover:bg-orange-500/30"
         >
           {submitLabel}
         </button>
@@ -118,4 +120,4 @@ const TeamUpdateRoundForm = ({
   );
 };
 
-export default TeamUpdateRoundForm;
+export default memo(TeamUpdateRoundForm);
