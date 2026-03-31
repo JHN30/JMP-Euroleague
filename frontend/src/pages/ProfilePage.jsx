@@ -1,11 +1,8 @@
-//eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import { useAuth } from "../hooks/useAuth";
 import { formatDate } from "../utils/date";
-import { useNavigate } from "react-router-dom";
-
-import "../styles/button.css";
-import toast from "react-hot-toast";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const ProfilePage = () => {
@@ -22,90 +19,100 @@ const ProfilePage = () => {
     toast.success("You logged out successfully");
   };
 
-  const handleVerifyEmail = async (e) => {
-    e.preventDefault();
-
+  const handleVerifyEmail = async () => {
     try {
       await newVerifyEmail();
       navigate("/verify-email");
-      console.log("Email sent successfully");
+      toast.success("Verification email sent");
     } catch (error) {
       console.log(error);
     }
   };
 
+  if (!user) {
+    return (
+      <LayoutShell>
+        <div className={`${layoutCardClass} flex min-h-[40vh] items-center justify-center px-6 py-8 text-slate-200`}>
+          Loading profile...
+        </div>
+      </LayoutShell>
+    );
+  }
+
+  const isVerified = Boolean(user.isVerified);
+  const isAdmin = user.role === "admin";
+  const actionLabel = isVerified ? (isAdmin ? "Go to Admin Dashboard" : "Logout") : "Resend Verification Email";
+  const actionHandler = isVerified ? (isAdmin ? handleAdmin : handleLogout) : handleVerifyEmail;
+
   return (
     <LayoutShell>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`${layoutCardClass} px-6 py-8 sm:px-10 text-white`}
-      >
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.4em] text-orange-300/80">Profile</p>
-            <h2 className="text-3xl font-bold">Welcome, {user.username}</h2>
-            <p className="text-sm text-gray-300">See your account details.</p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-black/40 px-5 py-3 text-sm text-gray-300">
-            Status:{" "}
-            <span className={`font-semibold ${user.isVerified ? "text-emerald-400" : "text-orange-300"}`}>
-              {user.isVerified ? "Verified" : "Awaiting verification"}
-            </span>
-          </div>
-        </div>
+      <div className="flex flex-col gap-6 pt-4 text-white">
+        <header className="flex flex-col items-center justify-center gap-2 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Profile</p>
+          <h1 className="text-3xl font-bold leading-tight text-slate-100">Account Center</h1>
+        </header>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-lg font-semibold text-orange-300">Profile information</h3>
-            <div className="mt-4 space-y-2 text-sm text-gray-200">
-              <p>
-                <span className="text-gray-400">Email:</span> {user.email}
-              </p>
-              <p>
-                <span className="text-gray-400">Role:</span> {user.role === "admin" ? "Admin" : "User"}
-              </p>
+        <section className={`${layoutCardClass} overflow-hidden`} aria-labelledby="profile-overview-title">
+          <div className="border-b border-white/10 px-5 py-5 sm:px-6 sm:py-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Profile overview</p>
+                <h2 id="profile-overview-title" className="mt-2 text-2xl font-semibold text-slate-100">
+                  Welcome, {user.username}
+                </h2>
+                <p className="mt-1 text-sm text-slate-300">Account details and options.</p>
+              </div>
+
+              <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
+                Status:{" "}
+                <span className={`font-semibold ${isVerified ? "text-emerald-400" : "text-orange-300"}`}>
+                  {isVerified ? "Verified" : "Awaiting verification"}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-lg font-semibold text-orange-300">Account activity</h3>
-            <div className="mt-4 space-y-2 text-sm text-gray-200">
-              <p>
-                <span className="text-gray-400">Joined:</span>{" "}
-                {new Date(user.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-              <p>
-                <span className="text-gray-400">Last login:</span> {formatDate(user.lastLogin)}
-              </p>
+
+          <div className="grid gap-4 px-5 py-5 sm:grid-cols-2 sm:px-6 sm:py-6">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <h3 className="text-base font-semibold text-orange-200">Profile information</h3>
+              <div className="mt-3 space-y-2 text-sm text-slate-200">
+                <p>
+                  <span className="text-slate-400">Email:</span> {user.email}
+                </p>
+                <p>
+                  <span className="text-slate-400">Role:</span> {isAdmin ? "Admin" : "User"}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <h3 className="text-base font-semibold text-orange-200">Account activity</h3>
+              <div className="mt-3 space-y-2 text-sm text-slate-200">
+                <p>
+                  <span className="text-slate-400">Joined:</span>{" "}
+                  {new Date(user.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <p>
+                  <span className="text-slate-400">Last login:</span> {formatDate(user.lastLogin)}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mt-8"
-        >
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={user.isVerified ? (user.role === "admin" ? handleAdmin : handleLogout) : handleVerifyEmail}
-            className="button w-full justify-center"
-          >
-            {user.isVerified
-              ? user.role === "admin"
-                ? "Go to Admin Dashboard"
-                : "Logout"
-              : "Resend Verification Email"}
-          </motion.button>
-        </motion.div>
-      </motion.div>
+          <div className="border-t border-white/10 px-5 py-5 sm:px-6 sm:py-6">
+            <button
+              onClick={actionHandler}
+              className="w-full rounded-lg border border-orange-300/50 bg-orange-500/20 px-4 py-3 text-sm font-semibold text-orange-100 transition-colors hover:border-orange-300/70 hover:bg-orange-500/30"
+            >
+              {actionLabel}
+            </button>
+          </div>
+        </section>
+      </div>
     </LayoutShell>
   );
 };
