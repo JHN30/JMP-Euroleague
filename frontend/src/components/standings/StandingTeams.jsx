@@ -6,45 +6,51 @@ import StandingTeam from "./StandingTeam";
 import FullTeamSkeleton from "../skeletons/FullTeamSkeleton";
 import ErrorBox from "../errors/ErrorBox";
 import { sortTeams } from "../../utils/sortTeams";
-import SeasonSelect from "../common/SeasonSelect";
 import { layoutCardClass } from "../layout/LayoutShell";
-import { DEFAULT_SEASON } from "../../constants/appConstants";
+
+const DEFAULT_STANDINGS_SORT = {
+  key: "wins",
+  order: "desc",
+};
 
 const StandingTeams = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
-  const [sortConfig, setSortConfig] = useState({
-    key: "wins",
-    order: "desc",
-  });
+  const [sortConfig, setSortConfig] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipTimeout, setTooltipTimeout] = useState(null);
-  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
-  const activeRatingKey = selectedSeason === "2024" ? "rating" : "rating2";
-
-  const getTeamRatingValue = (team) => {
-    const rawValue = activeRatingKey === "rating" ? team?.rating : team?.rating2;
-    return Number(rawValue) || 0;
-  };
 
   useEffect(() => {
-    fetchTeams(selectedSeason);
-  }, [fetchTeams, selectedSeason]);
+    fetchTeams();
+  }, [fetchTeams]);
 
   const handleSort = (key) => {
-    let order = "asc";
-    if (sortConfig.key === key && sortConfig.order === "asc") {
-      order = "desc";
+    if (!sortConfig) {
+      setSortConfig({ key, order: "asc" });
+      return;
     }
-    setSortConfig({ key, order });
+
+    if (sortConfig.key === key) {
+      if (key === DEFAULT_STANDINGS_SORT.key && sortConfig.order === "asc") {
+        setSortConfig(null);
+        return;
+      }
+
+      const nextOrder = sortConfig.order === "asc" ? "desc" : "asc";
+      setSortConfig({ key, order: nextOrder });
+      return;
+    }
+
+    setSortConfig({ key, order: "asc" });
   };
 
   const teamList = teams?.data ?? [];
 
-  const sortedTeams = sortTeams(teamList, {
-    key: sortConfig.key,
-    order: sortConfig.order,
-    getRatingValue: (team) => getTeamRatingValue(team),
-  });
+  const sortedTeams = sortConfig
+    ? sortTeams(teamList, {
+        key: sortConfig.key,
+        order: sortConfig.order,
+      })
+    : teamList;
 
   const handleMouseEnter = () => {
     const timeout = setTimeout(() => {
@@ -60,22 +66,24 @@ const StandingTeams = () => {
     }
     setShowTooltip(false);
   };
+  
+  const ratingTooltipText = "Ratings update after all matches of a round finish.";
 
   const getSortIndicator = (key) => {
+    if (!sortConfig) {
+      return key === DEFAULT_STANDINGS_SORT.key ? "↓" : "";
+    }
+
     if (sortConfig.key !== key) return "";
     return sortConfig.order === "asc" ? "↑" : "↓";
   };
 
-  const ratingTooltipText =
-    selectedSeason !== "2025"
-      ? "Historical seasons rely on JMP Rating 1.0 snapshots."
-      : "Current season ratings update after all matches of a round finish.";
 
   if (loadingTeams) {
     return <FullTeamSkeleton />;
   }
 
-  if (errorTeams || !teamList.length) {
+  if (errorTeams) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <ErrorBox error={errorTeams} />
@@ -85,18 +93,6 @@ const StandingTeams = () => {
 
   return (
     <div className={`${layoutCardClass} flex w-full flex-col overflow-hidden`}>
-      <div className="border-b border-white/10 px-4 py-4">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
-          <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
-          <SeasonSelect
-            id="team-season"
-            className="mx-0 w-full sm:w-48"
-            value={selectedSeason}
-            onChange={(e) => setSelectedSeason(e.target.value)}
-          />
-        </div>
-      </div>
-
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs text-slate-200">
           <thead className="text-xs uppercase tracking-wider text-orange-400/80">
@@ -161,7 +157,7 @@ const StandingTeams = () => {
               </th>
               <th className="px-2 py-3 text-center font-semibold">Form</th>
               <th
-                onClick={() => handleSort(activeRatingKey)}
+                onClick={() => handleSort("rating2")}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 className="relative cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100"
@@ -169,7 +165,7 @@ const StandingTeams = () => {
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">JMP Rating</span>
                   <span className="sm:hidden">JMPR</span>
-                  <span className="text-xs">{getSortIndicator(activeRatingKey)}</span>
+                  <span className="text-xs">{getSortIndicator("rating2")}</span>
                 </div>
                 {showTooltip && (
                   <div className="absolute right-0 top-10 w-64 rounded-xl border border-white/10 bg-slate-800/95 p-3 text-xs text-slate-300 shadow-xl backdrop-blur-md">
@@ -183,17 +179,11 @@ const StandingTeams = () => {
           <tbody>
             {sortedTeams.map((team, index) => {
               const currentPosition = index + 1;
-              const teamIndex = teamList.indexOf(team);
-              const sourceTeam = teamIndex > -1 ? teamList[teamIndex] : team;
 
               return (
                 <StandingTeam
                   key={team.name}
-                  team={{
-                    ...team,
-                    displayRating: getTeamRatingValue(team),
-                    rating2: sourceTeam?.rating2,
-                  }}
+                  team={team}
                   position={currentPosition}
                 />
               );

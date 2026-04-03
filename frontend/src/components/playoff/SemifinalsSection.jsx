@@ -1,6 +1,6 @@
 import TeamMatchup from "./TeamMatchup";
 
-const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam, currentRound }) => {
+const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam }) => {
   return (
     <div className="space-y-4">
       <h3 className="text-center text-lg font-semibold text-orange-300">Semifinals</h3>
@@ -14,8 +14,6 @@ const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam, currentRou
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["sf-1"]?.side}
           disabled={!winners["qf-1"] || !winners["qf-2"]}
-          currentRound={currentRound}
-          useLogos={true}
         />
         <TeamMatchup
           matchId="sf-2"
@@ -26,8 +24,6 @@ const SemifinalsSection = ({ winners, onSelectWinner, getWinningTeam, currentRou
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["sf-2"]?.side}
           disabled={!winners["qf-3"] || !winners["qf-4"]}
-          currentRound={currentRound}
-          useLogos={true}
         />
       </div>
     </div>

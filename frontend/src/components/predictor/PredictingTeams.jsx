@@ -13,7 +13,6 @@ import MatchSetupSection from "./MatchSetupSection";
 import TeamSelection from "./TeamSelection";
 import InjuryInputs from "./InjuryInputs";
 import PredictionResults from "./PredictionResults";
-import { DEFAULT_SEASON } from "../../constants/appConstants";
 
 const PredictingTeams = () => {
   const [selectedHomeTeam, setSelectedHomeTeam] = useState("");
@@ -37,7 +36,7 @@ const PredictingTeams = () => {
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
   useEffect(() => {
-    fetchTeams(DEFAULT_SEASON);
+    fetchTeams();
     fetchRounds();
   }, [fetchTeams, fetchRounds]);
 

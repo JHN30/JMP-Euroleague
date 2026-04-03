@@ -1,7 +1,7 @@
 import TeamMatchup from "./TeamMatchup";
 import { layoutCardClass } from "../layout/LayoutShell";
 
-const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, getLosingTeam, currentRound }) => {
+const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, getLosingTeam }) => {
   if (!seededTeams) {
     return null;
   }
@@ -27,8 +27,6 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
               matchLabel="Play-In Game 1"
               onSelectWinner={onSelectWinner}
               selectedWinner={winners["play-in-1"]?.side}
-              currentRound={currentRound}
-              useLogos={true}
             />
             <TeamMatchup
               matchId="play-in-2"
@@ -39,8 +37,6 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
               matchLabel="Play-In Game 2"
               onSelectWinner={onSelectWinner}
               selectedWinner={winners["play-in-2"]?.side}
-              currentRound={currentRound}
-              useLogos={true}
             />
           </div>
 
@@ -58,8 +54,6 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
                 onSelectWinner={onSelectWinner}
                 selectedWinner={winners["play-in-final"]?.side}
                 disabled={!winners["play-in-1"] || !winners["play-in-2"]}
-                currentRound={currentRound}
-                useLogos={true}
               />
             </div>
           </div>

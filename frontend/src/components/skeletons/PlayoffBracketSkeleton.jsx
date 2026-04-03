@@ -9,7 +9,6 @@ const MatchupSkeleton = () => (
           <div className="flex-1 space-y-2">
             <div className="h-3 w-28 rounded-full bg-white/10 animate-pulse" />
           </div>
-          <div className="h-5 w-10 rounded-full bg-white/10 animate-pulse" />
         </div>
       ))}
     </div>
@@ -34,29 +33,6 @@ const PlayoffBracketSkeleton = () => {
             <div className="w-full max-w-md">
               <MatchupSkeleton />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`${layoutCardClass} px-4 py-5 sm:px-6 sm:py-6`}>
-        <div className="mx-auto flex w-full flex-col items-center gap-2">
-          <div className="h-3 w-28 rounded-full bg-orange-200/30 animate-pulse" />
-          <div className="h-6 w-60 rounded-full bg-white/15 animate-pulse" />
-        </div>
-
-        <div className="mt-6 space-y-6">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MatchupSkeleton />
-            <MatchupSkeleton />
-            <MatchupSkeleton />
-            <MatchupSkeleton />
-          </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <MatchupSkeleton />
-            <MatchupSkeleton />
-          </div>
-          <div className="mx-auto w-full max-w-md">
-            <MatchupSkeleton />
           </div>
         </div>
       </section>

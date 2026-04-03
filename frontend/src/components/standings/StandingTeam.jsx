@@ -4,7 +4,7 @@ const StandingTeam = ({ team, position }) => {
   const pointsPlusTotal = Number(team.pointsPlus) || 0;
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
-  const ratingDisplay = Number(team.displayRating ?? team.rating2);
+  const ratingDisplay = Number(team.rating2);
   const recentForm = Array.isArray(team.form) ? team.form.slice(-5) : [];
   const recentFormSmallDisplay = Array.isArray(team.form) ? team.form.slice(-10) : [];
   const recentWins = recentFormSmallDisplay.filter((result) => result === "W").length;

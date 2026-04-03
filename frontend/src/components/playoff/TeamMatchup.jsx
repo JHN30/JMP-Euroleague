@@ -16,23 +16,6 @@ const TeamMatchup = ({
     onSelectWinner(matchId, side, leftTeam, rightTeam, leftSeed, rightSeed);
   };
 
-  const calculateWinProbability = (team1, team2) => {
-    if (!team1 || !team2 || typeof team1 !== "object" || typeof team2 !== "object") {
-      return { leftWinChance: 50, rightWinChance: 50 };
-    }
-
-    const rating1 = team1.rating2 || 1500;
-    const rating2 = team2.rating2 || 1500;
-
-    const expected1 = 1 / (1 + Math.pow(10, (rating2 - rating1) / 400));
-    const expected2 = 1 - expected1;
-
-    return {
-      leftWinChance: Math.round(expected1 * 100),
-      rightWinChance: Math.round(expected2 * 100),
-    };
-  };
-
   const isLeftTeamObject = leftTeam && typeof leftTeam === "object";
   const isRightTeamObject = rightTeam && typeof rightTeam === "object";
 
@@ -41,11 +24,7 @@ const TeamMatchup = ({
   const leftTeamLogo = isLeftTeamObject ? leftTeam.logoImg : null;
   const rightTeamLogo = isRightTeamObject ? rightTeam.logoImg : null;
 
-  const winProbabilities = calculateWinProbability(leftTeam, rightTeam);
-
-  const renderTeamDisplay = (seed, teamName, teamLogo, isSelected, side, winChance) => {
-    const showProbability = isLeftTeamObject && isRightTeamObject && !disabled;
-
+  const renderTeamDisplay = (seed, teamName, teamLogo, isSelected, side) => {
     return (
       <button
         type="button"
@@ -91,16 +70,6 @@ const TeamMatchup = ({
           )}
         </div>
 
-        {showProbability && (
-          <div
-            className={`flex items-center rounded-full px-2 py-1 text-xs font-semibold ${
-              isSelected ? "bg-orange-400/20 text-orange-100" : "bg-white/10 text-slate-200"
-            }`}
-          >
-            {winChance}%
-          </div>
-        )}
-
         {isSelected && (
           <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-xs text-slate-950 shadow-lg">
             <FaCheck />
@@ -117,18 +86,11 @@ const TeamMatchup = ({
       )}
 
       <div className="space-y-3">
-        {renderTeamDisplay(leftSeed, leftTeamName, leftTeamLogo, selectedWinner === "left", "left", winProbabilities.leftWinChance)}
+        {renderTeamDisplay(leftSeed, leftTeamName, leftTeamLogo, selectedWinner === "left", "left")}
 
         <div className="text-center text-[10px] font-semibold uppercase tracking-wider text-slate-400">VS</div>
 
-        {renderTeamDisplay(
-          rightSeed,
-          rightTeamName,
-          rightTeamLogo,
-          selectedWinner === "right",
-          "right",
-          winProbabilities.rightWinChance
-        )}
+        {renderTeamDisplay(rightSeed, rightTeamName, rightTeamLogo, selectedWinner === "right", "right")}
       </div>
 
       {disabled && (

@@ -1,6 +1,6 @@
 import TeamMatchup from "./TeamMatchup";
 
-const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, currentRound }) => {
+const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam }) => {
   if (!seededTeams) {
     return null;
   }
@@ -18,8 +18,6 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["qf-1"]?.side}
           disabled={!winners["play-in-final"]}
-          currentRound={currentRound}
-          useLogos={true}
         />
         <TeamMatchup
           matchId="qf-2"
@@ -29,8 +27,6 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
           rightTeam={seededTeams.seedFive}
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["qf-2"]?.side}
-          currentRound={currentRound}
-          useLogos={true}
         />
         <TeamMatchup
           matchId="qf-3"
@@ -41,8 +37,6 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["qf-3"]?.side}
           disabled={!winners["play-in-2"]}
-          currentRound={currentRound}
-          useLogos={true}
         />
         <TeamMatchup
           matchId="qf-4"
@@ -52,8 +46,6 @@ const QuarterfinalsSection = ({ seededTeams, winners, onSelectWinner, getWinning
           rightTeam={seededTeams.seedSix}
           onSelectWinner={onSelectWinner}
           selectedWinner={winners["qf-4"]?.side}
-          currentRound={currentRound}
-          useLogos={true}
         />
       </div>
     </div>

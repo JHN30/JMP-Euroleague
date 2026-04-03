@@ -1,9 +1,3 @@
-export const DEFAULT_SEASON = "2025";
-
-export const STORAGE_KEYS = {
-  TEAMS_PAGE_SEASON: "teamsPage.selectedSeason",
-};
-
 export const RATING_CALCULATION = {
   HOME_ADVANTAGE: 0.025,
   INJURY_MULTIPLIER: 0.025,

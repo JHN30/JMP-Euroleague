@@ -29,14 +29,10 @@ export const useTeam = create((set) => ({
     }
   },
 
-  fetchTeams: async (season) => {
+  fetchTeams: async () => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const query =
-        season !== undefined && season !== null && season !== "" && season !== "all"
-          ? `?season=${encodeURIComponent(season)}`
-          : "?season=2025";
-      const response = await axios.get(`/teams${query}`);
+      const response = await axios.get(`/teams`);
       set({
         teams: { data: extractData(response) ?? [] },
         loadingTeams: false,

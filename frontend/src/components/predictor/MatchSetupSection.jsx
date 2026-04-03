@@ -3,7 +3,6 @@ import { layoutCardClass } from "../layout/LayoutShell";
 const MatchSetupSection = ({ children, onCalculate, isCalculateDisabled }) => {
   return (
     <section className={`${layoutCardClass} overflow-hidden`}>
-
       <div className="space-y-6 px-6 py-6">
         {children}
         <button

@@ -1,8 +1,6 @@
-const TeamCard = ({ team, selectedSeason }) => {
-  const seasonDisplay = String(selectedSeason ?? team?.season ?? "");
-  const isLegacySeason = seasonDisplay === "2024";
-  const ratingLabel = isLegacySeason ? "JMP 1.0" : "JMP 2.0";
-  const ratingValue = isLegacySeason ? Number(team?.rating) : Number(team?.rating2);
+const TeamCard = ({ team }) => {
+  const ratingLabel = "JMP 2.0";
+  const ratingValue = Number(team?.rating2);
   const wins = Number(team?.wins ?? 0);
   const losses = Number(team?.losses ?? 0);
   const record = `${wins}-${losses}`;

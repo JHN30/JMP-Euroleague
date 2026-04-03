@@ -27,7 +27,6 @@ const TeamStatsSkeleton = () => {
             <div className="flex flex-col gap-3">
               <span className={`h-3 w-28 rounded-full ${shimmer}`} />
               <span className={`h-10 w-56 rounded-2xl ${shimmer}`} />
-              <span className={`h-4 w-32 rounded-full ${shimmer}`} />
             </div>
             <div className="flex flex-wrap gap-4">
               {Array.from({ length: 3 }).map((_, idx) => (

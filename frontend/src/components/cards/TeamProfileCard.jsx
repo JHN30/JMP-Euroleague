@@ -1,7 +1,7 @@
 import { SlGraph } from "react-icons/sl";
 import { layoutCardClass } from "../layout/LayoutShell";
 
-const TeamProfileCard = ({ teamData, selectedSeason, ratingLabel, ratingValueDisplay }) => {
+const TeamProfileCard = ({ teamData, ratingLabel, ratingValueDisplay }) => {
   return (
     <section className={`${layoutCardClass} overflow-hidden`}>
       <div className="relative flex flex-col gap-6 px-5 py-5 sm:px-6 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
@@ -10,7 +10,6 @@ const TeamProfileCard = ({ teamData, selectedSeason, ratingLabel, ratingValueDis
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Team profile</p>
             <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">{teamData.name || "-"}</h2>
-            <p className="text-sm text-slate-300">Season {selectedSeason || "-"}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200">

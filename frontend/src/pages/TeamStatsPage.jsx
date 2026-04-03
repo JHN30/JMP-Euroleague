@@ -27,10 +27,8 @@ const TeamStatsPage = () => {
   }, [fetchTeamById, teamId]);
 
   const teamData = team?.data ?? {};
-  const selectedSeason = String(teamData.season ?? "");
-  const isLegacySeason = selectedSeason === "2024";
-  const ratingLabel = isLegacySeason ? "JMP Rating 1.0" : "JMP Rating 2.0";
-  const rawRatingValue = isLegacySeason ? Number(teamData.rating) : Number(teamData.rating2);
+  const ratingLabel = "JMP Rating";
+  const rawRatingValue = Number(teamData.rating2);
   const ratingValueDisplay = Number.isFinite(rawRatingValue) ? rawRatingValue.toFixed(0) : "0";
 
   if (loadingTeams) {
@@ -67,7 +65,6 @@ const TeamStatsPage = () => {
 
         <TeamProfileCard
           teamData={teamData}
-          selectedSeason={selectedSeason}
           ratingLabel={ratingLabel}
           ratingValueDisplay={ratingValueDisplay}
         />

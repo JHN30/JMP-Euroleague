@@ -3,13 +3,6 @@ import TeamSkeleton from "./TeamSkeleton";
 export default function FullTeamSkeleton() {
   return (
     <div className="flex w-full flex-col">
-      <div className="border-b border-t border-white/5 px-4 py-4 rounded-t-2xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
-          <div className="h-4 w-16 rounded-full bg-slate-800 animate-pulse" />
-          <div className="h-10 w-full sm:w-48 rounded-full bg-slate-800 animate-pulse" />
-        </div>
-      </div>
-
       <div className="overflow-x-auto px-2 py-4">
         <table className="min-w-full text-xs text-slate-200">
           <thead className="text-xs uppercase tracking-wider text-orange-400/80">

@@ -58,7 +58,6 @@ const PlayedAgainstCard = ({
               key={`${opponent}-${idx}`}
               className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-4 shadow-inner shadow-black/30 backdrop-blur"
             >
-
               <div className="relative z-10 flex flex-col gap-4">
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-gray-300">
                   <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-orange-200/80">

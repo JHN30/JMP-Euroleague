@@ -19,21 +19,14 @@ export const sortTeams = (teams = [], options = {}) => {
     return [];
   }
 
-  const { key = "name", order = "asc", getRatingValue } = options;
+  const { key = "name", order = "asc" } = options;
   const direction = order === "asc" ? 1 : -1;
-
-  const resolveRating = (team) => {
-    if (typeof getRatingValue === "function") {
-      return getRatingValue(team, key);
-    }
-    return getNumericValue(team, key);
-  };
 
   const sorted = [...teams].sort((a, b) => {
     if (key === "rating" || key === "rating2") {
       // Rating sort uses rounded value as the primary comparator with deterministic tie-breakers
-      const aRating = resolveRating(a);
-      const bRating = resolveRating(b);
+      const aRating = getNumericValue(a, key);
+      const bRating = getNumericValue(b, key);
       const aRounded = Math.round(aRating);
       const bRounded = Math.round(bRating);
 
@@ -51,33 +44,6 @@ export const sortTeams = (teams = [], options = {}) => {
       const bWins = getNumericValue(b, "wins");
       if (aWins !== bWins) {
         return direction === 1 ? aWins - bWins : bWins - aWins;
-      }
-
-      return direction === 1
-        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
-        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
-    }
-
-    if (key === "wins") {
-      const aWins = getNumericValue(a, "wins");
-      const bWins = getNumericValue(b, "wins");
-      const winDiff = (aWins - bWins) * direction;
-      if (winDiff !== 0) {
-        return winDiff;
-      }
-
-      const aDiff = getNumericValue(a, "pointsPlusMinus");
-      const bDiff = getNumericValue(b, "pointsPlusMinus");
-      const diffDiff = (aDiff - bDiff) * direction;
-      if (diffDiff !== 0) {
-        return diffDiff;
-      }
-
-      const aRating = resolveRating(a);
-      const bRating = resolveRating(b);
-      const ratingDiff = (aRating - bRating) * direction;
-      if (ratingDiff !== 0) {
-        return ratingDiff;
       }
 
       return direction === 1

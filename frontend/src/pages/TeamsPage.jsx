@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { useTeam } from "../hooks/useTeam";
@@ -6,9 +6,7 @@ import ErrorBox from "../components/errors/ErrorBox";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamCard from "../components/cards/TeamCard";
 import { sortTeams } from "../utils/sortTeams";
-import SeasonSelect from "../components/common/SeasonSelect";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
-import { DEFAULT_SEASON, STORAGE_KEYS } from "../constants/appConstants";
 
 const TeamsPage = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
@@ -16,33 +14,18 @@ const TeamsPage = () => {
     key: "name",
   };
 
-  const [selectedSeason, setSelectedSeason] = useState(() => {
-    if (typeof window === "undefined") {
-      return DEFAULT_SEASON;
-    }
-    return window.localStorage.getItem(STORAGE_KEYS.TEAMS_PAGE_SEASON) || DEFAULT_SEASON;
-  });
-
   // Fetch teams data when the component mounts
   useEffect(() => {
-    fetchTeams(selectedSeason);
-  }, [fetchTeams, selectedSeason]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    window.localStorage.setItem(STORAGE_KEYS.TEAMS_PAGE_SEASON, selectedSeason);
-  }, [selectedSeason]);
+    fetchTeams();
+  }, [fetchTeams]);
 
   const teamList = teams?.data ?? [];
-
 
   const renderContent = () => {
     if (loadingTeams) {
       return (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, idx) => (
+          {Array.from({ length: 8 }).map((_, idx) => (
             <TeamCardSkeleton key={idx} />
           ))}
         </div>
@@ -52,8 +35,8 @@ const TeamsPage = () => {
     if (errorTeams) {
       return (
         <div className="flex h-full w-full items-center justify-center">
-        <ErrorBox error={errorTeams} />
-      </div>
+          <ErrorBox error={errorTeams} />
+        </div>
       );
     }
 
@@ -71,7 +54,7 @@ const TeamsPage = () => {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {sortedTeams.map((team) => (
           <Link to={`/team-stats/${team._id}`} className="block h-full" key={team._id ?? team.name}>
-            <TeamCard team={team} selectedSeason={selectedSeason} />
+            <TeamCard team={team} />
           </Link>
         ))}
       </div>
@@ -87,18 +70,6 @@ const TeamsPage = () => {
         </header>
 
         <section className={`${layoutCardClass} overflow-hidden`} aria-labelledby="teams-directory-title">
-          <div className="border-b border-white/10 px-4 py-4">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-start">
-              <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Season</p>
-              <SeasonSelect
-                id="team-season"
-                className="mx-0 w-full sm:w-48"
-                value={selectedSeason}
-                onChange={(e) => setSelectedSeason(e.target.value)}
-              />
-            </div>
-          </div>
-
           <div className="px-5 py-5 sm:px-6 sm:py-6">{renderContent()}</div>
         </section>
       </div>

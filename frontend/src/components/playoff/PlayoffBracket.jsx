@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useTeam } from "../../hooks/useTeam";
-import { useRound } from "../../hooks/useRound";
 
 import ErrorBox from "../errors/ErrorBox";
 import PlayInSection from "./PlayInSection";
@@ -9,16 +8,11 @@ import SemifinalsSection from "./SemifinalsSection";
 import FinalSection from "./FinalSection";
 import PlayoffBracketSkeleton from "../skeletons/PlayoffBracketSkeleton";
 import ChampionDisplay from "./ChampionDisplay";
-import { sortTeams } from "../../utils/sortTeams";
 import { layoutCardClass } from "../layout/LayoutShell";
-import { DEFAULT_SEASON } from "../../constants/appConstants";
-import { updateTeamElo } from "../../utils/eloCalculator";
 import { resetDownstreamMatches } from "../../utils/playoffHelpers";
 
 const PlayoffBracket = () => {
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
-  const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
-  const [sortConfig] = useState({ key: "wins", order: "desc" });
   const [winners, setWinners] = useState({
     "play-in-1": null,
     "play-in-2": null,
@@ -33,22 +27,11 @@ const PlayoffBracket = () => {
   });
 
   useEffect(() => {
-    fetchTeams(DEFAULT_SEASON);
-    fetchRounds();
-  }, [fetchTeams, fetchRounds]);
-
-  const getSortedTeams = () => {
-    if (!teams?.data) return [];
-
-    return sortTeams(teams.data, {
-      key: sortConfig.key,
-      order: sortConfig.order,
-      getRatingValue: (team) => Number(team?.rating2) || 0,
-    });
-  };
+    fetchTeams();
+  }, [fetchTeams]);
 
   const getSeededTeams = () => {
-    const sortedTeams = getSortedTeams();
+    const sortedTeams = teams?.data ?? [];
     return {
       seedOne: sortedTeams[0],
       seedTwo: sortedTeams[1],
@@ -64,42 +47,39 @@ const PlayoffBracket = () => {
   };
 
   const handleSelectWinner = (matchId, winningSide, matchLeftTeam, matchRightTeam, matchLeftSeed, matchRightSeed) => {
-    const newWinners = { ...winners };
+    setWinners((currentWinners) => {
+      const updatedWinners = resetDownstreamMatches(matchId, currentWinners);
+      const isLeftWinner = winningSide === "left";
+      const winningTeam = isLeftWinner ? matchLeftTeam : matchRightTeam;
+      const losingTeam = isLeftWinner ? matchRightTeam : matchLeftTeam;
+      const winnerSeed = isLeftWinner ? matchLeftSeed : matchRightSeed;
 
-    const isLeftWinner = winningSide === "left";
-    const winningTeam = isLeftWinner ? matchLeftTeam : matchRightTeam;
-    const losingTeam = isLeftWinner ? matchRightTeam : matchLeftTeam;
-    const winnerSeed = isLeftWinner ? matchLeftSeed : matchRightSeed;
+      updatedWinners[matchId] = {
+        side: winningSide,
+        winnerSeedNumber: winnerSeed,
+        winningTeamObject: winningTeam && typeof winningTeam === "object" ? { ...winningTeam } : winningTeam,
+        losingTeamObject: losingTeam && typeof losingTeam === "object" ? { ...losingTeam } : losingTeam,
+      };
 
-    const { winnerNewRating, loserNewRating } = updateTeamElo(winningTeam?.rating2 || 0, losingTeam?.rating2 || 0);
-
-    newWinners[matchId] = {
-      side: winningSide,
-      winnerSeedNumber: winnerSeed,
-      winningTeamObject: { ...winningTeam, rating2: winnerNewRating },
-      losingTeamObject: { ...losingTeam, rating2: loserNewRating },
-    };
-
-    resetDownstreamMatches(matchId, winners, setWinners);
-    setWinners(newWinners);
+      return updatedWinners;
+    });
   };
 
   const getWinningTeamObject = (matchId) => winners[matchId]?.winningTeamObject || null;
   const getLosingTeamObject = (matchId) => winners[matchId]?.losingTeamObject || null;
 
-  if (loadingTeams || loadingRounds || !teams?.data?.length || !rounds?.data?.length) {
+  if (loadingTeams) {
     return <PlayoffBracketSkeleton />;
   }
 
-  if (errorTeams || errorRounds) {
+  if (errorTeams) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <ErrorBox error={errorTeams || errorRounds} />
+        <ErrorBox error={errorTeams} />
       </div>
     );
   }
 
-  const currentRound = rounds.data[0].currentRound;
   const seededTeams = getSeededTeams();
 
   return (
@@ -110,7 +90,6 @@ const PlayoffBracket = () => {
         onSelectWinner={handleSelectWinner}
         getWinningTeam={getWinningTeamObject}
         getLosingTeam={getLosingTeamObject}
-        currentRound={currentRound}
       />
 
       <section className={`${layoutCardClass} overflow-hidden`} role="region" aria-labelledby="main-bracket-title">
@@ -127,19 +106,16 @@ const PlayoffBracket = () => {
             winners={winners}
             onSelectWinner={handleSelectWinner}
             getWinningTeam={getWinningTeamObject}
-            currentRound={currentRound}
           />
           <SemifinalsSection
             winners={winners}
             onSelectWinner={handleSelectWinner}
             getWinningTeam={getWinningTeamObject}
-            currentRound={currentRound}
           />
           <FinalSection
             winners={winners}
             onSelectWinner={handleSelectWinner}
             getWinningTeam={getWinningTeamObject}
-            currentRound={currentRound}
           />
         </div>
       </section>
