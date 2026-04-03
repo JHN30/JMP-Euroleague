@@ -285,6 +285,8 @@ export const resetPassword = async (req, res) => {
     });
 
     if (!user) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
       return res.status(400).json({ error: "Invalid or expired token" });
     }
 
