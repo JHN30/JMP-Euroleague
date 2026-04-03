@@ -31,7 +31,8 @@ export const createTeam = async (req, res) => {
 
 export const getTeams = async (req, res) => {
   try {
-    const teams = await Team.find();
+    const teams = await Team.find().sort({ wins: -1, pointsPlusMinus: -1, pointsPlus: -1, pointsMinus: 1, name: 1 });
+
     res.status(200).json({ success: true, data: teams });
   } catch (error) {
     console.error("Error in getTeams: ", error.message);

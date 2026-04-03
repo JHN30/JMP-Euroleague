@@ -84,6 +84,8 @@ const teamsSchema = new mongoose.Schema(
   }
 );
 
+teamsSchema.index({wins: -1, pointsPlusMinus: -1, pointsPlus: -1, pointsMinus: 1, name: 1 });
+
 const Teams = mongoose.model("Teams", teamsSchema);
 
 export default Teams;
