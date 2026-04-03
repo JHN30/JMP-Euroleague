@@ -72,26 +72,17 @@ const teamsSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    rating: {
-      type: Number,
-      default: 1000,
-    },
-    rating2: {
-      type: Number,
-      default: 1000,
-    },
-    season: {
-      type: Number,
-      required: true,
-      default: 2025,
-    },
+    ratingArray: [
+      {
+        type: Number,
+        default: 1000,
+      },
+    ],
   },
   {
     timestamps: true, //createdAt, updatedAt
   }
 );
-
-teamsSchema.index({ season: 1, name: 1 }, { unique: true });
 
 const Teams = mongoose.model("Teams", teamsSchema);
 
