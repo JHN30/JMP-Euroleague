@@ -26,6 +26,25 @@ const getFormAdvantage = (recentForm = []) => {
   return wins / recentForm.length;
 };
 
+const clampProbability = (value) => {
+  const numericValue = Number(value);
+  if (Number.isNaN(numericValue)) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(1, numericValue));
+};
+
+const getTeamRating = (team) => {
+  const rating2Value = Number(team?.rating2);
+  if (Number.isFinite(rating2Value)) {
+    return rating2Value;
+  }
+
+  const ratingValue = Number(team?.rating);
+  return Number.isFinite(ratingValue) ? ratingValue : 0;
+};
+
 export const handleTeamSelect = ({
   homeTeam,
   awayTeam,
@@ -33,7 +52,6 @@ export const handleTeamSelect = ({
   rounds,
   homeInjuries,
   awayInjuries,
-  clampProbability,
   setPredictions,
   setDisplayTeams,
   setShowResults,
@@ -61,8 +79,8 @@ export const handleTeamSelect = ({
   const awayFormAdvantage = getFormAdvantage(awayRecentForm);
 
   const prediction = calculateExpectedScorePredictor(
-    homeTeamData.rating2,
-    awayTeamData.rating2,
+    getTeamRating(homeTeamData),
+    getTeamRating(awayTeamData),
     homeFormAdvantage,
     awayFormAdvantage,
     homeInjuryImpact,

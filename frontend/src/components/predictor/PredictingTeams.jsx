@@ -24,14 +24,6 @@ const PredictingTeams = () => {
   const [showResults, setShowResults] = useState(false);
   const resultsRef = useRef(null);
 
-  const clampProbability = (value) => {
-    const numericValue = Number(value);
-    if (Number.isNaN(numericValue)) {
-      return 0;
-    }
-    return Math.max(0, Math.min(1, numericValue));
-  };
-
   const { fetchTeams, teams, loadingTeams, errorTeams } = useTeam();
   const { fetchRounds, rounds, loadingRounds, errorRounds } = useRound();
 
@@ -75,7 +67,6 @@ const PredictingTeams = () => {
       rounds,
       homeInjuries,
       awayInjuries,
-      clampProbability,
       setPredictions,
       setDisplayTeams,
       setShowResults,

@@ -3,6 +3,44 @@ import axios from "../lib/axios";
 
 const extractData = (response) => response?.data?.data;
 const matchEntityId = (entity, id) => (entity?._id ?? entity?.id) === id;
+const getErrorMessage = (error, fallback) =>
+  error?.response?.data?.error || error?.response?.data?.message || error?.message || fallback;
+
+const getNormalizedRating = (value) => {
+  const numericValue = Number(value);
+  if (Number.isFinite(numericValue)) {
+    return numericValue;
+  }
+
+  return null;
+};
+
+const getNormalizedRatings = (team) => {
+  const ratingValue = getNormalizedRating(team?.rating);
+  const rating2Value = getNormalizedRating(team?.rating2);
+  const resolvedRating = ratingValue ?? rating2Value ?? 0;
+
+  return {
+    rating: resolvedRating,
+    rating2: rating2Value ?? resolvedRating,
+  };
+};
+
+const normalizeTeam = (team) => {
+  if (!team || typeof team !== "object") {
+    return null;
+  }
+
+  const { rating, rating2 } = getNormalizedRatings(team);
+
+  return {
+    ...team,
+    rating,
+    rating2,
+  };
+};
+
+const normalizeTeamList = (teams) => (Array.isArray(teams) ? teams.map(normalizeTeam).filter(Boolean) : []);
 
 export const useTeam = create((set) => ({
   teams: { data: [] },
@@ -14,7 +52,7 @@ export const useTeam = create((set) => ({
     set({ loadingTeams: true, errorTeams: null });
     try {
       const response = await axios.post("/teams", payload);
-      const createdTeam = extractData(response);
+      const createdTeam = normalizeTeam(extractData(response));
 
       set((state) => ({
         teams: {
@@ -24,7 +62,7 @@ export const useTeam = create((set) => ({
         loadingTeams: false,
       }));
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message });
+      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error creating team") });
       throw error;
     }
   },
@@ -32,13 +70,13 @@ export const useTeam = create((set) => ({
   fetchTeams: async () => {
     set({ loadingTeams: true, errorTeams: null });
     try {
-      const response = await axios.get(`/teams`);
+      const response = await axios.get("/teams");
       set({
-        teams: { data: extractData(response) ?? [] },
+        teams: { data: normalizeTeamList(extractData(response)) },
         loadingTeams: false,
       });
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message, teams: { data: [] } });
+      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error fetching teams"), teams: { data: [] } });
     }
   },
 
@@ -46,29 +84,9 @@ export const useTeam = create((set) => ({
     set({ loadingTeams: true, errorTeams: null });
     try {
       const response = await axios.get(`/teams/${teamId}`);
-      set({ team: { data: extractData(response) ?? {} }, loadingTeams: false });
+      set({ team: { data: normalizeTeam(extractData(response)) ?? {} }, loadingTeams: false });
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message, team: { data: {} } });
-    }
-  },
-
-  updateTeamRating: async (teamId, payload) => {
-    set({ loadingTeams: true, errorTeams: null });
-    try {
-      const response = await axios.put(`/teams/rating2/${teamId}`, payload);
-      const updatedTeam = extractData(response);
-
-      set((state) => ({
-        teams: {
-          ...state.teams,
-          data: updatedTeam
-            ? state.teams.data.map((team) => (matchEntityId(team, teamId) ? updatedTeam : team))
-            : state.teams.data,
-        },
-        loadingTeams: false,
-      }));
-    } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message });
+      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error fetching team"), team: { data: {} } });
     }
   },
 
@@ -76,7 +94,7 @@ export const useTeam = create((set) => ({
     set({ loadingTeams: true, errorTeams: null });
     try {
       const response = await axios.put(`/teams/update/${teamId}`, payload);
-      const updatedTeam = extractData(response);
+      const updatedTeam = normalizeTeam(extractData(response));
 
       set((state) => ({
         teams: {
@@ -85,10 +103,12 @@ export const useTeam = create((set) => ({
             ? state.teams.data.map((team) => (matchEntityId(team, teamId) ? updatedTeam : team))
             : state.teams.data,
         },
+        team: matchEntityId(state.team.data, teamId) && updatedTeam ? { data: updatedTeam } : state.team,
         loadingTeams: false,
       }));
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message });
+      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error updating team") });
+      throw error;
     }
   },
 
@@ -101,10 +121,12 @@ export const useTeam = create((set) => ({
           ...state.teams,
           data: state.teams.data.filter((team) => !matchEntityId(team, teamId)),
         },
+        team: matchEntityId(state.team.data, teamId) ? { data: {} } : state.team,
         loadingTeams: false,
       }));
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: error.message });
+      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error deleting team") });
+      throw error;
     }
   },
 }));
