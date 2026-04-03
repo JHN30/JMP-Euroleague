@@ -2,29 +2,23 @@ import { useState } from "react";
 
 import { FaCirclePlus } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
-import { HiOutlinePencilSquare, HiOutlineChartBar, HiOutlineCalendarDays } from "react-icons/hi2";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 import CreateTeamPage from "./CreateTeamPage";
 import UpdateTeamPage from "./UpdateTeamPage";
 import DeleteTeamPage from "./DeleteTeamPage";
-import UpdateTeamRatingPage from "./UpdateTeamRatingPage";
-import UpdateRoundsPage from "./UpdateRoundsPage";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const tabs = [
   { id: "create", label: "Create Team", icon: FaCirclePlus },
   { id: "update", label: "Update Team", icon: HiOutlinePencilSquare },
   { id: "delete", label: "Delete Team", icon: MdDelete },
-  { id: "updateRatings", label: "Update Team Rating", icon: HiOutlineChartBar },
-  { id: "updateRounds", label: "Update Rounds", icon: HiOutlineCalendarDays },
 ];
 
 const tabContentMap = {
   create: <CreateTeamPage />,
   update: <UpdateTeamPage />,
   delete: <DeleteTeamPage />,
-  updateRatings: <UpdateTeamRatingPage />,
-  updateRounds: <UpdateRoundsPage />,
 };
 
 const AdminPage = () => {

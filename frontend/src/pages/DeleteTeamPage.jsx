@@ -3,26 +3,26 @@ import toast from "react-hot-toast";
 
 import TeamCard from "../components/cards/TeamCard";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
-import SeasonSelect from "../components/common/SeasonSelect";
 import ErrorBox from "../components/errors/ErrorBox";
 import DeleteTeamModal from "../components/admin/deleteTeam/DeleteTeamModal";
 
 import { useTeam } from "../hooks/useTeam";
 import { sortTeams } from "../utils/sortTeams";
-import { DEFAULT_SEASON } from "../constants/appConstants";
+
+const deleteTeamGridClass = "grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5";
 
 const DeleteTeamPage = () => {
-  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
   const [pendingTeam, setPendingTeam] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { fetchTeams, teams, deleteTeam, loadingTeams, errorTeams } = useTeam();
 
   useEffect(() => {
-    fetchTeams(selectedSeason);
-  }, [fetchTeams, selectedSeason]);
+    fetchTeams();
+  }, [fetchTeams]);
 
-  const sortedTeams = useMemo(() => sortTeams(teams?.data ?? [], { key: "name" }), [teams?.data]);
+  const teamList = teams?.data ?? [];
+  const sortedTeams = useMemo(() => sortTeams(teamList, { key: "name" }), [teamList]);
 
   const openModal = (team) => {
     setPendingTeam(team);
@@ -42,7 +42,7 @@ const DeleteTeamPage = () => {
       await deleteTeam(pendingTeam._id);
       toast.success(`${pendingTeam.name} deleted successfully.`);
       closeModal();
-      fetchTeams(selectedSeason);
+      fetchTeams();
     } catch (error) {
       console.error(`Error deleting ${pendingTeam.name}:`, error);
       toast.error(`Error deleting ${pendingTeam.name}. Please try again.`);
@@ -51,8 +51,8 @@ const DeleteTeamPage = () => {
 
   if (loadingTeams) {
     return (
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {Array.from({ length: 15 }).map((_, index) => (
+      <div className={deleteTeamGridClass}>
+        {Array.from({ length: 8 }).map((_, index) => (
           <TeamCardSkeleton key={`team-skeleton-${index}`} />
         ))}
       </div>
@@ -69,21 +69,9 @@ const DeleteTeamPage = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Season</p>
-          <SeasonSelect
-            id="delete-team-season"
-            className="mx-0 w-full sm:w-48"
-            value={selectedSeason}
-            onChange={(event) => setSelectedSeason(event.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className={deleteTeamGridClass}>
         {sortedTeams.map((team) => {
-          const stableKey = team._id ?? `${team.name}-${team.season ?? "unknown"}`;
+          const stableKey = team._id ?? `${team.name}`;
           return (
             <button
               key={stableKey}

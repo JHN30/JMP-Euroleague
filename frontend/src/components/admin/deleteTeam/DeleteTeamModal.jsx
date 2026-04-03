@@ -47,7 +47,7 @@ const DeleteTeamModal = ({ team, isOpen, onCancel, onConfirm }) => {
             </h2>
             <p className="text-sm text-gray-300">
               This action is permanent. All stats, schedules, and references for{" "}
-              <span className="font-semibold text-white">{team.name}</span> will be removed from the active season.
+              <span className="font-semibold text-white">{team.name}</span> will be removed.
             </p>
           </header>
 

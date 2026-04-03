@@ -4,7 +4,6 @@ import { toast } from "react-hot-toast";
 import Input from "../components/common/Input";
 
 import { AiOutlineTeam } from "react-icons/ai";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { RiFileUploadLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -15,7 +14,6 @@ const CreateTeamPage = () => {
   const [team, setTeam] = useState({
     name: "",
     logoImg: "",
-    season: "",
   });
 
   const { createTeam, fetchTeams, loadingTeams } = useTeam();
@@ -25,7 +23,7 @@ const CreateTeamPage = () => {
 
     try {
       await createTeam(team);
-      setTeam({ name: "", logoImg: "", season: "" });
+      setTeam({ name: "", logoImg: "" });
       toast.success("Team created successfully");
       fetchTeams();
     } catch (error) {
@@ -82,21 +80,6 @@ const CreateTeamPage = () => {
                 value={team.name}
                 onChange={(event) => setTeam((prev) => ({ ...prev, name: event.target.value }))}
                 required
-                wrapperClassName="mb-0"
-              />
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <label htmlFor="team-season" className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-200">
-                Season
-              </label>
-              <Input
-                icon={HiOutlineCalendarDays}
-                id="team-season"
-                type="text"
-                placeholder="2025"
-                value={team.season}
-                onChange={(event) => setTeam((prev) => ({ ...prev, season: event.target.value }))}
                 wrapperClassName="mb-0"
               />
             </div>

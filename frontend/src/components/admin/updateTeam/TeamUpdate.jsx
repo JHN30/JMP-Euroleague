@@ -133,7 +133,6 @@ const TeamUpdate = ({ team = {}, latestRound, setActiveView, allTeams = [], onUp
       <div className="flex flex-col gap-8">
         <TeamUpdateHeader
           team={team}
-          totalRounds={totalRounds}
           onBack={handleBackToGrid}
           BackIcon={HiOutlineArrowUturnLeft}
           backLabel="Back to Teams"
@@ -157,7 +156,6 @@ const TeamUpdate = ({ team = {}, latestRound, setActiveView, allTeams = [], onUp
               values={currentRoundValues}
               onFieldChange={handleFieldChange}
               opponentTeams={opponentTeams}
-              submitLabel="Save All Changes"
             />
           </form>
         ) : (

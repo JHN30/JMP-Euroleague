@@ -5,7 +5,6 @@ const TeamUpdateRoundForm = ({
   values,
   onFieldChange,
   opponentTeams = [],
-  submitLabel = "Save All Changes",
 }) => {
   const { result, opponent, venue, pointsPlus, pointsMinus } = values;
 
@@ -113,7 +112,7 @@ const TeamUpdateRoundForm = ({
           type="submit"
           className="inline-flex items-center gap-2 rounded-xl border border-orange-300/50 bg-orange-500/20 px-5 py-3 text-sm font-semibold text-orange-100 transition-colors hover:border-orange-300/70 hover:bg-orange-500/30"
         >
-          {submitLabel}
+          Save All Changes
         </button>
       </div>
     </>
