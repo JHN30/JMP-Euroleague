@@ -78,11 +78,24 @@ const teamsSchema = new mongoose.Schema(
         default: 1000,
       },
     ],
+    rating: {
+      type: Number,
+      default: 1000,
+    },
   },
   {
     timestamps: true, //createdAt, updatedAt
   }
 );
+
+teamsSchema.pre('save', function(next) {
+  // Only update if the array has elements
+  if (this.ratingArray && this.ratingArray.length > 0) {
+    // Take the last element and assign it to the next field
+    this.rating = this.ratingArray[this.ratingArray.length - 1];
+  }
+  next();
+});
 
 teamsSchema.index({wins: -1, pointsPlusMinus: -1, pointsPlus: -1, pointsMinus: 1, name: 1 });
 
