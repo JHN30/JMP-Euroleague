@@ -1,59 +1,100 @@
-import { RATING_CALCULATION } from "../constants/appConstants";
+export const RATING_CALCULATION = {
+  RATING_GAP_SCALE: 82.5,
+  MODEL_INTERCEPT: 0.8,
+  MODEL_RATING_WEIGHT: 0.6,
+  MODEL_SCORING_MARGIN_WEIGHT: -0.1,
+};
+
+const PLAYED_RESULTS = new Set(["W", "L"]);
+
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const toFiniteNumber = (value, fallback = 0) => {
   const numericValue = Number(value);
   return Number.isFinite(numericValue) ? numericValue : fallback;
 };
 
+export const createPredictorModelState = () => ({
+  intercept: RATING_CALCULATION.MODEL_INTERCEPT,
+  ratingWeight: RATING_CALCULATION.MODEL_RATING_WEIGHT,
+  scoringMarginWeight: RATING_CALCULATION.MODEL_SCORING_MARGIN_WEIGHT,
+});
+
+const resolvePredictorModelState = (modelState = null) => modelState ?? createPredictorModelState();
+
+export const playedRoundIndexesBeforeRound = (team, roundIndex) => {
+  const normalizedRoundIndex = Math.max(toFiniteNumber(roundIndex), 0);
+  const form = Array.isArray(team?.form) ? team.form : [];
+
+  return form.reduce((indexes, result, index) => {
+    if (index < normalizedRoundIndex && PLAYED_RESULTS.has(result)) {
+      indexes.push(index);
+    }
+    return indexes;
+  }, []);
+};
+
+export const averageScoringMarginBeforeRound = (team, roundIndex) => {
+  const playedIndexes = playedRoundIndexesBeforeRound(team, roundIndex);
+
+  if (!playedIndexes.length) {
+    return 0;
+  }
+
+  const pointsPlusArray = Array.isArray(team?.pointsPlusArray) ? team.pointsPlusArray : [];
+  const pointsMinusArray = Array.isArray(team?.pointsMinusArray) ? team.pointsMinusArray : [];
+
+  const totalMargin = playedIndexes.reduce((sum, index) => {
+    const pointsScored = toFiniteNumber(pointsPlusArray[index]);
+    const pointsAllowed = toFiniteNumber(pointsMinusArray[index]);
+    return sum + (pointsScored - pointsAllowed);
+  }, 0);
+
+  return totalMargin / playedIndexes.length;
+};
+
 export const calculateExpectedScorePredictor = (
-  ratingA,
-  ratingB,
-  formAdvantageA,
-  formAdvantageB,
-  injuriesA,
-  injuriesB,
-  expectedHomeAdvantage = RATING_CALCULATION.HOME_ADVANTAGE,
-  injuryMultiplier = RATING_CALCULATION.INJURY_MULTIPLIER
+  homeRating,
+  awayRating,
+  homeScoringMargin = 0,
+  awayScoringMargin = 0,
+  modelState = null
 ) => {
-  const normalizedRatingA = toFiniteNumber(ratingA);
-  const normalizedRatingB = toFiniteNumber(ratingB);
-  const normalizedFormAdvantageA = toFiniteNumber(formAdvantageA);
-  const normalizedFormAdvantageB = toFiniteNumber(formAdvantageB);
-  const normalizedInjuriesA = toFiniteNumber(injuriesA);
-  const normalizedInjuriesB = toFiniteNumber(injuriesB);
-
-  // Expected form advantage (Max bonus is 5%) e.g. if team has 3 wins out of 5 matches, then formAdvantage = 3/5 = 0.6 and then expectedFormAdvantage = 0.6 * 0.05 = 0.03. 0.03 is actually 3%
-  const expectedFormAdvantageA = normalizedFormAdvantageA * RATING_CALCULATION.FORM_ADVANTAGE_MULTIPLIER;
-  const expectedFormAdvantageB = normalizedFormAdvantageB * RATING_CALCULATION.FORM_ADVANTAGE_MULTIPLIER;
-
-  //This is added so the expected score in the end is not over or less than 100% because i can't add formAdvantage to expectedScoreA and expectedScoreB directly. I need to calculate the total formAdvantage and then divide it by 2.
-  const totalFormAdvantage = (expectedFormAdvantageA + expectedFormAdvantageB) / 2;
-
-  //Injury impact on expected score, Max impact is 20%
-  const injuryImpactA = Math.min(
-    (Math.pow(RATING_CALCULATION.INJURY_GROWTH_BASE, normalizedInjuriesA) - 1) * injuryMultiplier,
-    RATING_CALCULATION.MAX_INJURY_IMPACT
-  );
-  const injuryImpactB = Math.min(
-    (Math.pow(RATING_CALCULATION.INJURY_GROWTH_BASE, normalizedInjuriesB) - 1) * injuryMultiplier,
-    RATING_CALCULATION.MAX_INJURY_IMPACT
-  );
-
-  //This is just ELO rating formula to calculate the expected score. Only here i also subtract formAdvantage
-  // ELO rating formula: E_A = 1 / (1 + 10 ^ ((R_B - R_A) / 400))
-  const expectedScoreAELO =
-    1 / (1 + 10 ** ((normalizedRatingB - normalizedRatingA) / RATING_CALCULATION.ELO_DIVISOR)) - totalFormAdvantage;
-  const expectedScoreBELO =
-    1 / (1 + 10 ** ((normalizedRatingA - normalizedRatingB) / RATING_CALCULATION.ELO_DIVISOR)) - totalFormAdvantage;
-
-  //Here is final result with home advantage and form advantage added
-  const expectedScoreA =
-    expectedScoreAELO + expectedHomeAdvantage + expectedFormAdvantageA - injuryImpactA + injuryImpactB;
-  const expectedScoreB =
-    expectedScoreBELO - expectedHomeAdvantage + expectedFormAdvantageB + injuryImpactA - injuryImpactB;
+  const model = resolvePredictorModelState(modelState);
+  const ratingGapFeature =
+    (toFiniteNumber(homeRating) - toFiniteNumber(awayRating)) / RATING_CALCULATION.RATING_GAP_SCALE;
+  const scoringMarginFeature = toFiniteNumber(homeScoringMargin) - toFiniteNumber(awayScoringMargin);
+  const logit =
+    model.intercept + model.ratingWeight * ratingGapFeature + model.scoringMarginWeight * scoringMarginFeature;
+  const homeTeam = 1 / (1 + Math.exp(-clamp(logit, -35, 35)));
 
   return {
-    homeTeam: expectedScoreA,
-    awayTeam: expectedScoreB,
+    homeTeam,
+    awayTeam: 1 - homeTeam,
+  };
+};
+
+export const calculateNextGamePrediction = ({
+  homeTeam,
+  awayTeam,
+  homeRating,
+  awayRating,
+  roundIndex,
+  modelState = null,
+}) => {
+  const homeScoringMargin = averageScoringMarginBeforeRound(homeTeam, roundIndex);
+  const awayScoringMargin = averageScoringMarginBeforeRound(awayTeam, roundIndex);
+  const probabilities = calculateExpectedScorePredictor(
+    homeRating,
+    awayRating,
+    homeScoringMargin,
+    awayScoringMargin,
+    modelState
+  );
+
+  return {
+    ...probabilities,
+    homeScoringMargin,
+    awayScoringMargin,
   };
 };

@@ -11,7 +11,6 @@ import PredictingTeamsSkeleton from "../skeletons/PredictingTeamsSkeleton";
 
 import MatchSetupSection from "./MatchSetupSection";
 import TeamSelection from "./TeamSelection";
-import InjuryInputs from "./InjuryInputs";
 import PredictionResults from "./PredictionResults";
 
 const PredictingTeams = () => {
@@ -19,8 +18,6 @@ const PredictingTeams = () => {
   const [selectedAwayTeam, setSelectedAwayTeam] = useState("");
   const [displayTeams, setDisplayTeams] = useState({ home: "", away: "" });
   const [predictions, setPredictions] = useState();
-  const [homeInjuries, setHomeInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
-  const [awayInjuries, setAwayInjuries] = useState({ stars: 0, starters: 0, keyBench: 0 });
   const [showResults, setShowResults] = useState(false);
   const resultsRef = useRef(null);
 
@@ -65,8 +62,6 @@ const PredictingTeams = () => {
       awayTeam,
       teams,
       rounds,
-      homeInjuries,
-      awayInjuries,
       setPredictions,
       setDisplayTeams,
       setShowResults,
@@ -85,12 +80,6 @@ const PredictingTeams = () => {
           selectedAwayTeam={selectedAwayTeam}
           onSelectHome={(e) => setSelectedHomeTeam(e.target.value)}
           onSelectAway={(e) => setSelectedAwayTeam(e.target.value)}
-        />
-        <InjuryInputs
-          homeInjuries={homeInjuries}
-          awayInjuries={awayInjuries}
-          onHomeChange={setHomeInjuries}
-          onAwayChange={setAwayInjuries}
         />
       </MatchSetupSection>
 
