@@ -23,7 +23,7 @@ export const sortTeams = (teams = [], options = {}) => {
   const direction = order === "asc" ? 1 : -1;
 
   const sorted = [...teams].sort((a, b) => {
-    if (key === "rating" || key === "rating2") {
+    if (key === "rating") {
       // Rating sort uses rounded value as the primary comparator with deterministic tie-breakers
       const aRating = getNumericValue(a, key);
       const bRating = getNumericValue(b, key);

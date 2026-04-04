@@ -28,7 +28,7 @@ const TeamStatsPage = () => {
 
   const teamData = team?.data ?? {};
   const ratingLabel = "JMP Rating";
-  const rawRatingValue = Number(teamData.rating2);
+  const rawRatingValue = Number(teamData.rating);
   const ratingValueDisplay = Number.isFinite(rawRatingValue) ? rawRatingValue.toFixed(0) : "0";
 
   if (loadingTeams) {

@@ -4,7 +4,7 @@ const StandingTeam = ({ team, position }) => {
   const pointsPlusTotal = Number(team.pointsPlus) || 0;
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
   const pointsDiff = Number(team.pointsPlusMinus) || pointsPlusTotal - pointsMinusTotal;
-  const ratingDisplay = Number(team.rating2);
+  const ratingDisplay = Number(team.rating);
   const recentForm = Array.isArray(team.form) ? team.form.slice(-5) : [];
   const recentFormSmallDisplay = Array.isArray(team.form) ? team.form.slice(-10) : [];
   const recentWins = recentFormSmallDisplay.filter((result) => result === "W").length;
@@ -73,7 +73,7 @@ const StandingTeam = ({ team, position }) => {
         </div>
       </td>
       <td className="px-1 py-3 text-center font-bold text-orange-300">
-        {Number.isFinite(ratingDisplay) ? ratingDisplay.toFixed(0) : "Loading..."}
+        {Number.isFinite(ratingDisplay) ? ratingDisplay.toFixed(0) : "0"}
       </td>
     </tr>
   );

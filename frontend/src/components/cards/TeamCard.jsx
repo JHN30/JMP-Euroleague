@@ -1,6 +1,6 @@
 const TeamCard = ({ team }) => {
-  const ratingLabel = "JMP 2.0";
-  const ratingValue = Number(team?.rating2);
+  const ratingLabel = "JMP Rating";
+  const ratingValue = Number(team?.rating);
   const wins = Number(team?.wins ?? 0);
   const losses = Number(team?.losses ?? 0);
   const record = `${wins}-${losses}`;

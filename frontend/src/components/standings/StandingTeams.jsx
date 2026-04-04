@@ -157,7 +157,7 @@ const StandingTeams = () => {
               </th>
               <th className="px-2 py-3 text-center font-semibold">Form</th>
               <th
-                onClick={() => handleSort("rating2")}
+                onClick={() => handleSort("rating")}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 className="relative cursor-pointer px-2 py-3 text-center font-semibold transition-colors hover:text-orange-100"
@@ -165,7 +165,7 @@ const StandingTeams = () => {
                 <div className="flex items-center justify-center gap-1">
                   <span className="hidden sm:inline">JMP Rating</span>
                   <span className="sm:hidden">JMPR</span>
-                  <span className="text-xs">{getSortIndicator("rating2")}</span>
+                  <span className="text-xs">{getSortIndicator("rating")}</span>
                 </div>
                 {showTooltip && (
                   <div className="absolute right-0 top-10 w-64 rounded-xl border border-white/10 bg-slate-800/95 p-3 text-xs text-slate-300 shadow-xl backdrop-blur-md">

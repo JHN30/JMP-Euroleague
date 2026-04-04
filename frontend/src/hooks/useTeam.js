@@ -12,18 +12,7 @@ const getNormalizedRating = (value) => {
     return numericValue;
   }
 
-  return null;
-};
-
-const getNormalizedRatings = (team) => {
-  const ratingValue = getNormalizedRating(team?.rating);
-  const rating2Value = getNormalizedRating(team?.rating2);
-  const resolvedRating = ratingValue ?? rating2Value ?? 0;
-
-  return {
-    rating: resolvedRating,
-    rating2: rating2Value ?? resolvedRating,
-  };
+  return 0;
 };
 
 const normalizeTeam = (team) => {
@@ -31,12 +20,9 @@ const normalizeTeam = (team) => {
     return null;
   }
 
-  const { rating, rating2 } = getNormalizedRatings(team);
-
   return {
     ...team,
-    rating,
-    rating2,
+    rating: getNormalizedRating(team?.rating),
   };
 };
 

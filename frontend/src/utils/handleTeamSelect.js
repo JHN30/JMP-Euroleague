@@ -36,11 +36,6 @@ const clampProbability = (value) => {
 };
 
 const getTeamRating = (team) => {
-  const rating2Value = Number(team?.rating2);
-  if (Number.isFinite(rating2Value)) {
-    return rating2Value;
-  }
-
   const ratingValue = Number(team?.rating);
   return Number.isFinite(ratingValue) ? ratingValue : 0;
 };
