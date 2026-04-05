@@ -6,11 +6,10 @@ const TeamCard = ({ team }) => {
   const record = `${wins}-${losses}`;
 
   return (
-    <div className="group relative h-full overflow-hidden rounded-3xl border border-white/20 bg-white/5 shadow-xl shadow-black/20 backdrop-blur-xl">
+    <div className="group relative h-full overflow-hidden rounded-3xl border border-white/20 bg-white/5 shadow-lg shadow-black/15">
 
       <div className="relative h-full overflow-hidden rounded-[1.45rem] bg-slate-900/80">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent transition-all duration-500 group-hover:border-orange-300/60" />
-        <div className="pointer-events-none absolute inset-0 translate-x-[-120%] skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-600 group-hover:translate-x-[120%] group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent transition-colors duration-300 group-hover:border-orange-300/50" />
 
         <div className="relative z-10 flex h-full flex-col px-5 py-5">
           <div className="flex items-center justify-center gap-3">
@@ -21,7 +20,7 @@ const TeamCard = ({ team }) => {
             <div className="relative flex h-24 w-24 items-center justify-center">
               <img
                 src={team.logoImg}
-                className="relative h-full w-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
+                className="relative h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                 alt={`${team.name} logo`}
                 loading="lazy"
               />

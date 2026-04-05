@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import ErrorBox from "../components/errors/ErrorBox";
@@ -31,6 +31,16 @@ const TeamStatsPage = () => {
   const ratingLabel = "JMP Rating";
   const rawRatingValue = Number(teamData.rating);
   const ratingValueDisplay = Number.isFinite(rawRatingValue) ? rawRatingValue.toFixed(0) : "0";
+  const { oppositionArray, homeCourtArray, resultArray, pointsForArray, pointsAgainstArray } = useMemo(
+    () => ({
+      oppositionArray: Array.isArray(teamData.playedAgainst) ? teamData.playedAgainst.slice().reverse() : [],
+      homeCourtArray: Array.isArray(teamData.homeGround) ? teamData.homeGround.slice().reverse() : [],
+      resultArray: Array.isArray(teamData.form) ? teamData.form.slice().reverse() : [],
+      pointsForArray: Array.isArray(teamData.pointsPlusArray) ? teamData.pointsPlusArray.slice().reverse() : [],
+      pointsAgainstArray: Array.isArray(teamData.pointsMinusArray) ? teamData.pointsMinusArray.slice().reverse() : [],
+    }),
+    [teamData.form, teamData.homeGround, teamData.playedAgainst, teamData.pointsMinusArray, teamData.pointsPlusArray]
+  );
 
   if (loadingTeams) {
     return (
@@ -48,14 +58,6 @@ const TeamStatsPage = () => {
     );
   }
 
-  const oppositionArray = Array.isArray(teamData.playedAgainst) ? teamData.playedAgainst.slice().reverse() : [];
-  const homeCourtArray = Array.isArray(teamData.homeGround) ? teamData.homeGround.slice().reverse() : [];
-  const resultArray = Array.isArray(teamData.form) ? teamData.form.slice().reverse() : [];
-  const pointsForArray = Array.isArray(teamData.pointsPlusArray) ? teamData.pointsPlusArray.slice().reverse() : [];
-  const pointsAgainstArray = Array.isArray(teamData.pointsMinusArray)
-    ? teamData.pointsMinusArray.slice().reverse()
-    : [];
-
   return (
     <LayoutShell>
       <div className="flex flex-col gap-6 pt-4 text-white">
@@ -70,48 +72,48 @@ const TeamStatsPage = () => {
         <section className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
           <div className="flex flex-col gap-4">
             <h2 className="mt-2 text-2xl font-semibold text-white border-b border-white/10 pb-6">Stats</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
               <StatsCard
                 title="Wins"
                 value={teamData.wins}
                 icon={FaCheckDouble}
-                iconColor="text-emerald-400/30"
-                accent="bg-emerald-500/30"
+                iconColor="text-emerald-200"
+                accent="bg-emerald-500/15"
               />
               <StatsCard
                 title="Losses"
                 value={teamData.losses}
                 icon={HiOutlineX}
-                iconColor="text-rose-400/30"
-                accent="bg-rose-500/30"
+                iconColor="text-rose-200"
+                accent="bg-rose-500/15"
               />
               <StatsCard
                 title="Win Percentage"
                 value={teamData.winPercentage ? `${teamData.winPercentage.toFixed(2)}%` : "0%"}
                 icon={FaPercentage}
-                iconColor="text-amber-400/30"
-                accent="bg-amber-500/30"
+                iconColor="text-amber-200"
+                accent="bg-amber-500/15"
               />
               <StatsCard
                 title="PTS+"
                 value={teamData.pointsPlus}
                 icon={FaBasketball}
-                iconColor="text-sky-400/30"
-                accent="bg-sky-500/30"
+                iconColor="text-sky-200"
+                accent="bg-sky-500/15"
               />
               <StatsCard
                 title="PTS-"
                 value={teamData.pointsMinus}
                 icon={FaBasketball}
-                iconColor="text-indigo-400/30"
-                accent="bg-indigo-500/30"
+                iconColor="text-indigo-200"
+                accent="bg-indigo-500/15"
               />
               <StatsCard
                 title={ratingLabel}
                 value={ratingValueDisplay}
                 icon={SlGraph}
-                iconColor="text-orange-400/30"
-                accent="bg-orange-500/30"
+                iconColor="text-orange-200"
+                accent="bg-orange-500/15"
               />
             </div>
           </div>

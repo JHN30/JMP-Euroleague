@@ -170,7 +170,7 @@ const RatingGraphCard = ({ ratingHistory = [], teamName = "Team" }) => {
 
   if (!hasUsableHistory) {
     return (
-      <div className="flex min-h-72 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-6 text-center text-sm text-slate-300 shadow-inner shadow-black/30">
+      <div className="flex min-h-72 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-6 text-center text-sm text-slate-300">
         No rating history available.
       </div>
     );
@@ -212,7 +212,7 @@ const RatingGraphCard = ({ ratingHistory = [], teamName = "Team" }) => {
   const chartHeightClassName = isTinyScreen ? "h-[220px]" : isCompactScreen ? "h-[250px]" : "h-[300px] sm:h-[360px]";
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 p-3 shadow-inner shadow-black/30 sm:p-5">
+    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 p-3 sm:p-5">
       <div className={headerClassName}>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300/80">Trend</p>
