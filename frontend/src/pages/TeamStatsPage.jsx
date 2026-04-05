@@ -8,6 +8,7 @@ import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 import TeamStatsSkeleton from "../components/skeletons/TeamStatsSkeleton";
 import TeamProfileCard from "../components/cards/TeamProfileCard";
+import RatingGraphCard from "../components/cards/RatingGraphCard";
 
 import { useTeam } from "../hooks/useTeam";
 
@@ -63,15 +64,12 @@ const TeamStatsPage = () => {
           <h1 className="text-3xl font-bold leading-tight text-slate-100">{teamData.name || "Team Profile"}</h1>
         </header>
 
-        <TeamProfileCard
-          teamData={teamData}
-          ratingLabel={ratingLabel}
-          ratingValueDisplay={ratingValueDisplay}
-        />
+        <TeamProfileCard teamData={teamData} ratingLabel={ratingLabel} ratingValueDisplay={ratingValueDisplay} />
 
+        {/* Stats Section */}
         <section className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
           <div className="flex flex-col gap-4">
-            <h2 className="mt-2 text-2xl font-semibold text-white">Stats</h2>
+            <h2 className="mt-2 text-2xl font-semibold text-white border-b border-white/10 pb-6">Stats</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <StatsCard
                 title="Wins"
@@ -119,6 +117,15 @@ const TeamStatsPage = () => {
           </div>
         </section>
 
+        {/* Rating Graph Section */}
+        <section className={`${layoutCardClass} px-3 py-4 sm:px-6 sm:py-6`}>
+          <div className="flex flex-col gap-4">
+            <h2 className="mt-2 text-2xl font-semibold text-white border-b border-white/10 pb-6">Rating Graph</h2>
+            <RatingGraphCard ratingHistory={teamData.ratingArray} teamName={teamData.name} />
+          </div>
+        </section>
+
+        {/* Form Section */}
         <section className={`${layoutCardClass} overflow-hidden`}>
           <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
@@ -150,6 +157,7 @@ const TeamStatsPage = () => {
           </div>
         </section>
 
+        {/* Played Against Section */}
         <section className={`${layoutCardClass} overflow-hidden`}>
           <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
             <div className="border-b border-white/10 pb-6">
