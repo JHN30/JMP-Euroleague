@@ -23,20 +23,6 @@ const PredictingTeamsSkeleton = () => {
             </div>
           </div>
 
-          {/* Injury inputs */}
-          <div className="grid gap-6 md:grid-cols-2">
-            {[0, 1].map((key) => (
-              <div key={key} className="space-y-3">
-                <div className="h-3 w-32 rounded-full bg-orange-200/20 animate-pulse" />
-                <div className="space-y-6">
-                  <div className="h-10 w-full rounded-lg bg-slate-800/70 animate-pulse" />
-                  <div className="h-10 w-full rounded-lg bg-slate-800/70 animate-pulse" />
-                  <div className="h-10 w-full rounded-lg bg-slate-800/70 animate-pulse" />
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* CTA button */}
           <div className="h-11 w-full rounded-lg bg-orange-500/40 animate-pulse" />
         </div>
