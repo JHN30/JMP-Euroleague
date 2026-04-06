@@ -39,6 +39,7 @@ For more information about **JMP Rating** click [here](https://github.com/JHN30/
 - DaisyUI
 - Motion
 - React Hot Toast
+- Chart.js
 
 **Backend**
 
@@ -94,15 +95,15 @@ and
 ## Screenshots
 
 <p align="center">
-  <img src="./screenshots/create-team-2.png" alt="Create Page" width="90%">
+  <img src="./screenshots/standings-page.png" alt="Standings Page" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/delete-team.png" alt="Delete Page" width="90%">
+  <img src="./screenshots/playoff-page.png" alt="Playoff Page" width="90%">
 </p>
 
 <p align="center">
-  <img src="./screenshots/update-team-1.PNG" alt="Update Page 1" width="90%">
+  <img src="./screenshots/teams-page.png" alt="Teams Page" width="90%">
 </p>
 
 ---
