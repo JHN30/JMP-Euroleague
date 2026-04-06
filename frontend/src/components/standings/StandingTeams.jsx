@@ -168,9 +168,9 @@ const StandingTeams = () => {
                   <span className="text-xs">{getSortIndicator("rating")}</span>
                 </div>
                 {showTooltip && (
-                  <div className="absolute right-0 top-10 w-64 rounded-xl border border-white/10 bg-slate-800/95 p-3 text-xs text-slate-300 shadow-xl backdrop-blur-md">
+                  <div className="absolute right-0 top-10 w-64 rounded-xl border border-white/10 bg-slate-900/95 p-3 text-xs text-slate-300 shadow-xl ring-1 ring-white/5">
                     {ratingTooltipText}
-                    <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 border border-white/10 border-b-0 border-r-0 bg-slate-800/95" />
+                    <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 border border-white/10 border-b-0 border-r-0 bg-slate-900/95" />
                   </div>
                 )}
               </th>

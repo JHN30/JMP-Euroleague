@@ -4,7 +4,7 @@ const ErrorBox = ({ error }) => {
   return (
     <div
       role="alert"
-      className="relative mx-auto flex w-full max-w-lg overflow-hidden rounded-2xl border border-rose-500/20 bg-slate-900/90 shadow-2xl backdrop-blur-md"
+      className="relative mx-auto flex w-full max-w-lg overflow-hidden rounded-2xl border border-rose-500/20 bg-slate-900/95 shadow-2xl ring-1 ring-rose-500/10"
     >
       {/* Subtle left border indicator */}
       <div

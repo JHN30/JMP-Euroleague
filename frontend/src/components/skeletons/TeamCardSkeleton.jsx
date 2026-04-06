@@ -1,6 +1,6 @@
 const TeamCardSkeleton = () => {
   return (
-    <div className="h-full min-h-[280px] overflow-hidden rounded-3xl border border-white/20 bg-white/5 shadow-xl shadow-black/20 backdrop-blur-xl">
+    <div className="h-full min-h-[280px] overflow-hidden rounded-3xl border border-white/10 bg-slate-900/75 shadow-xl shadow-black/20 ring-1 ring-white/5">
       <div className="relative h-full overflow-hidden rounded-[1.45rem] bg-slate-900/80 animate-pulse">
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent" />
         <div className="pointer-events-none absolute inset-0 translate-x-[-120%] skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-30" />

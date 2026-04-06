@@ -18,10 +18,10 @@ const NavbarMobileMenu = ({
     <>
       <div
         onClick={onClose}
-        className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm lg:hidden"
+        className="fixed inset-0 z-[110] bg-black/75 lg:hidden"
       />
 
-      <nav className="fixed top-0 right-0 z-[120] flex h-[100dvh] w-72 flex-col border-l border-white/5 bg-slate-900/95 shadow-2xl backdrop-blur-2xl lg:hidden">
+      <nav className="fixed top-0 right-0 z-[120] flex h-[100dvh] w-72 flex-col border-l border-white/10 bg-slate-950/95 shadow-2xl lg:hidden">
         <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
           <p className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-400">Menu</p>
           <button
