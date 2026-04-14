@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/features/PasswordStrengthMeter";
 import { useAuth } from "../hooks/useAuth";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
+import { motion } from "framer-motion";
 
 import "../styles/button.css";
 
@@ -31,8 +32,11 @@ const SignUpPage = () => {
   };
   return (
     <LayoutShell maxWidth="max-w-2xl">
-      <div
+      <motion.div
         className={`${authCardClass} flex justify-center flex-col`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
         {/* Left Side Content (Why Join) - Will be implemented in future */}
         {/* <div className="hidden flex-col justify-between border-r border-white/5 bg-gradient-to-br from-black/40 via-slate-900/70 to-black/40 p-10 text-white/90 md:flex">
@@ -110,7 +114,7 @@ const SignUpPage = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };
