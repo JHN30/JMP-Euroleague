@@ -42,7 +42,7 @@ const Navbar = ({ isGuest }) => {
 
   return (
     <>
-      <header className="sticky top-0 z-100 w-full border-b border-white/5 bg-slate-900/85 shadow-lg shadow-slate-950/20">
+      <header className="sticky top-0 z-100 w-full border-b border-white/5 bg-slate-900/95 shadow-lg shadow-slate-950/20">
         <div className="mx-auto flex w-full max-w-full items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
           <NavbarLogo logoSrc={logoPng} />
