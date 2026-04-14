@@ -6,12 +6,12 @@ const TeamCard = ({ team }) => {
   const record = `${wins}-${losses}`;
 
   return (
-    <div className="group relative h-full overflow-hidden rounded-3xl border border-white/20 bg-white/5 shadow-lg shadow-black/15">
+    <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5">
 
-      <div className="relative h-full overflow-hidden rounded-[1.45rem] bg-slate-900/80">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.45rem] border border-transparent transition-colors duration-300 group-hover:border-orange-300/50" />
+      <div className="relative h-full overflow-hidden rounded-3xl bg-slate-900/80">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl border border-transparent transition-colors duration-300 group-hover:border-orange-300/60" />
 
-        <div className="relative z-10 flex h-full flex-col px-5 py-5">
+        <div className="relative z-10 flex h-full flex-col px-4 py-4">
           <div className="flex items-center justify-center gap-3">
             <h2 className="text-md font-semibold leading-tight text-white">{team.name}</h2>
           </div>
@@ -28,9 +28,9 @@ const TeamCard = ({ team }) => {
           </div>
 
           <div className="mt-6 text-sm text-slate-200">
-            <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
+            <div className="flex w-full items-center justify-between rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
               <p className="text-[0.65rem] uppercase tracking-[0.25em] text-slate-400">Record</p>
-              <p className="mt-1 text-lg font-semibold text-white">{record}</p>
+              <p className="text-lg font-semibold text-white">{record}</p>
             </div>
           </div>
 
