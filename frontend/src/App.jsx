@@ -31,21 +31,47 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  const renderGuardLoading = () => (
+    <div className="flex min-h-screen items-center justify-center">
+      <LoadingSpinner />
+    </div>
+  );
 
-  const requireAuth = (element) => (isAuthenticated ? element : <Navigate to="/login" replace />);
-  const requireAdmin = (element) => (isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" replace />);
-  const requireGuest = (element) => (isGuest ? element : <Navigate to="/" replace />);
+  const requireAuth = (element) => {
+    if (isCheckingAuth) {
+      return renderGuardLoading();
+    }
+
+    return isAuthenticated ? element : <Navigate to="/login" replace />;
+  };
+
+  const requireAdmin = (element) => {
+    if (isCheckingAuth) {
+      return renderGuardLoading();
+    }
+
+    return isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" replace />;
+  };
+
+  const requireGuest = (element) => {
+    if (isCheckingAuth) {
+      return renderGuardLoading();
+    }
+
+    return isGuest ? element : <Navigate to="/" replace />;
+  };
+
+  const requireUnverifiedUser = (element) => {
+    if (isCheckingAuth) {
+      return renderGuardLoading();
+    }
+
+    return isAuthenticated && !user?.isVerified ? element : <Navigate to="/" replace />;
+  };
 
   return (
-    <div className="flex flex-col mx-auto min-h-screen bg-gradient-to-b from-base-100 via-base-300 to-base-200">
-      <Navbar isGuest={isGuest} />
+    <div className="flex flex-col mx-auto min-h-screen bg-linear-to-b from-base-100 via-base-300 to-base-200">
+      <Navbar isGuest={isGuest} isCheckingAuth={isCheckingAuth} />
       <ScrollToTop />
       <Suspense fallback={<FallbackComponent />}>
         <Routes>
@@ -60,10 +86,7 @@ function App() {
           {/* Auth */}
           <Route path="/signup" element={requireGuest(<SignUpPage />)} />
           <Route path="/login" element={requireGuest(<LoginPage />)} />
-          <Route
-            path="/verify-email"
-            element={isAuthenticated && !user.isVerified ? <EmailVerificatonPage /> : <Navigate to="/" />}
-          />
+          <Route path="/verify-email" element={requireUnverifiedUser(<EmailVerificatonPage />)} />
           <Route path="/forgot-password" element={requireGuest(<ForgotPasswordPage />)} />
           <Route path="/reset-password/:token" element={requireGuest(<ResetPasswordPage />)} />
 

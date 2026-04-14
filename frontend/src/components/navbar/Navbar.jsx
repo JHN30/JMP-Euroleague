@@ -12,7 +12,7 @@ import { getNavbarMenuItems } from "./menuItems";
 
 import { useAuth } from "../../hooks/useAuth";
 
-const Navbar = ({ isGuest }) => {
+const Navbar = ({ isGuest, isCheckingAuth }) => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Navbar = ({ isGuest }) => {
 
   const isAuthRoute = pathname === "/login" || pathname === "/signup";
 
-  const menuItems = getNavbarMenuItems({ isAuthenticated, isGuest, user });
+  const menuItems = getNavbarMenuItems({ isAuthenticated, isGuest, isCheckingAuth, user });
 
   const handleLogout = async () => {
     await logout();
@@ -52,6 +52,7 @@ const Navbar = ({ isGuest }) => {
             pathname={pathname}
             isAuthRoute={isAuthRoute}
             isAuthenticated={isAuthenticated}
+            isCheckingAuth={isCheckingAuth}
             onLogout={handleLogout}
             onLogin={handleLogin}
           />
@@ -66,6 +67,7 @@ const Navbar = ({ isGuest }) => {
         pathname={pathname}
         isAuthRoute={isAuthRoute}
         isAuthenticated={isAuthenticated}
+        isCheckingAuth={isCheckingAuth}
         onLogout={handleLogout}
         onLogin={handleLogin}
         onClose={closeMenu}

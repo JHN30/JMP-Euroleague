@@ -8,6 +8,7 @@ const NavbarMobileMenu = ({
   pathname,
   isAuthRoute,
   isAuthenticated,
+  isCheckingAuth,
   onLogout,
   onLogin,
   onClose,
@@ -59,7 +60,7 @@ const NavbarMobileMenu = ({
           )}
         </ul>
 
-        {!isAuthRoute && (
+        {!isAuthRoute && !isCheckingAuth && (
           <div className="border-t border-white/10 px-5 py-4">
             <button
               onClick={isAuthenticated ? onLogout : onLogin}

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { LuLogOut } from "react-icons/lu";
 
-const NavbarDesktopMenu = ({ menuItems, pathname, isAuthRoute, isAuthenticated, onLogout, onLogin }) => {
+const NavbarDesktopMenu = ({ menuItems, pathname, isAuthRoute, isAuthenticated, isCheckingAuth, onLogout, onLogin }) => {
   return (
     <ul className="hidden items-center gap-1 lg:flex">
       {menuItems.map(
@@ -27,7 +27,7 @@ const NavbarDesktopMenu = ({ menuItems, pathname, isAuthRoute, isAuthenticated, 
             </li>
           )
       )}
-      {!isAuthRoute && (
+      {!isAuthRoute && !isCheckingAuth && (
         <li>
           <motion.button
             initial={{ opacity: 0, x: 5 }}
