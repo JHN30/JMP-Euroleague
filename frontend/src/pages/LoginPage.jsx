@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Input from "../components/common/Input";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
 import { useAuth } from "../hooks/useAuth";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import "../styles/button.css";
 
@@ -22,8 +24,11 @@ const LoginPage = () => {
 
   return (
     <LayoutShell maxWidth="max-w-xl">
-      <div
+      <motion.div
         className={`${authCardClass} px-6 py-8 sm:px-10`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
         <h2 className="mb-6 text-center text-3xl font-bold text-slate-100">Welcome back</h2>
 
@@ -68,7 +73,7 @@ const LoginPage = () => {
             Sign up
           </Link>
         </div>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };
