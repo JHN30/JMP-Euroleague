@@ -4,6 +4,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { FiLoader } from "react-icons/fi";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import { useAuth } from "../hooks/useAuth";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
@@ -24,8 +26,11 @@ const ForgotPasswordPage = () => {
 
   return (
     <LayoutShell maxWidth="max-w-xl">
-      <div
+      <motion.div
         className={`${authCardClass} overflow-hidden`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="px-6 py-8 sm:px-10">
           <div className="mb-6 text-center flex flex-col items-center">
@@ -69,7 +74,7 @@ const ForgotPasswordPage = () => {
             <FaArrowLeft className="mr-2 h-4 w-4" /> Back to Login
           </Link>
         </div>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };
