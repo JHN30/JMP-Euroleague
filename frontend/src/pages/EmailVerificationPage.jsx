@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import "../styles/button.css";
 
@@ -66,8 +68,11 @@ const EmailVerificationPage = () => {
 
   return (
     <LayoutShell maxWidth="max-w-xl">
-      <div
+      <motion.div
         className={`${authCardClass} px-6 py-8 sm:px-10`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="mb-6 text-center flex flex-col items-center">
           <h2 className="mt-6 text-3xl font-bold text-slate-100">Verify your email</h2>
@@ -98,7 +103,7 @@ const EmailVerificationPage = () => {
             {isLoading ? "Verifying..." : "Verify Email"}
           </button>
         </form>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };

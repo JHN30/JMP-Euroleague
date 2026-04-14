@@ -2,10 +2,18 @@ import { Link } from "react-router-dom";
 
 import LayoutShell from "../components/layout/LayoutShell";
 
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+
 const PageNotFound = () => {
   return (
     <LayoutShell>
-      <div className="mx-auto max-w-3xl px-4 py-12 text-center text-white">
+      <motion.div
+        className="mx-auto max-w-3xl px-4 py-12 text-center text-white"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <p className="text-xl uppercase tracking-wider text-orange-400/90 font-semibold">Error</p>
         <h1 className="mt-2 text-5xl font-bold text-slate-100">404</h1>
         <h2 className="mt-4 text-2xl font-bold text-slate-100">Page Not Found</h2>
@@ -17,7 +25,7 @@ const PageNotFound = () => {
         >
           Go to Home
         </Link>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };

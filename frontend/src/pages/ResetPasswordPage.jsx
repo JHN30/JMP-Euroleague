@@ -5,6 +5,8 @@ import Input from "../components/common/Input";
 import { FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import "../styles/button.css";
 
@@ -38,8 +40,11 @@ const ResetPasswordPage = () => {
 
   return (
     <LayoutShell maxWidth="max-w-xl">
-      <div
+      <motion.div
         className={`${authCardClass} px-6 py-8 sm:px-10`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="mb-6 text-center flex flex-col items-center">
           <h2 className="mt-6 text-3xl font-bold text-slate-100">Create a new password</h2>
@@ -75,7 +80,7 @@ const ResetPasswordPage = () => {
             {isLoading ? "Resetting..." : "Set New Password"}
           </button>
         </form>
-      </div>
+      </motion.div>
     </LayoutShell>
   );
 };
