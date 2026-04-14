@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/features/PasswordStrengthMeter";
 import { useAuth } from "../hooks/useAuth";
 import LayoutShell, { authCardClass } from "../components/layout/LayoutShell";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 import "../styles/button.css";
