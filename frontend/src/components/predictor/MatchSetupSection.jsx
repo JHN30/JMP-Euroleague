@@ -1,8 +1,15 @@
 import { layoutCardClass } from "../layout/LayoutShell";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const MatchSetupSection = ({ children, onCalculate, isCalculateDisabled }) => {
   return (
-    <section className={`${layoutCardClass} overflow-hidden`}>
+    <motion.section
+      className={`${layoutCardClass} overflow-hidden`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="space-y-6 px-6 py-6">
         {children}
         <button
@@ -13,7 +20,7 @@ const MatchSetupSection = ({ children, onCalculate, isCalculateDisabled }) => {
           Calculate prediction
         </button>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

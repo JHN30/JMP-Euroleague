@@ -30,7 +30,7 @@ const TeamMatchup = ({
         type="button"
         onClick={() => handleTeamSelect(side)}
         disabled={disabled}
-        className={`relative flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors ${
+        className={`relative flex min-w-0 w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-50"
             : "hover:border-orange-300/50 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300/60"
@@ -41,7 +41,7 @@ const TeamMatchup = ({
         }`}
       >
         <div
-          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
             isSelected ? "bg-orange-300 text-slate-900" : "bg-orange-500/20 text-orange-200"
           }`}
         >
@@ -54,19 +54,19 @@ const TeamMatchup = ({
               <img
                 src={teamLogo}
                 alt={`${teamName} logo`}
-                className="h-8 w-8 flex-shrink-0 rounded-lg bg-white/5 object-contain p-1"
+                className="h-8 w-8 shrink-0 rounded-lg bg-white/5 object-contain p-1"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextElementSibling.style.display = "flex";
                 }}
               />
-              <div className="hidden h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-slate-700 text-xs font-bold text-slate-100">
+              <div className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-700 text-xs font-bold text-slate-100">
                 {teamName?.charAt(0) || "?"}
               </div>
-              <span className="truncate text-sm font-medium text-slate-100">{teamName}</span>
+              <span className="min-w-0 flex-1 truncate text-sm font-medium text-slate-100">{teamName}</span>
             </>
           ) : (
-            <span className="truncate text-sm font-medium text-slate-200">{teamName}</span>
+            <span className="min-w-0 flex-1 truncate text-sm font-medium text-slate-200">{teamName}</span>
           )}
         </div>
 
@@ -80,7 +80,7 @@ const TeamMatchup = ({
   };
 
   return (
-    <div className="w-full space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+    <div className="min-w-0 w-full space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4">
       {matchLabel && (
         <div className="text-center text-xs font-semibold uppercase tracking-wider text-orange-300">{matchLabel}</div>
       )}

@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import TeamMatchup from "./TeamMatchup";
 import { layoutCardClass } from "../layout/LayoutShell";
 
@@ -7,7 +9,14 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
   }
 
   return (
-    <section className={`${layoutCardClass} overflow-hidden`} role="region" aria-labelledby="play-in-title">
+    <motion.section
+      className={`${layoutCardClass} overflow-hidden`}
+      role="region"
+      aria-labelledby="play-in-title"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="px-4 py-5 sm:px-6 sm:py-6">
         <div className="text-center">
           <p className="text-xs uppercase tracking-wider text-orange-400/90 font-semibold">Play-in</p>
@@ -16,8 +25,8 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
           </h2>
         </div>
 
-        <div className="mt-6 grid gap-5">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="mt-6 grid min-w-0 gap-5">
+          <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2">
             <TeamMatchup
               matchId="play-in-1"
               leftSeed="9"
@@ -40,8 +49,8 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
             />
           </div>
 
-          <div className="flex justify-center">
-            <div className="w-full max-w-md">
+          <div className="flex min-w-0 justify-center">
+            <div className="min-w-0 w-full max-w-md">
               <TeamMatchup
                 matchId="play-in-final"
                 leftSeed={winners["play-in-1"]?.winnerSeedNumber || "W1"}
@@ -59,7 +68,7 @@ const PlayInSection = ({ seededTeams, winners, onSelectWinner, getWinningTeam, g
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
