@@ -13,7 +13,7 @@ import { Line } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
 
 const DEFAULT_VIEWPORT_WIDTH = typeof window === "undefined" ? 1024 : window.innerWidth;
-const COMPACT_BREAKPOINT = 420;
+const COMPACT_BREAKPOINT = 1024;
 const TINY_BREAKPOINT = 360;
 
 const normalizeRatingHistory = (ratingHistory) => {
