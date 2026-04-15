@@ -54,7 +54,7 @@ const TeamStatsPage = () => {
 
   if (errorTeams) {
     return (
-      <div className="flex h-full w-full items-center justify-center px-5 py-5 sm:px-6 sm:py-6">
+      <div className="flex h-full w-full items-center justify-center px-4 py-4 sm:px-6 sm:py-6">
         <ErrorBox error={errorTeams} />
       </div>
     );
@@ -72,7 +72,7 @@ const TeamStatsPage = () => {
 
         {/* Stats Section */}
         <motion.section
-          className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}
+          className={`${layoutCardClass} px-4 py-4 sm:px-6 sm:py-6`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -136,7 +136,7 @@ const TeamStatsPage = () => {
 
         {/* Form Section */}
         <section className={`${layoutCardClass} overflow-hidden`}>
-          <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
+          <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-6">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="mt-2 text-2xl font-semibold text-white">Form</h2>
               <div className="flex flex-wrap gap-2">
@@ -149,7 +149,7 @@ const TeamStatsPage = () => {
                     <button
                       key={option.value}
                       onClick={() => setGamesToShow(option.value)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors ${
+                      className={`rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
                         isActive
                           ? "border-orange-400/70 bg-orange-500/20 text-orange-100"
                           : "border-white/10 bg-white/5 text-gray-200 hover:border-orange-300/50 hover:text-orange-100"
@@ -168,7 +168,7 @@ const TeamStatsPage = () => {
 
         {/* Played Against Section */}
         <section className={`${layoutCardClass} overflow-hidden`}>
-          <div className="flex flex-col gap-5 px-5 py-5 sm:px-6 sm:py-6">
+          <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-6">
             <div className="border-b border-white/10 pb-6">
               <h2 className="mt-2 text-2xl font-semibold text-white">Rounds</h2>
             </div>
