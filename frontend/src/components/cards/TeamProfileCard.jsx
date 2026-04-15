@@ -1,11 +1,17 @@
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import { SlGraph } from "react-icons/sl";
 import { layoutCardClass } from "../layout/LayoutShell";
 
 const TeamProfileCard = ({ teamData, ratingLabel, ratingValueDisplay }) => {
   return (
-    <section className={`${layoutCardClass} overflow-hidden`}>
+    <motion.section
+      className={`${layoutCardClass} overflow-hidden`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="relative flex flex-col gap-6 px-5 py-5 sm:px-6 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
-
         <div className="relative z-10 flex flex-1 flex-col gap-5">
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-orange-400/90">Team profile</p>
@@ -49,7 +55,7 @@ const TeamProfileCard = ({ teamData, ratingLabel, ratingValueDisplay }) => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import { useTeam } from "../hooks/useTeam";
 import ErrorBox from "../components/errors/ErrorBox";
@@ -14,7 +16,6 @@ const TeamsPage = () => {
     key: "name",
   };
 
-  // Fetch teams data when the component mounts
   useEffect(() => {
     fetchTeams();
   }, [fetchTeams]);
@@ -51,13 +52,18 @@ const TeamsPage = () => {
     const sortedTeams = sortTeams(teamList, { key: sortConfig.key });
 
     return (
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <motion.div
+        className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
         {sortedTeams.map((team) => (
           <Link to={`/team-stats/${team._id}`} className="block h-full" key={team._id ?? team.name}>
             <TeamCard team={team} />
           </Link>
         ))}
-      </div>
+      </motion.div>
     );
   };
 

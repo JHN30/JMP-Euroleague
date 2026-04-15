@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import ErrorBox from "../components/errors/ErrorBox";
 import StatsCard from "../components/cards/StatsCard";
@@ -69,7 +71,12 @@ const TeamStatsPage = () => {
         <TeamProfileCard teamData={teamData} ratingLabel={ratingLabel} ratingValueDisplay={ratingValueDisplay} />
 
         {/* Stats Section */}
-        <section className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
+        <motion.section
+          className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="flex flex-col gap-4">
             <h2 className="mt-2 text-2xl font-semibold text-white border-b border-white/10 pb-6">Stats</h2>
             <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
@@ -117,7 +124,7 @@ const TeamStatsPage = () => {
               />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Rating Graph Section */}
         <section className={`${layoutCardClass} px-3 py-4 sm:px-6 sm:py-6`}>
