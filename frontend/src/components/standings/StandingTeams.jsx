@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 import { useTeam } from "../../hooks/useTeam";
 
@@ -66,7 +68,7 @@ const StandingTeams = () => {
     }
     setShowTooltip(false);
   };
-  
+
   const ratingTooltipText = "Ratings update after all matches of a round finish.";
 
   const getSortIndicator = (key) => {
@@ -77,7 +79,6 @@ const StandingTeams = () => {
     if (sortConfig.key !== key) return "";
     return sortConfig.order === "asc" ? "↑" : "↓";
   };
-
 
   if (loadingTeams) {
     return <FullTeamSkeleton />;
@@ -92,7 +93,12 @@ const StandingTeams = () => {
   }
 
   return (
-    <div className={`${layoutCardClass} flex w-full flex-col overflow-hidden`}>
+    <motion.div
+      className={`${layoutCardClass} flex w-full flex-col overflow-hidden`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs text-slate-200">
           <thead className="text-xs uppercase tracking-wider text-orange-400/80">
@@ -180,18 +186,12 @@ const StandingTeams = () => {
             {sortedTeams.map((team, index) => {
               const currentPosition = index + 1;
 
-              return (
-                <StandingTeam
-                  key={team.name}
-                  team={team}
-                  position={currentPosition}
-                />
-              );
+              return <StandingTeam key={team.name} team={team} position={currentPosition} />;
             })}
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

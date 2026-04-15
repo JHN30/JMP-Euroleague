@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import AnimatedNumber from "../features/AnimatedNumber";
 import { layoutCardClass } from "../layout/LayoutShell";
 
@@ -42,7 +44,12 @@ const PredictionResults = ({ predictions, displayTeams }) => {
   if (!predictions) return null;
 
   return (
-    <section className="space-y-4">
+    <motion.section
+      className="space-y-4"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="text-center">
         <h3 className="mt-2 text-2xl font-semibold text-slate-100">Win probabilities</h3>
       </div>
@@ -61,7 +68,7 @@ const PredictionResults = ({ predictions, displayTeams }) => {
           probability={predictions.awayTeam}
         />
       </div>
-    </section>
+    </motion.section>
   );
 };
 
