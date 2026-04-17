@@ -2,12 +2,51 @@ import { layoutCardClass } from "../layout/LayoutShell";
 
 const shimmer = "animate-pulse bg-white/10";
 
-const StatCardSkeleton = () => {
+const SkeletonLine = ({ className }) => <span className={`block rounded-full ${shimmer} ${className}`} />;
+
+const MetricCardSkeleton = ({
+  className,
+  labelClassName = "h-2.5 w-12",
+  valueClassName = "mt-2 h-5 w-12 rounded-md sm:h-6",
+  innerClassName = "",
+}) => {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 shadow-inner shadow-black/30">
-      <div className="flex flex-col gap-3">
-        <span className={`h-3 w-24 rounded-full ${shimmer}`} />
-        <span className={`h-10 w-24 rounded-lg ${shimmer}`} />
+    <div className={className}>
+      <div className={innerClassName}>
+        <div className="min-w-0">
+          <SkeletonLine className={labelClassName} />
+          <SkeletonLine className={valueClassName} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RoundSkeleton = () => {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/4 px-4 py-4">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <SkeletonLine className="h-6 w-24" />
+          <SkeletonLine className="h-3 w-12" />
+        </div>
+
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-1 flex-col items-center gap-1 text-center sm:items-end sm:text-right">
+            <SkeletonLine className="h-5 w-24" />
+            <SkeletonLine className="h-2.5 w-12" />
+          </div>
+
+          <div className="flex min-w-24 flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+            <SkeletonLine className="h-5 w-14" />
+            <SkeletonLine className="mt-1 h-2.5 w-10" />
+          </div>
+
+          <div className="flex flex-1 flex-col items-center gap-1 text-center sm:items-start sm:text-left">
+            <SkeletonLine className="h-5 w-24" />
+            <SkeletonLine className="h-2.5 w-12" />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -17,73 +56,59 @@ const TeamStatsSkeleton = () => {
   return (
     <div className="flex flex-col gap-6 pt-4 text-white">
       <div className="flex flex-col items-center gap-2 text-center">
-        <span className={`h-3 w-32 rounded-full ${shimmer}`} />
-        <span className={`h-9 w-56 rounded-full ${shimmer}`} />
+        <SkeletonLine className="h-3 w-32" />
+        <SkeletonLine className="h-9 w-56" />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)] xl:items-stretch">
         <div className={`${layoutCardClass} overflow-hidden`}>
           <div className="flex h-full flex-col items-center justify-center gap-5 px-5 py-6 text-center sm:px-6 sm:py-7">
-            <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-6">
-              <div className="flex h-24 w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/5 sm:h-28 sm:w-28">
-                <span className={`h-16 w-16 rounded-full ${shimmer}`} />
+            <div className="flex flex-col items-center gap-5 sm:flex-col sm:justify-center sm:gap-6">
+              <div className="flex h-36 w-36 items-center justify-center rounded-2xl border border-orange-300/20 bg-slate-950/70 p-4 shadow-[0_18px_45px_rgba(0,0,0,0.24)] sm:h-48 sm:w-48">
+                <SkeletonLine className="h-full w-full rounded-2xl" />
               </div>
-              <div className="flex flex-col gap-3">
-                <span className={`h-10 w-52 rounded-2xl ${shimmer}`} />
+              <div className="min-w-0">
+                <SkeletonLine className="h-8 w-48 rounded-2xl sm:h-10 sm:w-56" />
               </div>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <span className={`h-3 w-24 rounded-full ${shimmer}`} />
-                <span className={`h-6 w-44 rounded-full ${shimmer}`} />
-                <span className={`h-4 w-64 rounded-full ${shimmer}`} />
+          <div className={`${layoutCardClass} overflow-hidden px-4 py-4 sm:px-5 sm:py-5`}>
+            <div className="flex h-full flex-col gap-4">
+              <div className="border-b border-white/10 pb-4">
+                <SkeletonLine className="h-8 w-20" />
               </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+              <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
                 {Array.from({ length: 6 }).map((_, idx) => (
-                  <StatCardSkeleton key={idx} />
+                  <MetricCardSkeleton
+                    key={idx}
+                    className="rounded-xl border border-white/10 bg-white/4 px-2 py-2"
+                    innerClassName="flex min-h-12 items-center justify-between gap-2"
+                  />
                 ))}
               </div>
             </div>
           </div>
 
           <div className={`${layoutCardClass} overflow-hidden`}>
-            <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-6">
-              <span className={`h-7 w-52 rounded-full ${shimmer}`} />
+            <div className="flex flex-col gap-4 px-4 py-3.5 sm:px-6 sm:py-5">
+              <div className="border-b border-white/10 pb-3.5">
+                <SkeletonLine className="h-7 w-36" />
+              </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-2.5 sm:grid-cols-3">
                 {Array.from({ length: 3 }).map((_, idx) => (
-                  <div key={idx} className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4">
-                    <div className="flex flex-col gap-3">
-                      <span className={`h-3 w-20 rounded-full ${shimmer}`} />
-                      <span className={`h-8 w-20 rounded-full ${shimmer}`} />
-                    </div>
-                  </div>
+                  <MetricCardSkeleton
+                    key={idx}
+                    className="rounded-xl border border-white/10 bg-white/4 px-4 py-3"
+                    valueClassName="mt-2 h-7 w-16 rounded-md sm:h-8"
+                  />
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
-        <div className="flex flex-col gap-4">
-          <span className={`h-7 w-44 rounded-full ${shimmer}`} />
-          <span className={`h-[320px] w-full rounded-2xl ${shimmer}`} />
-        </div>
-      </div>
-
-      <div className={`${layoutCardClass} overflow-hidden`}>
-        <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-6">
-          <span className={`h-7 w-32 rounded-full ${shimmer}`} />
-          <div className="flex flex-col gap-4">
-            {Array.from({ length: 3 }).map((_, idx) => (
-              <span key={idx} className={`h-28 w-full rounded-2xl ${shimmer}`} />
-            ))}
           </div>
         </div>
       </div>

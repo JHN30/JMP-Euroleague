@@ -36,7 +36,7 @@ const TeamStatsSummaryCard = ({ teamData, ratingLabel, ratingValueDisplay }) => 
 
   return (
     <motion.section
-      className={`${layoutCardClass} overflow-hidden px-4 py-4 sm:px-6 sm:py-6`}
+      className={`${layoutCardClass} overflow-hidden px-4 py-4 sm:px-5 sm:py-5`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -46,7 +46,7 @@ const TeamStatsSummaryCard = ({ teamData, ratingLabel, ratingValueDisplay }) => 
           <h2 className="text-2xl font-semibold text-white">Stats</h2>
         </div>
 
-        <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+        <div className="grid gap-2 grid-cols-3 sm:grid-cols-6">
           {statItems.map((item) => (
             <StatsCard key={item.title} title={item.title} value={item.value} />
           ))}
