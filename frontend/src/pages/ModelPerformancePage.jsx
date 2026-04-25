@@ -1,6 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import { FiCheckCircle, FiTarget, FiTrendingUp, FiXCircle } from "react-icons/fi";
 
+import ErrorBox from "../components/errors/ErrorBox";
 import LayoutShell from "../components/layout/LayoutShell";
 import PerformanceInsightsCard from "../components/performance/PerformanceInsightsCard";
 import PerformanceKpiCard from "../components/performance/PerformanceKpiCard";
@@ -8,14 +11,75 @@ import PerformanceOverviewChart from "../components/performance/PerformanceOverv
 import PerformanceResearchContext from "../components/performance/PerformanceResearchContext";
 import PerformanceTrendChart from "../components/performance/PerformanceTrendChart";
 import RoundPerformanceGrid from "../components/performance/RoundPerformanceGrid";
-import modelPerformanceMockData from "../components/performance/modelPerformanceMockData";
+import ModelPerformanceSkeleton from "../components/skeletons/ModelPerformanceSkeleton";
 import {
   formatPercentage,
   normalizeModelPerformanceData,
 } from "../components/performance/modelPerformanceUtils";
+import { eloHistoryRoundDetailsByRound } from "../data/eloHistoryRoundOneMock";
+import { useModelPerformance } from "../hooks/useModelPerformance";
+
+const fadeInProps = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.3 },
+};
+
+const ModelPerformanceHeader = ({ performance }) => {
+  const badgeItems = [
+    {
+      label: performance.seasonLabel,
+      className: "border-white/10 bg-slate-900/40 text-slate-200",
+    },
+    {
+      label: `Updated ${performance.updatedAtLabel}`,
+      className: "border-white/10 bg-slate-900/40 text-slate-200",
+    },
+    {
+      label: performance.latestRound ? `Through Round ${performance.latestRound}` : "No rounds tracked yet",
+      className: "border-orange-300/20 bg-slate-900/40 text-orange-100",
+    },
+  ];
+
+  return (
+    <motion.header className="flex flex-col items-center justify-center gap-3 text-center" {...fadeInProps}>
+      <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">
+        JMP Model Performance
+      </p>
+      <h1 className="text-3xl font-bold leading-tight text-slate-100">
+        Check out how the model is doing this season
+      </h1>
+
+      <div className="mt-1 flex flex-wrap items-center justify-center gap-3">
+        {badgeItems.map((item) => (
+          <span key={item.label} className={`rounded-full border px-4 py-2 text-sm font-medium ${item.className}`}>
+            {item.label}
+          </span>
+        ))}
+      </div>
+    </motion.header>
+  );
+};
 
 const ModelPerformancePage = () => {
-  const performance = useMemo(() => normalizeModelPerformanceData(modelPerformanceMockData), []);
+  const {
+    modelPerformance,
+    loadingModelPerformance,
+    errorModelPerformance,
+    fetchCurrentModelPerformance,
+  } = useModelPerformance();
+
+  useEffect(() => {
+    fetchCurrentModelPerformance();
+  }, [fetchCurrentModelPerformance]);
+
+  const performance = useMemo(
+    () =>
+      normalizeModelPerformanceData(modelPerformance ?? {}, {
+        roundDetailsByRound: eloHistoryRoundDetailsByRound,
+      }),
+    [modelPerformance]
+  );
 
   const kpiItems = useMemo(
     () => [
@@ -54,41 +118,53 @@ const ModelPerformancePage = () => {
     [performance]
   );
 
+  if (loadingModelPerformance && !modelPerformance) {
+    return (
+      <LayoutShell contentClassName="max-w-[1600px]">
+        <ModelPerformanceSkeleton />
+      </LayoutShell>
+    );
+  }
+
+  if (errorModelPerformance && !modelPerformance) {
+    return (
+      <LayoutShell contentClassName="max-w-[1600px]">
+        <div className="flex flex-col gap-6 pt-4 text-white">
+          <ModelPerformanceHeader performance={performance} />
+          <motion.div {...fadeInProps}>
+            <ErrorBox error={errorModelPerformance} />
+          </motion.div>
+        </div>
+      </LayoutShell>
+    );
+  }
+
   return (
     <LayoutShell contentClassName="max-w-[1600px]">
       <div className="flex flex-col gap-6 pt-4 text-white">
-        <header className="flex flex-col items-center justify-center gap-3 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Analytics Report</p>
-          <h1 className="text-3xl font-bold leading-tight text-slate-100 sm:text-4xl">Model Performance</h1>
-          <p className="mx-auto max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-            Every round, every pick, and a transparent look at how often the model turns projections into winning
-            calls.
-          </p>
+        <ModelPerformanceHeader performance={performance} />
 
-          <div className="mt-1 flex flex-wrap items-center justify-center gap-3">
-            <span className="rounded-full border border-white/10 bg-slate-900/40 px-4 py-2 text-sm font-medium text-slate-200">
-              {performance.seasonLabel}
-            </span>
-            <span className="rounded-full border border-white/10 bg-slate-900/40 px-4 py-2 text-sm font-medium text-slate-200">
-              Updated {performance.updatedAtLabel}
-            </span>
-            <span className="rounded-full border border-orange-300/20 bg-slate-900/40 px-4 py-2 text-sm font-medium text-orange-100">
-              {performance.latestRound ? `Through Round ${performance.latestRound}` : "No rounds tracked yet"}
-            </span>
-          </div>
-        </header>
+        {errorModelPerformance ? (
+          <motion.div {...fadeInProps}>
+            <ErrorBox error={errorModelPerformance} />
+          </motion.div>
+        ) : null}
 
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <motion.section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" {...fadeInProps}>
           {kpiItems.map((item) => (
-            <PerformanceKpiCard key={item.label} {...item} />
+            <div key={item.label}>
+              <PerformanceKpiCard {...item} />
+            </div>
           ))}
-        </section>
+        </motion.section>
 
-        <PerformanceResearchContext
-          overallSuccessRate={performance.overallSuccessRate}
-          totalPredictions={performance.totalPredictions}
-          roundCount={performance.rounds.length}
-        />
+        <motion.div {...fadeInProps}>
+          <PerformanceResearchContext
+            overallSuccessRate={performance.overallSuccessRate}
+            totalPredictions={performance.totalPredictions}
+            roundCount={performance.rounds.length}
+          />
+        </motion.div>
 
         <PerformanceTrendChart
           rounds={performance.rounds}

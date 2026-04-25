@@ -1,0 +1,21 @@
+round,team,opponent,home_away,status,predicted_pick,actual_result,prediction_result,predicted_win_probability,pre_round_rating,post_round_rating,rating_delta
+1,Anadolu Efes Istanbul,Maccabi Rapyd Tel Aviv,H,played,W,W,Correct,0.88933831,909,913.8615254,4.861525369
+1,Maccabi Rapyd Tel Aviv,Anadolu Efes Istanbul,A,played,L,L,Correct,0.11066169,695,690.1384746,-4.861525369
+1,Hapoel IBI Tel Aviv,FC Barcelona,H,played,L,W,Incorrect,0.283214643,855,900.3686958,45.36869582
+1,FC Barcelona,Hapoel IBI Tel Aviv,A,played,W,L,Incorrect,0.716785357,1143,1097.631304,-45.36869582
+1,Baskonia Vitoria-Gasteiz,Olympiacos Piraeus,H,played,L,L,Correct,0.152969656,693,688.0965318,-4.90346825
+1,Olympiacos Piraeus,Baskonia Vitoria-Gasteiz,A,played,W,W,Correct,0.847030344,1113,1117.903468,4.90346825
+1,Crvena Zvezda Meridianbet Belgrade,EA7 Emporio Armani Milan,H,played,W,L,Incorrect,0.539900597,991,966.7809756,-24.21902445
+1,EA7 Emporio Armani Milan,Crvena Zvezda Meridianbet Belgrade,A,played,L,W,Incorrect,0.460099403,1098,1122.219024,24.21902445
+1,AS Monaco,Zalgiris Kaunas,H,played,W,L,Incorrect,0.87489763,1081,1045.722151,-35.27784886
+1,Zalgiris Kaunas,AS Monaco,A,played,L,W,Incorrect,0.12510237,890,925.2778489,35.27784886
+1,Fenerbahce Beko Istanbul,Paris Basketball,H,played,W,W,Correct,0.844206384,832,841.8515083,9.851508283
+1,Paris Basketball,Fenerbahce Beko Istanbul,A,played,L,L,Correct,0.155793616,683,673.1484917,-9.851508283
+1,Virtus Segafredo Bologna,Real Madrid,H,played,L,W,Incorrect,0.342176029,744,772.2736856,28.27368562
+1,Real Madrid,Virtus Segafredo Bologna,A,played,W,L,Incorrect,0.657823971,987,958.7263144,-28.27368562
+1,Panathinaikos AKTOR Athens,FC Bayern Munich,H,played,W,W,Correct,0.963559288,1286,1287.647444,1.647444129
+1,FC Bayern Munich,Panathinaikos AKTOR Athens,A,played,L,L,Correct,0.036440712,871,869.3525559,-1.647444129
+1,LDLC ASVEL Villeurbanne,Valencia Basket,H,played,L,L,Correct,0.470407084,621,609.120945,-11.87905504
+1,Valencia Basket,LDLC ASVEL Villeurbanne,A,played,W,W,Correct,0.529592916,775,786.879055,11.87905504
+1,Dubai Basketball,Partizan Mozzart Bet Belgrade,H,played,W,W,Correct,0.720903371,895,910.6618471,15.66184706
+1,Partizan Mozzart Bet Belgrade,Dubai Basketball,A,played,L,L,Correct,0.279096629,870,854.3381529,-15.66184706

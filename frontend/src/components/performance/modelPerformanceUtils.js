@@ -1,4 +1,4 @@
-const DEFAULT_SEASON_LABEL = "EuroLeague 2025/26";
+const DEFAULT_SEASON_LABEL = "EuroLeague";
 const RECENT_PERFORMANCE_WINDOW_SIZE = 5;
 
 const toSafeCount = (value) => {
@@ -102,15 +102,18 @@ export const formatPerformanceDate = (value) => {
     return "Unknown";
   }
 
-  const parsedDate = new Date(`${value.trim()}T00:00:00Z`);
+  const trimmedValue = value.trim();
+  const parsedDate = /^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)
+    ? new Date(`${trimmedValue}T00:00:00Z`)
+    : new Date(trimmedValue);
 
   if (Number.isNaN(parsedDate.getTime())) {
-    return value;
+    return trimmedValue;
   }
 
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
     year: "numeric",
     timeZone: "UTC",
   }).format(parsedDate);
@@ -148,7 +151,18 @@ const isWorseRound = (currentRound, selectedRound) => {
   return currentRound.roundNumber < selectedRound.roundNumber;
 };
 
-const normalizeRound = (round) => {
+const normalizeRoundDetails = (details) => {
+  const matchups = Array.isArray(details?.matchups) ? details.matchups : [];
+  const teamUpdates = Array.isArray(details?.teamUpdates) ? details.teamUpdates : [];
+
+  return {
+    matchups,
+    teamUpdates,
+    detailSummary: details?.summary ?? null,
+  };
+};
+
+const normalizeRound = (round, roundDetailsByRound = {}) => {
   const roundNumber = toSafeRoundNumber(round?.roundNumber);
 
   if (!roundNumber) {
@@ -158,6 +172,7 @@ const normalizeRound = (round) => {
   const correct = toSafeCount(round?.correct);
   const wrong = toSafeCount(round?.wrong);
   const totalPredictions = correct + wrong;
+  const detailData = round?.details ?? roundDetailsByRound[roundNumber];
 
   return {
     roundNumber,
@@ -167,12 +182,14 @@ const normalizeRound = (round) => {
     successRate: calculateSuccessRate(correct, totalPredictions),
     label: formatRoundLabel(roundNumber),
     shortLabel: `R${roundNumber}`,
+    ...normalizeRoundDetails(detailData),
   };
 };
 
-export const normalizeModelPerformanceData = (data = {}) => {
+export const normalizeModelPerformanceData = (data = {}, options = {}) => {
+  const roundDetailsByRound = options.roundDetailsByRound ?? {};
   const normalizedRounds = (Array.isArray(data.rounds) ? data.rounds : [])
-    .map((round) => normalizeRound(round))
+    .map((round) => normalizeRound(round, roundDetailsByRound))
     .filter(Boolean)
     .sort((firstRound, secondRound) => firstRound.roundNumber - secondRound.roundNumber);
 

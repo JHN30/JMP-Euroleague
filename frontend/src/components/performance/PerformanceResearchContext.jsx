@@ -14,6 +14,7 @@ const practicalBands = [
     min: SCALE_MIN,
     max: 60,
     barClass: "bg-rose-500/70",
+    markerClasses: "border-rose-300/25 bg-rose-400 text-white shadow-rose-950/30",
   },
   {
     id: "decent",
@@ -22,6 +23,7 @@ const practicalBands = [
     min: 60,
     max: 65,
     barClass: "bg-amber-400/80",
+    markerClasses: "border-amber-300/25 bg-amber-400 text-slate-950 shadow-amber-950/25",
   },
   {
     id: "good",
@@ -30,6 +32,7 @@ const practicalBands = [
     min: 65,
     max: 70,
     barClass: "bg-orange-400/85",
+    markerClasses: "border-orange-300/25 bg-orange-400 text-slate-950 shadow-orange-950/30",
   },
   {
     id: "very-strong",
@@ -38,6 +41,7 @@ const practicalBands = [
     min: 70,
     max: 75,
     barClass: "bg-emerald-400/85",
+    markerClasses: "border-emerald-300/25 bg-emerald-400 text-slate-950 shadow-emerald-950/30",
   },
   {
     id: "elite",
@@ -46,6 +50,7 @@ const practicalBands = [
     min: 75,
     max: SCALE_MAX,
     barClass: "bg-teal-400/80",
+    markerClasses: "border-teal-300/25 bg-teal-400 text-slate-950 shadow-teal-950/30",
   },
 ];
 
@@ -115,12 +120,22 @@ const isBandActive = (band, successRate) => {
   return successRate >= band.min && successRate < band.max;
 };
 
+const getActiveBand = (successRate) => {
+  if (!Number.isFinite(successRate)) {
+    return null;
+  }
+
+  return practicalBands.find((band) => isBandActive(band, successRate)) ?? practicalBands[practicalBands.length - 1];
+};
+
 const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions = 0, roundCount = 0 }) => {
   const hasSample = totalPredictions > 0;
   const performanceRate = hasSample ? overallSuccessRate : Number.NaN;
   const performanceRead = getPerformanceRead(performanceRate);
   const markerPosition = getScalePosition(hasSample ? overallSuccessRate : SCALE_MIN);
+  const activeBand = hasSample ? getActiveBand(overallSuccessRate) : null;
   const toneClasses = toneMap[performanceRead.tone] ?? toneMap.neutral;
+  const markerClasses = activeBand?.markerClasses ?? "border-orange-300/25 bg-orange-400 text-slate-950 shadow-orange-950/30";
 
   return (
     <section className={`${layoutCardClass} overflow-hidden`}>
@@ -155,17 +170,17 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
               <div className="rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3">
                 <p className="text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-slate-400">Sample</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{totalPredictions}</p>
-                <p className="mt-1 text-xs text-slate-400">{roundCount} rounds in the current mock season</p>
+                <p className="mt-1 text-xs text-slate-400">{roundCount} rounds tracked in the current season</p>
               </div>
             </div>
 
             <div className="mt-8">
               <div className="relative pt-11">
                 <div className="absolute top-0 -translate-x-1/2" style={{ left: `${markerPosition}%` }}>
-                  <div className="rounded-full border border-orange-300/25 bg-orange-400 px-2.5 py-1 text-xs font-semibold text-slate-950 shadow-lg shadow-orange-950/30">
+                  <div className={`rounded-full border px-2.5 py-1 text-xs font-semibold shadow-lg ${markerClasses}`}>
                     {hasSample ? formatPercentage(overallSuccessRate) : "No sample"}
                   </div>
-                  <div className="mx-auto mt-2 h-3.5 w-3.5 rounded-full border-2 border-white bg-orange-400 shadow-sm shadow-orange-500/40" />
+                  <div className={`mx-auto mt-2 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm ${activeBand?.barClass ?? "bg-orange-400"}`} />
                 </div>
 
                 <div className="relative h-4 overflow-hidden rounded-full border border-white/10 bg-slate-950/70">
