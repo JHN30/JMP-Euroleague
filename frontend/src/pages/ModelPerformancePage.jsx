@@ -16,7 +16,6 @@ import {
   formatPercentage,
   normalizeModelPerformanceData,
 } from "../components/performance/modelPerformanceUtils";
-import { eloHistoryRoundDetailsByRound } from "../data/eloHistoryRoundOneMock";
 import { useModelPerformance } from "../hooks/useModelPerformance";
 
 const fadeInProps = {
@@ -64,9 +63,13 @@ const ModelPerformanceHeader = ({ performance }) => {
 const ModelPerformancePage = () => {
   const {
     modelPerformance,
+    modelPerformanceRoundDetailsByRound,
     loadingModelPerformance,
+    loadingModelPerformanceRoundDetailsByRound,
     errorModelPerformance,
+    errorModelPerformanceRoundDetailsByRound,
     fetchCurrentModelPerformance,
+    fetchCurrentModelPerformanceRoundDetail,
   } = useModelPerformance();
 
   useEffect(() => {
@@ -76,9 +79,9 @@ const ModelPerformancePage = () => {
   const performance = useMemo(
     () =>
       normalizeModelPerformanceData(modelPerformance ?? {}, {
-        roundDetailsByRound: eloHistoryRoundDetailsByRound,
+        roundDetailsByRound: modelPerformanceRoundDetailsByRound,
       }),
-    [modelPerformance]
+    [modelPerformance, modelPerformanceRoundDetailsByRound]
   );
 
   const kpiItems = useMemo(
@@ -190,7 +193,12 @@ const ModelPerformancePage = () => {
           />
         </section>
 
-        <RoundPerformanceGrid rounds={performance.rounds} />
+        <RoundPerformanceGrid
+          rounds={performance.rounds}
+          loadingRoundDetailsByRound={loadingModelPerformanceRoundDetailsByRound}
+          errorRoundDetailsByRound={errorModelPerformanceRoundDetailsByRound}
+          fetchRoundDetail={fetchCurrentModelPerformanceRoundDetail}
+        />
       </div>
     </LayoutShell>
   );

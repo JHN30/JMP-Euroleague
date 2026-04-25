@@ -151,13 +151,88 @@ const isWorseRound = (currentRound, selectedRound) => {
   return currentRound.roundNumber < selectedRound.roundNumber;
 };
 
-const normalizeRoundDetails = (details) => {
-  const matchups = Array.isArray(details?.matchups) ? details.matchups : [];
-  const teamUpdates = Array.isArray(details?.teamUpdates) ? details.teamUpdates : [];
+const toSafeNumber = (value, fallback = 0) => {
+  const numericValue = Number(value);
+
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const normalizeMatchupRating = ({ team, preRoundRating, ratingDelta }) => {
+  const safePreRoundRating = toSafeNumber(preRoundRating);
+  const safeRatingDelta = toSafeNumber(ratingDelta);
+
+  return {
+    team,
+    preRoundRating: safePreRoundRating,
+    postRoundRating: safePreRoundRating + safeRatingDelta,
+    ratingDelta: safeRatingDelta,
+  };
+};
+
+const normalizeRoundMatchup = (matchup, roundNumber, index) => {
+  const homeTeam = typeof matchup?.homeTeam === "string" ? matchup.homeTeam : "";
+  const awayTeam = typeof matchup?.awayTeam === "string" ? matchup.awayTeam : "";
+
+  if (!homeTeam || !awayTeam) {
+    return null;
+  }
+
+  const predictedWinner = matchup?.predictedWinner ?? matchup?.pick ?? "";
+  const actualWinner = matchup?.actualWinner ?? matchup?.winner ?? "";
+  const homeWinProbability = toSafeNumber(matchup?.homeWinProbability ?? matchup?.homeWin);
+  const awayWinProbability = toSafeNumber(matchup?.awayWinProbability ?? matchup?.awayWin);
+  const ratingChange = Math.abs(toSafeNumber(matchup?.ratingChange));
+  const isCorrect =
+    typeof matchup?.isCorrect === "boolean"
+      ? matchup.isCorrect
+      : Boolean(predictedWinner && actualWinner && predictedWinner === actualWinner);
+  const homeRatingDelta =
+    matchup?.home?.ratingDelta !== undefined
+      ? toSafeNumber(matchup.home.ratingDelta)
+      : actualWinner === homeTeam
+        ? ratingChange
+        : -ratingChange;
+  const awayRatingDelta =
+    matchup?.away?.ratingDelta !== undefined
+      ? toSafeNumber(matchup.away.ratingDelta)
+      : actualWinner === awayTeam
+        ? ratingChange
+        : -ratingChange;
+
+  return {
+    id: matchup?.id ?? `${roundNumber}-${index}-${homeTeam}-${awayTeam}`,
+    homeTeam,
+    awayTeam,
+    predictedWinner,
+    actualWinner,
+    isCorrect,
+    predictionResult: matchup?.predictionResult ?? matchup?.result ?? (isCorrect ? "Correct" : "Incorrect"),
+    predictedWinnerProbability: toSafeNumber(
+      matchup?.predictedWinnerProbability ?? (predictedWinner === homeTeam ? homeWinProbability : awayWinProbability)
+    ),
+    homeWinProbability,
+    awayWinProbability,
+    ratingSwing: ratingChange,
+    home: normalizeMatchupRating({
+      team: homeTeam,
+      preRoundRating: matchup?.home?.preRoundRating ?? matchup?.homeElo,
+      ratingDelta: homeRatingDelta,
+    }),
+    away: normalizeMatchupRating({
+      team: awayTeam,
+      preRoundRating: matchup?.away?.preRoundRating ?? matchup?.awayElo,
+      ratingDelta: awayRatingDelta,
+    }),
+  };
+};
+
+const normalizeRoundDetails = (details, roundNumber) => {
+  const matchups = (Array.isArray(details?.matchups) ? details.matchups : [])
+    .map((matchup, index) => normalizeRoundMatchup(matchup, roundNumber, index))
+    .filter(Boolean);
 
   return {
     matchups,
-    teamUpdates,
     detailSummary: details?.summary ?? null,
   };
 };
@@ -182,7 +257,7 @@ const normalizeRound = (round, roundDetailsByRound = {}) => {
     successRate: calculateSuccessRate(correct, totalPredictions),
     label: formatRoundLabel(roundNumber),
     shortLabel: `R${roundNumber}`,
-    ...normalizeRoundDetails(detailData),
+    ...normalizeRoundDetails(detailData, roundNumber),
   };
 };
 
