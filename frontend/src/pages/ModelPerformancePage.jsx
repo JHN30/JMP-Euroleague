@@ -31,10 +31,6 @@ const ModelPerformanceHeader = ({ performance }) => {
       className: "border-white/10 bg-slate-900/40 text-slate-200",
     },
     {
-      label: `Updated ${performance.updatedAtLabel}`,
-      className: "border-white/10 bg-slate-900/40 text-slate-200",
-    },
-    {
       label: performance.latestRound ? `Through Round ${performance.latestRound}` : "No rounds tracked yet",
       className: "border-orange-300/20 bg-slate-900/40 text-orange-100",
     },

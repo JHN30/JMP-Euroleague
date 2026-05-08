@@ -60,7 +60,8 @@ export const getPerformanceRead = (value) => {
     return {
       label: "Elite",
       tone: "elite",
-      description: "This would put the model in rare territory for EuroLeague prediction and close to top-end research outcomes.",
+      description:
+        "This would clear the 73% crowd benchmark and put the model in rare territory for pre-game EuroLeague prediction.",
     };
   }
 
@@ -68,7 +69,8 @@ export const getPerformanceRead = (value) => {
     return {
       label: "Very Strong",
       tone: "strong",
-      description: "This is a very strong EuroLeague hit rate and clearly above the broader public benchmarks reported in published studies.",
+      description:
+        "This is a very strong EuroLeague hit rate and close to the crowd benchmark suggested by published research.",
     };
   }
 
@@ -76,7 +78,7 @@ export const getPerformanceRead = (value) => {
     return {
       label: "Good",
       tone: "good",
-      description: "This sits in a solid range for EuroLeague forecasting and lands right in the practical zone most users would read as good.",
+      description: "This sits in the competitive high-60s zone reported by realistic unseen-season EuroLeague testing.",
     };
   }
 
