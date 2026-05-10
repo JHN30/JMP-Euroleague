@@ -154,7 +154,6 @@ const ModelPerformancePage = () => {
           <PerformanceResearchContext
             overallSuccessRate={performance.overallSuccessRate}
             totalPredictions={performance.totalPredictions}
-            roundCount={performance.rounds.length}
           />
         </motion.div>
 
