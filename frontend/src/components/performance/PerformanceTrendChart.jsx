@@ -12,7 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 
 import { layoutCardClass } from "../layout/LayoutShell";
-import { formatPercentage, formatSignedPoints } from "./modelPerformanceUtils";
+import { formatPercentage } from "./modelPerformanceUtils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend);
 
@@ -49,11 +49,9 @@ const PerformanceTrendChart = ({
   seasonLabel = "",
   overallSuccessRate = 0,
   recentSuccessRate = 0,
-  recentDeltaVsSeason = 0,
   recentWindowSize = 0,
 }) => {
   const [viewportWidth, setViewportWidth] = useState(DEFAULT_VIEWPORT_WIDTH);
-  const latestRoundEntry = rounds.length > 0 ? rounds[rounds.length - 1] : null;
 
   useEffect(() => {
     const handleResize = () => {
@@ -71,7 +69,7 @@ const PerformanceTrendChart = ({
   if (rounds.length === 0) {
     return (
       <section className={`${layoutCardClass} overflow-hidden`}>
-        <div className="flex min-h-[320px] items-center justify-center px-6 py-10 text-center text-sm text-slate-300">
+        <div className="flex min-h-80 items-center justify-center px-6 py-10 text-center text-sm text-slate-300">
           Round-level performance data is not available yet.
         </div>
       </section>
@@ -176,17 +174,7 @@ const PerformanceTrendChart = ({
               return `Success Rate: ${formatPercentage(context.parsed.y)}`;
             }
 
-            return `${context.dataset.label}: ${context.parsed.y} picks`;
-          },
-          afterBody: (items) => {
-            const dataIndex = items[0]?.dataIndex ?? 0;
-            const round = rounds[dataIndex];
-
-            if (!round) {
-              return [];
-            }
-
-            return [`Total Predictions: ${round.totalPredictions}`];
+            return `${context.dataset.label}: ${context.parsed.y}`;
           },
         },
       },
@@ -263,37 +251,26 @@ const PerformanceTrendChart = ({
       <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-6">
         <div className="flex flex-col gap-4 border-b border-white/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300/80">Trend Analysis</p>
-            <h2 className="mt-2 text-2xl font-semibold text-white">Round-by-Round Success Rate</h2>
+            <h2 className="text-2xl font-semibold text-white">Round-by-Round Success Rate</h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-300">
-              {seasonLabel} performance with correct and wrong picks stacked by round, with the orange line tracking
-              success rate over time.
+              {seasonLabel} performance with correct and wrong picks stacked by round.
             </p>
           </div>
 
-          <div className={`grid gap-3 ${recentWindowSize > 0 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+          <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-orange-300/20 bg-slate-900/40 px-4 py-3">
-              <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-orange-200/80">Overall</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{formatPercentage(overallSuccessRate)}</p>
+              <p className="text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-orange-200/80">Overall</p>
+              <p className="mt-1 text-xl font-semibold text-white">{formatPercentage(overallSuccessRate)}</p>
             </div>
 
             {recentWindowSize > 0 ? (
               <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3">
-                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                <p className="text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
                   Last {recentWindowSize} Rounds
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-white">{formatPercentage(recentSuccessRate)}</p>
-                <p className="mt-1 text-sm text-slate-300">{formatSignedPoints(recentDeltaVsSeason)} pts vs season</p>
+                <p className="mt-1 text-xl font-semibold text-white">{formatPercentage(recentSuccessRate)}</p>
               </div>
             ) : null}
-
-            <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3">
-              <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-slate-400">Latest Round</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{latestRoundEntry?.shortLabel ?? "-"}</p>
-              <p className="mt-1 text-sm text-slate-300">
-                {latestRoundEntry ? formatPercentage(latestRoundEntry.successRate) : "No samples yet"}
-              </p>
-            </div>
           </div>
         </div>
 

@@ -35,16 +35,6 @@ export const formatPercentage = (value) => {
   return `${Number.isFinite(numericValue) ? numericValue.toFixed(1) : "0.0"}%`;
 };
 
-export const formatSignedPoints = (value) => {
-  const numericValue = Number(value);
-
-  if (!Number.isFinite(numericValue)) {
-    return "0.0";
-  }
-
-  return `${numericValue > 0 ? "+" : ""}${numericValue.toFixed(1)}`;
-};
-
 export const getPerformanceRead = (value) => {
   const successRate = Number(value);
 
