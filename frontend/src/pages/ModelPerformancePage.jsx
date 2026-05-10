@@ -85,31 +85,24 @@ const ModelPerformancePage = () => {
       {
         label: "Total Predictions",
         value: performance.totalPredictions,
-        subtext: `${performance.rounds.length} rounds tracked`,
         icon: FiTarget,
         tone: "neutral",
       },
       {
         label: "Correct",
         value: performance.totalCorrect,
-        subtext: `${formatPercentage(performance.overallSuccessRate)} hit rate`,
         icon: FiCheckCircle,
         tone: "positive",
       },
       {
         label: "Wrong",
         value: performance.totalWrong,
-        subtext: `${formatPercentage(Math.max(0, 100 - performance.overallSuccessRate))} miss rate`,
         icon: FiXCircle,
         tone: "negative",
       },
       {
         label: "Success Rate",
         value: formatPercentage(performance.overallSuccessRate),
-        subtext:
-          performance.recentWindowRounds.length > 0
-            ? `Last ${performance.recentWindowRounds.length}: ${formatPercentage(performance.recentSuccessRate)}`
-            : "Waiting for completed rounds",
         icon: FiTrendingUp,
         tone: "accent",
       },

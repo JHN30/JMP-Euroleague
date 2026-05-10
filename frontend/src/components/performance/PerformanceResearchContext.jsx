@@ -73,7 +73,6 @@ const researchBenchmarks = [
   {
     id: "holdout-ml",
     valueLabel: "66.8%",
-    title: "True Hold-Out Season",
     methodLabel: "Pre-game model",
     summary:
       "Giasemidis tested EuroLeague data from 2016-17 to 2018-19 and found that a realistic unseen-season test landed below the 75% cross-validation result.",
@@ -83,8 +82,7 @@ const researchBenchmarks = [
   {
     id: "crowd-benchmark",
     valueLabel: "73.2%",
-    title: "Basketball Crowd Target",
-    methodLabel: "Strong benchmark",
+    methodLabel: "Basketball Crowd Benchmark",
     summary:
       "The same paper reported that collective EuroLeague fan predictions beat the ML models, making roughly 73% a useful high bar for pre-game forecasting.",
     sourceLabel: "Giasemidis 2020",
@@ -93,23 +91,11 @@ const researchBenchmarks = [
   {
     id: "box-score-ceiling",
     valueLabel: "81.8%-84.1%",
-    title: "Box-Score ML Ceiling",
-    methodLabel: "Game-stat model",
+    methodLabel: "ML Game-stat model",
     summary:
       "Foteinakis et al. reported 81.8% accuracy for logistic regression and 84.1% for SVM using team game-related statistics, RFE, and SHAP.",
     sourceLabel: "Foteinakis et al. 2025",
     sourceUrl: "https://doi.org/10.3390/app152312401",
-  },
-];
-
-const comparisonNotes = [
-  {
-    label: "Fair comparison",
-    text: "For pre-game predictions, the most direct targets are the 66.8% unseen-season result and the 73.2% crowd benchmark.",
-  },
-  {
-    label: "High-end caveat",
-    text: "The 84.1% SVM result is useful context, but it uses box-score/game-performance variables that are not always available before tip-off.",
   },
 ];
 
@@ -157,7 +143,7 @@ const getActiveBand = (successRate) => {
   return practicalBands.find((band) => isBandActive(band, successRate)) ?? practicalBands[practicalBands.length - 1];
 };
 
-const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions = 0, roundCount = 0 }) => {
+const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions = 0 }) => {
   const hasSample = totalPredictions > 0;
   const performanceRate = hasSample ? overallSuccessRate : Number.NaN;
   const performanceRead = getPerformanceRead(performanceRate);
@@ -171,9 +157,8 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
     <section className={`${layoutCardClass} overflow-hidden`}>
       <div className="flex flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6">
         <div className="border-b border-white/10 pb-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300/80">Context</p>
           <h2 className="mt-2 text-2xl font-semibold text-white">How This Model Compares</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
+          <p className="mt-2 max-w-7xl text-sm leading-6 text-slate-300">
             A quick reality check for the current success rate. Published EuroLeague pre-game benchmarks land in the
             high-60s on unseen seasons, while box-score models can score higher because they use richer game-performance
             inputs.
@@ -196,12 +181,6 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
                   </span>
                 </div>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{performanceRead.description}</p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3">
-                <p className="text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-slate-400">Sample</p>
-                <p className="mt-2 text-2xl font-semibold text-white">{totalPredictions}</p>
-                <p className="mt-1 text-xs text-slate-400">{roundCount} rounds tracked in the current season</p>
               </div>
             </div>
 
@@ -286,14 +265,11 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      {benchmark.title}
-                    </p>
-                    <p className="mt-2 inline-flex rounded-full border border-orange-200/15 bg-orange-400/10 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-orange-100">
+                    <p className="inline-flex rounded-full border border-orange-200/15 bg-orange-400/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-orange-100">
                       {benchmark.methodLabel}
                     </p>
-                    <p className="mt-2 text-2xl font-semibold text-white">{benchmark.valueLabel}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-300">{benchmark.summary}</p>
+                    <p className="mt-1 text-2xl font-semibold text-white">{benchmark.valueLabel}</p>
+                    <p className="mt-1 text-xs leading-6 text-slate-300">{benchmark.summary}</p>
                   </div>
 
                   <FiExternalLink className="mt-1 h-4 w-4 shrink-0 text-orange-200/80" />
@@ -302,19 +278,6 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
                 <p className="mt-4 text-xs font-medium text-orange-200/80">{benchmark.sourceLabel}</p>
               </a>
             ))}
-
-            <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-4 text-sm leading-6 text-slate-300">
-              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-                {comparisonNotes.map((note) => (
-                  <div key={note.label}>
-                    <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-orange-200/80">
-                      {note.label}
-                    </p>
-                    <p className="mt-1">{note.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
