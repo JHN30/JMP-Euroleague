@@ -76,7 +76,8 @@ export const getPerformanceRead = (value) => {
     return {
       label: "Decent",
       tone: "steady",
-      description: "This is a respectable starting point, but there is still room to climb toward the stronger high-60s research benchmarks.",
+      description:
+        "This is a respectable starting point, but there is still room to climb toward the stronger high-60s research benchmarks.",
     };
   }
 
@@ -85,6 +86,16 @@ export const getPerformanceRead = (value) => {
     tone: "caution",
     description: "This is still below the level usually associated with a dependable EuroLeague prediction model.",
   };
+};
+
+export const formatSignedPoints = (value) => {
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue)) {
+    return "0.0";
+  }
+
+  return `${numericValue > 0 ? "+" : ""}${numericValue.toFixed(1)}`;
 };
 
 export const formatRoundLabel = (roundNumber) => `Round ${roundNumber}`;
