@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import TeamUpdatesTableSkeleton from "../skeletons/TeamUpdatesTableSkeleton";
 import { layoutCardClass } from "../layout/LayoutShell";
 import { formatPercentage, formatRoundLabel, formatSignedPoints } from "./modelPerformanceUtils";
 
@@ -29,14 +30,6 @@ const getRoundTone = (round) => {
     value: "text-rose-100",
     label: "text-rose-200/75",
   };
-};
-
-const getCorrectShare = (round) => {
-  if (!round?.totalPredictions) {
-    return 0;
-  }
-
-  return (round.correct / round.totalPredictions) * 100;
 };
 
 const formatProbability = (value) => {
@@ -87,12 +80,8 @@ const ResultBadge = ({ isCorrect, label = isCorrect ? "Correct" : "Incorrect" })
   </span>
 );
 
-const SkeletonLine = ({ className = "" }) => <span className={`block rounded-full bg-white/10 ${className}`} />;
-
 const RoundStripItem = ({ round, isSelected, onSelect, setItemRef, suppressClickRef }) => {
   const tone = getRoundTone(round);
-  const correctShare = getCorrectShare(round);
-  const wrongShare = round.totalPredictions > 0 ? Math.max(0, 100 - correctShare) : 0;
 
   return (
     <button
@@ -108,7 +97,7 @@ const RoundStripItem = ({ round, isSelected, onSelect, setItemRef, suppressClick
       }}
       aria-pressed={isSelected}
       aria-controls="round-performance-panel"
-      className={`w-[110px] shrink-0 snap-start rounded-2xl border px-3 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300/60 ${
+      className={`w-20 shrink-0 snap-start rounded-2xl border px-3 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300/60 ${
         isSelected
           ? "border-orange-300/30 bg-slate-950/80 shadow-lg shadow-orange-950/15"
           : "border-white/10 bg-slate-900/40 hover:border-white/20 hover:bg-slate-900/55"
@@ -116,7 +105,7 @@ const RoundStripItem = ({ round, isSelected, onSelect, setItemRef, suppressClick
     >
       <div className="flex items-center justify-between gap-2">
         <span
-          className={`text-[0.62rem] font-semibold uppercase tracking-[0.2em] ${
+          className={`text-[0.75rem] font-semibold uppercase tracking-[0.2em] ${
             isSelected ? "text-orange-200/85" : "text-slate-400"
           }`}
         >
@@ -124,15 +113,9 @@ const RoundStripItem = ({ round, isSelected, onSelect, setItemRef, suppressClick
         </span>
       </div>
 
-      <p className={`mt-3 text-2xl font-semibold leading-none ${tone.value}`}>{formatPercentage(round.successRate)}</p>
-      <p className="mt-2 text-sm font-medium text-slate-300">
+      <p className={`mt-2 text-2xl font-semibold leading-none ${tone.value}`}>
         {round.correct}-{round.wrong}
       </p>
-
-      <div className="mt-3 flex h-1.5 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
-        <span className="h-full bg-emerald-400" style={{ width: `${correctShare}%` }} />
-        <span className="h-full bg-rose-400/85" style={{ width: `${wrongShare}%` }} />
-      </div>
     </button>
   );
 };
@@ -160,11 +143,9 @@ const TeamUpdatesTable = ({ matchups = [] }) => {
         <div className="min-w-0">
           <p className="text-sm font-semibold text-white">Team Elo Updates</p>
           <p className="mt-1 text-sm text-slate-400">
-            One row per game with both teams' rating movement and prediction result.
+            One row per game with both teams rating movement and prediction result.
           </p>
         </div>
-
-        <p className="shrink-0 text-sm font-medium text-slate-300 sm:text-right">{matchups.length} games</p>
       </div>
 
       <div className="mt-4 w-full overflow-x-auto">
@@ -183,7 +164,7 @@ const TeamUpdatesTable = ({ matchups = [] }) => {
           </thead>
           <tbody className="divide-y divide-white/5 text-slate-200">
             {matchups.map((matchup) => (
-              <tr key={matchup.id} className="transition hover:bg-white/[0.03]">
+              <tr key={matchup.id} className="transition hover:bg-white/3">
                 <td className="px-3 py-3">
                   <p className="font-medium text-white">{matchup.homeTeam}</p>
                   <p className="mt-1 text-xs text-slate-400">vs {matchup.awayTeam}</p>
@@ -214,47 +195,6 @@ const TeamUpdatesTable = ({ matchups = [] }) => {
     </div>
   );
 };
-
-const TeamUpdatesTableSkeleton = () => (
-  <div className="mt-5 w-full min-w-0 rounded-2xl border border-white/10 bg-slate-950/45 px-4 py-4">
-    <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-      <div className="min-w-0">
-        <SkeletonLine className="h-4 w-32" />
-        <SkeletonLine className="mt-3 h-3 w-80 max-w-full" />
-      </div>
-
-      <SkeletonLine className="h-3 w-16 sm:ml-auto" />
-    </div>
-
-    <div className="mt-4 w-full overflow-hidden">
-      <div className="min-w-[1040px]">
-        <div className="grid grid-cols-[1.25fr_1fr_1fr_0.75fr_0.75fr_1fr_1fr_0.75fr] gap-3 border-b border-white/10 px-3 py-2">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <SkeletonLine key={`team-elo-header-skeleton-${index}`} className="h-2.5 w-16" />
-          ))}
-        </div>
-
-        <div className="divide-y divide-white/5">
-          {Array.from({ length: 5 }).map((_, rowIndex) => (
-            <div
-              key={`team-elo-row-skeleton-${rowIndex}`}
-              className="grid grid-cols-[1.25fr_1fr_1fr_0.75fr_0.75fr_1fr_1fr_0.75fr] gap-3 px-3 py-3"
-            >
-              {Array.from({ length: 8 }).map((_, cellIndex) => (
-                <div key={`team-elo-cell-skeleton-${rowIndex}-${cellIndex}`}>
-                  <SkeletonLine className="h-3 w-24" />
-                  {cellIndex === 0 || cellIndex === 1 || cellIndex === 5 || cellIndex === 6 ? (
-                    <SkeletonLine className="mt-2 h-2.5 w-16" />
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 const RoundPerformanceGrid = ({
   rounds = [],
@@ -342,10 +282,6 @@ const RoundPerformanceGrid = ({
   const selectedRound =
     orderedRounds.find((round) => round.roundNumber === selectedRoundNumber) ??
     (orderedRounds.length > 0 ? orderedRounds[orderedRounds.length - 1] : null);
-
-  const selectedRoundCorrectShare = selectedRound ? getCorrectShare(selectedRound) : 0;
-  const selectedRoundWrongShare =
-    selectedRound && selectedRound.totalPredictions > 0 ? Math.max(0, 100 - selectedRoundCorrectShare) : 0;
   const selectedRoundTone = getRoundTone(selectedRound);
   const selectedMatchups = selectedRound?.matchups ?? [];
   const hasSelectedRoundDetails = selectedMatchups.length > 0;
@@ -402,16 +338,11 @@ const RoundPerformanceGrid = ({
     <section className={`${layoutCardClass} overflow-hidden`}>
       <div className="flex flex-col gap-4 px-4 py-4 sm:px-5 sm:py-5">
         <div className="border-b border-white/10 pb-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300/80">Rounds</p>
-          <div className="mt-2 flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h2 className="text-xl font-semibold text-white sm:text-2xl">Round-by-Round Breakdown</h2>
               <p className="mt-2 text-sm text-slate-300">Select a round to inspect the result.</p>
             </div>
-
-            <p className="text-sm text-slate-400">
-              {orderedRounds.length} rounds tracked in chronological order
-            </p>
           </div>
         </div>
 
@@ -459,28 +390,6 @@ const RoundPerformanceGrid = ({
                 <p className={`mt-2 text-4xl font-black leading-none ${selectedRoundTone.value}`}>
                   {formatPercentage(selectedRound.successRate)}
                 </p>
-              </div>
-            </div>
-
-            <div className="mt-5 rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                    Prediction Distribution
-                  </p>
-                  <p className="mt-2 text-sm text-slate-300">
-                    Correct game predictions are shown first, then missed predictions.
-                  </p>
-                </div>
-
-                <p className="text-sm font-medium text-slate-300">
-                  {selectedRound.correct}-{selectedRound.wrong}
-                </p>
-              </div>
-
-              <div className="mt-4 flex h-3 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
-                <span className="h-full bg-emerald-400" style={{ width: `${selectedRoundCorrectShare}%` }} />
-                <span className="h-full bg-rose-400/85" style={{ width: `${selectedRoundWrongShare}%` }} />
               </div>
             </div>
 
