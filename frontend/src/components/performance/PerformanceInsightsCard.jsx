@@ -37,7 +37,7 @@ const PerformanceInsightsCard = ({ bestRound, worstRound, averageCorrectPicks = 
     {
       label: "Avg Correct / Round",
       value: averageCorrectPicks.toFixed(1),
-      detail: "Useful for explaining consistency from round to round.",
+      detail: "Consistency from round to round.",
       tone: "accent",
     },
   ];
@@ -46,14 +46,13 @@ const PerformanceInsightsCard = ({ bestRound, worstRound, averageCorrectPicks = 
     <section className={`${layoutCardClass} overflow-hidden`}>
       <div className="flex h-full flex-col gap-4 px-4 py-4 sm:px-6 sm:py-6">
         <div className="border-b border-white/10 pb-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300/80">Insights</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white">Key Takeaways</h2>
+          <h2 className="text-2xl font-semibold text-white">Key Takeaways</h2>
         </div>
 
-        <div className="grid flex-1 gap-3">{items.map((item) => <InsightItem key={item.label} {...item} />)}</div>
-
-        <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-4 text-sm text-slate-300">
-          These highlights are derived from the same round dataset that powers the charts and round cards below.
+        <div className="grid gap-3">
+          {items.map((item) => (
+            <InsightItem key={item.label} {...item} />
+          ))}
         </div>
       </div>
     </section>

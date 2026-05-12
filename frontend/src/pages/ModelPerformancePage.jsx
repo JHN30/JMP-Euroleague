@@ -166,7 +166,7 @@ const ModelPerformancePage = () => {
           recentWindowSize={performance.recentWindowRounds.length}
         />
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
+        <section className="grid gap-6 xl:grid-cols-2">
           <PerformanceOverviewChart
             totalCorrect={performance.totalCorrect}
             totalWrong={performance.totalWrong}
