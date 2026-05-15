@@ -10,7 +10,6 @@ const KpiCardSkeleton = () => (
       <div className="min-w-0 flex-1">
         <SkeletonLine className="h-2.5 w-20" />
         <SkeletonLine className="mt-4 h-8 w-24 rounded-xl" />
-        <SkeletonLine className="mt-3 h-3 w-28" />
       </div>
 
       <span className={`h-11 w-11 shrink-0 rounded-2xl ${shimmer}`} />
@@ -20,8 +19,8 @@ const KpiCardSkeleton = () => (
 
 const BenchmarkCardSkeleton = () => (
   <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-4">
-    <SkeletonLine className="h-2.5 w-24" />
-    <SkeletonLine className="mt-3 h-7 w-28 rounded-xl" />
+    <SkeletonLine className="h-5 w-28" />
+    <SkeletonLine className="mt-3 h-7 w-20 rounded-xl" />
     <SkeletonLine className="mt-4 h-3 w-full" />
     <SkeletonLine className="mt-2 h-3 w-11/12" />
     <SkeletonLine className="mt-4 h-3 w-24" />
@@ -34,14 +33,9 @@ const ModelPerformanceSkeleton = () => {
       <header className="flex flex-col items-center justify-center gap-3 text-center">
         <SkeletonLine className="h-3 w-36" />
         <SkeletonLine className="h-10 w-64 rounded-2xl" />
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-2">
-          <SkeletonLine className="h-3 w-full max-w-2xl" />
-          <SkeletonLine className="h-3 w-10/12 max-w-xl" />
-        </div>
 
         <div className="mt-1 flex flex-wrap items-center justify-center gap-3">
           <SkeletonLine className="h-10 w-40 rounded-full" />
-          <SkeletonLine className="h-10 w-36 rounded-full" />
           <SkeletonLine className="h-10 w-40 rounded-full" />
         </div>
       </header>
@@ -55,11 +49,9 @@ const ModelPerformanceSkeleton = () => {
       <section className={`${layoutCardClass} overflow-hidden`}>
         <div className="flex flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6">
           <div className="border-b border-white/10 pb-5">
-            <SkeletonLine className="h-3 w-20" />
-            <SkeletonLine className="mt-3 h-8 w-56 rounded-xl" />
+            <SkeletonLine className="h-8 w-56 rounded-xl" />
             <div className="mt-3 space-y-2">
-              <SkeletonLine className="h-3 w-full max-w-2xl" />
-              <SkeletonLine className="h-3 w-11/12 max-w-xl" />
+              <SkeletonLine className="h-3 w-full max-w-6xl" />
             </div>
           </div>
 
@@ -67,16 +59,9 @@ const ModelPerformanceSkeleton = () => {
             <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-5 py-5">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  <SkeletonLine className="h-2.5 w-24" />
-                  <SkeletonLine className="mt-4 h-12 w-32 rounded-2xl" />
+                  <SkeletonLine className="h-12 w-32 rounded-2xl" />
                   <SkeletonLine className="mt-4 h-3 w-full max-w-xl" />
                   <SkeletonLine className="mt-2 h-3 w-10/12 max-w-lg" />
-                </div>
-
-                <div className="w-full max-w-[160px] rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3">
-                  <SkeletonLine className="h-2.5 w-12" />
-                  <SkeletonLine className="mt-3 h-8 w-16 rounded-xl" />
-                  <SkeletonLine className="mt-2 h-3 w-24" />
                 </div>
               </div>
 

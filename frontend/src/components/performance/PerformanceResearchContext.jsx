@@ -159,7 +159,7 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
         <div className="border-b border-white/10 pb-5">
           <h2 className="mt-2 text-2xl font-semibold text-white">How This Model Compares</h2>
           <p className="mt-2 max-w-7xl text-sm leading-6 text-slate-300">
-            A quick reality check for the current success rate. Published EuroLeague pre-game benchmarks land in the
+            Published EuroLeague pre-game benchmarks land in the
             high-60s on unseen seasons, while box-score models can score higher because they use richer game-performance
             inputs.
           </p>
