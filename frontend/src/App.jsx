@@ -11,6 +11,7 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 
 const StandingsPage = lazy(() => import("./pages/StandingsPage"));
 const PredictorPage = lazy(() => import("./pages/PredictorPage"));
+const ModelPerformancePage = lazy(() => import("./pages/ModelPerformancePage"));
 const PlayoffPage = lazy(() => import("./pages/PlayoffPage"));
 const TeamsPage = lazy(() => import("./pages/TeamsPage"));
 const TeamStatsPage = lazy(() => import("./pages/TeamStatsPage"));
@@ -78,6 +79,7 @@ function App() {
           {/* Main Pages */}
           <Route path="/" element={<StandingsPage />} />
           <Route path="/predictor" element={<PredictorPage />} />
+          <Route path="/model-performance" element={<ModelPerformancePage />} />
           <Route path="/playoff" element={<PlayoffPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/team-stats/:teamId" element={<TeamStatsPage />} />
