@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === "production") {
 
   // Serve index.html for non-API GET requests so client-side routing works after refresh
   app.use((req, res, next) => {
-    if (req.method === "GET" && !req.path.startsWith("/api")) {
+    if ((req.method === "GET" || req.method === "HEAD") && !req.path.startsWith("/api")) {
       const normalizedPath = normalizeFrontendPath(req.path);
 
       if (!INDEXABLE_FRONTEND_PATHS.has(normalizedPath)) {
