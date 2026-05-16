@@ -17,10 +17,17 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
+const INDEXABLE_FRONTEND_PATHS = new Set(["/", "/predictor", "/model-performance", "/playoff", "/teams"]);
+const normalizeFrontendPath = (frontendPath) => frontendPath.replace(/\/+$/, "") || "/";
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
+
+app.use("/api", (req, res, next) => {
+  res.set("X-Robots-Tag", "noindex");
+  next();
+});
 
 app.use("/api/rounds", roundRoutes);
 app.use("/api/auth", authRoutes);
@@ -35,6 +42,12 @@ if (process.env.NODE_ENV === "production") {
   // Serve index.html for non-API GET requests so client-side routing works after refresh
   app.use((req, res, next) => {
     if (req.method === "GET" && !req.path.startsWith("/api")) {
+      const normalizedPath = normalizeFrontendPath(req.path);
+
+      if (!INDEXABLE_FRONTEND_PATHS.has(normalizedPath)) {
+        res.set("X-Robots-Tag", "noindex, follow");
+      }
+
       return res.sendFile(path.join(distPath, "index.html"));
     }
     return next();

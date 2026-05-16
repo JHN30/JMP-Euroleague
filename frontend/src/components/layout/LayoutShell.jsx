@@ -13,7 +13,7 @@ const LayoutShell = ({ children, className = "", contentClassName = "max-w-8xl",
       className={`relative min-h-screen w-full bg-slate-900 px-4 py-6 sm:px-6 lg:px-8 overflow-hidden text-slate-100 ${className}`}
     >
       <div className="pointer-events-none absolute inset-0" style={ambientGlowStyle} />
-      <div className={`relative z-10 mx-auto w-full ${finalContentClass}`}>{children}</div>
+      <main className={`relative z-10 mx-auto w-full ${finalContentClass}`}>{children}</main>
     </div>
   );
 };

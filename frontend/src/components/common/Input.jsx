@@ -1,8 +1,10 @@
-const Input = ({ icon: Icon, className = "", wrapperClassName = "", ...props }) => {
+const Input = ({ icon, className = "", wrapperClassName = "", ...props }) => {
+  const Icon = icon;
+
   return (
     <div className={`relative mb-6 ${wrapperClassName}`}>
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <Icon className="size-5 text-orange-400" />
+        <Icon className="size-5 text-orange-400" aria-hidden="true" />
       </div>
       <input
         {...props}

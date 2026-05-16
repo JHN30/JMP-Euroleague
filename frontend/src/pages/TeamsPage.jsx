@@ -72,7 +72,9 @@ const TeamsPage = () => {
       <div className="flex flex-col gap-6 pt-4 text-white">
         <header className="flex flex-col items-center justify-center gap-2 text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Teams</p>
-          <h1 className="text-3xl font-bold leading-tight text-slate-100">Explore Every Euroleague Club</h1>
+          <h1 id="teams-directory-title" className="text-3xl font-bold leading-tight text-slate-100">
+            Explore Every Euroleague Club
+          </h1>
         </header>
 
         <section className={`${layoutCardClass} overflow-hidden`} aria-labelledby="teams-directory-title">

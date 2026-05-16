@@ -2,6 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin-dashboard
 Disallow: /admin/
-Disallow: /api
-Disallow: /api/
 Sitemap: https://www.jmpeuroleague.com/sitemap.xml

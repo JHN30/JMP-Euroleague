@@ -57,7 +57,7 @@ const AdminPage = () => {
                           isActive ? "text-orange-200" : "text-orange-200/70"
                         }`}
                       >
-                        <Icon className="h-5 w-5" />
+                        <Icon className="h-5 w-5" aria-hidden="true" />
                       </span>
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold uppercase tracking-[0.18em]">{tab.label}</span>

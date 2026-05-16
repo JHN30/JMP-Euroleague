@@ -21,7 +21,8 @@ const toneMap = {
   },
 };
 
-const PerformanceKpiCard = ({ label, value, subtext, icon: Icon, tone = "neutral" }) => {
+const PerformanceKpiCard = ({ label, value, subtext, icon, tone = "neutral" }) => {
+  const Icon = icon;
   const toneClasses = toneMap[tone] ?? toneMap.neutral;
 
   return (
@@ -34,7 +35,7 @@ const PerformanceKpiCard = ({ label, value, subtext, icon: Icon, tone = "neutral
         </div>
 
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${toneClasses.icon}`}>
-          <Icon className="h-5 w-5" />
+          <Icon className="h-5 w-5" aria-hidden="true" />
         </div>
       </div>
     </div>

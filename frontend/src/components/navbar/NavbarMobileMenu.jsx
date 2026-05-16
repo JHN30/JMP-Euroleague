@@ -22,7 +22,10 @@ const NavbarMobileMenu = ({
         className="fixed inset-0 z-[110] bg-black/75 lg:hidden"
       />
 
-      <nav className="fixed top-0 right-0 z-[120] flex h-[100dvh] w-72 flex-col border-l border-white/10 bg-slate-950/95 shadow-2xl lg:hidden">
+      <nav
+        aria-label="Primary"
+        className="fixed top-0 right-0 z-120 flex h-dvh w-72 flex-col border-l border-white/10 bg-slate-950/95 shadow-2xl lg:hidden"
+      >
         <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
           <p className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-400">Menu</p>
           <button
@@ -30,7 +33,7 @@ const NavbarMobileMenu = ({
             className="rounded-xl border border-transparent p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
             aria-label="Close navigation menu"
           >
-            <HiX className="h-5 w-5" />
+            <HiX className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -49,6 +52,7 @@ const NavbarMobileMenu = ({
                     }`}
                   >
                     <item.icon
+                      aria-hidden="true"
                       className={`h-5 w-5 transition-colors duration-200 ${
                         pathname === item.to ? "text-orange-400" : "text-orange-400/90 group-hover:text-orange-400"
                       }`}
@@ -66,7 +70,7 @@ const NavbarMobileMenu = ({
               onClick={isAuthenticated ? onLogout : onLogin}
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 text-sm font-bold uppercase tracking-wider text-white shadow-sm transition duration-200 hover:bg-orange-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
             >
-              <LuLogOut className="h-5 w-5" />
+              <LuLogOut className="h-5 w-5" aria-hidden="true" />
               {isAuthenticated ? "Logout" : "Login"}
             </button>
           </div>

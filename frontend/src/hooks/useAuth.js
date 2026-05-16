@@ -79,14 +79,14 @@ export const useAuth = create((set, get) => ({
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
-    } catch (error) {
+    } catch {
       // If checkAuth fails, try to refresh token first
       try {
         await get().refreshToken();
         // If refresh succeeds, try checkAuth again
         const response = await axios.get(`${API_URL}/check-auth`);
         set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
-      } catch (refreshError) {
+      } catch {
         // If refresh also fails, user needs to login again
         set({ user: null, error: null, isCheckingAuth: false, isAuthenticated: false });
       }
