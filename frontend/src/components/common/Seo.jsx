@@ -4,13 +4,16 @@ const SITE_URL = "https://www.jmpeuroleague.com";
 const SITE_NAME = "JMP Euroleague";
 
 const DEFAULT_SEO = {
-  title: "JMP Euroleague | Standings, Predictions & Playoff Scenarios",
+  title: "JMP Euroleague | EuroLeague Standings, Predictions & Team Ratings",
   description:
-    "Explore Euroleague standings, JMP Rating predictions, model performance, team stats, and playoff scenarios.",
+    "Track EuroLeague standings, team ratings, playoff scenarios, and JMP model predictions for the current season.",
   path: "/",
   robots: "index, follow",
   image: "/android-chrome-512x512.png",
+  structuredData: null,
 };
+
+const STRUCTURED_DATA_SCRIPT_ID = "jmp-route-structured-data";
 
 const getAbsoluteUrl = (value = "/") => {
   try {
@@ -46,13 +49,57 @@ const setCanonicalLink = (href) => {
   element.setAttribute("href", href);
 };
 
+const normalizeStructuredData = (structuredData) => {
+  if (!structuredData) return null;
+
+  if (Array.isArray(structuredData)) {
+    const validItems = structuredData.filter(Boolean);
+    return validItems.length ? validItems : null;
+  }
+
+  return structuredData;
+};
+
+const serializeStructuredData = (structuredData) => {
+  const normalizedStructuredData = normalizeStructuredData(structuredData);
+
+  if (!normalizedStructuredData) return "";
+
+  try {
+    return JSON.stringify(normalizedStructuredData);
+  } catch {
+    return "";
+  }
+};
+
+const setStructuredDataScript = (content) => {
+  let element = document.head.querySelector(`#${STRUCTURED_DATA_SCRIPT_ID}`);
+
+  if (!content) {
+    element?.remove();
+    return;
+  }
+
+  if (!element) {
+    element = document.createElement("script");
+    element.setAttribute("id", STRUCTURED_DATA_SCRIPT_ID);
+    element.setAttribute("type", "application/ld+json");
+    document.head.appendChild(element);
+  }
+
+  element.textContent = content;
+};
+
 const Seo = ({
   title = DEFAULT_SEO.title,
   description = DEFAULT_SEO.description,
   path = DEFAULT_SEO.path,
   robots = DEFAULT_SEO.robots,
   image = DEFAULT_SEO.image,
+  structuredData = DEFAULT_SEO.structuredData,
 }) => {
+  const structuredDataContent = serializeStructuredData(structuredData);
+
   useEffect(() => {
     const canonicalUrl = getAbsoluteUrl(path);
     const imageUrl = getAbsoluteUrl(image);
@@ -73,6 +120,10 @@ const Seo = ({
     setMetaTag({ attribute: "name", key: "twitter:description", content: description });
     setMetaTag({ attribute: "name", key: "twitter:image", content: imageUrl });
   }, [description, image, path, robots, title]);
+
+  useEffect(() => {
+    setStructuredDataScript(structuredDataContent);
+  }, [structuredDataContent]);
 
   return null;
 };

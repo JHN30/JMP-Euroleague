@@ -17,7 +17,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
-const INDEXABLE_FRONTEND_PATHS = new Set(["/", "/predictor", "/model-performance", "/playoff", "/teams"]);
+const INDEXABLE_FRONTEND_PATHS = new Set([
+  "/",
+  "/predictor",
+  "/about-jmp-rating",
+  "/model-performance",
+  "/playoff",
+  "/teams",
+]);
 const normalizeFrontendPath = (frontendPath) => frontendPath.replace(/\/+$/, "") || "/";
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));

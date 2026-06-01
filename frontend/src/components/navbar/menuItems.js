@@ -1,6 +1,6 @@
 import { PiRankingFill } from "react-icons/pi";
 import { MdOnlinePrediction } from "react-icons/md";
-import { FaChartLine, FaTrophy } from "react-icons/fa";
+import { FaChartLine, FaInfoCircle, FaTrophy } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { RiTeamFill } from "react-icons/ri";
 
@@ -15,6 +15,12 @@ export const getNavbarMenuItems = ({ isAuthenticated, isGuest, isCheckingAuth, u
     to: "/predictor",
     icon: MdOnlinePrediction,
     label: "Predictor",
+    show: true,
+  },
+  {
+    to: "/about-jmp-rating",
+    icon: FaInfoCircle,
+    label: "Model",
     show: true,
   },
   {

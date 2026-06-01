@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiTarget, FiTrendingUp, FiXCircle } from "react-icons/fi";
 
 import ErrorBox from "../components/errors/ErrorBox";
-import LayoutShell from "../components/layout/LayoutShell";
+import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 import PerformanceInsightsCard from "../components/performance/PerformanceInsightsCard";
 import PerformanceKpiCard from "../components/performance/PerformanceKpiCard";
 import PerformanceOverviewChart from "../components/performance/PerformanceOverviewChart";
@@ -23,6 +24,24 @@ const fadeInProps = {
   animate: { opacity: 1 },
   transition: { duration: 0.3 },
 };
+
+const modelPerformanceLinks = [
+  {
+    to: "/predictor",
+    label: "Run a matchup prediction",
+    description: "Use the current model read for a home and away team.",
+  },
+  {
+    to: "/about-jmp-rating",
+    label: "Understand JMP Rating",
+    description: "Read how the rating supports predictions and team comparison.",
+  },
+  {
+    to: "/",
+    label: "Return to standings",
+    description: "Compare model results with the current EuroLeague table.",
+  },
+];
 
 const ModelPerformanceHeader = ({ performance }) => {
   const badgeItems = [
@@ -156,6 +175,41 @@ const ModelPerformancePage = () => {
             totalPredictions={performance.totalPredictions}
           />
         </motion.div>
+
+        <motion.section className="grid gap-4 lg:grid-cols-2" {...fadeInProps}>
+          <div className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
+            <p className="text-xs font-semibold uppercase tracking-wider text-orange-300/90">Accuracy tracker</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-100">What Model Performance Measures</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              This page tracks total predictions, correct picks, wrong picks, and success rate for the current season.
+              It turns the predictor into a measurable record, so the model can be judged by results instead of only
+              by individual game forecasts.
+            </p>
+          </div>
+
+          <div className={`${layoutCardClass} px-5 py-5 sm:px-6 sm:py-6`}>
+            <p className="text-xs font-semibold uppercase tracking-wider text-orange-300/90">Round detail</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-100">Why Round-by-Round Results Matter</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              EuroLeague form changes quickly. Round-level tracking shows whether the model is improving, slipping,
+              or staying steady across the season while also preserving the individual prediction results behind the
+              headline accuracy number.
+            </p>
+          </div>
+        </motion.section>
+
+        <motion.section className="grid gap-4 md:grid-cols-3" aria-label="Related model performance pages" {...fadeInProps}>
+          {modelPerformanceLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`${layoutCardClass} block px-5 py-5 transition hover:border-orange-300/30 hover:bg-slate-900`}
+            >
+              <h2 className="text-base font-semibold text-slate-100">{link.label}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-300">{link.description}</p>
+            </Link>
+          ))}
+        </motion.section>
 
         <PerformanceTrendChart
           rounds={performance.rounds}
