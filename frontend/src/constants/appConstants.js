@@ -1,26 +1,3 @@
-export const RATING_CALCULATION = {
-  HOME_ADVANTAGE: 0.025,
-  INJURY_MULTIPLIER: 0.025,
-  FORM_ADVANTAGE_MULTIPLIER: 0.05,
-  MAX_INJURY_IMPACT: 0.35,
-  ELO_DIVISOR: 400,
-  INJURY_GROWTH_BASE: 1.8,
-};
-
-export const INJURY_IMPACT = {
-  STAR: 2, // Superstar/franchise player
-  STARTER: 1, // Regular starting player
-  KEY_BENCH: 0.5, // Important rotation player
-};
-
-export const MAX_INJURIES = {
-  STAR: 2,
-  STARTER: 4,
-  KEY_BENCH: 3,
-};
-
-export const ELO_CHANGE = 24;
-
 export const MATCH_DEPENDENCIES = {
   "play-in-1": ["play-in-final", "qf-1", "sf-1", "final"],
   "play-in-2": ["play-in-final", "qf-3", "sf-2", "final"],
