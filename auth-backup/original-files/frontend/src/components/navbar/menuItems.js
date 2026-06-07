@@ -1,9 +1,10 @@
 import { PiRankingFill } from "react-icons/pi";
 import { MdOnlinePrediction } from "react-icons/md";
 import { FaChartLine, FaInfoCircle, FaTrophy } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 import { RiTeamFill } from "react-icons/ri";
 
-export const getNavbarMenuItems = () => [
+export const getNavbarMenuItems = ({ isAuthenticated, isGuest, isCheckingAuth, user }) => [
   {
     to: "/",
     icon: PiRankingFill,
@@ -39,5 +40,11 @@ export const getNavbarMenuItems = () => [
     icon: RiTeamFill,
     label: "Teams",
     show: true,
+  },
+  {
+    to: "/profile",
+    icon: CgProfile,
+    label: user?.username || "Profile",
+    show: !isCheckingAuth && isAuthenticated && !isGuest,
   },
 ];

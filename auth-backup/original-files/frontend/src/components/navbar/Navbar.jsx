@@ -1,4 +1,5 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 
 import logoPng from "../../../assets/Logo.png";
@@ -9,12 +10,31 @@ import NavbarMobileMenu from "./NavbarMobileMenu";
 import NavbarMobileToggle from "./NavbarMobileToggle";
 import { getNavbarMenuItems } from "./menuItems";
 
-const Navbar = () => {
+import { useAuth } from "../../hooks/useAuth";
+
+const Navbar = ({ isGuest, isCheckingAuth }) => {
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = getNavbarMenuItems();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  const isAuthRoute = pathname === "/login" || pathname === "/signup";
+
+  const menuItems = getNavbarMenuItems({ isAuthenticated, isGuest, isCheckingAuth, user });
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+    toast.success("You logged out successfully");
+    setIsMenuOpen(false);
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+    setIsMenuOpen(false);
+  };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -30,6 +50,11 @@ const Navbar = () => {
           <NavbarDesktopMenu
             menuItems={menuItems}
             pathname={pathname}
+            isAuthRoute={isAuthRoute}
+            isAuthenticated={isAuthenticated}
+            isCheckingAuth={isCheckingAuth}
+            onLogout={handleLogout}
+            onLogin={handleLogin}
           />
 
           <NavbarMobileToggle isOpen={isMenuOpen} onToggle={() => setIsMenuOpen(!isMenuOpen)} />
@@ -40,6 +65,11 @@ const Navbar = () => {
         isOpen={isMenuOpen}
         menuItems={menuItems}
         pathname={pathname}
+        isAuthRoute={isAuthRoute}
+        isAuthenticated={isAuthenticated}
+        isCheckingAuth={isCheckingAuth}
+        onLogout={handleLogout}
+        onLogin={handleLogin}
         onClose={closeMenu}
       />
     </>

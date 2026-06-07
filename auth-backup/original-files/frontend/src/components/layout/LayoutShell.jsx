@@ -21,4 +21,6 @@ const LayoutShell = ({ children, className = "", contentClassName = "max-w-8xl",
 export const layoutCardClass =
   "rounded-3xl border border-white/10 bg-slate-900/75 shadow-xl shadow-black/20 ring-1 ring-white/5";
 
+export const authCardClass = `relative overflow-hidden ${layoutCardClass}`;
+
 export default LayoutShell;

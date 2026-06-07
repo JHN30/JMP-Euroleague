@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
+import { LuLogOut } from "react-icons/lu";
 
 const NavbarMobileMenu = ({
   isOpen,
   menuItems,
   pathname,
+  isAuthRoute,
+  isAuthenticated,
+  isCheckingAuth,
+  onLogout,
+  onLogin,
   onClose,
 }) => {
   if (!isOpen) return null;
@@ -58,6 +64,17 @@ const NavbarMobileMenu = ({
           )}
         </ul>
 
+        {!isAuthRoute && !isCheckingAuth && (
+          <div className="border-t border-white/10 px-5 py-4">
+            <button
+              onClick={isAuthenticated ? onLogout : onLogin}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 text-sm font-bold uppercase tracking-wider text-white shadow-sm transition duration-200 hover:bg-orange-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+            >
+              <LuLogOut className="h-5 w-5" aria-hidden="true" />
+              {isAuthenticated ? "Logout" : "Login"}
+            </button>
+          </div>
+        )}
       </nav>
     </>
   );

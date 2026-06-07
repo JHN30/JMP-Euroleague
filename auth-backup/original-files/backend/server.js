@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import path from "path";
 
 import connectMongoDB from "./lib/db/connectMongoDB.js";
 
+import authRoutes from "./routes/auth.route.js";
 import modelPerformanceRoutes from "./routes/modelPerformance.route.js";
 import roundRoutes from "./routes/round.route.js";
 import teamRoutes from "./routes/team.route.js";
@@ -27,6 +29,7 @@ const normalizeFrontendPath = (frontendPath) => frontendPath.replace(/\/+$/, "")
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json({ limit: "1mb" }));
+app.use(cookieParser());
 
 app.use("/api", (req, res, next) => {
   res.set("X-Robots-Tag", "noindex");
@@ -34,6 +37,7 @@ app.use("/api", (req, res, next) => {
 });
 
 app.use("/api/rounds", roundRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/model-performance", modelPerformanceRoutes);
 app.use("/api/teams", teamRoutes);
 
