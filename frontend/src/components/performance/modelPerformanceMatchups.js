@@ -1,16 +1,5 @@
-import { toSafeNumber } from "./modelPerformanceNumberUtils";
-
-const normalizeMatchupRating = ({ team, preRoundRating, ratingDelta }) => {
-  const safePreRoundRating = toSafeNumber(preRoundRating);
-  const safeRatingDelta = toSafeNumber(ratingDelta);
-
-  return {
-    team,
-    preRoundRating: safePreRoundRating,
-    postRoundRating: safePreRoundRating + safeRatingDelta,
-    ratingDelta: safeRatingDelta,
-  };
-};
+import { getPredictionContext } from "./modelPerformanceMatchupPredictions";
+import { getRatingContext } from "./modelPerformanceMatchupRatings";
 
 const getMatchupTeamName = (matchup, fieldName) => {
   const value = matchup?.[fieldName];
@@ -29,56 +18,10 @@ const getMatchupTeams = (matchup) => {
   return { homeTeam, awayTeam };
 };
 
-const getPredictionResult = ({ matchup, predictedWinner, actualWinner }) => {
-  if (typeof matchup?.isCorrect === "boolean") {
-    return matchup.isCorrect;
-  }
+const getMatchupId = ({ matchup, roundNumber, index, homeTeam, awayTeam }) =>
+  matchup?.id ?? `${roundNumber}-${index}-${homeTeam}-${awayTeam}`;
 
-  return Boolean(predictedWinner && actualWinner && predictedWinner === actualWinner);
-};
-
-const getRatingDelta = ({ explicitDelta, actualWinner, team, ratingChange }) => {
-  if (explicitDelta !== undefined) {
-    return toSafeNumber(explicitDelta);
-  }
-
-  return actualWinner === team ? ratingChange : -ratingChange;
-};
-
-const getPredictedWinnerProbability = ({ matchup, predictedWinner, homeTeam, homeWinProbability, awayWinProbability }) =>
-  toSafeNumber(
-    matchup?.predictedWinnerProbability ?? (predictedWinner === homeTeam ? homeWinProbability : awayWinProbability)
-  );
-
-const getMatchupRatings = ({ matchup, homeTeam, awayTeam, actualWinner, ratingChange }) => {
-  const homeRatingDelta = getRatingDelta({
-    explicitDelta: matchup?.home?.ratingDelta,
-    actualWinner,
-    team: homeTeam,
-    ratingChange,
-  });
-  const awayRatingDelta = getRatingDelta({
-    explicitDelta: matchup?.away?.ratingDelta,
-    actualWinner,
-    team: awayTeam,
-    ratingChange,
-  });
-
-  return {
-    home: normalizeMatchupRating({
-      team: homeTeam,
-      preRoundRating: matchup?.home?.preRoundRating ?? matchup?.homeElo,
-      ratingDelta: homeRatingDelta,
-    }),
-    away: normalizeMatchupRating({
-      team: awayTeam,
-      preRoundRating: matchup?.away?.preRoundRating ?? matchup?.awayElo,
-      ratingDelta: awayRatingDelta,
-    }),
-  };
-};
-
-export const normalizeRoundMatchup = (matchup, roundNumber, index) => {
+const getMatchupContext = (matchup, roundNumber, index) => {
   const teams = getMatchupTeams(matchup);
 
   if (!teams) {
@@ -86,32 +29,16 @@ export const normalizeRoundMatchup = (matchup, roundNumber, index) => {
   }
 
   const { homeTeam, awayTeam } = teams;
-  const predictedWinner = matchup?.predictedWinner ?? matchup?.pick ?? "";
-  const actualWinner = matchup?.actualWinner ?? matchup?.winner ?? "";
-  const homeWinProbability = toSafeNumber(matchup?.homeWinProbability ?? matchup?.homeWin);
-  const awayWinProbability = toSafeNumber(matchup?.awayWinProbability ?? matchup?.awayWin);
-  const ratingChange = Math.abs(toSafeNumber(matchup?.ratingChange));
-  const isCorrect = getPredictionResult({ matchup, predictedWinner, actualWinner });
-  const ratings = getMatchupRatings({ matchup, homeTeam, awayTeam, actualWinner, ratingChange });
+  const prediction = getPredictionContext({ matchup, homeTeam });
+  const rating = getRatingContext({ matchup, homeTeam, awayTeam, actualWinner: prediction.actualWinner });
 
   return {
-    id: matchup?.id ?? `${roundNumber}-${index}-${homeTeam}-${awayTeam}`,
+    id: getMatchupId({ matchup, roundNumber, index, homeTeam, awayTeam }),
     homeTeam,
     awayTeam,
-    predictedWinner,
-    actualWinner,
-    isCorrect,
-    predictionResult: matchup?.predictionResult ?? matchup?.result ?? (isCorrect ? "Correct" : "Incorrect"),
-    predictedWinnerProbability: getPredictedWinnerProbability({
-      matchup,
-      predictedWinner,
-      homeTeam,
-      homeWinProbability,
-      awayWinProbability,
-    }),
-    homeWinProbability,
-    awayWinProbability,
-    ratingSwing: ratingChange,
-    ...ratings,
+    ...prediction,
+    ...rating,
   };
 };
+
+export const normalizeRoundMatchup = (matchup, roundNumber, index) => getMatchupContext(matchup, roundNumber, index);
