@@ -21,7 +21,7 @@ const toSafeRoundNumber = (value) => {
   return Math.round(numericValue);
 };
 
-export const calculateSuccessRate = (correct, totalPredictions) => {
+const calculateSuccessRate = (correct, totalPredictions) => {
   if (!Number.isFinite(correct) || !Number.isFinite(totalPredictions) || totalPredictions <= 0) {
     return 0;
   }
@@ -100,7 +100,7 @@ export const formatSignedPoints = (value) => {
 
 export const formatRoundLabel = (roundNumber) => `Round ${roundNumber}`;
 
-export const formatPerformanceDate = (value) => {
+const formatPerformanceDate = (value) => {
   if (typeof value !== "string" || !value.trim()) {
     return "Unknown";
   }

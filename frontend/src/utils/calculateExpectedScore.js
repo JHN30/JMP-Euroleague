@@ -1,4 +1,4 @@
-export const RATING_CALCULATION = {
+const RATING_CALCULATION = {
   RATING_GAP_SCALE: 82.5,
   MODEL_INTERCEPT: 0.8,
   MODEL_RATING_WEIGHT: 0.6,
@@ -14,7 +14,7 @@ const toFiniteNumber = (value, fallback = 0) => {
   return Number.isFinite(numericValue) ? numericValue : fallback;
 };
 
-export const createPredictorModelState = () => ({
+const createPredictorModelState = () => ({
   intercept: RATING_CALCULATION.MODEL_INTERCEPT,
   ratingWeight: RATING_CALCULATION.MODEL_RATING_WEIGHT,
   scoringMarginWeight: RATING_CALCULATION.MODEL_SCORING_MARGIN_WEIGHT,
@@ -22,7 +22,7 @@ export const createPredictorModelState = () => ({
 
 const resolvePredictorModelState = (modelState = null) => modelState ?? createPredictorModelState();
 
-export const playedRoundIndexesBeforeRound = (team, roundIndex) => {
+const playedRoundIndexesBeforeRound = (team, roundIndex) => {
   const normalizedRoundIndex = Math.max(toFiniteNumber(roundIndex), 0);
   const form = Array.isArray(team?.form) ? team.form : [];
 
@@ -34,7 +34,7 @@ export const playedRoundIndexesBeforeRound = (team, roundIndex) => {
   }, []);
 };
 
-export const averageScoringMarginBeforeRound = (team, roundIndex) => {
+const averageScoringMarginBeforeRound = (team, roundIndex) => {
   const playedIndexes = playedRoundIndexesBeforeRound(team, roundIndex);
 
   if (!playedIndexes.length) {
@@ -53,7 +53,7 @@ export const averageScoringMarginBeforeRound = (team, roundIndex) => {
   return totalMargin / playedIndexes.length;
 };
 
-export const calculateExpectedScorePredictor = (
+const calculateExpectedScorePredictor = (
   homeRating,
   awayRating,
   homeScoringMargin = 0,
