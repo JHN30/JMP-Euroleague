@@ -1,4 +1,4 @@
-import logo from "../../../assets/Logo.png";
+const FALLBACK_LOGO_SRC = "/android-chrome-192x192.png";
 
 const ambientGlowStyle = {
   backgroundImage: `
@@ -18,7 +18,15 @@ const FallbackComponent = () => (
       <div className="relative z-10 flex flex-col items-center gap-8 rounded-3xl border border-white/10 bg-slate-900/80 p-8 shadow-2xl ring-1 ring-white/5 sm:p-12">
         {/* Logo or Brand */}
         <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 p-3 shadow-lg">
-          <img src={logo} alt="JMP Logo" className="h-full w-full object-contain" />
+          <img
+            src={FALLBACK_LOGO_SRC}
+            alt="JMP Logo"
+            className="h-full w-full object-contain"
+            width="80"
+            height="80"
+            loading="eager"
+            decoding="async"
+          />
         </div>
 
         {/* Progress Bar Loading Animation */}

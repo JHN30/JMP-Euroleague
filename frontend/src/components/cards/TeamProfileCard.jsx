@@ -2,8 +2,11 @@
 import { motion } from "framer-motion";
 import { FaBasketball } from "react-icons/fa6";
 import { layoutCardClass } from "../layout/LayoutShell";
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
 
 const TeamProfileCard = ({ teamData }) => {
+  const logoSrc = getOptimizedCloudinaryImageUrl(teamData.logoImg, { width: 384 });
+
   return (
     <motion.section
       className={`${layoutCardClass} relative h-full overflow-hidden`}
@@ -22,9 +25,12 @@ const TeamProfileCard = ({ teamData }) => {
             {teamData.logoImg ? (
               <img
                 className="h-full w-full object-contain"
-                src={teamData.logoImg}
+                src={logoSrc}
                 alt={`${teamData.name ?? "Team"} logo`}
+                width="192"
+                height="192"
                 loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-sm text-gray-400">No logo</div>

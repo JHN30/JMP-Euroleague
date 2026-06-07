@@ -3,6 +3,7 @@ import { FaTrophy } from "react-icons/fa";
 import { layoutCardClass } from "../layout/LayoutShell";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
 
 const championGlowStyle = {
   backgroundImage: `
@@ -16,6 +17,7 @@ const ChampionDisplay = ({ champion }) => {
   const championRef = useRef(null);
 
   const championName = champion?.name || "Champion";
+  const championLogoSrc = getOptimizedCloudinaryImageUrl(champion?.logoImg, { width: 384 });
 
   useEffect(() => {
     if (!champion || !championRef.current) {
@@ -66,9 +68,11 @@ const ChampionDisplay = ({ champion }) => {
               <div className="absolute inset-5 rounded-full border border-white/10 bg-slate-950/75 shadow-2xl shadow-black/30" />
               <div className="absolute inset-8 flex items-center justify-center rounded-full border border-amber-200/20 bg-slate-900/85">
                 <img
-                  src={champion.logoImg}
+                  src={championLogoSrc}
                   alt={`${championName} logo`}
                   className="h-[67%] w-[67%] object-contain drop-shadow-[0_0_18px_rgba(251,191,36,0.2)]"
+                  width="160"
+                  height="160"
                   loading="lazy"
                   decoding="async"
                 />

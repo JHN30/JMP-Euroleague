@@ -7,7 +7,16 @@ const NavbarLogo = ({ logoSrc }) => {
       className="relative flex items-center gap-3 rounded-2xl border border-transparent px-px py-px shadow-none transition duration-200 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
     >
       <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl">
-        <img src={logoSrc} className="relative z-10 h-16 w-16 object-contain" alt="JMP Euroleague Logo" />
+        <img
+          src={logoSrc}
+          className="relative z-10 h-16 w-16 object-contain"
+          alt="JMP Euroleague Logo"
+          width="64"
+          height="64"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
     </Link>
   );

@@ -1,9 +1,12 @@
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
+
 const TeamCard = ({ team }) => {
   const ratingLabel = "JMP Rating";
   const ratingValue = Number(team?.rating);
   const wins = Number(team?.wins ?? 0);
   const losses = Number(team?.losses ?? 0);
   const record = `${wins}-${losses}`;
+  const logoSrc = getOptimizedCloudinaryImageUrl(team.logoImg, { width: 192 });
 
   return (
     <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5">
@@ -19,10 +22,13 @@ const TeamCard = ({ team }) => {
           <div className="mt-6 flex justify-center">
             <div className="relative flex h-24 w-24 items-center justify-center">
               <img
-                src={team.logoImg}
+                src={logoSrc}
                 className="relative h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                 alt={`${team.name} logo`}
+                width="96"
+                height="96"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

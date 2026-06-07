@@ -1,3 +1,5 @@
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
+
 const TeamMatchup = ({
   matchId,
   leftSeed,
@@ -23,6 +25,8 @@ const TeamMatchup = ({
   const rightTeamLogo = isRightTeamObject ? rightTeam.logoImg : null;
 
   const renderTeamDisplay = (seed, teamName, teamLogo, isSelected, side) => {
+    const logoSrc = getOptimizedCloudinaryImageUrl(teamLogo, { width: 96 });
+
     return (
       <button
         type="button"
@@ -54,11 +58,15 @@ const TeamMatchup = ({
           {teamLogo ? (
             <>
               <img
-                src={teamLogo}
+                src={logoSrc}
                 alt={`${teamName} logo`}
                 className={`h-8 w-8 shrink-0 rounded-lg object-contain p-1 ${
                   disabled ? "bg-slate-800/80 opacity-60 grayscale" : isSelected ? "bg-orange-300/10" : "bg-white/5"
                 }`}
+                width="32"
+                height="32"
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextElementSibling.style.display = "flex";

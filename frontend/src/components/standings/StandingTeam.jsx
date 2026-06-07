@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
+
 const StandingTeam = ({ team, position }) => {
   const pointsPlusTotal = Number(team.pointsPlus) || 0;
   const pointsMinusTotal = Number(team.pointsMinus) || 0;
@@ -9,6 +11,7 @@ const StandingTeam = ({ team, position }) => {
   const recentFormSmallDisplay = Array.isArray(team.form) ? team.form.slice(-10) : [];
   const recentWins = recentFormSmallDisplay.filter((result) => result === "W").length;
   const recentLosses = recentFormSmallDisplay.length - recentWins;
+  const logoSrc = getOptimizedCloudinaryImageUrl(team.logoImg, { width: 64 });
 
   return (
     <tr className="group border border-white/5 text-xs transition-colors hover:bg-white/5 md:text-sm">
@@ -18,7 +21,6 @@ const StandingTeam = ({ team, position }) => {
       <td className="px-1 py-2">
         <Link
           to={`/team-stats/${team._id}`}
-          aria-label={`${team.name} stats`}
           className="relative flex items-center gap-2 rounded-lg px-1 py-1"
         >
           {/* Subtle left border indicator on hover */}
@@ -26,13 +28,22 @@ const StandingTeam = ({ team, position }) => {
           {/* Logo badge with fallback */}
           <div className="relative z-10 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg bg-slate-800/50 p-1">
             {team.logoImg ? (
-              <img src={team.logoImg} className="max-h-full max-w-full object-contain" alt={`${team.name} logo`} />
+              <img
+                src={logoSrc}
+                className="max-h-full max-w-full object-contain"
+                alt=""
+                aria-hidden="true"
+                width="44"
+                height="44"
+                loading={position <= 6 ? "eager" : "lazy"}
+                decoding="async"
+              />
             ) : (
               <span className="text-xs text-gray-400">N/A</span>
             )}
           </div>
           {/* Text stack highlights name on hover */}
-          <div className="relative z-10 hidden flex-col md:flex">
+          <div className="sr-only relative z-10 flex-col md:not-sr-only md:flex">
             <span className="text-sm font-semibold text-slate-200 transition-colors duration-200 group-hover:text-orange-300">
               {team.name}
             </span>

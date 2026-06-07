@@ -2,10 +2,12 @@
 import { motion } from "framer-motion";
 import AnimatedNumber from "../features/AnimatedNumber";
 import { layoutCardClass } from "../layout/LayoutShell";
+import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
 
 const ResultCard = ({ variant, team, teamName, probability }) => {
   const accentClass = variant === "home" ? "text-emerald-300" : "text-sky-300";
   const barClass = variant === "home" ? "bg-emerald-400" : "bg-sky-400";
+  const logoSrc = getOptimizedCloudinaryImageUrl(team?.logoImg, { width: 96 });
 
   return (
     <article className={`${layoutCardClass} border border-white/10`}>
@@ -13,7 +15,15 @@ const ResultCard = ({ variant, team, teamName, probability }) => {
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-white/10 p-2">
             {team?.logoImg ? (
-              <img src={team.logoImg} alt={`${team?.name} logo`} className="h-12 w-12 object-contain" />
+              <img
+                src={logoSrc}
+                alt={`${team?.name} logo`}
+                className="h-12 w-12 object-contain"
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
             ) : (
               <span className="text-xs text-gray-400">N/A</span>
             )}
