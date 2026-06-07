@@ -14,6 +14,87 @@ const getStringValue = (team, field) => {
   return String(value);
 };
 
+const applyDirection = (comparison, direction) => comparison * direction;
+
+const compareStrings = (firstValue, secondValue, direction) =>
+  applyDirection(String(firstValue).localeCompare(String(secondValue)), direction);
+
+const compareTeamNames = (firstTeam, secondTeam, direction) =>
+  compareStrings(getStringValue(firstTeam, "name"), getStringValue(secondTeam, "name"), direction);
+
+const compareNumbers = (firstValue, secondValue, direction) => applyDirection(firstValue - secondValue, direction);
+
+const compareNumericFields = (firstTeam, secondTeam, fields, direction) => {
+  for (const field of fields) {
+    const comparison = compareNumbers(getNumericValue(firstTeam, field), getNumericValue(secondTeam, field), direction);
+
+    if (comparison !== 0) {
+      return comparison;
+    }
+  }
+
+  return 0;
+};
+
+const compareRating = (firstTeam, secondTeam, direction) => {
+  const firstRating = getNumericValue(firstTeam, "rating");
+  const secondRating = getNumericValue(secondTeam, "rating");
+  const roundedComparison = Math.round(firstRating) - Math.round(secondRating);
+
+  if (roundedComparison !== 0) {
+    return compareNumbers(firstRating, secondRating, direction);
+  }
+
+  const tieBreakerComparison = compareNumericFields(firstTeam, secondTeam, ["pointsPlusMinus", "wins"], direction);
+
+  if (tieBreakerComparison !== 0) {
+    return tieBreakerComparison;
+  }
+
+  return compareTeamNames(firstTeam, secondTeam, direction);
+};
+
+const compareNumericAccent = (firstTeam, secondTeam, key, direction) => {
+  const comparison = compareNumbers(getNumericValue(firstTeam, key), getNumericValue(secondTeam, key), direction);
+
+  return comparison || compareTeamNames(firstTeam, secondTeam, direction);
+};
+
+const compareMixedValues = (firstValue, secondValue, direction) => {
+  if (typeof firstValue === "number" && typeof secondValue === "number") {
+    return compareNumbers(firstValue, secondValue, direction);
+  }
+
+  if (typeof firstValue === "string" && typeof secondValue === "string") {
+    return compareStrings(firstValue, secondValue, direction);
+  }
+
+  if (typeof firstValue === "number") {
+    return -direction;
+  }
+
+  if (typeof secondValue === "number") {
+    return direction;
+  }
+
+  return null;
+};
+
+const compareByKey = (firstTeam, secondTeam, key, direction) => {
+  if (key === "rating") {
+    return compareRating(firstTeam, secondTeam, direction);
+  }
+
+  if (NUMERIC_ACCENT_KEYS.includes(key)) {
+    return compareNumericAccent(firstTeam, secondTeam, key, direction);
+  }
+
+  return (
+    compareMixedValues(firstTeam?.[key], secondTeam?.[key], direction) ??
+    compareStrings(getStringValue(firstTeam, key), getStringValue(secondTeam, key), direction)
+  );
+};
+
 export const sortTeams = (teams = [], options = {}) => {
   if (!Array.isArray(teams)) {
     return [];
@@ -22,72 +103,7 @@ export const sortTeams = (teams = [], options = {}) => {
   const { key = "name", order = "asc" } = options;
   const direction = order === "asc" ? 1 : -1;
 
-  const sorted = [...teams].sort((a, b) => {
-    if (key === "rating") {
-      // Rating sort uses rounded value as the primary comparator with deterministic tie-breakers
-      const aRating = getNumericValue(a, key);
-      const bRating = getNumericValue(b, key);
-      const aRounded = Math.round(aRating);
-      const bRounded = Math.round(bRating);
-
-      if (aRounded !== bRounded) {
-        return direction === 1 ? aRating - bRating : bRating - aRating;
-      }
-
-      const aDiff = getNumericValue(a, "pointsPlusMinus");
-      const bDiff = getNumericValue(b, "pointsPlusMinus");
-      if (aDiff !== bDiff) {
-        return direction === 1 ? aDiff - bDiff : bDiff - aDiff;
-      }
-
-      const aWins = getNumericValue(a, "wins");
-      const bWins = getNumericValue(b, "wins");
-      if (aWins !== bWins) {
-        return direction === 1 ? aWins - bWins : bWins - aWins;
-      }
-
-      return direction === 1
-        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
-        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
-    }
-
-    let aValue;
-    let bValue;
-    if (NUMERIC_ACCENT_KEYS.includes(key)) {
-      aValue = getNumericValue(a, key);
-      bValue = getNumericValue(b, key);
-      const diff = (aValue - bValue) * direction;
-      if (diff !== 0) {
-        return diff;
-      }
-      return direction === 1
-        ? getStringValue(a, "name").localeCompare(getStringValue(b, "name"))
-        : getStringValue(b, "name").localeCompare(getStringValue(a, "name"));
-    }
-
-    aValue = a?.[key];
-    bValue = b?.[key];
-
-    if (typeof aValue === "number" && typeof bValue === "number") {
-      return direction === 1 ? aValue - bValue : bValue - aValue;
-    }
-
-    if (typeof aValue === "string" && typeof bValue === "string") {
-      return direction === 1 ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-    }
-
-    if (typeof aValue === "number") {
-      return direction === 1 ? -1 : 1;
-    }
-
-    if (typeof bValue === "number") {
-      return direction === 1 ? 1 : -1;
-    }
-
-    const aString = getStringValue(a, key);
-    const bString = getStringValue(b, key);
-    return direction === 1 ? aString.localeCompare(bString) : bString.localeCompare(aString);
-  });
+  const sorted = [...teams].sort((firstTeam, secondTeam) => compareByKey(firstTeam, secondTeam, key, direction));
 
   return sorted;
 };
