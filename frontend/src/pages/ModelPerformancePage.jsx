@@ -9,15 +9,15 @@ import ErrorBox from "../components/errors/ErrorBox";
 import LayoutShell from "../components/layout/LayoutShell";
 import PerformanceInsightsCard from "../components/performance/PerformanceInsightsCard";
 import PerformanceKpiCard from "../components/performance/PerformanceKpiCard";
-import PerformanceOverviewChart from "../components/performance/PerformanceOverviewChart";
+import PerformanceOverviewChart from "../components/performance/charts/PerformanceOverviewChart";
 import PerformanceResearchContext from "../components/performance/PerformanceResearchContext";
-import PerformanceTrendChart from "../components/performance/PerformanceTrendChart";
-import RoundPerformanceGrid from "../components/performance/RoundPerformanceGrid";
+import PerformanceTrendChart from "../components/performance/charts/PerformanceTrendChart";
+import RoundPerformanceGrid from "../components/performance/rounds/RoundPerformanceGrid";
 import ModelPerformanceSkeleton from "../components/skeletons/ModelPerformanceSkeleton";
 import {
   formatPercentage,
   normalizeModelPerformanceData,
-} from "../components/performance/modelPerformanceUtils";
+} from "../components/performance/model/modelPerformanceUtils";
 import { useModelPerformance } from "../hooks/useModelPerformance";
 
 const fadeInProps = {

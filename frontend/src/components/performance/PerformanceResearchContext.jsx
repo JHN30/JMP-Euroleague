@@ -1,7 +1,7 @@
 import { FiExternalLink } from "react-icons/fi";
 
 import { layoutCardClass } from "../layout/LayoutShell";
-import { formatPercentage, getPerformanceRead } from "./modelPerformanceUtils";
+import { formatPercentage, getPerformanceRead } from "./model/modelPerformanceUtils";
 
 const SCALE_MIN = 55;
 const SCALE_MAX = 85;

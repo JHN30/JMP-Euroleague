@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-import useViewportWidth from "../../hooks/useViewportWidth";
+import useViewportWidth from "../../../hooks/useViewportWidth";
 import {
   COMPACT_BREAKPOINT,
   DEFAULT_VIEWPORT_WIDTH,
@@ -19,9 +19,9 @@ import {
   getCommonTooltipOptions,
   getResponsiveTickFont,
   getResponsiveTickPadding,
-} from "../../utils/chartResponsiveUtils";
-import { layoutCardClass } from "../layout/LayoutShell";
-import { formatPercentage } from "./modelPerformanceUtils";
+} from "../../../utils/chartResponsiveUtils";
+import { layoutCardClass } from "../../layout/LayoutShell";
+import { formatPercentage } from "../model/modelPerformanceUtils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend);
 

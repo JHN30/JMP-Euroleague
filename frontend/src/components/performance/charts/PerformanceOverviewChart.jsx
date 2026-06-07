@@ -1,8 +1,8 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-import { layoutCardClass } from "../layout/LayoutShell";
-import { formatPercentage } from "./modelPerformanceUtils";
+import { layoutCardClass } from "../../layout/LayoutShell";
+import { formatPercentage } from "../model/modelPerformanceUtils";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

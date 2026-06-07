@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import ErrorBox from "../components/errors/ErrorBox";
-import PlayedAgainstCard from "../components/cards/PlayedAgainstCard";
+import PlayedAgainstCard from "../components/cards/played-against/PlayedAgainstCard";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 import TeamStatsSkeleton from "../components/skeletons/TeamStatsSkeleton";
 import TeamFormSummaryCard from "../components/cards/TeamFormSummaryCard";

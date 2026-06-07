@@ -1,4 +1,4 @@
-import { formatPercentage, formatSignedPoints } from "./modelPerformanceUtils";
+import { formatPercentage, formatSignedPoints } from "../model/modelPerformanceUtils";
 
 const formatProbability = (value) => {
   const numericValue = Number(value);

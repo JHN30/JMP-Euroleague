@@ -1,4 +1,4 @@
-import { layoutCardClass } from "../layout/LayoutShell";
+import { layoutCardClass } from "../../layout/LayoutShell";
 import RoundPerformancePanel from "./RoundPerformancePanel";
 import RoundPerformanceStrip from "./RoundPerformanceStrip";
 import { useRoundPerformanceSelection } from "./useRoundPerformanceSelection";

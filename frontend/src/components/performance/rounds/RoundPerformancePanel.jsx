@@ -1,5 +1,5 @@
-import TeamUpdatesTableSkeleton from "../skeletons/TeamUpdatesTableSkeleton";
-import { formatPercentage, formatRoundLabel } from "./modelPerformanceUtils";
+import TeamUpdatesTableSkeleton from "../../skeletons/TeamUpdatesTableSkeleton";
+import { formatPercentage, formatRoundLabel } from "../model/modelPerformanceUtils";
 import TeamUpdatesTable from "./TeamUpdatesTable";
 import { getRoundTone } from "./roundPerformanceGridUtils";
 

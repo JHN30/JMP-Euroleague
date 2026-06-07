@@ -1,5 +1,5 @@
 import { layoutCardClass } from "../layout/LayoutShell";
-import { formatPercentage, formatRoundLabel } from "./modelPerformanceUtils";
+import { formatPercentage, formatRoundLabel } from "./model/modelPerformanceUtils";
 
 const insightToneMap = {
   positive: "border-emerald-400/20 bg-slate-900/40",
