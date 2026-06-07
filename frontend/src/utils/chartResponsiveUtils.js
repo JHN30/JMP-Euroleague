@@ -1,7 +1,7 @@
 export const DEFAULT_VIEWPORT_WIDTH = 1024;
 export const COMPACT_BREAKPOINT = 1024;
 
-export const getVisibleLabelStep = (labelCount, isTinyScreen) => {
+const getVisibleLabelStep = (labelCount, isTinyScreen) => {
   if (labelCount <= 6) {
     return 1;
   }
@@ -10,7 +10,7 @@ export const getVisibleLabelStep = (labelCount, isTinyScreen) => {
   return Math.max(1, Math.ceil((labelCount - 1) / (desiredVisibleLabels - 1)));
 };
 
-export const getTickLabel = ({ labels, index, isCompactScreen, isTinyScreen }) => {
+const getTickLabel = ({ labels, index, isCompactScreen, isTinyScreen }) => {
   if (!isCompactScreen) {
     return labels[index];
   }

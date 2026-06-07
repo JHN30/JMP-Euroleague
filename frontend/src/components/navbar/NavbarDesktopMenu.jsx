@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import NavbarMenuItem from "./NavbarMenuItem";
 
 const NavbarDesktopMenu = ({ menuItems, pathname }) => {
   return (
@@ -8,22 +8,7 @@ const NavbarDesktopMenu = ({ menuItems, pathname }) => {
           (item) =>
             item.show && (
               <li key={item.to}>
-                <Link
-                  to={item.to}
-                  className={`group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-200 ${
-                    pathname === item.to
-                      ? "bg-slate-700/80 text-white font-bold"
-                      : "text-slate-300 hover:bg-slate-700/50 hover:text-white"
-                  }`}
-                >
-                  <item.icon
-                    aria-hidden="true"
-                    className={`h-5 w-5 transition-colors duration-200 ${
-                      pathname === item.to ? "text-orange-400" : "text-orange-400/90 group-hover:text-orange-400"
-                    }`}
-                  />
-                  <span className="font-semibold">{item.label}</span>
-                </Link>
+                <NavbarMenuItem item={item} pathname={pathname} layoutClassName="gap-2 px-4 py-2" />
               </li>
             )
         )}
