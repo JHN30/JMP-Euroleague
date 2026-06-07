@@ -14,7 +14,7 @@ const NavbarMobileMenu = ({
     <>
       <div
         onClick={onClose}
-        className="fixed inset-0 z-[110] bg-black/75 lg:hidden"
+        className="fixed inset-0 z-110 bg-black/75 lg:hidden"
       />
 
       <nav
