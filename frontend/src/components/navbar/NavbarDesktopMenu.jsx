@@ -8,7 +8,7 @@ const NavbarDesktopMenu = ({ menuItems, pathname }) => {
           (item) =>
             item.show && (
               <li key={item.to}>
-                <NavbarMenuItem item={item} pathname={pathname} layoutClassName="gap-2 px-4 py-2" />
+                <NavbarMenuItem item={item} pathname={pathname} layoutClassName="px-3 py-2" />
               </li>
             )
         )}

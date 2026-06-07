@@ -1,43 +1,32 @@
-import { PiRankingFill } from "react-icons/pi";
-import { MdOnlinePrediction } from "react-icons/md";
-import { FaChartLine, FaInfoCircle, FaTrophy } from "react-icons/fa";
-import { RiTeamFill } from "react-icons/ri";
-
 export const getNavbarMenuItems = () => [
   {
     to: "/",
-    icon: PiRankingFill,
     label: "Standings",
     show: true,
   },
   {
     to: "/predictor",
-    icon: MdOnlinePrediction,
     label: "Predictor",
     show: true,
   },
   {
-    to: "/about-jmp-rating",
-    icon: FaInfoCircle,
-    label: "Model",
-    show: true,
-  },
-  {
-    to: "/model-performance",
-    icon: FaChartLine,
-    label: "Performance",
-    show: true,
-  },
-  {
     to: "/playoff",
-    icon: FaTrophy,
     label: "Playoff",
     show: true,
   },
   {
     to: "/teams",
-    icon: RiTeamFill,
     label: "Teams",
+    show: true,
+  },
+  {
+    to: "/about-jmp-rating",
+    label: "Model",
+    show: true,
+  },
+  {
+    to: "/model-performance",
+    label: "Performance",
     show: true,
   },
 ];

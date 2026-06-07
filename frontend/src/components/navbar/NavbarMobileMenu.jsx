@@ -41,7 +41,7 @@ const NavbarMobileMenu = ({
                     item={item}
                     pathname={pathname}
                     onClick={onClose}
-                    layoutClassName="gap-3 px-4 py-3"
+                    layoutClassName="px-4 py-3"
                   />
                 </li>
               )
