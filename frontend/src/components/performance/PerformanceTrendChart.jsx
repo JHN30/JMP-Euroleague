@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   BarElement,
   CategoryScale,
@@ -11,38 +10,22 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
+import useViewportWidth from "../../hooks/useViewportWidth";
+import {
+  COMPACT_BREAKPOINT,
+  DEFAULT_VIEWPORT_WIDTH,
+  getCommonCategoryScale,
+  getCommonChartOptions,
+  getCommonTooltipOptions,
+  getResponsiveTickFont,
+  getResponsiveTickPadding,
+} from "../../utils/chartResponsiveUtils";
 import { layoutCardClass } from "../layout/LayoutShell";
 import { formatPercentage } from "./modelPerformanceUtils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend);
 
-const DEFAULT_VIEWPORT_WIDTH = typeof window === "undefined" ? 1024 : window.innerWidth;
-const COMPACT_BREAKPOINT = 1024;
 const TINY_BREAKPOINT = 420;
-
-const getVisibleLabelStep = (labelCount, isTinyScreen) => {
-  if (labelCount <= 6) {
-    return 1;
-  }
-
-  const desiredVisibleLabels = isTinyScreen ? 4 : 6;
-  return Math.max(1, Math.ceil((labelCount - 1) / (desiredVisibleLabels - 1)));
-};
-
-const getTickLabel = ({ labels, index, isCompactScreen, isTinyScreen }) => {
-  if (!isCompactScreen) {
-    return labels[index];
-  }
-
-  const lastIndex = labels.length - 1;
-  const visibleStep = getVisibleLabelStep(labels.length, isTinyScreen);
-
-  if (index === 0 || index === lastIndex || index % visibleStep === 0) {
-    return labels[index];
-  }
-
-  return "";
-};
 
 const PerformanceTrendChart = ({
   rounds = [],
@@ -51,20 +34,7 @@ const PerformanceTrendChart = ({
   recentSuccessRate = 0,
   recentWindowSize = 0,
 }) => {
-  const [viewportWidth, setViewportWidth] = useState(DEFAULT_VIEWPORT_WIDTH);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const viewportWidth = useViewportWidth(DEFAULT_VIEWPORT_WIDTH);
 
   if (rounds.length === 0) {
     return (
@@ -134,14 +104,7 @@ const PerformanceTrendChart = ({
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    normalized: true,
-    animation: false,
-    interaction: {
-      intersect: false,
-      mode: "index",
-    },
+    ...getCommonChartOptions(),
     plugins: {
       legend: {
         position: "bottom",
@@ -156,14 +119,8 @@ const PerformanceTrendChart = ({
           },
         },
       },
-      tooltip: {
-        backgroundColor: "rgba(15, 23, 42, 0.96)",
-        borderColor: "rgba(251, 146, 60, 0.28)",
-        borderWidth: 1,
-        titleColor: "#fdba74",
-        bodyColor: "#e2e8f0",
+      tooltip: getCommonTooltipOptions({
         padding: 12,
-        cornerRadius: 14,
         callbacks: {
           title: (items) => {
             const dataIndex = items[0]?.dataIndex ?? 0;
@@ -177,30 +134,10 @@ const PerformanceTrendChart = ({
             return `${context.dataset.label}: ${context.parsed.y}`;
           },
         },
-      },
+      }),
     },
     scales: {
-      x: {
-        stacked: true,
-        grid: {
-          display: false,
-          drawBorder: false,
-        },
-        ticks: {
-          color: "rgba(203, 213, 225, 0.8)",
-          autoSkip: false,
-          maxRotation: 0,
-          minRotation: 0,
-          padding: isTinyScreen ? 4 : 8,
-          callback: (_, index) => getTickLabel({ labels, index, isCompactScreen, isTinyScreen }),
-          font: {
-            size: isTinyScreen ? 9 : isCompactScreen ? 10 : 11,
-          },
-        },
-        border: {
-          display: false,
-        },
-      },
+      x: getCommonCategoryScale({ labels, isCompactScreen, isTinyScreen, stacked: true }),
       yPicks: {
         stacked: true,
         position: "left",
@@ -210,12 +147,10 @@ const PerformanceTrendChart = ({
         },
         ticks: {
           color: "rgba(226, 232, 240, 0.76)",
-          padding: isTinyScreen ? 6 : 10,
+          padding: getResponsiveTickPadding(isTinyScreen, 6, 10),
           stepSize: 1,
           maxTicksLimit: isTinyScreen ? 5 : 7,
-          font: {
-            size: isTinyScreen ? 9 : isCompactScreen ? 10 : 11,
-          },
+          font: getResponsiveTickFont(isCompactScreen, isTinyScreen),
         },
         suggestedMax: 10,
         border: {
@@ -232,12 +167,10 @@ const PerformanceTrendChart = ({
         },
         ticks: {
           color: "rgba(251, 191, 36, 0.9)",
-          padding: isTinyScreen ? 6 : 10,
+          padding: getResponsiveTickPadding(isTinyScreen, 6, 10),
           maxTicksLimit: isTinyScreen ? 5 : 6,
           callback: (value) => `${value}%`,
-          font: {
-            size: isTinyScreen ? 9 : isCompactScreen ? 10 : 11,
-          },
+          font: getResponsiveTickFont(isCompactScreen, isTinyScreen),
         },
         border: {
           display: false,

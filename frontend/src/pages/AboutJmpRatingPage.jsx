@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-
+import PageIntro from "../components/common/PageIntro";
+import RelatedPageLinks from "../components/common/RelatedPageLinks";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const relatedLinks = [
@@ -24,16 +24,12 @@ const AboutJmpRatingPage = () => {
   return (
     <LayoutShell contentClassName="max-w-6xl">
       <article className="flex flex-col gap-6 pt-4 text-white">
-        <header className="flex flex-col items-center justify-center gap-3 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-orange-400/90">JMP Rating</p>
-          <h1 className="max-w-4xl text-3xl font-bold leading-tight text-slate-100 sm:text-4xl">
-            EuroLeague Prediction Model Explained
-          </h1>
-          <p className="max-w-3xl text-sm leading-6 text-slate-300 sm:text-base">
-            JMP Rating is the team-strength number behind JMP Euroleague. It gives each club a compact rating
-            that can be compared with standings, scoring margin, recent form, and prediction results.
-          </p>
-        </header>
+        <PageIntro
+          eyebrow="JMP Rating"
+          title="EuroLeague Prediction Model Explained"
+          description="JMP Rating is the team-strength number behind JMP Euroleague. It gives each club a compact rating that can be compared with standings, scoring margin, recent form, and prediction results."
+          gapClassName="gap-3"
+        />
 
         <section className={`${layoutCardClass} overflow-hidden`}>
           <div className="grid gap-6 px-5 py-5 sm:px-6 sm:py-6 lg:grid-cols-2">
@@ -99,18 +95,7 @@ const AboutJmpRatingPage = () => {
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-3" aria-label="Related JMP Euroleague pages">
-          {relatedLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`${layoutCardClass} block px-5 py-5 transition hover:border-orange-300/30 hover:bg-slate-900`}
-            >
-              <h2 className="text-base font-semibold text-slate-100">{link.label}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{link.description}</p>
-            </Link>
-          ))}
-        </section>
+        <RelatedPageLinks links={relatedLinks} ariaLabel="Related JMP Euroleague pages" />
       </article>
     </LayoutShell>
   );
