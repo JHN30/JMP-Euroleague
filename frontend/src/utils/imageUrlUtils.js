@@ -1,27 +1,55 @@
 const CLOUDINARY_UPLOAD_SEGMENT = "/image/upload/";
 
+const isSvgImageUrl = (imageUrl) => typeof imageUrl === "string" && /\.svg(?:[?#]|$)/i.test(imageUrl);
+
+const isCloudinaryUploadUrl = (imageUrl) =>
+  typeof imageUrl === "string" &&
+  imageUrl.includes("res.cloudinary.com") &&
+  imageUrl.includes(CLOUDINARY_UPLOAD_SEGMENT);
+
+const getCloudinaryUploadParts = (imageUrl) => {
+  if (!isCloudinaryUploadUrl(imageUrl)) {
+    return null;
+  }
+
+  const uploadSegmentIndex = imageUrl.indexOf(CLOUDINARY_UPLOAD_SEGMENT);
+  const baseUrl = imageUrl.slice(0, uploadSegmentIndex);
+  const imagePath = imageUrl.slice(uploadSegmentIndex + CLOUDINARY_UPLOAD_SEGMENT.length);
+
+  if (!baseUrl) {
+    return null;
+  }
+
+  if (!imagePath) {
+    return null;
+  }
+
+  return { baseUrl, imagePath };
+};
+
+const getTransformations = (width) => `f_auto,q_auto,c_fit,w_${width}`;
+
+const buildOptimizedImageUrl = ({ baseUrl, imagePath, transformations }) =>
+  `${baseUrl}${CLOUDINARY_UPLOAD_SEGMENT}${transformations}/${imagePath.replace(/^\/+/, "")}`;
+
 export const getOptimizedCloudinaryImageUrl = (imageUrl, { width } = {}) => {
-  if (!imageUrl || typeof imageUrl !== "string" || !width) {
+  if (!width) {
     return imageUrl;
   }
 
-  if (!imageUrl.includes("res.cloudinary.com") || !imageUrl.includes(CLOUDINARY_UPLOAD_SEGMENT)) {
+  if (isSvgImageUrl(imageUrl)) {
     return imageUrl;
   }
 
-  if (/\.svg(?:[?#]|$)/i.test(imageUrl)) {
+  const uploadParts = getCloudinaryUploadParts(imageUrl);
+  if (!uploadParts) {
     return imageUrl;
   }
 
-  const [baseUrl, imagePath] = imageUrl.split(CLOUDINARY_UPLOAD_SEGMENT);
-  if (!baseUrl || !imagePath) {
+  const transformations = getTransformations(width);
+  if (uploadParts.imagePath.startsWith(`${transformations}/`)) {
     return imageUrl;
   }
 
-  const transformations = `f_auto,q_auto,c_fit,w_${width}`;
-  if (imagePath.startsWith(`${transformations}/`)) {
-    return imageUrl;
-  }
-
-  return `${baseUrl}${CLOUDINARY_UPLOAD_SEGMENT}${transformations}/${imagePath.replace(/^\/+/, "")}`;
+  return buildOptimizedImageUrl({ ...uploadParts, transformations });
 };
