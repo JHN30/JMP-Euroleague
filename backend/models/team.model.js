@@ -88,8 +88,16 @@ const teamsSchema = new mongoose.Schema(
   }
 );
 
+const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key);
+
 const getLatestRating = (ratingArray) => {
-  return Number(ratingArray[ratingArray.length - 1]);
+  if (!Array.isArray(ratingArray) || ratingArray.length === 0) {
+    return null;
+  }
+
+  const latestRating = Number(ratingArray[ratingArray.length - 1]);
+
+  return Number.isFinite(latestRating) ? latestRating : null;
 };
 
 const syncRatingFromArray = (target) => {
@@ -99,40 +107,61 @@ const syncRatingFromArray = (target) => {
   }
 };
 
+const applyRatingToTarget = (target, ratingArray) => {
+  const latestRating = getLatestRating(ratingArray);
+
+  if (latestRating === null) {
+    return;
+  }
+
+  target.rating = latestRating;
+};
+
+const applyDirectRatingArrayUpdate = (update) => {
+  if (hasOwn(update, "ratingArray")) {
+    applyRatingToTarget(update, update.ratingArray);
+  }
+};
+
+const applySetRatingArrayUpdate = (update) => {
+  if (update.$set && hasOwn(update.$set, "ratingArray")) {
+    applyRatingToTarget(update.$set, update.$set.ratingArray);
+  }
+};
+
+const getPushedRatingValues = (pushedRating) => {
+  if (pushedRating && typeof pushedRating === "object" && Array.isArray(pushedRating.$each)) {
+    return pushedRating.$each;
+  }
+
+  return [pushedRating];
+};
+
+const applyPushedRatingArrayUpdate = (update) => {
+  const pushedRating = update.$push?.ratingArray;
+
+  if (pushedRating === undefined) {
+    return;
+  }
+
+  const latestRating = getLatestRating(getPushedRatingValues(pushedRating));
+
+  if (latestRating === null) {
+    return;
+  }
+
+  update.$set = update.$set || {};
+  update.$set.rating = latestRating;
+};
+
 const syncRatingInUpdate = (update) => {
   if (!update || Array.isArray(update)) {
     return;
   }
 
-  if (Object.prototype.hasOwnProperty.call(update, "ratingArray")) {
-    const latestRating = getLatestRating(update.ratingArray);
-    if (latestRating !== null) {
-      update.rating = latestRating;
-    }
-  }
-
-  if (update.$set && Object.prototype.hasOwnProperty.call(update.$set, "ratingArray")) {
-    const latestRating = getLatestRating(update.$set.ratingArray);
-    if (latestRating !== null) {
-      update.$set.rating = latestRating;
-    }
-  }
-
-  const pushedRating = update.$push?.ratingArray;
-  if (pushedRating !== undefined) {
-    const pushedValues =
-      pushedRating && typeof pushedRating === "object" && Array.isArray(pushedRating.$each)
-        ? pushedRating.$each
-        : [pushedRating];
-
-    const latestRating = getLatestRating(pushedValues);
-    if (latestRating !== null) {
-      update.$set = {
-        ...(update.$set || {}),
-        rating: latestRating,
-      };
-    }
-  }
+  applyDirectRatingArrayUpdate(update);
+  applySetRatingArrayUpdate(update);
+  applyPushedRatingArrayUpdate(update);
 };
 
 teamsSchema.pre("save", function (next) {
