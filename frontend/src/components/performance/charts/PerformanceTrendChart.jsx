@@ -27,25 +27,64 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineEleme
 
 const TINY_BREAKPOINT = 420;
 const EMPTY_MESSAGE = "Round-level performance data is not available yet.";
-
-const getTrendChartSettings = (viewportWidth) => {
-  const isCompactScreen = viewportWidth <= COMPACT_BREAKPOINT;
-  const isTinyScreen = viewportWidth <= TINY_BREAKPOINT;
-  const chartHeightClassName = isTinyScreen ? "h-[300px]" : isCompactScreen ? "h-[360px]" : "h-[420px]";
-
-  return {
-    isCompactScreen,
-    isTinyScreen,
-    chartHeightClassName,
-    barThickness: isTinyScreen ? 16 : 24,
-    lineBorderWidth: isTinyScreen ? 2 : 3,
-    legendPadding: isTinyScreen ? 12 : 18,
-    legendFontSize: isTinyScreen ? 10 : 12,
-    pointRadius: isCompactScreen ? 0 : 2.5,
-    pointHoverRadius: isCompactScreen ? 4 : 5,
-    pointHitRadius: isCompactScreen ? 12 : 14,
-  };
+const SCREEN_MODE = {
+  TINY: "tiny",
+  COMPACT: "compact",
+  WIDE: "wide",
 };
+
+const TREND_CHART_SETTINGS = {
+  [SCREEN_MODE.TINY]: {
+    isCompactScreen: true,
+    isTinyScreen: true,
+    chartHeightClassName: "h-[300px]",
+    barThickness: 16,
+    lineBorderWidth: 2,
+    legendPadding: 12,
+    legendFontSize: 10,
+    pointRadius: 0,
+    pointHoverRadius: 4,
+    pointHitRadius: 12,
+  },
+  [SCREEN_MODE.COMPACT]: {
+    isCompactScreen: true,
+    isTinyScreen: false,
+    chartHeightClassName: "h-[360px]",
+    barThickness: 24,
+    lineBorderWidth: 3,
+    legendPadding: 18,
+    legendFontSize: 12,
+    pointRadius: 0,
+    pointHoverRadius: 4,
+    pointHitRadius: 12,
+  },
+  [SCREEN_MODE.WIDE]: {
+    isCompactScreen: false,
+    isTinyScreen: false,
+    chartHeightClassName: "h-[420px]",
+    barThickness: 24,
+    lineBorderWidth: 3,
+    legendPadding: 18,
+    legendFontSize: 12,
+    pointRadius: 2.5,
+    pointHoverRadius: 5,
+    pointHitRadius: 14,
+  },
+};
+
+const getScreenMode = (viewportWidth) => {
+  if (viewportWidth <= TINY_BREAKPOINT) {
+    return SCREEN_MODE.TINY;
+  }
+
+  if (viewportWidth <= COMPACT_BREAKPOINT) {
+    return SCREEN_MODE.COMPACT;
+  }
+
+  return SCREEN_MODE.WIDE;
+};
+
+const getTrendChartSettings = (viewportWidth) => TREND_CHART_SETTINGS[getScreenMode(viewportWidth)];
 
 const getRoundLabels = (rounds) => rounds.map((round) => round.shortLabel);
 
