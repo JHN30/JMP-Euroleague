@@ -143,6 +143,175 @@ const getActiveBand = (successRate) => {
   return practicalBands.find((band) => isBandActive(band, successRate)) ?? practicalBands[practicalBands.length - 1];
 };
 
+const ResearchContextHeader = () => (
+  <div className="border-b border-white/10 pb-5">
+    <h2 className="mt-2 text-2xl font-semibold text-white">How This Model Compares</h2>
+    <p className="mt-2 max-w-7xl text-sm leading-6 text-slate-300">
+      Published EuroLeague pre-game benchmarks land in the high-60s on unseen seasons, while box-score models can score
+      higher because they use richer game-performance inputs.
+    </p>
+  </div>
+);
+
+const CurrentReadSummary = ({ hasSample, overallSuccessRate, performanceRead, toneClasses }) => (
+  <div className="flex flex-wrap items-start justify-between gap-4">
+    <div className="min-w-0">
+      <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-orange-200/80">Current Read</p>
+      <div className="mt-3 flex flex-wrap items-end gap-3">
+        <p className="text-4xl font-black leading-none text-white sm:text-5xl">
+          {hasSample ? formatPercentage(overallSuccessRate) : "--"}
+        </p>
+        <span className={`rounded-full border px-3 py-1.5 text-sm font-semibold ${toneClasses}`}>
+          {performanceRead.label}
+        </span>
+      </div>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{performanceRead.description}</p>
+    </div>
+  </div>
+);
+
+const CurrentRateMarker = ({ hasSample, overallSuccessRate, markerPosition, markerClasses, activeBand }) => (
+  <div className="absolute top-0 -translate-x-1/2" style={{ left: `${markerPosition}%` }}>
+    <div className={`rounded-full border px-2.5 py-1 text-xs font-semibold shadow-lg ${markerClasses}`}>
+      {hasSample ? formatPercentage(overallSuccessRate) : "No sample"}
+    </div>
+    <div
+      className={`mx-auto mt-2 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm ${
+        activeBand?.barClass ?? "bg-orange-400"
+      }`}
+    />
+  </div>
+);
+
+const ScaleBandBar = ({ band }) => (
+  <div
+    className={`absolute inset-y-0 ${band.barClass}`}
+    style={{
+      left: `${getScalePosition(band.min)}%`,
+      width: `${getScalePosition(band.max) - getScalePosition(band.min)}%`,
+    }}
+  />
+);
+
+const ScaleReferenceMarker = ({ reference }) => (
+  <span
+    className={`absolute inset-y-0 w-1 -translate-x-1/2 rounded-full ${reference.markerClass}`}
+    style={{ left: `${getScalePosition(reference.value)}%` }}
+  />
+);
+
+const PerformanceScale = ({ hasSample, overallSuccessRate, markerPosition, markerClasses, activeBand }) => (
+  <div className="mt-8">
+    <div className="relative pt-11">
+      <CurrentRateMarker
+        hasSample={hasSample}
+        overallSuccessRate={overallSuccessRate}
+        markerPosition={markerPosition}
+        markerClasses={markerClasses}
+        activeBand={activeBand}
+      />
+
+      <div className="relative h-4 overflow-hidden rounded-full border border-white/10 bg-slate-950/70">
+        {practicalBands.map((band) => (
+          <ScaleBandBar key={band.id} band={band} />
+        ))}
+        {scaleReferences.map((reference) => (
+          <ScaleReferenceMarker key={reference.id} reference={reference} />
+        ))}
+      </div>
+    </div>
+
+    <ScaleReferenceLegend />
+    <PracticalBandLegend hasSample={hasSample} overallSuccessRate={overallSuccessRate} />
+  </div>
+);
+
+const ScaleReferenceLegend = () => (
+  <div className="mt-4 flex flex-wrap gap-2">
+    {scaleReferences.map((reference) => (
+      <span
+        key={reference.id}
+        className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300"
+      >
+        <span className={`h-2 w-2 rounded-full ${reference.markerClass}`} />
+        {reference.label}
+      </span>
+    ))}
+  </div>
+);
+
+const PracticalBandCard = ({ band, isActive }) => (
+  <div
+    className={`rounded-xl border px-3 py-3 text-center ${
+      isActive ? "border-orange-300/25 bg-slate-950/70" : "border-white/10 bg-slate-950/40"
+    }`}
+  >
+    <p className="text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-slate-400">{band.rangeLabel}</p>
+    <p className={`mt-2 text-sm font-semibold ${isActive ? "text-white" : "text-slate-300"}`}>{band.label}</p>
+  </div>
+);
+
+const PracticalBandLegend = ({ hasSample, overallSuccessRate }) => (
+  <div className="mt-4 grid gap-2 sm:grid-cols-5">
+    {practicalBands.map((band) => (
+      <PracticalBandCard
+        key={band.id}
+        band={band}
+        isActive={hasSample ? isBandActive(band, overallSuccessRate) : false}
+      />
+    ))}
+  </div>
+);
+
+const CurrentReadPanel = ({ hasSample, overallSuccessRate, performanceRead, markerPosition, activeBand, toneClasses, markerClasses }) => (
+  <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-5 py-5">
+    <CurrentReadSummary
+      hasSample={hasSample}
+      overallSuccessRate={overallSuccessRate}
+      performanceRead={performanceRead}
+      toneClasses={toneClasses}
+    />
+    <PerformanceScale
+      hasSample={hasSample}
+      overallSuccessRate={overallSuccessRate}
+      markerPosition={markerPosition}
+      markerClasses={markerClasses}
+      activeBand={activeBand}
+    />
+  </div>
+);
+
+const ResearchBenchmarkCard = ({ benchmark }) => (
+  <a
+    href={benchmark.sourceUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-4 transition hover:border-orange-300/25 hover:bg-slate-900/60"
+  >
+    <div className="flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <p className="inline-flex rounded-full border border-orange-200/15 bg-orange-400/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-orange-100">
+          {benchmark.methodLabel}
+        </p>
+        <p className="mt-1 text-2xl font-semibold text-white">{benchmark.valueLabel}</p>
+        <p className="mt-1 text-xs leading-6 text-slate-300">{benchmark.summary}</p>
+      </div>
+
+      <FiExternalLink className="mt-1 h-4 w-4 shrink-0 text-orange-200/80" />
+    </div>
+
+    <p className="mt-4 text-xs font-medium text-orange-200/80">{benchmark.sourceLabel}</p>
+  </a>
+);
+
+const ResearchBenchmarkList = () => (
+  <div className="grid gap-3">
+    {researchBenchmarks.map((benchmark) => (
+      <ResearchBenchmarkCard key={benchmark.id} benchmark={benchmark} />
+    ))}
+  </div>
+);
+
 const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions = 0 }) => {
   const hasSample = totalPredictions > 0;
   const performanceRate = hasSample ? overallSuccessRate : Number.NaN;
@@ -156,129 +325,20 @@ const PerformanceResearchContext = ({ overallSuccessRate = 0, totalPredictions =
   return (
     <section className={`${layoutCardClass} overflow-hidden`}>
       <div className="flex flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6">
-        <div className="border-b border-white/10 pb-5">
-          <h2 className="mt-2 text-2xl font-semibold text-white">How This Model Compares</h2>
-          <p className="mt-2 max-w-7xl text-sm leading-6 text-slate-300">
-            Published EuroLeague pre-game benchmarks land in the
-            high-60s on unseen seasons, while box-score models can score higher because they use richer game-performance
-            inputs.
-          </p>
-        </div>
+        <ResearchContextHeader />
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
-          <div className="rounded-2xl border border-white/10 bg-slate-900/40 px-5 py-5">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="min-w-0">
-                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-orange-200/80">
-                  Current Read
-                </p>
-                <div className="mt-3 flex flex-wrap items-end gap-3">
-                  <p className="text-4xl font-black leading-none text-white sm:text-5xl">
-                    {hasSample ? formatPercentage(overallSuccessRate) : "--"}
-                  </p>
-                  <span className={`rounded-full border px-3 py-1.5 text-sm font-semibold ${toneClasses}`}>
-                    {performanceRead.label}
-                  </span>
-                </div>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{performanceRead.description}</p>
-              </div>
-            </div>
+          <CurrentReadPanel
+            hasSample={hasSample}
+            overallSuccessRate={overallSuccessRate}
+            performanceRead={performanceRead}
+            markerPosition={markerPosition}
+            activeBand={activeBand}
+            toneClasses={toneClasses}
+            markerClasses={markerClasses}
+          />
 
-            <div className="mt-8">
-              <div className="relative pt-11">
-                <div className="absolute top-0 -translate-x-1/2" style={{ left: `${markerPosition}%` }}>
-                  <div className={`rounded-full border px-2.5 py-1 text-xs font-semibold shadow-lg ${markerClasses}`}>
-                    {hasSample ? formatPercentage(overallSuccessRate) : "No sample"}
-                  </div>
-                  <div
-                    className={`mx-auto mt-2 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm ${
-                      activeBand?.barClass ?? "bg-orange-400"
-                    }`}
-                  />
-                </div>
-
-                <div className="relative h-4 overflow-hidden rounded-full border border-white/10 bg-slate-950/70">
-                  {practicalBands.map((band) => (
-                    <div
-                      key={band.id}
-                      className={`absolute inset-y-0 ${band.barClass}`}
-                      style={{
-                        left: `${getScalePosition(band.min)}%`,
-                        width: `${getScalePosition(band.max) - getScalePosition(band.min)}%`,
-                      }}
-                    />
-                  ))}
-                  {scaleReferences.map((reference) => (
-                    <span
-                      key={reference.id}
-                      className={`absolute inset-y-0 w-1 -translate-x-1/2 rounded-full ${reference.markerClass}`}
-                      style={{ left: `${getScalePosition(reference.value)}%` }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {scaleReferences.map((reference) => (
-                  <span
-                    key={reference.id}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300"
-                  >
-                    <span className={`h-2 w-2 rounded-full ${reference.markerClass}`} />
-                    {reference.label}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-4 grid gap-2 sm:grid-cols-5">
-                {practicalBands.map((band) => {
-                  const isActive = hasSample ? isBandActive(band, overallSuccessRate) : false;
-
-                  return (
-                    <div
-                      key={band.id}
-                      className={`rounded-xl border px-3 py-3 text-center ${
-                        isActive ? "border-orange-300/25 bg-slate-950/70" : "border-white/10 bg-slate-950/40"
-                      }`}
-                    >
-                      <p className="text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                        {band.rangeLabel}
-                      </p>
-                      <p className={`mt-2 text-sm font-semibold ${isActive ? "text-white" : "text-slate-300"}`}>
-                        {band.label}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-3">
-            {researchBenchmarks.map((benchmark) => (
-              <a
-                key={benchmark.id}
-                href={benchmark.sourceUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-4 transition hover:border-orange-300/25 hover:bg-slate-900/60"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="inline-flex rounded-full border border-orange-200/15 bg-orange-400/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-orange-100">
-                      {benchmark.methodLabel}
-                    </p>
-                    <p className="mt-1 text-2xl font-semibold text-white">{benchmark.valueLabel}</p>
-                    <p className="mt-1 text-xs leading-6 text-slate-300">{benchmark.summary}</p>
-                  </div>
-
-                  <FiExternalLink className="mt-1 h-4 w-4 shrink-0 text-orange-200/80" />
-                </div>
-
-                <p className="mt-4 text-xs font-medium text-orange-200/80">{benchmark.sourceLabel}</p>
-              </a>
-            ))}
-          </div>
+          <ResearchBenchmarkList />
         </div>
       </div>
     </section>
