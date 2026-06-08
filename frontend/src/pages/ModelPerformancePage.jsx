@@ -91,6 +91,135 @@ const ModelPerformanceHeader = ({ performance }) => {
   );
 };
 
+const getPerformanceKpiItems = (performance) => [
+  {
+    label: "Total Predictions",
+    value: performance.totalPredictions,
+    icon: FiTarget,
+    tone: "neutral",
+  },
+  {
+    label: "Correct",
+    value: performance.totalCorrect,
+    icon: FiCheckCircle,
+    tone: "positive",
+  },
+  {
+    label: "Wrong",
+    value: performance.totalWrong,
+    icon: FiXCircle,
+    tone: "negative",
+  },
+  {
+    label: "Success Rate",
+    value: formatPercentage(performance.overallSuccessRate),
+    icon: FiTrendingUp,
+    tone: "accent",
+  },
+];
+
+const ModelPerformancePageShell = ({ children }) => (
+  <LayoutShell contentClassName="max-w-[1600px]">{children}</LayoutShell>
+);
+
+const ModelPerformanceContent = ({ children }) => (
+  <div className="flex flex-col gap-6 pt-4 text-white">{children}</div>
+);
+
+const AnimatedErrorBox = ({ error }) => (
+  <motion.div {...fadeInProps}>
+    <ErrorBox error={error} />
+  </motion.div>
+);
+
+const LoadingState = () => (
+  <ModelPerformancePageShell>
+    <ModelPerformanceSkeleton />
+  </ModelPerformancePageShell>
+);
+
+const FatalErrorState = ({ performance, error }) => (
+  <ModelPerformancePageShell>
+    <ModelPerformanceContent>
+      <ModelPerformanceHeader performance={performance} />
+      <AnimatedErrorBox error={error} />
+    </ModelPerformanceContent>
+  </ModelPerformancePageShell>
+);
+
+const PerformanceKpiSection = ({ items }) => (
+  <motion.section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" {...fadeInProps}>
+    {items.map((item) => (
+      <div key={item.label}>
+        <PerformanceKpiCard {...item} />
+      </div>
+    ))}
+  </motion.section>
+);
+
+const PerformanceContextSections = () => (
+  <>
+    <motion.div {...fadeInProps}>
+      <InfoCardGrid cards={modelPerformanceInfoCards} />
+    </motion.div>
+
+    <motion.div {...fadeInProps}>
+      <RelatedPageLinks links={modelPerformanceLinks} ariaLabel="Related model performance pages" />
+    </motion.div>
+  </>
+);
+
+const PerformanceResearchSection = ({ performance }) => (
+  <motion.div {...fadeInProps}>
+    <PerformanceResearchContext
+      overallSuccessRate={performance.overallSuccessRate}
+      totalPredictions={performance.totalPredictions}
+    />
+  </motion.div>
+);
+
+const PerformanceChartSections = ({ performance }) => (
+  <>
+    <PerformanceTrendChart
+      rounds={performance.rounds}
+      seasonLabel={performance.seasonLabel}
+      overallSuccessRate={performance.overallSuccessRate}
+      recentSuccessRate={performance.recentSuccessRate}
+      recentDeltaVsSeason={performance.recentDeltaVsSeason}
+      recentWindowSize={performance.recentWindowRounds.length}
+    />
+
+    <section className="grid gap-6 xl:grid-cols-2">
+      <PerformanceOverviewChart
+        totalCorrect={performance.totalCorrect}
+        totalWrong={performance.totalWrong}
+        totalPredictions={performance.totalPredictions}
+        overallSuccessRate={performance.overallSuccessRate}
+      />
+
+      <PerformanceInsightsCard
+        bestRound={performance.bestRound}
+        worstRound={performance.worstRound}
+        averageCorrectPicks={performance.averageCorrectPicks}
+      />
+    </section>
+  </>
+);
+
+const PerformanceRoundDetails = ({
+  performance,
+  loadingRoundDetailsByRound,
+  errorRoundDetailsByRound,
+  fetchRoundDetail,
+}) => (
+  <RoundPerformanceGrid
+    rounds={performance.rounds}
+    loadingRoundDetailsByRound={loadingRoundDetailsByRound}
+    errorRoundDetailsByRound={errorRoundDetailsByRound}
+    fetchRoundDetail={fetchRoundDetail}
+  />
+);
+
 const ModelPerformancePage = () => {
   const {
     modelPerformance,
@@ -115,123 +244,35 @@ const ModelPerformancePage = () => {
     [modelPerformance, modelPerformanceRoundDetailsByRound]
   );
 
-  const kpiItems = useMemo(
-    () => [
-      {
-        label: "Total Predictions",
-        value: performance.totalPredictions,
-        icon: FiTarget,
-        tone: "neutral",
-      },
-      {
-        label: "Correct",
-        value: performance.totalCorrect,
-        icon: FiCheckCircle,
-        tone: "positive",
-      },
-      {
-        label: "Wrong",
-        value: performance.totalWrong,
-        icon: FiXCircle,
-        tone: "negative",
-      },
-      {
-        label: "Success Rate",
-        value: formatPercentage(performance.overallSuccessRate),
-        icon: FiTrendingUp,
-        tone: "accent",
-      },
-    ],
-    [performance]
-  );
+  const kpiItems = useMemo(() => getPerformanceKpiItems(performance), [performance]);
 
   if (loadingModelPerformance && !modelPerformance) {
-    return (
-      <LayoutShell contentClassName="max-w-[1600px]">
-        <ModelPerformanceSkeleton />
-      </LayoutShell>
-    );
+    return <LoadingState />;
   }
 
   if (errorModelPerformance && !modelPerformance) {
-    return (
-      <LayoutShell contentClassName="max-w-[1600px]">
-        <div className="flex flex-col gap-6 pt-4 text-white">
-          <ModelPerformanceHeader performance={performance} />
-          <motion.div {...fadeInProps}>
-            <ErrorBox error={errorModelPerformance} />
-          </motion.div>
-        </div>
-      </LayoutShell>
-    );
+    return <FatalErrorState performance={performance} error={errorModelPerformance} />;
   }
 
   return (
-    <LayoutShell contentClassName="max-w-[1600px]">
-      <div className="flex flex-col gap-6 pt-4 text-white">
+    <ModelPerformancePageShell>
+      <ModelPerformanceContent>
         <ModelPerformanceHeader performance={performance} />
 
-        {errorModelPerformance ? (
-          <motion.div {...fadeInProps}>
-            <ErrorBox error={errorModelPerformance} />
-          </motion.div>
-        ) : null}
+        {errorModelPerformance ? <AnimatedErrorBox error={errorModelPerformance} /> : null}
 
-        <motion.section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" {...fadeInProps}>
-          {kpiItems.map((item) => (
-            <div key={item.label}>
-              <PerformanceKpiCard {...item} />
-            </div>
-          ))}
-        </motion.section>
-
-        <motion.div {...fadeInProps}>
-          <PerformanceResearchContext
-            overallSuccessRate={performance.overallSuccessRate}
-            totalPredictions={performance.totalPredictions}
-          />
-        </motion.div>
-
-        <motion.div {...fadeInProps}>
-          <InfoCardGrid cards={modelPerformanceInfoCards} />
-        </motion.div>
-
-        <motion.div {...fadeInProps}>
-          <RelatedPageLinks links={modelPerformanceLinks} ariaLabel="Related model performance pages" />
-        </motion.div>
-
-        <PerformanceTrendChart
-          rounds={performance.rounds}
-          seasonLabel={performance.seasonLabel}
-          overallSuccessRate={performance.overallSuccessRate}
-          recentSuccessRate={performance.recentSuccessRate}
-          recentDeltaVsSeason={performance.recentDeltaVsSeason}
-          recentWindowSize={performance.recentWindowRounds.length}
-        />
-
-        <section className="grid gap-6 xl:grid-cols-2">
-          <PerformanceOverviewChart
-            totalCorrect={performance.totalCorrect}
-            totalWrong={performance.totalWrong}
-            totalPredictions={performance.totalPredictions}
-            overallSuccessRate={performance.overallSuccessRate}
-          />
-
-          <PerformanceInsightsCard
-            bestRound={performance.bestRound}
-            worstRound={performance.worstRound}
-            averageCorrectPicks={performance.averageCorrectPicks}
-          />
-        </section>
-
-        <RoundPerformanceGrid
-          rounds={performance.rounds}
+        <PerformanceKpiSection items={kpiItems} />
+        <PerformanceResearchSection performance={performance} />
+        <PerformanceContextSections />
+        <PerformanceChartSections performance={performance} />
+        <PerformanceRoundDetails
+          performance={performance}
           loadingRoundDetailsByRound={loadingModelPerformanceRoundDetailsByRound}
           errorRoundDetailsByRound={errorModelPerformanceRoundDetailsByRound}
           fetchRoundDetail={fetchCurrentModelPerformanceRoundDetail}
         />
-      </div>
-    </LayoutShell>
+      </ModelPerformanceContent>
+    </ModelPerformancePageShell>
   );
 };
 
