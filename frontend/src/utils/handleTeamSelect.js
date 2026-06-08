@@ -14,6 +14,53 @@ const getTeamRating = (team) => {
   return Number.isFinite(ratingValue) ? ratingValue : 0;
 };
 
+const getRoundIndex = (rounds) => {
+  const roundList = rounds?.data ?? [];
+  return Math.max(Number(roundList[0]?.currentRound) || 0, 0);
+};
+
+const findTeamByName = (teams, teamName) => {
+  const teamList = teams?.data ?? [];
+  return teamList.find((team) => team.name === teamName);
+};
+
+const getSelectedTeams = ({ teams, homeTeam, awayTeam }) => {
+  const homeTeamData = findTeamByName(teams, homeTeam);
+  const awayTeamData = findTeamByName(teams, awayTeam);
+
+  if (!homeTeamData || !awayTeamData) {
+    return null;
+  }
+
+  return {
+    homeTeamData,
+    awayTeamData,
+  };
+};
+
+const getNormalizedPrediction = ({ homeTeamData, awayTeamData, roundIndex }) => {
+  const prediction = calculateNextGamePrediction({
+    homeTeam: homeTeamData,
+    awayTeam: awayTeamData,
+    homeRating: getTeamRating(homeTeamData),
+    awayRating: getTeamRating(awayTeamData),
+    roundIndex,
+  });
+
+  return {
+    ...prediction,
+    homeTeam: clampProbability(prediction?.homeTeam),
+    awayTeam: clampProbability(prediction?.awayTeam),
+  };
+};
+
+const getDisplayTeams = ({ homeTeam, awayTeam, homeTeamData, awayTeamData }) => ({
+  home: homeTeam,
+  away: awayTeam,
+  homeData: homeTeamData,
+  awayData: awayTeamData,
+});
+
 export const handleTeamSelect = ({
   homeTeam,
   awayTeam,
@@ -25,37 +72,21 @@ export const handleTeamSelect = ({
 }) => {
   if (!homeTeam || !awayTeam) return;
 
-  const teamList = teams?.data ?? [];
-  const roundList = rounds?.data ?? [];
-  const roundIndex = Math.max(Number(roundList[0]?.currentRound) || 0, 0);
+  const selectedTeams = getSelectedTeams({ teams, homeTeam, awayTeam });
 
-  const homeTeamData = teamList.find((team) => team.name === homeTeam);
-  const awayTeamData = teamList.find((team) => team.name === awayTeam);
-
-  if (!homeTeamData || !awayTeamData) {
+  if (!selectedTeams) {
     return;
   }
 
-  const prediction = calculateNextGamePrediction({
-    homeTeam: homeTeamData,
-    awayTeam: awayTeamData,
-    homeRating: getTeamRating(homeTeamData),
-    awayRating: getTeamRating(awayTeamData),
-    roundIndex,
+  const roundIndex = getRoundIndex(rounds);
+  const prediction = getNormalizedPrediction({ ...selectedTeams, roundIndex });
+  const displayTeams = getDisplayTeams({
+    homeTeam,
+    awayTeam,
+    ...selectedTeams,
   });
 
-  setPredictions({
-    ...prediction,
-    homeTeam: clampProbability(prediction?.homeTeam),
-    awayTeam: clampProbability(prediction?.awayTeam),
-  });
-
-  setDisplayTeams({
-    home: homeTeam,
-    away: awayTeam,
-    homeData: homeTeamData,
-    awayData: awayTeamData,
-  });
-
+  setPredictions(prediction);
+  setDisplayTeams(displayTeams);
   setShowResults(true);
 };
