@@ -60,7 +60,7 @@ const getScoreState = ({ homeScore, awayScore, result }) => {
   };
 };
 
-const getDisplayScore = ({ hasScores, didWin, isHome, isAway, rawTeamScore, rawOppScore }) => {
+const getDisplayScore = ({ hasScores, didWin, isAway, rawTeamScore, rawOppScore }) => {
   if (!hasScores) {
     return didWin ? "W" : "L";
   }
@@ -101,7 +101,7 @@ const normalizePlayedAgainstEntry = ({ teamName, source, index, totalRounds }) =
     ...getTeamLabels({ teamName, opponent, isHome, isAway }),
     ...getTeamCaptions({ hasNeutralCourt }),
     ...getTeamTextClasses({ isHome, isAway, hasNeutralCourt }),
-    displayScore: getDisplayScore({ ...scoreState, isHome, isAway }),
+    displayScore: getDisplayScore({ ...scoreState, isAway }),
     scoreClasses: scoreState.didWin ? WIN_SCORE_CLASSES : LOSS_SCORE_CLASSES,
     hasScores: scoreState.hasScores,
     didWin: scoreState.didWin,

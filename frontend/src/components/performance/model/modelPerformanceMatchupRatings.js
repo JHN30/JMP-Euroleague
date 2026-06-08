@@ -20,7 +20,7 @@ const getRatingDelta = ({ explicitDelta, actualWinner, team, ratingChange }) => 
   return actualWinner === team ? ratingChange : -ratingChange;
 };
 
-const getTeamRating = ({ matchup, team, ratingSource, fallbackRating, actualWinner, ratingChange }) =>
+const getTeamRating = ({ team, ratingSource, fallbackRating, actualWinner, ratingChange }) =>
   normalizeMatchupRating({
     team,
     preRoundRating: ratingSource?.preRoundRating ?? fallbackRating,
@@ -38,7 +38,6 @@ export const getRatingContext = ({ matchup, homeTeam, awayTeam, actualWinner }) 
   return {
     ratingSwing: ratingChange,
     home: getTeamRating({
-      matchup,
       team: homeTeam,
       ratingSource: matchup?.home,
       fallbackRating: matchup?.homeElo,
@@ -46,7 +45,6 @@ export const getRatingContext = ({ matchup, homeTeam, awayTeam, actualWinner }) 
       ratingChange,
     }),
     away: getTeamRating({
-      matchup,
       team: awayTeam,
       ratingSource: matchup?.away,
       fallbackRating: matchup?.awayElo,
