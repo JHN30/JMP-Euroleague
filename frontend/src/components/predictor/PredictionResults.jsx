@@ -4,35 +4,63 @@ import AnimatedNumber from "../features/AnimatedNumber";
 import { layoutCardClass } from "../layout/LayoutShell";
 import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
 
+const RESULT_CARD_VARIANTS = {
+  home: {
+    accentClass: "text-emerald-300",
+    barClass: "bg-emerald-400",
+    label: "Home",
+  },
+  away: {
+    accentClass: "text-sky-300",
+    barClass: "bg-sky-400",
+    label: "Away",
+  },
+};
+
+const getResultCardVariant = (variant) => RESULT_CARD_VARIANTS[variant] ?? RESULT_CARD_VARIANTS.away;
+
+const getTeamLogoAlt = (team) => `${team?.name ?? "Team"} logo`;
+
+const getTeamDisplayName = ({ team, teamName }) => teamName || team?.name;
+
+const getProbabilityPercent = (probability) => Math.min(100, probability * 100);
+
+const TeamLogo = ({ logoSrc, team }) => {
+  if (!team?.logoImg) {
+    return <span className="text-xs text-gray-400">N/A</span>;
+  }
+
+  return (
+    <img
+      src={logoSrc}
+      alt={getTeamLogoAlt(team)}
+      className="h-12 w-12 object-contain"
+      width="48"
+      height="48"
+      loading="lazy"
+      decoding="async"
+    />
+  );
+};
+
 const ResultCard = ({ variant, team, teamName, probability }) => {
-  const accentClass = variant === "home" ? "text-emerald-300" : "text-sky-300";
-  const barClass = variant === "home" ? "bg-emerald-400" : "bg-sky-400";
+  const variantConfig = getResultCardVariant(variant);
   const logoSrc = getOptimizedCloudinaryImageUrl(team?.logoImg, { width: 96 });
+  const displayName = getTeamDisplayName({ team, teamName });
+  const probabilityPercent = getProbabilityPercent(probability);
 
   return (
     <article className={`${layoutCardClass} border border-white/10`}>
       <div className="flex flex-col gap-6 px-6 py-6">
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-white/10 p-2">
-            {team?.logoImg ? (
-              <img
-                src={logoSrc}
-                alt={`${team?.name} logo`}
-                className="h-12 w-12 object-contain"
-                width="48"
-                height="48"
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <span className="text-xs text-gray-400">N/A</span>
-            )}
+            <TeamLogo logoSrc={logoSrc} team={team} />
           </div>
           <div>
-            <p className={`text-xs uppercase tracking-wider font-semibold ${accentClass}`}>
-              {variant === "home" ? "Home" : "Away"}
+            <p className={`text-xs uppercase tracking-wider font-semibold ${variantConfig.accentClass}`}>
+              {variantConfig.label}
             </p>
-            <h4 className="text-xl font-semibold text-slate-100">{teamName || team?.name}</h4>
+            <h4 className="text-xl font-semibold text-slate-100">{displayName}</h4>
           </div>
         </div>
         {/* Percentage */}
@@ -43,7 +71,7 @@ const ResultCard = ({ variant, team, teamName, probability }) => {
         </div>
         {/* Win probability bar */}
         <div className="h-2 w-full rounded-full bg-white/10">
-          <div className={`h-2 rounded-full ${barClass}`} style={{ width: `${Math.min(100, probability * 100)}%` }} />
+          <div className={`h-2 rounded-full ${variantConfig.barClass}`} style={{ width: `${probabilityPercent}%` }} />
         </div>
       </div>
     </article>
