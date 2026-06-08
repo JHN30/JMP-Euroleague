@@ -23,6 +23,53 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
 
 const TINY_BREAKPOINT = 360;
+const SCREEN_MODE = {
+  TINY: "tiny",
+  COMPACT: "compact",
+  WIDE: "wide",
+};
+
+const RATING_CHART_SETTINGS = {
+  [SCREEN_MODE.TINY]: {
+    isCompactScreen: true,
+    isTinyScreen: true,
+    borderWidth: 2,
+    tension: 0.24,
+    pointRadius: 0,
+    pointHoverRadius: 4,
+    pointHitRadius: 10,
+    pointBorderWidth: 1,
+    headerClassName: "relative flex flex-col items-start gap-3 border-b border-white/10 pb-3",
+    latestBadgeClassName: "w-full rounded-xl border border-orange-300/20 bg-orange-500/10 px-3 py-2 text-left",
+    chartHeightClassName: "h-[220px]",
+  },
+  [SCREEN_MODE.COMPACT]: {
+    isCompactScreen: true,
+    isTinyScreen: false,
+    borderWidth: 3,
+    tension: 0.28,
+    pointRadius: 0,
+    pointHoverRadius: 4,
+    pointHitRadius: 10,
+    pointBorderWidth: 1,
+    headerClassName: "relative flex flex-col items-start gap-3 border-b border-white/10 pb-3",
+    latestBadgeClassName: "w-full rounded-xl border border-orange-300/20 bg-orange-500/10 px-3 py-2 text-left",
+    chartHeightClassName: "h-[250px]",
+  },
+  [SCREEN_MODE.WIDE]: {
+    isCompactScreen: false,
+    isTinyScreen: false,
+    borderWidth: 3,
+    tension: 0.28,
+    pointRadius: 2,
+    pointHoverRadius: 5,
+    pointHitRadius: 12,
+    pointBorderWidth: 1.25,
+    headerClassName: "relative flex items-center justify-between gap-3 border-b border-white/10 pb-4",
+    latestBadgeClassName: "rounded-xl border border-orange-300/20 bg-orange-500/10 px-3 py-2 text-right",
+    chartHeightClassName: "h-[300px] sm:h-[360px]",
+  },
+};
 
 const normalizeRatingHistory = (ratingHistory) => {
   if (!Array.isArray(ratingHistory)) {
@@ -63,6 +110,18 @@ const getLatestRating = (history) => {
   return 0;
 };
 
+const getScreenMode = (viewportWidth) => {
+  if (viewportWidth <= TINY_BREAKPOINT) {
+    return SCREEN_MODE.TINY;
+  }
+
+  if (viewportWidth <= COMPACT_BREAKPOINT) {
+    return SCREEN_MODE.COMPACT;
+  }
+
+  return SCREEN_MODE.WIDE;
+};
+
 const getChartOptions = ({ labels, isCompactScreen, isTinyScreen }) => ({
   ...getCommonChartOptions(),
   resizeDelay: 120,
@@ -101,26 +160,8 @@ const getChartOptions = ({ labels, isCompactScreen, isTinyScreen }) => ({
 });
 
 const getChartSettings = (viewportWidth) => {
-  const isCompactScreen = viewportWidth <= COMPACT_BREAKPOINT;
-  const isTinyScreen = viewportWidth <= TINY_BREAKPOINT;
-
-  return {
-    isCompactScreen,
-    isTinyScreen,
-    borderWidth: isTinyScreen ? 2 : 3,
-    tension: isTinyScreen ? 0.24 : 0.28,
-    pointRadius: isCompactScreen ? 0 : 2,
-    pointHoverRadius: isCompactScreen ? 4 : 5,
-    pointHitRadius: isCompactScreen ? 10 : 12,
-    pointBorderWidth: isCompactScreen ? 1 : 1.25,
-    headerClassName: isCompactScreen
-      ? "relative flex flex-col items-start gap-3 border-b border-white/10 pb-3"
-      : "relative flex items-center justify-between gap-3 border-b border-white/10 pb-4",
-    latestBadgeClassName: isCompactScreen
-      ? "w-full rounded-xl border border-orange-300/20 bg-orange-500/10 px-3 py-2 text-left"
-      : "rounded-xl border border-orange-300/20 bg-orange-500/10 px-3 py-2 text-right",
-    chartHeightClassName: isTinyScreen ? "h-[220px]" : isCompactScreen ? "h-[250px]" : "h-[300px] sm:h-[360px]",
-  };
+  const screenMode = getScreenMode(viewportWidth);
+  return RATING_CHART_SETTINGS[screenMode];
 };
 
 const getChartData = ({ labels, normalizedHistory, settings }) => ({
