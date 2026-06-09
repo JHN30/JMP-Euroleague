@@ -1,9 +1,9 @@
 import express from "express";
-import { getTeams, getTeamById } from "../controllers/team.controller.js";
+import { getTeams, getTeamByIdentifier } from "../controllers/team.controller.js";
 
 const router = express.Router();
 
 router.get("/", getTeams);
-router.get("/:id", getTeamById);
+router.get("/:identifier", getTeamByIdentifier);
 
 export default router;

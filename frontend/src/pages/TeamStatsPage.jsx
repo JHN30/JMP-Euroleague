@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ErrorBox from "../components/errors/ErrorBox";
 import PlayedAgainstCard from "../components/cards/played-against/PlayedAgainstCard";
@@ -11,16 +11,19 @@ import RatingGraphCard from "../components/cards/RatingGraphCard";
 import TeamStatsSummaryCard from "../components/cards/TeamStatsSummaryCard";
 
 import { useTeam } from "../hooks/useTeam";
+import { getTeamSlug } from "../utils/teamSlug";
 
 const TeamStatsPage = () => {
-  const { fetchTeamById, team, loadingTeams, errorTeams } = useTeam();
-  const { teamId } = useParams();
+  const { fetchTeamByIdentifier, team, loadingTeams, errorTeams } = useTeam();
+  const { teamSlug = "" } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchTeamById(teamId);
-  }, [fetchTeamById, teamId]);
+    fetchTeamByIdentifier(teamSlug);
+  }, [fetchTeamByIdentifier, teamSlug]);
 
   const teamData = team?.data ?? {};
+  const canonicalTeamSlug = getTeamSlug(teamData.name);
   const ratingLabel = "JMP Rating";
   const rawRatingValue = Number(teamData.rating);
   const ratingValueDisplay = Number.isFinite(rawRatingValue) ? rawRatingValue.toFixed(0) : "0";
@@ -34,6 +37,16 @@ const TeamStatsPage = () => {
     }),
     [teamData.form, teamData.homeGround, teamData.playedAgainst, teamData.pointsMinusArray, teamData.pointsPlusArray]
   );
+
+  useEffect(() => {
+    if (loadingTeams || errorTeams || !canonicalTeamSlug || team?.identifier !== teamSlug) {
+      return;
+    }
+
+    if (teamSlug !== canonicalTeamSlug) {
+      navigate(`/team-stats/${canonicalTeamSlug}`, { replace: true });
+    }
+  }, [canonicalTeamSlug, errorTeams, loadingTeams, navigate, team?.identifier, teamSlug]);
 
   if (loadingTeams) {
     return (

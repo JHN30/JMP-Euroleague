@@ -162,7 +162,7 @@ function App() {
           <Route path="/model-performance" element={<ModelPerformancePage />} />
           <Route path="/playoff" element={<PlayoffPage />} />
           <Route path="/teams" element={<TeamsPage />} />
-          <Route path="/team-stats/:teamId" element={<TeamStatsPage />} />
+          <Route path="/team-stats/:teamSlug" element={<TeamStatsPage />} />
 
           {/* Catch-all route - 404 Page Not Found */}
           <Route path="*" element={<PageNotFound />} />

@@ -46,13 +46,19 @@ export const useTeam = create((set) => ({
     }
   },
 
-  fetchTeamById: async (teamId) => {
-    set({ loadingTeams: true, errorTeams: null });
+  fetchTeamByIdentifier: async (teamIdentifier) => {
+    const identifier = String(teamIdentifier ?? "").trim();
+
+    set({ loadingTeams: true, errorTeams: null, team: { data: {}, identifier } });
     try {
-      const response = await axios.get(`/teams/${teamId}`);
-      set({ team: { data: normalizeTeam(extractData(response)) ?? {} }, loadingTeams: false });
+      const response = await axios.get(`/teams/${encodeURIComponent(identifier)}`);
+      set({ team: { data: normalizeTeam(extractData(response)) ?? {}, identifier }, loadingTeams: false });
     } catch (error) {
-      set({ loadingTeams: false, errorTeams: getErrorMessage(error, "Error fetching team"), team: { data: {} } });
+      set({
+        loadingTeams: false,
+        errorTeams: getErrorMessage(error, "Error fetching team"),
+        team: { data: {}, identifier },
+      });
     }
   },
 }));

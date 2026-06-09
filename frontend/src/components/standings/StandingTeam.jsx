@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { getOptimizedCloudinaryImageUrl } from "../../utils/imageUrlUtils";
+import { getTeamStatsPath } from "../../utils/teamSlug";
 
 const toNumber = (value) => Number(value) || 0;
 
@@ -85,7 +86,7 @@ const TeamLogo = ({ team, position }) => {
 
 const TeamNameCell = ({ team, position }) => (
   <td className="px-1 py-2">
-    <Link to={`/team-stats/${team._id}`} className="relative flex items-center gap-2 rounded-lg px-1 py-1">
+    <Link to={getTeamStatsPath(team)} className="relative flex items-center gap-2 rounded-lg px-1 py-1">
       <span className="absolute left-0 top-1/2 hidden h-8 w-0.5 -translate-y-1/2 rounded-full bg-orange-400 opacity-0 transition-all duration-200 group-hover:opacity-100 md:block" />
       <TeamLogo team={team} position={position} />
       <div className="sr-only relative z-10 flex-col md:not-sr-only md:flex">

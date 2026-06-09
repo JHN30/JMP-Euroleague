@@ -11,6 +11,7 @@ import ErrorBox from "../components/errors/ErrorBox";
 import TeamCardSkeleton from "../components/skeletons/TeamCardSkeleton";
 import TeamCard from "../components/cards/TeamCard";
 import { sortTeams } from "../utils/sortTeams";
+import { getTeamStatsPath } from "../utils/teamSlug";
 import LayoutShell, { layoutCardClass } from "../components/layout/LayoutShell";
 
 const teamPageLinks = [
@@ -95,7 +96,7 @@ const TeamsPage = () => {
         transition={{ duration: 0.3 }}
       >
         {sortedTeams.map((team) => (
-          <Link to={`/team-stats/${team._id}`} className="block h-full" key={team._id ?? team.name}>
+          <Link to={getTeamStatsPath(team)} className="block h-full" key={team._id ?? team.name}>
             <TeamCard team={team} />
           </Link>
         ))}
