@@ -73,12 +73,9 @@ Key concepts:
 - Express.js
 - MongoDB (Mongoose)
 - MSSQL
-- JWT Authentication
-- bcryptjs, cookie-parser
 
 **Infrastructure**
 - Cloudinary (images)
-- Mailtrap (email testing)
 - Render (deployment)
 
 ---
@@ -89,8 +86,8 @@ Contributions are welcome, but there are a few things to keep in mind.
 
 This project relies on:
 - A private database (team data, ratings, etc.)
-- External services (Cloudinary, Mailtrap)
-- A deployed domain (Cloudflare setup for email functionality)
+- External services (Cloudinary)
+- A deployed domain (Cloudflare)
 
 Because of this, running the full application locally requires additional setup and access that is not included in the public repository.
 
@@ -99,7 +96,7 @@ Because of this, running the full application locally requires additional setup 
 You can still:
 - Explore and improve the frontend (UI/UX, components, styling)
 - Review and suggest improvements to the rating logic
-- Refactor backend structure or suggest optimizations
+- Suggest optimizations and improvments in general
 - Open issues for bugs or feature ideas
 
 ### Running locally (limited mode)
@@ -147,14 +144,9 @@ Create a `.env` file:
 MONGO_URI=your_mongo_uri
 PORT=5000
 
-ACCESS_TOKEN_SECRET=your_secret_key
-REFRESH_TOKEN_SECRET=your_secret_key
-
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-
-MAILTRAP_API_TOKEN=your_mailtrap_api_token
 
 CLIENT_URL=your_client_url
 
